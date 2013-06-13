@@ -1,3 +1,6 @@
+
+//Author: Amoghavarsha Suresh
+
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
