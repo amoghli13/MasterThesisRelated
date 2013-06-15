@@ -7,17 +7,9 @@
 #include <sys/time.h>
 
 #define MAX(A,B) (((A)>(B))? (A) : (B))
-<<<<<<< HEAD
 #define percent_error(x) ( ( ( (double) rand()/RAND_MAX) < x ) ? 1 : 0)
 #define XOR(x,y) ( (x&&(!y)) || ( (!x) && y ) )
-
-=======
-//#define percent_error(x) ( ( (rand()%100) < x ) ? 1 : 0)
-#define percent_error(x) ( ( ( (double) rand()/RAND_MAX) < x ) ? 1 : 0)
-#define XOR(x,y) ( (x&&(!y)) || ( (!x) && y ) )
-
-//char * lcs(const char *a,const char *b,int error_percent) 
->>>>>>> 07845e8c0fa26c68d0c5901b55b2e48b1c3b9e4f
+ 
 char * lcs(const char *a,const char *b,double error_percent) 
 {
     int lena = strlen(a)+1;
@@ -32,16 +24,10 @@ char * lcs(const char *a,const char *b,double error_percent)
     int *la = calloc(lena*lenb, sizeof( int));
     int  **lengths = malloc( lena*sizeof( int*));
     for (i=0; i<lena; i++) lengths[i] = la + i*lenb;
-<<<<<<< HEAD
+
     int error_inject_count=0;
     int ops_count=0;
-  
-=======
-	int error_inject_count=0;
-	int ops_count=0;
-  
-
->>>>>>> 07845e8c0fa26c68d0c5901b55b2e48b1c3b9e4f
+ 
     for (i=0,x=a; *x; i++, x++)
     {
          struct timeval t1;
@@ -50,65 +36,36 @@ char * lcs(const char *a,const char *b,double error_percent)
          int error_inject;
         for (j=0,y=b; *y; j++,y++ )
         {
-             //error_inject= ( ( ( (double) rand()/  RAND_MAX ) < error_percent ) ? 1 : 0 ) ;
-<<<<<<< HEAD
-		error_inject=percent_error(error_percent);
-			 
-		if(error_inject)
-		{
-			error_inject_count++;
-		}
- 
-		ops_count++; 
-                if ( XOR( (*x == *y), error_inject ) )
-		{
-                	lengths[i+1][j+1] = lengths[i][j] +1;
-			ops_count++;
-	        }
-                else
-		{
-               		int ml = MAX(lengths[i+1][j], lengths[i][j+1]);
-               		lengths[i+1][j+1] = ml;
-               }
-        }
-    }
-	printf("\n\t Finished filling the matrix, error-inject-count: %d ops-count: %d \n",error_inject_count,ops_count);
-       result = bufr+bufrlen;
-       *--result = '\0';
-	i = lena-1; j = lenb-1;
-        int error_inject_1,error_inject_2;
-        int count_reset_seed=10;
-    	while ( (i>0) && (j>0) ) 
-=======
-			 error_inject=percent_error(error_percent);
-			 
-			 if(error_inject)
+			error_inject=percent_error(error_percent);
+				 
+			if(error_inject)
 			{
 				error_inject_count++;
 			}
- 
-			 ops_count++; 
-            if ( XOR( (*x == *y), error_inject ) )
+	 
+			ops_count++; 
+			if ( XOR( (*x == *y), error_inject ) )
 			{
-               lengths[i+1][j+1] = lengths[i][j] +1;
-			   ops_count++;
-            }
-            else
+				lengths[i+1][j+1] = lengths[i][j] +1;
+				ops_count++;
+			}
+			
+			else
 			{
-               int ml = MAX(lengths[i+1][j], lengths[i][j+1]);
-               lengths[i+1][j+1] = ml;
-             }
-        }
+				int ml = MAX(lengths[i+1][j], lengths[i][j+1]);
+				lengths[i+1][j+1] = ml;
+			}
+       }
     }
+	
 	printf("\n\t Finished filling the matrix, error-inject-count: %d ops-count: %d \n",error_inject_count,ops_count);
     result = bufr+bufrlen;
     *--result = '\0';
-    i = lena-1; j = lenb-1;
-        int error_inject_1,error_inject_2;
-        int count_reset_seed=10;
+	i = lena-1; j = lenb-1;
+    int error_inject_1,error_inject_2;
+    int count_reset_seed=10;
     while ( (i>0) && (j>0) ) 
->>>>>>> 07845e8c0fa26c68d0c5901b55b2e48b1c3b9e4f
-	{
+ 	{
         if(count_reset_seed%lena==0)
         {
              struct timeval t1;
@@ -116,9 +73,8 @@ char * lcs(const char *a,const char *b,double error_percent)
              srand(t1.tv_usec * t1.tv_sec);
         }
          
-<<<<<<< HEAD
 	error_inject_1=percent_error(error_percent);
-        error_inject_2=percent_error(error_percent);
+    error_inject_2=percent_error(error_percent);
 		 
 	 if(error_inject_1)
 	 {
@@ -141,28 +97,7 @@ char * lcs(const char *a,const char *b,double error_percent)
 	}
         else 
 	{
-=======
-		 error_inject_1=percent_error(error_percent);
-         error_inject_2=percent_error(error_percent);
-		 
-		 if(error_inject_1)
-		 {
-			error_inject_count++;
-		 }
-		
-		if(error_inject_2)
-		{
-			error_inject_count++;
-		}
-		 ops_count++;
-        if (XOR( (lengths[i][j] == lengths[i-1][j]), (error_inject_1) ) )  
-			i -= 1;
-        else if (XOR( (lengths[i][j] == lengths[i][j-1] ), (error_inject_2) ) )
-			j-= 1;
-        else 
-		{
->>>>>>> 07845e8c0fa26c68d0c5901b55b2e48b1c3b9e4f
-//          assert( a[i-1] == b[j-1]);
+ //          assert( a[i-1] == b[j-1]);
             *--result = a[i-1];
             i-=1; j-=1;
         }
@@ -181,12 +116,8 @@ int main(int argc, char *argv[])
         size_t r1,r2;
         FILE *fp1,*fp2;
 
-<<<<<<< HEAD
-       size1=0;size2=0;//r1=0;r2=0;
-=======
-   size1=0;size2=0;//r1=0;r2=0;
->>>>>>> 07845e8c0fa26c68d0c5901b55b2e48b1c3b9e4f
-
+		size1=0;size2=0;//r1=0;r2=0;
+ 
         if(argc<5)
         {
                 printf("\n\t ERROR:  Expected inputs \n\t\t 1. Two files. \n\t\t 2. String-length. \n\t\t 3. Error-percent. \n\t ------ Kindly provide appropriate inputs -------- \n\n");
@@ -219,7 +150,7 @@ int main(int argc, char *argv[])
 
         fp2=fopen(argv[2],"r");
         if(fp2!=NULL)
-      {
+        {
                 // printf("\n File %s located successfully! \n",argv[2]);
                 fseek(fp2,0,2);
                 size2=ftell(fp2)/sizeof(char);
@@ -281,7 +212,5 @@ int main(int argc, char *argv[])
                 return 0;
         }
 }
-
-
 
 
