@@ -62,6 +62,8 @@ char * lcs(const char *a,const char *b,double error_percent)
     result = bufr+bufrlen;
     *--result = '\0';
 	i = lena-1; j = lenb-1;
+	int iprime=lena-2;
+	int jprime= lenb -2;
     int error_inject_1,error_inject_2;
     int count_reset_seed=10;
     while ( (i>0) && (j>0) ) 
@@ -73,40 +75,52 @@ char * lcs(const char *a,const char *b,double error_percent)
              srand(t1.tv_usec * t1.tv_sec);
         }
          
-	error_inject_1=percent_error(error_percent);
-    error_inject_2=percent_error(error_percent);
+		error_inject_1=percent_error(error_percent);
+		error_inject_2=percent_error(error_percent);
 		 
-	 if(error_inject_1)
-	 {
-		error_inject_count++;
-	 }
-		
-	if(error_inject_2)
-	{
-		error_inject_count++;
-	}
-	ops_count++;
-        
-        if (XOR( (lengths[i][j] == lengths[i-1][j]), (error_inject_1) ) )  
-	{
-		i -= 1;
-	}
-        else if (XOR( (lengths[i][j] == lengths[i][j-1] ), (error_inject_2) ) )
-	{
-		j-= 1;
-	}
-        else 
-	{
- //          assert( a[i-1] == b[j-1]);
-            *--result = a[i-1];
-            i-=1; j-=1;
-        }
+		 if(error_inject_1)
+		 {
+			error_inject_count++;
+		 }
+			
+		if(error_inject_2)
+		{
+			error_inject_count++;
+		}
+		ops_count++;
+			
+		if (XOR( (lengths[i][j] == lengths[i-1][j]), (error_inject_1) ) )  
+		{
+			//printf("\n\t C1 i: %d j: %d a[i]: %c a[i-1]: %c b[j]: %c ",i,j,a[i],a[i-1],b[j]);			
+			printf("\n\t C1 i: %d j: %d a[i]: %c a[i-1]: %c b[j]: %c ",iprime,jprime,a[iprime],a[iprime-1],b[jprime]);			
+			i -= 1;
+			iprime-=1;
+			
+		}
+		else if (XOR( (lengths[i][j] == lengths[i][j-1] ), (error_inject_2) ) )
+		{
+			//printf("\n\t C2 i: %d j: %d a[i]: %c b[j-1]: %c b[j]: %c ",i,j,a[i],b[j-1],b[j]);			
+			printf("\n\t C2 i: %d j: %d a[i]: %c b[j-1]: %c b[j]: %c ",iprime,jprime,a[iprime],b[jprime-1],b[jprime]);			
+			j-= 1;
+			jprime-=1;
+		}
+		else 
+		{
+	 //     assert( a[i-1] == b[j-1]);
+			*--result = a[i-1];
+			//printf("\n\t C3 i: %d j: %d a[i-1]: %c b[j-1]: %c ",i,j,a[i-1],b[j-1]);			
+			printf("\n\t C3 i: %d j: %d a[i-1]: %c b[j-1]: %c ",iprime,jprime,a[iprime],b[jprime]);			
+			i-=1; j-=1;
+			iprime-=1;jprime-=1;
+		}
          count_reset_seed++;
     }
-    free(la);
+    
+	free(la);
     free(lengths);
 	printf("\n\t Finished tracing the matrix, error-inject-count: %d ops-count: %d \n",error_inject_count,ops_count);
     printf("\n\t Error-percent is %f\n\t",error_percent);	
+	printf("\n\t Lena: %d Lenb: %d ",lena,lenb);
     return strdup(result);
 }
 
@@ -189,7 +203,6 @@ int main(int argc, char *argv[])
 
          printf("\n\t Reading files done. Size of file1: %d and size of file2: %d \n",size1,size2);
         /********************************************************** Reading two files-ends ***************************************/
-
         {
                       
 			char *result;
@@ -208,8 +221,9 @@ int main(int argc, char *argv[])
 
 			result=lcs(clip_str_a,clip_str_b,error_percent);
 		
-                printf("\n\t LCS-result: %s \n\t Length of result: %d \n",result,(int)strlen(result)); // tsitest
-                return 0;
+            printf("\n\t LCS-result: %s \n\t Length of result: %d \n",result,(int)strlen(result)); // tsitest
+			printf("\n\t Len-a: %d Len-b: %d \n\n",(unsigned)strlen(clip_str_a),(unsigned)strlen(clip_str_b));
+            return 0;
         }
 }
 

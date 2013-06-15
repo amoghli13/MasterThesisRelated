@@ -1,0 +1,172 @@
+
+	 Reading files done. Size of file1: 939 and size of file2: 819 
+
+	 String-length: 100 Characters: 
+	 String1: Japan says a satellite launched into orbit Saturday could deliver Internet service many times faster 
+	 String2: Japan wants to be the first to tap super high speed access to the Internet and has just launched a s
+
+	 Finished filling the matrix, error-inject-count: 0 ops-count: 10757 
+
+	 C1 i: 99 j: 99 a[i]: r a[i-1]: e b[j]: s 
+	 C1 i: 98 j: 99 a[i]: e a[i-1]: t b[j]: s 
+	 C1 i: 97 j: 99 a[i]: t a[i-1]: s b[j]: s 
+	 C3 i: 96 j: 99 a[i-1]: s b[j-1]: s 
+	 C2 i: 95 j: 98 a[i]: a b[j-1]: a b[j]:   
+	 C3 i: 95 j: 97 a[i-1]: a b[j-1]: a 
+	 C1 i: 94 j: 96 a[i]: f a[i-1]:   b[j]:   
+	 C3 i: 93 j: 96 a[i-1]:   b[j-1]:   
+	 C1 i: 92 j: 95 a[i]: s a[i-1]: e b[j]: d 
+	 C2 i: 91 j: 95 a[i]: e b[j-1]: e b[j]: d 
+	 C3 i: 91 j: 94 a[i-1]: e b[j-1]: e 
+	 C1 i: 90 j: 93 a[i]: m a[i-1]: i b[j]: h 
+	 C1 i: 89 j: 93 a[i]: i a[i-1]: t b[j]: h 
+	 C1 i: 88 j: 93 a[i]: t a[i-1]:   b[j]: h 
+	 C1 i: 87 j: 93 a[i]:   a[i-1]: y b[j]: h 
+	 C1 i: 86 j: 93 a[i]: y a[i-1]: n b[j]: h 
+	 C2 i: 85 j: 93 a[i]: n b[j-1]: c b[j]: h 
+	 C2 i: 85 j: 92 a[i]: n b[j-1]: n b[j]: c 
+	 C3 i: 85 j: 91 a[i-1]: n b[j-1]: n 
+	 C2 i: 84 j: 90 a[i]: a b[j-1]: a b[j]: u 
+	 C3 i: 84 j: 89 a[i-1]: a b[j-1]: a 
+	 C1 i: 83 j: 88 a[i]: m a[i-1]:   b[j]: l 
+	 C2 i: 82 j: 88 a[i]:   b[j-1]:   b[j]: l 
+	 C2 i: 82 j: 87 a[i]:   b[j-1]: t b[j]:   
+	 C2 i: 82 j: 86 a[i]:   b[j-1]: s b[j]: t 
+	 C2 i: 82 j: 85 a[i]:   b[j-1]: u b[j]: s 
+	 C2 i: 82 j: 84 a[i]:   b[j-1]: j b[j]: u 
+	 C2 i: 82 j: 83 a[i]:   b[j-1]:   b[j]: j 
+	 C3 i: 82 j: 82 a[i-1]:   b[j-1]:   
+	 C1 i: 81 j: 81 a[i]: e a[i-1]: c b[j]: s 
+	 C1 i: 80 j: 81 a[i]: c a[i-1]: i b[j]: s 
+	 C1 i: 79 j: 81 a[i]: i a[i-1]: v b[j]: s 
+	 C1 i: 78 j: 81 a[i]: v a[i-1]: r b[j]: s 
+	 C1 i: 77 j: 81 a[i]: r a[i-1]: e b[j]: s 
+	 C1 i: 76 j: 81 a[i]: e a[i-1]: s b[j]: s 
+	 C3 i: 75 j: 81 a[i-1]: s b[j-1]: s 
+	 C2 i: 74 j: 80 a[i]:   b[j-1]: h b[j]: a 
+	 C2 i: 74 j: 79 a[i]:   b[j-1]:   b[j]: h 
+	 C2 i: 74 j: 78 a[i]:   b[j-1]: d b[j]:   
+	 C2 i: 74 j: 77 a[i]:   b[j-1]: n b[j]: d 
+	 C2 i: 74 j: 76 a[i]:   b[j-1]: a b[j]: n 
+	 C2 i: 74 j: 75 a[i]:   b[j-1]:   b[j]: a 
+	 C3 i: 74 j: 74 a[i-1]:   b[j-1]:   
+	 C3 i: 73 j: 73 a[i-1]: t b[j-1]: t 
+	 C3 i: 72 j: 72 a[i-1]: e b[j-1]: e 
+	 C3 i: 71 j: 71 a[i-1]: n b[j-1]: n 
+	 C3 i: 70 j: 70 a[i-1]: r b[j-1]: r 
+	 C3 i: 69 j: 69 a[i-1]: e b[j-1]: e 
+	 C3 i: 68 j: 68 a[i-1]: t b[j-1]: t 
+	 C3 i: 67 j: 67 a[i-1]: n b[j-1]: n 
+	 C3 i: 66 j: 66 a[i-1]: I b[j-1]: I 
+	 C3 i: 65 j: 65 a[i-1]:   b[j-1]:   
+	 C1 i: 64 j: 64 a[i]: r a[i-1]: e b[j]: e 
+	 C1 i: 63 j: 64 a[i]: e a[i-1]: v b[j]: e 
+	 C1 i: 62 j: 64 a[i]: v a[i-1]: i b[j]: e 
+	 C1 i: 61 j: 64 a[i]: i a[i-1]: l b[j]: e 
+	 C1 i: 60 j: 64 a[i]: l a[i-1]: e b[j]: e 
+	 C3 i: 59 j: 64 a[i-1]: e b[j-1]: e 
+	 C1 i: 58 j: 63 a[i]: d a[i-1]:   b[j]: h 
+	 C2 i: 57 j: 63 a[i]:   b[j-1]: t b[j]: h 
+	 C2 i: 57 j: 62 a[i]:   b[j-1]:   b[j]: t 
+	 C3 i: 57 j: 61 a[i-1]:   b[j-1]:   
+	 C1 i: 56 j: 60 a[i]: d a[i-1]: l b[j]: o 
+	 C1 i: 55 j: 60 a[i]: l a[i-1]: u b[j]: o 
+	 C1 i: 54 j: 60 a[i]: u a[i-1]: o b[j]: o 
+	 C3 i: 53 j: 60 a[i-1]: o b[j-1]: o 
+	 C1 i: 52 j: 59 a[i]: c a[i-1]:   b[j]: t 
+	 C2 i: 51 j: 59 a[i]:   b[j-1]:   b[j]: t 
+	 C3 i: 51 j: 58 a[i-1]:   b[j-1]:   
+	 C1 i: 50 j: 57 a[i]: y a[i-1]: a b[j]: s 
+	 C2 i: 49 j: 57 a[i]: a b[j-1]: s b[j]: s 
+	 C2 i: 49 j: 56 a[i]: a b[j-1]: e b[j]: s 
+	 C2 i: 49 j: 55 a[i]: a b[j-1]: c b[j]: e 
+	 C2 i: 49 j: 54 a[i]: a b[j-1]: c b[j]: c 
+	 C2 i: 49 j: 53 a[i]: a b[j-1]: a b[j]: c 
+	 C3 i: 49 j: 52 a[i-1]: a b[j-1]: a 
+	 C2 i: 48 j: 51 a[i]: d b[j-1]: d b[j]:   
+	 C3 i: 48 j: 50 a[i-1]: d b[j-1]: d 
+	 C2 i: 47 j: 49 a[i]: r b[j-1]: e b[j]: e 
+	 C2 i: 47 j: 48 a[i]: r b[j-1]: p b[j]: e 
+	 C2 i: 47 j: 47 a[i]: r b[j-1]: s b[j]: p 
+	 C2 i: 47 j: 46 a[i]: r b[j-1]:   b[j]: s 
+	 C2 i: 47 j: 45 a[i]: r b[j-1]: h b[j]:   
+	 C2 i: 47 j: 44 a[i]: r b[j-1]: g b[j]: h 
+	 C2 i: 47 j: 43 a[i]: r b[j-1]: i b[j]: g 
+	 C2 i: 47 j: 42 a[i]: r b[j-1]: h b[j]: i 
+	 C2 i: 47 j: 41 a[i]: r b[j-1]:   b[j]: h 
+	 C2 i: 47 j: 40 a[i]: r b[j-1]: r b[j]:   
+	 C3 i: 47 j: 39 a[i-1]: r b[j-1]: r 
+	 C2 i: 46 j: 38 a[i]: u b[j-1]: p b[j]: e 
+	 C2 i: 46 j: 37 a[i]: u b[j-1]: u b[j]: p 
+	 C3 i: 46 j: 36 a[i-1]: u b[j-1]: u 
+	 C1 i: 45 j: 35 a[i]: t a[i-1]: a b[j]: s 
+	 C1 i: 44 j: 35 a[i]: a a[i-1]: S b[j]: s 
+	 C1 i: 43 j: 35 a[i]: S a[i-1]:   b[j]: s 
+	 C2 i: 42 j: 35 a[i]:   b[j-1]:   b[j]: s 
+	 C3 i: 42 j: 34 a[i-1]:   b[j-1]:   
+	 C2 i: 41 j: 33 a[i]: t b[j-1]: a b[j]: p 
+	 C2 i: 41 j: 32 a[i]: t b[j-1]: t b[j]: a 
+	 C3 i: 41 j: 31 a[i-1]: t b[j-1]: t 
+	 C1 i: 40 j: 30 a[i]: i a[i-1]: b b[j]:   
+	 C1 i: 39 j: 30 a[i]: b a[i-1]: r b[j]:   
+	 C1 i: 38 j: 30 a[i]: r a[i-1]: o b[j]:   
+	 C1 i: 37 j: 30 a[i]: o a[i-1]:   b[j]:   
+	 C3 i: 36 j: 30 a[i-1]:   b[j-1]:   
+	 C3 i: 35 j: 29 a[i-1]: o b[j-1]: o 
+	 C2 i: 34 j: 28 a[i]: t b[j-1]:   b[j]: t 
+	 C2 i: 34 j: 27 a[i]: t b[j-1]: t b[j]:   
+	 C3 i: 34 j: 26 a[i-1]: t b[j-1]: t 
+	 C1 i: 33 j: 25 a[i]: n a[i-1]: i b[j]: s 
+	 C2 i: 32 j: 25 a[i]: i b[j-1]: r b[j]: s 
+	 C2 i: 32 j: 24 a[i]: i b[j-1]: i b[j]: r 
+	 C3 i: 32 j: 23 a[i-1]: i b[j-1]: i 
+	 C2 i: 31 j: 22 a[i]:   b[j-1]:   b[j]: f 
+	 C3 i: 31 j: 21 a[i-1]:   b[j-1]:   
+	 C1 i: 30 j: 20 a[i]: d a[i-1]: e b[j]: e 
+	 C3 i: 29 j: 20 a[i-1]: e b[j-1]: e 
+	 C3 i: 28 j: 19 a[i-1]: h b[j-1]: h 
+	 C1 i: 27 j: 18 a[i]: c a[i-1]: n b[j]: t 
+	 C1 i: 26 j: 18 a[i]: n a[i-1]: u b[j]: t 
+	 C1 i: 25 j: 18 a[i]: u a[i-1]: a b[j]: t 
+	 C1 i: 24 j: 18 a[i]: a a[i-1]: l b[j]: t 
+	 C1 i: 23 j: 18 a[i]: l a[i-1]:   b[j]: t 
+	 C1 i: 22 j: 18 a[i]:   a[i-1]: e b[j]: t 
+	 C1 i: 21 j: 18 a[i]: e a[i-1]: t b[j]: t 
+	 C3 i: 20 j: 18 a[i-1]: t b[j-1]: t 
+	 C1 i: 19 j: 17 a[i]: i a[i-1]: l b[j]:   
+	 C1 i: 18 j: 17 a[i]: l a[i-1]: l b[j]:   
+	 C1 i: 17 j: 17 a[i]: l a[i-1]: e b[j]:   
+	 C2 i: 16 j: 17 a[i]: e b[j-1]: e b[j]:   
+	 C3 i: 16 j: 16 a[i-1]: e b[j-1]: e 
+	 C1 i: 15 j: 15 a[i]: t a[i-1]: a b[j]: b 
+	 C1 i: 14 j: 15 a[i]: a a[i-1]: s b[j]: b 
+	 C1 i: 13 j: 15 a[i]: s a[i-1]:   b[j]: b 
+	 C2 i: 12 j: 15 a[i]:   b[j-1]:   b[j]: b 
+	 C3 i: 12 j: 14 a[i-1]:   b[j-1]:   
+	 C1 i: 11 j: 13 a[i]: a a[i-1]:   b[j]: o 
+	 C2 i: 10 j: 13 a[i]:   b[j-1]: t b[j]: o 
+	 C2 i: 10 j: 12 a[i]:   b[j-1]:   b[j]: t 
+	 C3 i: 10 j: 11 a[i-1]:   b[j-1]:   
+	 C3 i: 9 j: 10 a[i-1]: s b[j-1]: s 
+	 C1 i: 8 j: 9 a[i]: y a[i-1]: a b[j]: t 
+	 C2 i: 7 j: 9 a[i]: a b[j-1]: n b[j]: t 
+	 C2 i: 7 j: 8 a[i]: a b[j-1]: a b[j]: n 
+	 C3 i: 7 j: 7 a[i-1]: a b[j-1]: a 
+	 C1 i: 6 j: 6 a[i]: s a[i-1]:   b[j]: w 
+	 C2 i: 5 j: 6 a[i]:   b[j-1]:   b[j]: w 
+	 C3 i: 5 j: 5 a[i-1]:   b[j-1]:   
+	 C3 i: 4 j: 4 a[i-1]: n b[j-1]: n 
+	 C3 i: 3 j: 3 a[i-1]: a b[j-1]: a 
+	 C3 i: 2 j: 2 a[i-1]: p b[j-1]: p 
+	 C3 i: 1 j: 1 a[i-1]: a b[j-1]: a 
+	 C3 i: 0 j: 0 a[i-1]: J b[j-1]: J 
+	 Finished tracing the matrix, error-inject-count: 0 ops-count: 10910 
+
+	 Error-percent is 0.000000
+	
+	 Lena: 101 Lenb: 101 
+	 LCS-result: Japan as  ethe ito t urda o e Internet s ane as 
+	 Length of result: 47 
+
+	 Len-a: 100 Len-b: 100 
+
