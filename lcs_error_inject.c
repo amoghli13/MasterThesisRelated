@@ -89,12 +89,12 @@ char * lcs(const char *a,const char *b,double error_percent)
 		}
 		ops_count++;
  
-		int c1_op1= (a[iprime]==b[jprime]); int c1_op2= (a[iprime-1]==b[jprime]);
-		int c2_op1= (a[iprime]==b[jprime]); int c2_op2= (a[iprime]==b[jprime-1]);		
+		int c1_op1= (a[iprime]==b[jprime]); int c1_op2= (a[iprime]==b[jprime]);
+		int c2_op1= (a[iprime]==b[jprime]); int c2_op2= (a[iprime]==b[jprime]);		
 		
-		//c1_op1=0; c2_op1=0;
+		//c1_op1=0; c2_op1=0;c1_op2=0; c2_op2=0;
 		//if (XOR( (lengths[i][j] == lengths[i-1][j]), (error_inject_1) ) )  
-		if(  (lengths[i][j] == lengths[i-1][j]) && (!c1_op1))
+		if(  (lengths[i][j] == lengths[i-1][j]) && ( (!c1_op1) && (!c1_op2  ) ))
 		{
 			//printf("\n\t C1 i: %d j: %d a[i]: %c a[i-1]: %c b[j]: %c ",i,j,a[i],a[i-1],b[j]);			
 			printf("\n\t C1 i: %d j: %d a[i]: %c a[i-1]: %c b[j]: %c ",iprime,jprime,a[iprime],a[iprime-1],b[jprime]);			
@@ -103,14 +103,14 @@ char * lcs(const char *a,const char *b,double error_percent)
 			
 		}
 		//else if (XOR( (lengths[i][j] == lengths[i][j-1] ), (error_inject_2) ) )
-		else if( (lengths[i][j] == lengths[i][j-1] ) && (!c2_op1) )
+		else if( (lengths[i][j] == lengths[i][j-1] ) && ( (!c2_op1) && (!c2_op2) ) )
 		{
 			//printf("\n\t C2 i: %d j: %d a[i]: %c b[j-1]: %c b[j]: %c ",i,j,a[i],b[j-1],b[j]);			
 			printf("\n\t C2 i: %d j: %d a[i]: %c b[j-1]: %c b[j]: %c ",iprime,jprime,a[iprime],b[jprime-1],b[jprime]);			
 			j-= 1;
 			jprime-=1;
 		}
-		else //if(c1_op1)
+		else if( (c1_op1) && (c2_op1) )
 		{
 	 //     assert( a[i-1] == b[j-1]);
 			*--result = a[i-1];
