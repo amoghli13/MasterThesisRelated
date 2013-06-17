@@ -9,12 +9,44 @@
 #define MAX(A,B) (((A)>(B))? (A) : (B))
 #define percent_error(x) ( ( ( (double) rand()/RAND_MAX) < x ) ? 1 : 0)
 #define XOR(x,y) ( (x&&(!y)) || ( (!x) && y ) )
+
+int  **lengths;
+int lena,lenb;
+FILE* save_mat;
+void stuck_need2exit(int i,int j,const char *a,const char *b)
+{
+
+	int iprime=i-1;
+	int jprime=j-1;
+	printf("\n\n\t ------------------- Mostly stuck in a loop at i: %d j: %d !! ----------------\n\n",i,j);
+	printf(" \n\t a[i-2] : %c a[i-1]: %c a[i]: %c a[i+1]: %c ",a[iprime-2],a[iprime-1],a[iprime],a[iprime+1]);
+	printf(" \n\t b[j-2] : %c a[j-1]: %c b[j]: %c a[j+1]: %c \n\n",b[jprime-2],b[jprime-1],b[jprime],b[jprime+1]);
+	printf("\n\t Lengths[i-2][j-2]: %d , Lengths[i-2][j-1]: %d , Lengths[i-2][j]: %d, Lengths[i-2][j+1]: %d \n",lengths[i-2][j-2],lengths[i-2][j-1],lengths[i-2][j],lengths[i-2][j+1]);
+	printf("\n\t Lengths[i-1][j-2]: %d , Lengths[i-1][j-1]: %d , Lengths[i-1][j]: %d, Lengths[i-1][j+1]: %d \n",lengths[i-1][j-2],lengths[i-1][j-1],lengths[i-1][j],lengths[i-1][j+1]);
+	printf("\n\t Lengths[i][j-2]: %d , Lengths[i][j-1]: %d , Lengths[i][j]: %d, Lengths[i][j+1]: %d \n",lengths[i][j-2],lengths[i][j-1],lengths[i][j],lengths[i][j+1]);
+	printf("\n\t Lengths[i+1][j-2]: %d , Lengths[i+1][j-1]: %d , Lengths[i+1][j]: %d, Lengths[i+1][j+1]: %d \n",lengths[i+1][j-2],lengths[i+1][j-1],lengths[i+1][j],lengths[i+1][j+1]);
+
+	 
+	//exit(-1);
+}
+
+void save_mat_b4exit()
+{
+	for(int i=0;i<lena;i++)
+	{
+		fprintf(save_mat,"\n\n\t Row: %d \n",i);
+		for(int j=0;j<lenb;j++)
+		{
+			fprintf(save_mat,"\t Col: %d %d ",j,lengths[i][j]);
+		}
+	}
+
+}
  
 char * lcs(const char *a,const char *b,double error_percent) 
 {
-    int lena = strlen(a)+1;
-    int lenb = strlen(b)+1;
-
+    // int lena = strlen(a)+1;     int lenb = strlen(b)+1;
+		lena=strlen(a)+1; lenb=strlen(b)+1;
  //printf("\n\t Length of string-1: %d string-1: %s \n\t Length of string-2: %d string-2: %s \n",lena,a,lenb,b);
     int bufrlen = lena;
     char bufr[bufrlen], *result;
@@ -22,7 +54,8 @@ char * lcs(const char *a,const char *b,double error_percent)
     int i,j;
     const char *x, *y;
     int *la = calloc(lena*lenb, sizeof( int));
-    int  **lengths = malloc( lena*sizeof( int*));
+    //int  **lengths = malloc( lena*sizeof( int*));
+	lengths = malloc( lena*sizeof( int*));
     for (i=0; i<lena; i++) lengths[i] = la + i*lenb;
 
     int error_inject_count=0;
@@ -65,9 +98,13 @@ char * lcs(const char *a,const char *b,double error_percent)
 	int iprime=lena-2;
 	int jprime= lenb -2;
     int error_inject_1,error_inject_2;
-    int count_reset_seed=10;
+	
+    int ij_considered=0;
+	int count_reset_seed=0;
+	int result_length=0;
     while ( (i>0) && (j>0) ) 
  	{
+		ij_considered++;
         if(count_reset_seed%lena==0)
         {
              struct timeval t1;
@@ -75,7 +112,7 @@ char * lcs(const char *a,const char *b,double error_percent)
              srand(t1.tv_usec * t1.tv_sec);
         }
          
-		error_inject_1=percent_error(error_percent);
+/*		error_inject_1=percent_error(error_percent);
 		error_inject_2=percent_error(error_percent);
 		 
 		 if(error_inject_1)
@@ -86,41 +123,58 @@ char * lcs(const char *a,const char *b,double error_percent)
 		if(error_inject_2)
 		{
 			error_inject_count++;
-		}
+		}*/
 		ops_count++;
  
-		int c1_op1= (a[iprime]==b[jprime]); int c1_op2= (a[iprime]==b[jprime]);
+		int c1_op1= (a[iprime]==b[jprime]); int c1_op2= (a[iprime]==b[jprime]); 
 		int c2_op1= (a[iprime]==b[jprime]); int c2_op2= (a[iprime]==b[jprime]);		
 		
-		//c1_op1=0; c2_op1=0;c1_op2=0; c2_op2=0;
-		//if (XOR( (lengths[i][j] == lengths[i-1][j]), (error_inject_1) ) )  
-		if(  (lengths[i][j] == lengths[i-1][j]) && ( (!c1_op1) && (!c1_op2  ) ))
+ 		if(  (lengths[i][j] == lengths[i-1][j]) && ( (!c1_op1) && (!c1_op2  ) ))
 		{
-			//printf("\n\t C1 i: %d j: %d a[i]: %c a[i-1]: %c b[j]: %c ",i,j,a[i],a[i-1],b[j]);			
-			printf("\n\t C1 i: %d j: %d a[i]: %c a[i-1]: %c b[j]: %c ",iprime,jprime,a[iprime],a[iprime-1],b[jprime]);			
+			printf("\n\t C1 i: %d j: %d a[i]: %c a[i-1]: %c b[j]: %c and ij_considered: %d lengths[i][j]:%d lengths[i-1][j]:%d ",iprime,jprime,a[iprime],a[iprime-1],b[jprime],ij_considered,lengths[i][j],lengths[i-1][j]);			
 			i -= 1;
 			iprime-=1;
-			
+			ij_considered=0;
 		}
-		//else if (XOR( (lengths[i][j] == lengths[i][j-1] ), (error_inject_2) ) )
 		else if( (lengths[i][j] == lengths[i][j-1] ) && ( (!c2_op1) && (!c2_op2) ) )
 		{
-			//printf("\n\t C2 i: %d j: %d a[i]: %c b[j-1]: %c b[j]: %c ",i,j,a[i],b[j-1],b[j]);			
-			printf("\n\t C2 i: %d j: %d a[i]: %c b[j-1]: %c b[j]: %c ",iprime,jprime,a[iprime],b[jprime-1],b[jprime]);			
+			printf("\n\t C2 i: %d j: %d a[i]: %c b[j-1]: %c b[j]: %c and ij_considered: %d lengths[i][j]:%d lengths[i][j-1]: %d ",iprime,jprime,a[iprime],b[jprime-1],b[jprime],ij_considered,lengths[i][j],lengths[i][j-1]);			
 			j-= 1;
 			jprime-=1;
+			ij_considered=0;
 		}
-		else if( (c1_op1) && (c2_op1) )
+		else if( (c1_op1) ) //&& (c2_op1) )
 		{
-	 //     assert( a[i-1] == b[j-1]);
 			*--result = a[i-1];
-			//printf("\n\t C3 i: %d j: %d a[i-1]: %c b[j-1]: %c ",i,j,a[i-1],b[j-1]);			
-			printf("\n\t C3 i: %d j: %d a[i-1]: %c b[j-1]: %c ",iprime,jprime,a[iprime],b[jprime]);			
+			result_length++;
+			printf("\n\t C3 i: %d j: %d a[i-1]: %c b[j-1]: %c and ij_considered: %d lengths[i][j]: %d result_length: %d ",iprime,jprime,a[iprime],b[jprime],ij_considered,lengths[i][j],result_length);			
 			i-=1; j-=1;
 			iprime-=1;jprime-=1;
+			ij_considered=0;
 		}
-         count_reset_seed++;
+		
+		if(ij_considered>2)
+		{
+			stuck_need2exit(i,j,a,b);
+			printf("\n\n\t Exception! i: %d j: %d a[iprime]: %c b[jprime]: %c lengths[i-1][j]: %d lengths[i][j-1]:%d lengths[i][j]:%d  and ij_considered: %d \n\n",iprime,jprime,a[iprime],b[jprime],lengths[i-1][j],lengths[i][j-1],lengths[i][j],ij_considered);					
+			if( lengths[i-1][j] < lengths[i][j-1] )
+			{
+				j-=1;
+				jprime-=1;
+			}
+			else
+			{
+				i-=1;
+				iprime-=1;
+			}
+			
+			ij_considered=0;
+			
+		}
+        count_reset_seed++;
     }
+
+	save_mat_b4exit();
     
 	free(la);
     free(lengths);
@@ -138,21 +192,24 @@ int main(int argc, char *argv[])
 
 		size1=0;size2=0;//r1=0;r2=0;
  
-        if(argc<5)
+        if(argc<6)
         {
-                printf("\n\t ERROR:  Expected inputs \n\t\t 1. Two files. \n\t\t 2. String-length. \n\t\t 3. Error-percent. \n\t ------ Kindly provide appropriate inputs -------- \n\n");
+                printf("\n\t ERROR:  Expected inputs \n\t\t 1. Output file name \n\t\t 2.Two files. \n\t\t 3. String-length. \n\t\t 4. Error-percent. \n\t ------ Kindly provide appropriate inputs -------- \n\n");
                 exit(-1);
         }
+		
+		char* filename=argv[1];
+		save_mat=fopen(argv[1],"w");
+        double error_percent=atof(argv[5]);
+		int string_length=atoi(argv[4]);
 
-        double error_percent=atof(argv[4]);
-		int string_length=atoi(argv[3]);
         if(error_percent<0)
         {
                 printf("\n\t Error: Error-percent should be greater than or equal to 0\n");
                 exit(-1);
         }
 
-        fp1=fopen(argv[1],"r");
+        fp1=fopen(argv[2],"r");
         if(fp1!=NULL)
         {
                 // printf("\n File %s located successfully! \n",argv[1]);
@@ -168,7 +225,7 @@ int main(int argc, char *argv[])
                 exit(-1);
         }
 
-        fp2=fopen(argv[2],"r");
+        fp2=fopen(argv[3],"r");
         if(fp2!=NULL)
         {
                 // printf("\n File %s located successfully! \n",argv[2]);
@@ -231,6 +288,5 @@ int main(int argc, char *argv[])
 			printf("\n\t Len-a: %d Len-b: %d \n\n",(unsigned)strlen(clip_str_a),(unsigned)strlen(clip_str_b));
             return 0;
         }
+		fclose(save_mat);
 }
-
-
