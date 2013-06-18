@@ -13,6 +13,23 @@
 int  **lengths;
 int lena,lenb;
 FILE* save_mat;
+
+void rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value)
+{
+	int i,j;
+	int save_lengths_ij=lengths[stop_i][stop_j];
+	for(i=start_i;i<=(stop_i);i++)
+	{
+		for(j=start_j;j<=(stop_j);j++)
+		{
+			printf("\n\t I: %d J: %d lengths[i][j]: %d",i,j,lengths[i][j]);
+		}
+	}
+
+	// lengths[stop_i][stop_j]=save_lengths_ij;
+}
+
+
 void stuck_need2exit(int i,int j,const char *a,const char *b)
 {
 
@@ -32,10 +49,11 @@ void stuck_need2exit(int i,int j,const char *a,const char *b)
 
 void save_mat_b4exit()
 {
-	for(int i=0;i<lena;i++)
+int i,j;
+	for(i=0;i<lena;i++)
 	{
 		fprintf(save_mat,"\n\n\t Row: %d \n",i);
-		for(int j=0;j<lenb;j++)
+		for(j=0;j<lenb;j++)
 		{
 			fprintf(save_mat,"\t Col: %d %d ",j,lengths[i][j]);
 		}
@@ -102,6 +120,8 @@ char * lcs(const char *a,const char *b,double error_percent)
     int ij_considered=0;
 	int count_reset_seed=0;
 	int result_length=0;
+	int accepted_i=0,accepted_j=0;
+	int last_considered_i=0,last_considered_j=0;
     while ( (i>0) && (j>0) ) 
  	{
 		ij_considered++;
@@ -131,14 +151,21 @@ char * lcs(const char *a,const char *b,double error_percent)
 		
  		if(  (lengths[i][j] == lengths[i-1][j]) && ( (!c1_op1) && (!c1_op2  ) ))
 		{
-			printf("\n\t C1 i: %d j: %d a[i]: %c a[i-1]: %c b[j]: %c and ij_considered: %d lengths[i][j]:%d lengths[i-1][j]:%d ",iprime,jprime,a[iprime],a[iprime-1],b[jprime],ij_considered,lengths[i][j],lengths[i-1][j]);			
+			//printf("\n\t C1 i: %d j: %d a[i]: %c a[i-1]: %c b[j]: %c and ij_considered: %d lengths[i][j]:%d lengths[i-1][j]:%d ",iprime,jprime,a[iprime],a[iprime-1],b[jprime],ij_considered,lengths[i][j],lengths[i-1][j]);			
+			printf("\n\t C1 i: %d j: %d a[i]: %c a[i-1]: %c b[j]: %c and ij_considered: %d lengths[i][j]:%d lengths[i-1][j]:%d ",i,j,a[iprime],a[iprime-1],b[jprime],ij_considered,lengths[i][j],lengths[i-1][j]);			
+			last_considered_i=i; last_considered_j=j;	
 			i -= 1;
 			iprime-=1;
 			ij_considered=0;
+			
 		}
 		else if( (lengths[i][j] == lengths[i][j-1] ) && ( (!c2_op1) && (!c2_op2) ) )
 		{
-			printf("\n\t C2 i: %d j: %d a[i]: %c b[j-1]: %c b[j]: %c and ij_considered: %d lengths[i][j]:%d lengths[i][j-1]: %d ",iprime,jprime,a[iprime],b[jprime-1],b[jprime],ij_considered,lengths[i][j],lengths[i][j-1]);			
+		
+			last_considered_i=i; last_considered_j=j;		
+			//printf("\n\t C2 i: %d j: %d a[i]: %c b[j-1]: %c b[j]: %c and ij_considered: %d lengths[i][j]:%d lengths[i][j-1]: %d ",iprime,jprime,a[iprime],b[jprime-1],b[jprime],ij_considered,lengths[i][j],lengths[i][j-1]);			
+			printf("\n\t C2 i: %d j: %d a[i]: %c b[j-1]: %c b[j]: %c and ij_considered: %d lengths[i][j]:%d lengths[i][j-1]: %d ",i,j,a[iprime],b[jprime-1],b[jprime],ij_considered,lengths[i][j],lengths[i][j-1]);			
+		
 			j-= 1;
 			jprime-=1;
 			ij_considered=0;
@@ -147,7 +174,10 @@ char * lcs(const char *a,const char *b,double error_percent)
 		{
 			*--result = a[i-1];
 			result_length++;
-			printf("\n\t C3 i: %d j: %d a[i-1]: %c b[j-1]: %c and ij_considered: %d lengths[i][j]: %d result_length: %d ",iprime,jprime,a[iprime],b[jprime],ij_considered,lengths[i][j],result_length);			
+			last_considered_i=i; last_considered_j=j;	
+			accepted_i=i;accepted_j=j;
+			//printf("\n\t C3 i: %d j: %d a[i-1]: %c b[j-1]: %c and ij_considered: %d lengths[i][j]: %d result_length: %d ",iprime,jprime,a[iprime],b[jprime],ij_considered,lengths[i][j],result_length);			
+			printf("\n\t C3 i: %d j: %d a[i-1]: %c b[j-1]: %c and ij_considered: %d lengths[i][j]: %d result_length: %d ",i,j,a[iprime],b[jprime],ij_considered,lengths[i][j],result_length);						
 			i-=1; j-=1;
 			iprime-=1;jprime-=1;
 			ij_considered=0;
@@ -156,7 +186,12 @@ char * lcs(const char *a,const char *b,double error_percent)
 		if(ij_considered>2)
 		{
 			stuck_need2exit(i,j,a,b);
-			printf("\n\n\t Exception! i: %d j: %d a[iprime]: %c b[jprime]: %c lengths[i-1][j]: %d lengths[i][j-1]:%d lengths[i][j]:%d  and ij_considered: %d \n\n",iprime,jprime,a[iprime],b[jprime],lengths[i-1][j],lengths[i][j-1],lengths[i][j],ij_considered);					
+			//printf("\n\n\t Exception! i: %d j: %d a[iprime]: %c b[jprime]: %c lengths[i-1][j]: %d lengths[i][j-1]:%d lengths[i][j]:%d  and ij_considered: %d ",iprime,jprime,a[iprime],b[jprime],lengths[i-1][j],lengths[i][j-1],lengths[i][j],ij_considered);					
+			printf("\n\n\t Exception! i: %d j: %d a[iprime]: %c b[jprime]: %c lengths[i-1][j]: %d lengths[i][j-1]:%d lengths[i][j]:%d  and ij_considered: %d ",i,j,a[iprime],b[jprime],lengths[i-1][j],lengths[i][j-1],lengths[i][j],ij_considered);					
+			rollback(last_considered_i,last_considered_j,accepted_i,accepted_j,lengths[i][j]);
+			printf("\n\n\t Last considered i: %d j: %d \n\t Need to rollback the area until accepted-i: %d j: %d \n\n",last_considered_i,last_considered_j,accepted_i,accepted_j);
+			last_considered_i=i;last_considered_j=j;	
+			
 			if( lengths[i-1][j] < lengths[i][j-1] )
 			{
 				j-=1;
@@ -174,7 +209,7 @@ char * lcs(const char *a,const char *b,double error_percent)
         count_reset_seed++;
     }
 
-	save_mat_b4exit();
+	//save_mat_b4exit();
     
 	free(la);
     free(lengths);
