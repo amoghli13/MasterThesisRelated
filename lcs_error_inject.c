@@ -13,20 +13,44 @@
 int  **lengths;
 int lena,lenb;
 FILE* save_mat;
+int error_inject_count;
+int ops_count;
 
-void rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value)
+void rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,const char* a,const char* b,double error_percent)
 {
 	int i,j;
-	int save_lengths_ij=lengths[stop_i][stop_j];
-	for(i=start_i;i<=(stop_i);i++)
+	const char *x,*y;
+	int error_inject;
+	for(i=start_i,x=(a+start_i-1);i<=(stop_i);i++,x++)
 	{
-		for(j=start_j;j<=(stop_j);j++)
+		for(j=start_j,y=(b+start_j-1);j<=(stop_j);j++,y++)
 		{
-			printf("\n\t I: %d J: %d lengths[i][j]: %d",i,j,lengths[i][j]);
+			printf("\n\t ** I: %d J: %d lengths[i][j]: %d and x: %c y: %c",i,j,lengths[i][j],*x,*y);
+			
+			error_inject=percent_error(error_percent);
+				 
+			if(error_inject)
+			{
+				error_inject_count++;
+			}
+	 
+			ops_count++; 
+			if ( XOR( (*x == *y), error_inject ) )
+			{
+				lengths[i][j] = lengths[i-1][j-1] +1;
+				ops_count++;
+			}
+			
+			else
+			{
+				int ml = MAX(lengths[i-1][j], lengths[i][j-1]);
+				lengths[i][j] = ml;
+			}
+			
+			printf("\n\t -- I: %d J: %d lengths[i][j]: %d \n",i,j,lengths[i][j]);
 		}
 	}
 
-	// lengths[stop_i][stop_j]=save_lengths_ij;
 }
 
 
@@ -76,7 +100,6 @@ char * lcs(const char *a,const char *b,double error_percent)
 	lengths = malloc( lena*sizeof( int*));
     for (i=0; i<lena; i++) lengths[i] = la + i*lenb;
 
-    int error_inject_count=0;
     int ops_count=0;
  
     for (i=0,x=a; *x; i++, x++)
@@ -188,11 +211,11 @@ char * lcs(const char *a,const char *b,double error_percent)
 			stuck_need2exit(i,j,a,b);
 			//printf("\n\n\t Exception! i: %d j: %d a[iprime]: %c b[jprime]: %c lengths[i-1][j]: %d lengths[i][j-1]:%d lengths[i][j]:%d  and ij_considered: %d ",iprime,jprime,a[iprime],b[jprime],lengths[i-1][j],lengths[i][j-1],lengths[i][j],ij_considered);					
 			printf("\n\n\t Exception! i: %d j: %d a[iprime]: %c b[jprime]: %c lengths[i-1][j]: %d lengths[i][j-1]:%d lengths[i][j]:%d  and ij_considered: %d ",i,j,a[iprime],b[jprime],lengths[i-1][j],lengths[i][j-1],lengths[i][j],ij_considered);					
-			rollback(last_considered_i,last_considered_j,accepted_i,accepted_j,lengths[i][j]);
-			printf("\n\n\t Last considered i: %d j: %d \n\t Need to rollback the area until accepted-i: %d j: %d \n\n",last_considered_i,last_considered_j,accepted_i,accepted_j);
+			rollback(last_considered_i,last_considered_j,accepted_i,accepted_j,lengths[i][j],a,b,error_percent);
+			printf("\n\n\t -- Last considered i: %d j: %d \n\t Need to rollback the area until accepted-i: %d j: %d ",last_considered_i,last_considered_j,accepted_i,accepted_j);
 			last_considered_i=i;last_considered_j=j;	
 			
-			if( lengths[i-1][j] < lengths[i][j-1] )
+			/*if( lengths[i-1][j] < lengths[i][j-1] )
 			{
 				j-=1;
 				jprime-=1;
@@ -201,7 +224,11 @@ char * lcs(const char *a,const char *b,double error_percent)
 			{
 				i-=1;
 				iprime-=1;
-			}
+			} */
+			i=accepted_i-1;
+			j=accepted_j-1; 
+			iprime=i-1;jprime=j-1;
+			printf("\n\t ** Last considered i: %d j: %d \n\t Need to rollback the area until accepted-i: %d j: %d \n\n",last_considered_i,last_considered_j,accepted_i,accepted_j);
 			
 			ij_considered=0;
 			
@@ -226,6 +253,15 @@ int main(int argc, char *argv[])
         FILE *fp1,*fp2;
 
 		size1=0;size2=0;//r1=0;r2=0;
+ 
+ // ******* Global variables being initialized **********
+ 
+ error_inject_count=0;
+ ops_count=0;
+ 
+ // *************
+ 
+ 
  
         if(argc<6)
         {
