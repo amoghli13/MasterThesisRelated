@@ -1,0 +1,14 @@
+
+	 Reading files done. Size of file1: 939 and size of file2: 819 
+
+	 String-length: 1000 Characters: 
+	 String1: Japan says a satellite launched into orbit Saturday could deliver Internet service many times faster than cable or DSL. The WINDS satellite was launched aboard a rocket in a joint venture between the Japan Aerospace Exploration Agency, or JAXA, and Mitsubishi Heavy Industries, CNN reported. The satellite will test new technology that aims to deliver "super high-speed Internet" service around the world, said a statement from JAXA. Initially, subscribers with small dishes in the Asia-Pacific region close to Japan would connect to the Internet through the satellite, CNN reported. "Among other uses, this will make possible great advances in telemedicine, which will bring high-quality medical treatment to remote areas, and in distance education, connecting students and teachers separated by great distances," the statement said. The satellite was put into orbit from Japan's Yoshinobu Launch Complex at the Tanegashima Space Center.
+ 
+	 String2: Japan wants to be the first to tap super high speed access to the Internet and has just launched a satellite that would provide a boost to this technology. The Japan Aerospace Exploration Agency (JAXA) spearheaded the satellite launch on Saturday. JAXA's satellite-fired fast Internet project is a successful tie-up with Mitsubishi Heavy Industries and targets to provide the service to businesses and homes. A JAXA news release said: "The new technology would enhance Internet connections in the Asian region with a promise of 1.2 gigabytes per second." The JAXA also cited that the new technology "will make possible great advances in telemedicine, which will bring high-quality medical treatment to remote areas, and in distance education, connecting students and teachers separated by great distances," JAXA said. 
+
+
+	 Error-percent is 0
+	
+	 LCS-result: Japan as  ethe ito t urda o e Internet an s st anche  satellite a ld od a ot o t ten he Japan Aerospace Exploration Agency JAXA ad the stie  ord.  satellitei st ne ect is  elieup hihe Intres and te ord si  seen om JAXA n res sa he n tecolo would nnce Internet to the saeit  reoted. Ao the e th will make possible great advances in telemedicine, which will bring high-quality medical treatment to remote areas, and in distance education, connecting students and teachers separated by great distances,"  said. 
+ 
+	 Length of result: 509 
