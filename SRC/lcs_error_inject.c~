@@ -229,7 +229,7 @@ char * lcs(const char *a,const char *b,double error_percent)
 		
 			last_considered_i=i; last_considered_j=j;		
 			//printf("\n\t C2 i: %d j: %d a[i]: %c b[j-1]: %c b[j]: %c and ij_considered: %d lengths[i][j]:%d lengths[i][j-1]: %d ",iprime,jprime,a[iprime],b[jprime-1],b[jprime],ij_considered,lengths[i][j],lengths[i][j-1]);			
-			printf("\n\t C2 i: %d j: %d a[i]: %c b[j-1]: %c b[j]: %c and ij_considered: %d lengths[i][j]:%d lengths[i-1][j]: %d lengths[i][j-1]: %d",i,j,a[iprime],b[jprime-1],b[jprime],ij_considered,lengths[i][j],lengths[i-1][j],lengths[i][j-1]);			
+			printf("\n\t C2 i: %d j: %d a[i]: %c b[j-1]: %c b[j]: %c and ij_considered: %d lengths[i][j]:%d lengths[i-1][j]: %d lengths[i][j-1]: %d",i,j,a[iprime],b[jprime-1],b[jprime],ij_considered,lengths[i][j],lengths[i-1][j],lengths[i-1][j]);			
 		
 			j-= 1;
 			jprime-=1;
