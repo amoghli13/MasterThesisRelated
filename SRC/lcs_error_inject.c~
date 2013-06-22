@@ -22,6 +22,70 @@ void rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,co
 	const char *x,*y;
 	int error_inject;
 	printf("\n\t Start_i: %d Start_j: %d Stop_i: %d Stop_j: %d ",start_i,start_j,stop_i,stop_j);
+	printf("\n\t Start_i-1: %d Start_j+1: %d x: %c y:%c lengths[start_i-1][start_j+1]: %d ",(start_i-1),(start_j+1),*(a+start_i-2),*(b+start_j),lengths[start_i-1][start_j+1]);
+	printf("\n\t Start_i+1: %d Start_j-1: %d x: %c y:%c lengths[start_i+1][start_j-1]: %d ",(start_i+1),(start_j-1),*(a+start_i),*(b+start_j-2),lengths[start_i+1][start_j-1]);
+	// For rolling back, the following set of events should be checked.
+	// If If (start_i,start_j) is where the fault was injected, 
+	// 1. lengths[][] at the point (start_i-1,start_j+1) is equal or greater than lengths[][] at (start_i,start_j). If so, then no need to go forward.
+	// 2. lengths[start_i][start_j]=lengths[start_i][start_j+k] k=0 to l (should find it out!) and should then determine, whether lengths[start_i][start_j+k+1] be influenced by lengths[start_i][start_j] and should find, lengths[start_i][start_j+k+m] , where 'm' ends 
+	// 3. Same should be done for searching in start_i direction.
+	x=(a+start_i-1);y=(b);
+	int lengths_start_ij=lengths[start_i][start_j];
+	if( ! (lengths_start_ij==lengths[start_i-1][start_j+1] ) )
+	{
+		int column_search=start_j+1;
+		int row_search=start_i;
+		int char_comp=0;
+
+		
+		int nolonger_need2search=1;
+		while( (nolonger_need2search) && ( column_search < lenb ) )
+		{
+			char_comp=( *(x)==*(y+column_search-1) );
+			if(  ( (lengths[start_i][start_j]==lengths[start_i-1][column_search]) || (!char_comp) ) )
+			{
+				printf("\n\t *--* I: %d J: %d lengths[i][j]: %d and x: %c y: %c",start_i,column_search,lengths[start_i-1][column_search],*x,*(y+column_search-1));
+				column_search++;
+			}
+			else
+			{
+				printf("\n\t *++* I: %d J: %d lengths[i][j]: %d and x: %c y: %c",start_i,column_search,lengths[start_i-1][column_search],*x,*(y+column_search-1));
+				
+				nolonger_need2search=0;
+			}
+		}
+	
+	}
+	if( ! ( lengths_start_ij==lengths[start_i+1][start_j-1] ) )
+	{
+		int column_search=start_j-1;
+		int row_search=start_i+1;
+		int char_comp=0;
+		x=a; y=b;
+		int nolonger_need2search=1;
+		while( (nolonger_need2search) && ( ( column_search < lenb ) && ( row_search < lena ) ) )
+		{
+			char_comp=( *(x+row_search-1)==*(y+column_search) );
+			if(  ( (lengths[start_i][start_j]==lengths[row_search][column_search]) || (!char_comp) ) )
+			{
+				printf("\n\t |--| I: %d J: %d lengths[i][j]: %d and x: %c y: %c",row_search,column_search,lengths[row_search][column_search],*(x+row_search-1),*(y+column_search));
+				row_search++;
+			}
+			else
+			{
+				printf("\n\t |++| I: %d J: %d lengths[i][j]: %d and x: %c y: %c",row_search,column_search,lengths[row_search][column_search],*(x+row_search-1),*(y+column_search));
+				
+				nolonger_need2search=0;
+			}
+		}
+	}
+	else
+	{
+	
+	}
+	
+	
+	
 	for(i=start_i,x=(a+start_i-1);i<=(stop_i);i++,x++)
 	{
 		for(j=start_j,y=(b+start_j-1);j<=(stop_j);j++,y++)
@@ -48,10 +112,10 @@ void rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,co
 				lengths[i][j] = ml;
 			}
 			
-			printf("\n\t -- I: %d J: %d lengths[i][j]: %d \n",i,j,lengths[i][j]);
+			printf("\n\t -- I: %d J: %d lengths[i][j]: %d \n",i,j,lengths[i][j]); 
 		}
 	}
-	//exit(-1);
+	// printf("\n\n");exit(-1);
 
 }
 
@@ -229,7 +293,7 @@ char * lcs(const char *a,const char *b,double error_percent)
 		
 			last_considered_i=i; last_considered_j=j;		
 			//printf("\n\t C2 i: %d j: %d a[i]: %c b[j-1]: %c b[j]: %c and ij_considered: %d lengths[i][j]:%d lengths[i][j-1]: %d ",iprime,jprime,a[iprime],b[jprime-1],b[jprime],ij_considered,lengths[i][j],lengths[i][j-1]);			
-			printf("\n\t C2 i: %d j: %d a[i]: %c b[j-1]: %c b[j]: %c and ij_considered: %d lengths[i][j]:%d lengths[i-1][j]: %d lengths[i][j-1]: %d",i,j,a[iprime],b[jprime-1],b[jprime],ij_considered,lengths[i][j],lengths[i-1][j],lengths[i-1][j]);			
+			printf("\n\t C2 i: %d j: %d a[i]: %c b[j-1]: %c b[j]: %c and ij_considered: %d lengths[i][j]:%d lengths[i-1][j]: %d lengths[i][j-1]: %d",i,j,a[iprime],b[jprime-1],b[jprime],ij_considered,lengths[i][j],lengths[i-1][j],lengths[i][j-1]);			
 		
 			j-= 1;
 			jprime-=1;
