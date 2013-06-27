@@ -31,18 +31,20 @@ void rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,co
 	// 3. Same should be done for searching in start_i direction.
 	x=(a+start_i-1);y=(b);
 	int lengths_start_ij=lengths[start_i][start_j];
+	int x_fix,y_fix;
 	if( ! (lengths_start_ij==lengths[start_i-1][start_j+1] ) )
 	{
 		int column_search=start_j+1;
 		int row_search=start_i;
 		int char_comp=0;
-
+		int length_comp=0;
 		
 		int nolonger_need2search=1;
 		while( (nolonger_need2search) && ( column_search < lenb ) )
 		{
 			char_comp=( *(x)==*(y+column_search-1) );
-			if(  ( (lengths[start_i][start_j]==lengths[start_i-1][column_search]) || (!char_comp) ) )
+			length_comp= (lengths[start_i][start_j]<=lengths[start_i-1][column_search]);
+			if(  ( (!length_comp) && (!char_comp) ) )
 			{
 				printf("\n\t *--* I: %d J: %d lengths[i][j]: %d and x: %c y: %c",start_i,column_search,lengths[start_i-1][column_search],*x,*(y+column_search-1));
 				column_search++;
@@ -54,6 +56,7 @@ void rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,co
 				nolonger_need2search=0;
 			}
 		}
+			xfix=column_search;
 	
 	}
 	if( ! ( lengths_start_ij==lengths[start_i+1][start_j-1] ) )
@@ -61,12 +64,14 @@ void rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,co
 		int column_search=start_j-1;
 		int row_search=start_i+1;
 		int char_comp=0;
+		int length_comp=0;
 		x=a; y=b;
 		int nolonger_need2search=1;
 		while( (nolonger_need2search) && ( ( column_search < lenb ) && ( row_search < lena ) ) )
 		{
 			char_comp=( *(x+row_search-1)==*(y+column_search) );
-			if(  ( (lengths[start_i][start_j]==lengths[row_search][column_search]) || (!char_comp) ) )
+			length_comp=(lengths[start_i][start_j]<=lengths[row_search][column_search]);
+			if(  ( (!length_comp) && (!char_comp) ) )
 			{
 				printf("\n\t |--| I: %d J: %d lengths[i][j]: %d and x: %c y: %c",row_search,column_search,lengths[row_search][column_search],*(x+row_search-1),*(y+column_search));
 				row_search++;
@@ -78,6 +83,7 @@ void rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,co
 				nolonger_need2search=0;
 			}
 		}
+			yfix=row_search;
 	}
 	else
 	{
@@ -370,16 +376,21 @@ int main(int argc, char *argv[])
  
  
  
-        if(argc<6)
+        if(argc<5)
         {
-                printf("\n\t ERROR:  Expected inputs \n\t\t 1. Output file name \n\t\t 2.Two files. \n\t\t 3. String-length. \n\t\t 4. Error-percent. \n\t ------ Kindly provide appropriate inputs -------- \n\n");
+                printf("\n\t ERROR:  Expected inputs \n\t\t 1.Two files. \n\t\t 2. String-length. \n\t\t 3. Error-percent. \n\t\t 4. Output file name \n\n\t ------ Kindly provide appropriate inputs -------- \n\n");
                 exit(-1);
         }
 		
-		char* filename=argv[1];
-		save_mat=fopen(argv[1],"w");
-        double error_percent=atof(argv[5]);
-		int string_length=atoi(argv[4]);
+
+        double error_percent=atof(argv[4]);
+		int string_length=atoi(argv[3]);
+
+	if(argc==6)
+	{
+		char* filename=argv[6];
+		save_mat=fopen(argv[6],"w");
+	}
 
         if(error_percent<0)
         {
@@ -387,7 +398,7 @@ int main(int argc, char *argv[])
                 exit(-1);
         }
 
-        fp1=fopen(argv[2],"r");
+        fp1=fopen(argv[1],"r");
         if(fp1!=NULL)
         {
                 // printf("\n File %s located successfully! \n",argv[1]);
@@ -403,7 +414,7 @@ int main(int argc, char *argv[])
                 exit(-1);
         }
 
-        fp2=fopen(argv[3],"r");
+        fp2=fopen(argv[2],"r");
         if(fp2!=NULL)
         {
                 // printf("\n File %s located successfully! \n",argv[2]);
