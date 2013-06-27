@@ -16,7 +16,7 @@ FILE* save_mat;
 int error_inject_count;
 int ops_count;
 
-void rollback2(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,const char* a,const char* b,double error_percent)
+void rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,const char* a,const char* b,double error_percent)
 {
 	int i,j;
 	const char *x,*y;
