@@ -31,7 +31,7 @@ void rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,co
 	// 3. Same should be done for searching in start_i direction.
 	x=(a+start_i-1);y=(b);
 	int lengths_start_ij=lengths[start_i][start_j];
-	int x_fix,y_fix;
+	int xfix,yfix;
 	if( ! (lengths_start_ij==lengths[start_i-1][start_j+1] ) )
 	{
 		int column_search=start_j+1;
@@ -42,21 +42,21 @@ void rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,co
 		int nolonger_need2search=1;
 		while( (nolonger_need2search) && ( column_search < lenb ) )
 		{
-			char_comp=( *(x)==*(y+column_search-1) );
+			char_comp=( *(x)==*(b+column_search-1) );
 			length_comp= (lengths[start_i][start_j]<=lengths[start_i-1][column_search]);
 			if(  ( (!length_comp) && (!char_comp) ) )
 			{
-				printf("\n\t *--* I: %d J: %d lengths[i][j]: %d and x: %c y: %c",start_i,column_search,lengths[start_i-1][column_search],*x,*(y+column_search-1));
+				printf("\n\t *--* I: %d J: %d lengths[i][j]: %d and x: %c y: %c",start_i,column_search,lengths[start_i-1][column_search],*x,*(b+column_search-1));
 				column_search++;
 			}
 			else
 			{
-				printf("\n\t *++* I: %d J: %d lengths[i][j]: %d and x: %c y: %c",start_i,column_search,lengths[start_i-1][column_search],*x,*(y+column_search-1));
+				printf("\n\t *++* I: %d J: %d lengths[i][j]: %d and x: %c y: %c",start_i,column_search,lengths[start_i-1][column_search],*x,*(b+column_search-1));
 				
 				nolonger_need2search=0;
 			}
 		}
-			xfix=column_search;
+		xfix=column_search;
 	
 	}
 	if( ! ( lengths_start_ij==lengths[start_i+1][start_j-1] ) )
@@ -83,15 +83,91 @@ void rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,co
 				nolonger_need2search=0;
 			}
 		}
-			yfix=row_search;
+		yfix=row_search;
 	}
 	else
+		yfix=start_i;
+ 
+	if(xfix<lenb)
+	for(i=start_i+1;i<yfix;i++)	
 	{
+		x=(a+i-1);
+		int lengths_ixfix=lengths[i][xfix-1]; // NOTE: lengths_ixfix has value of lengths[i][xfix-1]
+		for(j=start_j,y=(b+start_j-1);j<xfix;j++,y++)
+		{
+			error_inject=percent_error(error_percent);
+			int before_lenghts=lengths[i][j];
+			if ( XOR( (*x == *y), error_inject ) )
+			{
+				lengths[i+1][j+1] = lengths[i][j] +1;
+				ops_count++;
+			}
+			
+			else
+			{
+				int ml = MAX(lengths[i+1][j], lengths[i][j+1]);
+				lengths[i+1][j+1] = ml;
+			}			
+
+			printf("\n\t fixing i:%d j: %d x: %c y: %c lengths[i][j]: %d before_lenghts: %d error_inject: %d ",i,j,*x,*y,lengths[i][j],before_lenghts,error_inject);
+
+		}
 	
+		
+// NOTE: lengths[i][j]=lengths_ixfix		
+// Assumption is that lengths[i][j] was faulty (j=yfix),and it was corrected in the above for-loop, hence lengths[i][j] being equal to lengths[i-1][j+1] implies lengths[i][j]  was propogated in lengths[i][j+1]. 
+		error_inject=percent_error(error_percent);
+		int need2search,column_search;
+		if( XOR( ( *x==*(b+xfix-1)),error_inject) )
+		{
+			lengths[i][xfix]=lengths[i-1][xfix-1]+1;
+			need2search=1;
+			column_search=xfix+1;
+			printf("\n\t ^^fixing i:%d j: %d x: %c y: %c lengths[i][j]: %d error_inject: %d ",i,xfix,*x,*(b+xfix-1),lengths[i][xfix],error_inject);
+
+		}
+		else 
+		{
+			if( lengths_ixfix > lengths[i-1][xfix] ) //
+			{
+				lengths[i][xfix]=lengths[i-1][xfix];
+				need2search=1;
+				column_search=xfix+1;
+				printf("\n\t ^^fixing^^ i:%d j: %d x: %c y: %c lengths[i-1][xfix]: %d lengths_ixfix: %d error_inject: %d ",i,xfix,*x,*(b+xfix-1),lengths[i-1][xfix],lengths_ixfix,error_inject);				
+			}
+			else
+			{
+				need2search=0;
+				printf("\n\t ^^fixing** i:%d j: %d x: %c y: %c lengths[i-1][xfix]: %d lengths_ixfix: %d error_inject: %d ",i,xfix,*x,*(b+xfix-1),lengths[i-1][xfix],lengths_ixfix,error_inject);				
+			}
+		
+		}
+		
+		int char_comp=0;
+		int lengths_comp=0;
+		while( (need2search) && (column_search < lenb) )
+		{
+			char_comp=( *x==*(b+column_search-1) );
+			lengths_comp=(lengths[i][column_search-1]==lengths[i-1][column_search] );
+			if ( (!lengths_comp) && (!char_comp) )
+			{
+				printf("\n\t --fixing-y- I: %d J: %d lengths[i][j]: %d and x: %c y: %c",i-1,column_search,lengths[i-1][column_search],*x,*(b+column_search-1));
+				column_search++;
+			}
+			else
+			{
+				printf("\n\t ++fixing+y+ I: %d J: %d lengths[i][j]: %d and x: %c y: %c",i-1,column_search,lengths[i-1][column_search],*x,*(b+column_search-1));
+				
+				need2search=0;
+			}
+			xfix=column_search;
+		}
 	}
-	
-	
-	
+
+
+
+
+
 	for(i=start_i,x=(a+start_i-1);i<=(stop_i);i++,x++)
 	{
 		for(j=start_j,y=(b+start_j-1);j<=(stop_j);j++,y++)
@@ -477,5 +553,5 @@ int main(int argc, char *argv[])
 			printf("\n\t Len-a: %d Len-b: %d \n\n",(unsigned)strlen(clip_str_a),(unsigned)strlen(clip_str_b));
             return 0;
         }
-		fclose(save_mat);
+	if( argc==6 )	fclose(save_mat);
 }
