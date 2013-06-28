@@ -89,7 +89,7 @@ void rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,co
 		yfix=start_i;
  
 	if(xfix<lenb)
-	for(i=start_i+1;i<yfix;i++)	
+	for(i=start_i+1;i<yfix-1;i++)	
 	{
 		x=(a+i-1);
 		int lengths_ixfix=lengths[i][xfix-1]; // NOTE: lengths_ixfix has value of lengths[i][xfix-1]
@@ -164,7 +164,61 @@ void rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,co
 		}
 	}
 
+	if(yfix<lena)
+	{
+		int need2search=0;
+		int row_search=yfix;
+		int lengths_yfix=lengths[row_search-1][start_j];
+		int yfix_x; // x-value corresponding to yfix
+		yfix_x=start_j+1;
+		
+		if( *(a+row_search-2)==*(b+start_j-1) )
+			lengths[row_search-1][start_j]=lengths[row_search-1][start_j-1]+1;
+		else
+			lengths[row_search-1][start_j]=MAX(lengths[row_search-2][start_j],lengths[row_search-1][start_j-1]);
 
+		int need2search_rows=1;
+
+		//while( need2search && (row_search<lena) )
+
+		x=a+row_search-1;// Char corresponding to 'yfix'
+		y=b+yfix_x-1;
+		
+		if(*x==*y ) 
+		{
+			need2search=1; // For 'row_search' but until now 'row_search-1' row has not been dealt yet.
+			lengths[row_search][yfix_x]=lengths[row_search-1][yfix_x-1]+1;
+			printf("\n\t &&%%fixing i: %d j:%d x: %c y: %c lengths[row_search][yfix_x]: %d ",row_search,yfix_x,*x,*y,lengths[row_search][yfix_x]);
+		}
+		else 
+		{
+			lengths_yfix=lengths[row_search-1][yfix_x];
+			if( *(a+row_search-2)==*(b+start_j) )
+			{
+				lengths[row_search-1][yfix_x]=lengths[row_search-2][yfix_x-1]+1;
+			}
+			else
+			{
+				lengths[row_search-1][yfix_x]=MAX( lengths[row_search-2][yfix_x],lengths[row_search-1][yfix_x-1] );
+			}
+		
+			if( lengths_yfix > lengths[row_search][yfix_x-1]  )
+			{
+				need2search=1;
+				lengths[row_search][yfix_x]=MAX(lengths[row_search-1][yfix_x],lengths[row_search][yfix_x-1]);
+				printf("\n\t &&%%--fixing-- i: %d j: %d x: %c y: %c lengths[row_search][yfix_x-1]: %d ",row_search,yfix_x,*(a+row_search-2),*(b+start_j),lengths[row_search][yfix_x-1]);
+			}
+			else
+			{
+				need2search=0;
+				printf("\n\t &&%%++fixing++ i: %d j: %d x: %c y: %c lengths[row_search][yfix_x-1]: %d ",row_search,yfix_x,*(a+row_search-2),*(b+start_j),lengths[row_search][yfix_x-1]);
+			}
+			
+			
+		
+		}
+	
+	}
 
 
 
