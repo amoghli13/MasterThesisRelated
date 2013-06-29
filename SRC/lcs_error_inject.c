@@ -16,6 +16,91 @@ FILE* save_mat;
 int error_inject_count;
 int ops_count;
 
+int search_in_row(const char* a,const char* b,int xfix,double error_percent,int curr_row_i,int start_j)
+{
+	int i,j;
+	i=curr_row_i;
+	const char* x,*y;
+	int error_inject;
+	x=(a+curr_row_i-1);
+	int lengths_ixfix=lengths[i][xfix-1]; // NOTE: lengths_ixfix has value of lengths[i][xfix-1]
+	for(j=start_j,y=(b+start_j-1);( (j<xfix) && ( 1 ) );j++,y++)
+	{
+		error_inject=percent_error(error_percent);
+		int before_lenghts=lengths[i][j];
+		if ( XOR( (*x == *y), error_inject ) )
+		{
+				lengths[i][j] = lengths[i-1][j-1] +1;
+			ops_count++;
+		}
+		
+		else
+		{
+			int ml = MAX(lengths[i-1][j], lengths[i][j-1]);
+			lengths[i+1][j+1] = ml;
+		}			
+
+		printf("\n\t fixing_func i:%d j: %d x: %c y: %c lengths[i][j]: %d before_lenghts: %d error_inject: %d ",i,j,*x,*y,lengths[i][j],before_lenghts,error_inject);
+
+	}
+	
+	
+// NOTE: lengths[i][j]=lengths_ixfix		
+// Assumption is that lengths[i][j] was faulty (j=yfix),and it was corrected in the above for-loop, hence lengths[i][j] being equal to lengths[i-1][j+1] implies lengths[i][j]  was propogated in lengths[i][j+1]. 
+	error_inject=percent_error(error_percent);
+	int need2search,column_search;
+	if( XOR( ( *x==*(b+xfix-1)),error_inject) )
+	{
+		lengths[i][xfix]=lengths[i-1][xfix-1]+1;
+		need2search=1;
+		column_search=xfix+1;
+		printf("\n\t ^^fixing_func i:%d j: %d x: %c y: %c lengths[i][j]: %d error_inject: %d ",i,xfix,*x,*(b+xfix-1),lengths[i][xfix],error_inject);
+
+	}
+	else 
+	{
+		if( lengths_ixfix > lengths[i-1][xfix] ) //
+		{
+			lengths[i][xfix]=lengths[i-1][xfix];
+			need2search=1;
+			column_search=xfix+1;
+			printf("\n\t ^^fixing_func^^ i:%d j: %d x: %c y: %c lengths[i-1][xfix]: %d lengths_ixfix: %d error_inject: %d ",i,xfix,*x,*(b+xfix-1),lengths[i-1][xfix],lengths_ixfix,error_inject);				
+		}
+		else
+		{
+			need2search=0;
+			printf("\n\t ^^fixing_func** i:%d j: %d x: %c y: %c lengths[i-1][xfix]: %d lengths_ixfix: %d error_inject: %d ",i,xfix,*x,*(b+xfix-1),lengths[i-1][xfix],lengths_ixfix,error_inject);				
+		}
+		
+	}
+	
+	int char_comp=0;
+	int lengths_comp=0;
+	while( (need2search) && (column_search < lenb) )
+	{
+		char_comp=( *x==*(b+column_search-1) );
+		lengths_comp=(lengths[i][column_search-1]==lengths[i-1][column_search] );
+		if ( (!lengths_comp) && (!char_comp) )
+		{
+			printf("\n\t --fixing_func-y- I: %d J: %d lengths[i-1][j]: %d and x: %c y: %c",i,column_search,lengths[i-1][column_search],*x,*(b+column_search-1));
+			lengths[i][column_search]=lengths[i-1][column_search];			
+			column_search++;
+		}
+		else
+		{
+			printf("\n\t ++fixing_func+y+ I: %d J: %d lengths[i-1][j]: %d and x: %c y: %c",i,column_search,lengths[i-1][column_search],*x,*(b+column_search-1));
+			
+			need2search=0;
+		}
+		xfix=column_search;
+	}
+
+return xfix;
+
+}
+
+
+
 void rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,const char* a,const char* b,double error_percent)
 {
 	int i,j;
@@ -46,18 +131,22 @@ void rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,co
 			length_comp= (lengths[start_i][start_j]<=lengths[start_i-1][column_search]);
 			if(  ( (!length_comp) && (!char_comp) ) )
 			{
-				printf("\n\t *--* I: %d J: %d lengths[i][j]: %d and x: %c y: %c",start_i,column_search,lengths[start_i-1][column_search],*x,*(b+column_search-1));
+				printf("\n\t *--* I: %d J: %d lengths[i-1][j]: %d and x: %c y: %c",start_i,column_search,lengths[start_i-1][column_search],*x,*(b+column_search-1));
 				column_search++;
 			}
 			else
 			{
-				printf("\n\t *++* I: %d J: %d lengths[i][j]: %d and x: %c y: %c",start_i,column_search,lengths[start_i-1][column_search],*x,*(b+column_search-1));
+				printf("\n\t *++* I: %d J: %d lengths[i-1][j]: %d and x: %c y: %c",start_i,column_search,lengths[start_i-1][column_search],*x,*(b+column_search-1));
 				
 				nolonger_need2search=0;
 			}
 		}
 		xfix=column_search;
 	
+	}
+	else
+	{
+		xfix=start_j+1;
 	}
 	if( ! ( lengths_start_ij==lengths[start_i+1][start_j-1] ) )
 	{
@@ -86,84 +175,93 @@ void rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,co
 		yfix=row_search;
 	}
 	else
-		yfix=start_i;
- 
-	if(xfix<lenb)
-	for(i=start_i+1;i<yfix-1;i++)	
 	{
-		x=(a+i-1);
-		int lengths_ixfix=lengths[i][xfix-1]; // NOTE: lengths_ixfix has value of lengths[i][xfix-1]
-		for(j=start_j,y=(b+start_j-1);j<xfix;j++,y++)
+		yfix=start_i+1;
+ 	}
+	if(xfix<lenb)
+	{
+		for(i=start_i;i<yfix-1;i++)	
 		{
-			error_inject=percent_error(error_percent);
-			int before_lenghts=lengths[i][j];
-			if ( XOR( (*x == *y), error_inject ) )
+			x=(a+i-1);
+			int lengths_ixfix=lengths[i][xfix-1]; // NOTE: lengths_ixfix has value of lengths[i][xfix-1]
+			printf("\n\t Starting fixing dir-x in row: %d and yfix: %d ",i,yfix);
+			for(j=start_j,y=(b+start_j-1);j<xfix;j++,y++)
 			{
-				lengths[i+1][j+1] = lengths[i][j] +1;
-				ops_count++;
-			}
+				error_inject=percent_error(error_percent);
+				int before_lenghts=lengths[i][j];
+				if ( XOR( (*x == *y), error_inject ) )
+				{
+					lengths[i][j] = lengths[i-1][j-1] +1;
+					ops_count++;
+				}
 			
-			else
-			{
-				int ml = MAX(lengths[i+1][j], lengths[i][j+1]);
-				lengths[i+1][j+1] = ml;
-			}			
+				else
+				{
+					int ml = MAX(lengths[i-1][j], lengths[i][j-1]);
+					lengths[i+1][j+1] = ml;
+				}			
 
-			printf("\n\t fixing i:%d j: %d x: %c y: %c lengths[i][j]: %d before_lenghts: %d error_inject: %d ",i,j,*x,*y,lengths[i][j],before_lenghts,error_inject);
+				printf("\n\t fixing i:%d j: %d x: %c y: %c lengths[i][j]: %d before_lenghts: %d error_inject: %d ",i,j,*x,*y,lengths[i][j],before_lenghts,error_inject);
 
-		}
+			}
 	
 		
-// NOTE: lengths[i][j]=lengths_ixfix		
-// Assumption is that lengths[i][j] was faulty (j=yfix),and it was corrected in the above for-loop, hence lengths[i][j] being equal to lengths[i-1][j+1] implies lengths[i][j]  was propogated in lengths[i][j+1]. 
-		error_inject=percent_error(error_percent);
-		int need2search,column_search;
-		if( XOR( ( *x==*(b+xfix-1)),error_inject) )
-		{
-			lengths[i][xfix]=lengths[i-1][xfix-1]+1;
-			need2search=1;
-			column_search=xfix+1;
-			printf("\n\t ^^fixing i:%d j: %d x: %c y: %c lengths[i][j]: %d error_inject: %d ",i,xfix,*x,*(b+xfix-1),lengths[i][xfix],error_inject);
-
-		}
-		else 
-		{
-			if( lengths_ixfix > lengths[i-1][xfix] ) //
+	// NOTE: lengths[i][j]=lengths_ixfix		
+	// Assumption is that lengths[i][j] was faulty (j=yfix),and it was corrected in the above for-loop, hence lengths[i][j] being equal to lengths[i-1][j+1] implies lengths[i][j]  was propogated in lengths[i][j+1]. 
+			error_inject=percent_error(error_percent);
+			int need2search,column_search;
+			if( XOR( ( *x==*(b+xfix-1)),error_inject) )
 			{
-				lengths[i][xfix]=lengths[i-1][xfix];
+				lengths[i][xfix]=lengths[i-1][xfix-1]+1;
 				need2search=1;
 				column_search=xfix+1;
-				printf("\n\t ^^fixing^^ i:%d j: %d x: %c y: %c lengths[i-1][xfix]: %d lengths_ixfix: %d error_inject: %d ",i,xfix,*x,*(b+xfix-1),lengths[i-1][xfix],lengths_ixfix,error_inject);				
-			}
-			else
-			{
-				need2search=0;
-				printf("\n\t ^^fixing** i:%d j: %d x: %c y: %c lengths[i-1][xfix]: %d lengths_ixfix: %d error_inject: %d ",i,xfix,*x,*(b+xfix-1),lengths[i-1][xfix],lengths_ixfix,error_inject);				
-			}
-		
-		}
-		
-		int char_comp=0;
-		int lengths_comp=0;
-		while( (need2search) && (column_search < lenb) )
-		{
-			char_comp=( *x==*(b+column_search-1) );
-			lengths_comp=(lengths[i][column_search-1]==lengths[i-1][column_search] );
-			if ( (!lengths_comp) && (!char_comp) )
-			{
-				printf("\n\t --fixing-y- I: %d J: %d lengths[i][j]: %d and x: %c y: %c",i-1,column_search,lengths[i-1][column_search],*x,*(b+column_search-1));
-				column_search++;
-			}
-			else
-			{
-				printf("\n\t ++fixing+y+ I: %d J: %d lengths[i][j]: %d and x: %c y: %c",i-1,column_search,lengths[i-1][column_search],*x,*(b+column_search-1));
-				
-				need2search=0;
-			}
-			xfix=column_search;
-		}
-	}
+				printf("\n\t ^^fixing i:%d j: %d x: %c y: %c lengths[i][j]: %d error_inject: %d ",i,xfix,*x,*(b+xfix-1),lengths[i][xfix],error_inject);
 
+			}
+			else 
+			{
+				if( lengths_ixfix > lengths[i-1][xfix] ) //
+				{
+					lengths[i][xfix]=lengths[i-1][xfix];
+					need2search=1;
+					column_search=xfix+1;
+					printf("\n\t ^^fixing^^ i:%d j: %d x: %c y: %c lengths[i-1][xfix]: %d lengths_ixfix: %d error_inject: %d ",i,xfix,*x,*(b+xfix-1),lengths[i-1][xfix],lengths_ixfix,error_inject);				
+				}
+				else
+				{
+					need2search=0;
+					printf("\n\t ^^fixing** i:%d j: %d x: %c y: %c lengths[i-1][xfix]: %d lengths_ixfix: %d error_inject: %d ",i,xfix,*x,*(b+xfix-1),lengths[i-1][xfix],lengths_ixfix,error_inject);				
+				}
+		
+			}
+		
+			int char_comp=0;
+			int lengths_comp=0;
+			while( (need2search) && (column_search < lenb) )
+			{
+				char_comp=( *x==*(b+column_search-1) );
+				lengths_comp=(lengths[i][column_search-1]==lengths[i-1][column_search] );
+				if ( (!lengths_comp) && (!char_comp) )
+				{
+					printf("\n\t --fixing-y- I: %d J: %d lengths[i][j]: %d and x: %c y: %c",i-1,column_search,lengths[i-1][column_search],*x,*(b+column_search-1));
+					lengths[i][column_search]=lengths[i-1][column_search];
+					column_search++;
+				}
+				else
+				{
+					printf("\n\t ++fixing+y+ I: %d J: %d lengths[i][j]: %d and x: %c y: %c",i-1,column_search,lengths[i-1][column_search],*x,*(b+column_search-1));
+				
+					need2search=0;
+				}
+				xfix=column_search;
+			}
+		}
+		printf("\n\t Ending fixing dir-x in row: %d and yfix: %d ",i,yfix);
+	}
+	else
+	{
+		printf("\n\t NOT fixing dir-x. xfix: %d and yfix: %d ,lenb: %d \n",xfix,yfix,lenb);
+	}
 	if(yfix<lena)
 	{
 		int need2search=0;
@@ -177,49 +275,65 @@ void rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,co
 		else
 			lengths[row_search-1][start_j]=MAX(lengths[row_search-2][start_j],lengths[row_search-1][start_j-1]);
 
-		int need2search_rows=1;
-
-		//while( need2search && (row_search<lena) )
-
-		x=a+row_search-1;// Char corresponding to 'yfix'
-		y=b+yfix_x-1;
-		
-		if(*x==*y ) 
+		int fixing_notcomplete=1;			
+ 		while( (fixing_notcomplete) && (row_search < (lena-1)) )
 		{
-			need2search=1; // For 'row_search' but until now 'row_search-1' row has not been dealt yet.
-			lengths[row_search][yfix_x]=lengths[row_search-1][yfix_x-1]+1;
-			printf("\n\t &&%%fixing i: %d j:%d x: %c y: %c lengths[row_search][yfix_x]: %d ",row_search,yfix_x,*x,*y,lengths[row_search][yfix_x]);
-		}
-		else 
-		{
-			lengths_yfix=lengths[row_search-1][yfix_x];
-			if( *(a+row_search-2)==*(b+start_j) )
+			while( (!need2search) && (yfix_x < xfix ) )
 			{
-				lengths[row_search-1][yfix_x]=lengths[row_search-2][yfix_x-1]+1;
-			}
-			else
-			{
-				lengths[row_search-1][yfix_x]=MAX( lengths[row_search-2][yfix_x],lengths[row_search-1][yfix_x-1] );
-			}
+				printf("\n\t Starting fixing dir-y. Probing in row: %d ( might need to fix row: %d ) xfix: %d and yfix_x: %d ",row_search,row_search-1,xfix,yfix_x);
+				x=a+row_search-1;// Char corresponding to 'yfix'
+				y=b+yfix_x-1;
+				if(*x==*y ) 
+				{
+					need2search=1; // For 'row_search' but until now 'row_search-1' row has not been dealt yet.
+					lengths[row_search][yfix_x]=lengths[row_search-1][yfix_x-1]+1;
+					printf("\n\t &&%%fixing i: %d j:%d x: %c y: %c lengths[row_search][yfix_x]: %d ",row_search,yfix_x,*x,*y,lengths[row_search][yfix_x]);
+				}
+				else 
+				{
+					lengths_yfix=lengths[row_search-1][yfix_x];
+					if( *(a+row_search-2)==*(b+start_j) )
+					{
+						lengths[row_search-1][yfix_x]=lengths[row_search-2][yfix_x-1]+1;
+					}
+					else
+					{
+						lengths[row_search-1][yfix_x]=MAX( lengths[row_search-2][yfix_x],lengths[row_search-1][yfix_x-1] );
+					}
 		
-			if( lengths_yfix > lengths[row_search][yfix_x-1]  )
-			{
-				need2search=1;
-				lengths[row_search][yfix_x]=MAX(lengths[row_search-1][yfix_x],lengths[row_search][yfix_x-1]);
-				printf("\n\t &&%%--fixing-- i: %d j: %d x: %c y: %c lengths[row_search][yfix_x-1]: %d ",row_search,yfix_x,*(a+row_search-2),*(b+start_j),lengths[row_search][yfix_x-1]);
+					if( lengths_yfix > lengths[row_search][yfix_x-1]  )
+					{
+						need2search=1;
+						lengths[row_search][yfix_x]=MAX(lengths[row_search-1][yfix_x],lengths[row_search][yfix_x-1]);
+						printf("\n\t &&%%--fixing-- i: %d j: %d x: %c y: %c lengths[row_search][yfix_x-1]: %d ",row_search,yfix_x,*x,*y,lengths[row_search][yfix_x-1]);
+					}
+					else
+					{
+						need2search=0;
+						printf("\n\t &&%%++fixing++ i: %d j: %d x: %c y: %c lengths[row_search][yfix_x-1]: %d ",row_search,yfix_x,*x,*y,lengths[row_search][yfix_x-1]);
+						yfix_x++;
+					}
+			
+				}
 			}
+			if(need2search && (xfix < lenb ) ) // Should be careful about xfix<lenb, might cause problems to those cases in the bottom of the matrix.
+			{
+				printf("\n\t -- Going to searching in row: %d and xfix is %d and yfix_x: %d \n",row_search-1,xfix,yfix_x);
+				 xfix=search_in_row(a,b,xfix,error_percent,row_search-1,yfix_x);
+				printf("\n\t -- Returned from searching in row: %d and xfix is %d and yfix_x: %d \n",row_search-1,xfix,yfix_x);
+				row_search++;				
+				need2search=0;				
+				//exit(-1);
+			}	 
 			else
-			{
-				need2search=0;
-				printf("\n\t &&%%++fixing++ i: %d j: %d x: %c y: %c lengths[row_search][yfix_x-1]: %d ",row_search,yfix_x,*(a+row_search-2),*(b+start_j),lengths[row_search][yfix_x-1]);
-			}
-			
-			
-		
-		}
-	
+				fixing_notcomplete=0;
+		}	
+		printf("\n\t End of fixing dir-y. xfix: %d and yfix: %d ,lenb: %d \n",xfix,yfix,lenb);
 	}
-
+	else
+	{
+		printf("\n\t NOT fixing dir-y. xfix: %d and yfix: %d ,lenb: %d \n",xfix,yfix,lenb);
+	}
 
 
 	for(i=start_i,x=(a+start_i-1);i<=(stop_i);i++,x++)
@@ -508,7 +622,7 @@ int main(int argc, char *argv[])
  
         if(argc<5)
         {
-                printf("\n\t ERROR:  Expected inputs \n\t\t 1.Two files. \n\t\t 2. String-length. \n\t\t 3. Error-percent. \n\t\t 4. Output file name \n\n\t ------ Kindly provide appropriate inputs -------- \n\n");
+                printf("\n\t ERROR:  Expected inputs \n\t\t 1.Two files. \n\t\t 2. String-length. \n\t\t 3. Error-percent. \n\t\t 4. Output file name (optional) \n\n\t ------ Kindly provide appropriate inputs -------- \n\n");
                 exit(-1);
         }
 		
