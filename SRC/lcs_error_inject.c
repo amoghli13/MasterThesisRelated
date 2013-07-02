@@ -37,7 +37,7 @@ int search_in_row(const char* a,const char* b,int xfix,double error_percent,int 
 		else
 		{
 			int ml = MAX(lengths[i-1][j], lengths[i][j-1]);
-			lengths[i+1][j+1] = ml;
+			lengths[i][j] = ml;
 		}			
 
 		printf("\n\t fixing_func i:%d j: %d x: %c y: %c lengths[i][j]: %d before_lenghts: %d error_inject: %d ",i,j,*x,*y,lengths[i][j],before_lenghts,error_inject);
@@ -131,12 +131,12 @@ void rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,co
 			length_comp= (lengths[start_i][start_j]<=lengths[start_i-1][column_search]);
 			if(  ( (!length_comp) && (!char_comp) ) )
 			{
-				printf("\n\t *--* I: %d J: %d lengths[i-1][j]: %d and x: %c y: %c",start_i,column_search,lengths[start_i-1][column_search],*x,*(b+column_search-1));
+				printf("\n\t *--* I: %d J: %d lengths[i-1][j]: %d and x: %c y: %c",start_i-1,column_search,lengths[start_i-1][column_search],*x,*(b+column_search-1));
 				column_search++;
 			}
 			else
 			{
-				printf("\n\t *++* I: %d J: %d lengths[i-1][j]: %d and x: %c y: %c",start_i,column_search,lengths[start_i-1][column_search],*x,*(b+column_search-1));
+				printf("\n\t *++* I: %d J: %d lengths[i-1][j]: %d and x: %c y: %c",start_i-1,column_search,lengths[start_i-1][column_search],*x,*(b+column_search-1));
 				
 				nolonger_need2search=0;
 			}
@@ -198,7 +198,7 @@ void rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,co
 				else
 				{
 					int ml = MAX(lengths[i-1][j], lengths[i][j-1]);
-					lengths[i+1][j+1] = ml;
+					lengths[i][j] = ml;
 				}			
 
 				printf("\n\t fixing i:%d j: %d x: %c y: %c lengths[i][j]: %d before_lenghts: %d error_inject: %d ",i,j,*x,*y,lengths[i][j],before_lenghts,error_inject);
