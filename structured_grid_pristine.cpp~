@@ -5,8 +5,8 @@ int main(int argc, char* argv[])
 	char* filename;//[20];
 	if(argc<3)
 	{
-		cout<<"\n\t ERROR: "<<" Minimum required parameters: "<<"\n\t\t 1. Output filename "<<"\n\t\t 2. Number of iterations "<<cout<<endl;
-		exit(-1);
+	cout<<"\n\t ERROR: "<<" Minimum required parameters: "<<"\n\t\t 1. Output filename "<<"\n\t\t 2. Number of iterations "<<cout<<endl;
+	exit(-1);
 	}
 	filename=argv[1];
 	num_times=atoi(argv[2]);

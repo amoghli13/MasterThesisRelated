@@ -1,0 +1,4 @@
+lyrics = 'one! two! three! four!'
+nums = lyrics.split(' ', 2)
+for num in nums:
+     print 'I say ' + num
