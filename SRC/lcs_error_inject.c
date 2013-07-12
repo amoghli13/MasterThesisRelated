@@ -34,7 +34,7 @@ typedef struct
 typedef struct
 {
 	xy_tuple my_tuple;
-	int result_position;
+	int result_position_adjust;
 }rollback_tuple_pos;
 
 tuple_chars* accepted_tuple_chars;
@@ -46,25 +46,27 @@ rollback_tuple_pos search_stack(xy_tuple fixing_end_tuple,int result_position)
 {
 	int i;
 	printf("\n\t ALERT: Top-of-stack: %d and looking to rollback around x: %d y: %d ",top_of_stack,fixing_end_tuple.x,fixing_end_tuple.y);
-	int result_pos_adjust=0;
+	int result_position_adjust=0;
 	rollback_tuple_pos return_tuple_pos;	
-	for(i=top_of_stack,result_pos_adjust=0;i!=end_of_stack;i=((i+size_stack_minus1)%size_stack),result_pos_adjust++)
+	for(i=top_of_stack,result_position_adjust=0;i!=end_of_stack;i=((i+size_stack_minus1)%size_stack),result_position_adjust++)
 	{
 			//printf("\n\t i: %d x: %d y: %d char: %c",i,accepted_tuple_chars[i].my_tuple.x,accepted_tuple_chars[i].my_tuple.y,accepted_tuple_chars[i].my_char);
-		if( ( accepted_tuple_chars[i].my_tuple.x >= fixing_end_tuple.x ) && (accepted_tuple_chars[i].my_tuple.x >= fixing_end_tuple.x) )
+		if( ( accepted_tuple_chars[i].my_tuple.x >= fixing_end_tuple.x ) && (accepted_tuple_chars[i].my_tuple.y >= fixing_end_tuple.y) )
 		{
 
 			return_tuple_pos.my_tuple.x=accepted_tuple_chars[i].my_tuple.x;
 			return_tuple_pos.my_tuple.y=accepted_tuple_chars[i].my_tuple.y;		
-			printf("\n\t i: %d x: %d y: %d char: %c",i,accepted_tuple_chars[i].my_tuple.x,accepted_tuple_chars[i].my_tuple.y,accepted_tuple_chars[i].my_char);	
-			return_tuple_pos.result_position=result_pos_adjust;		
+			return_tuple_pos.result_position_adjust=result_position_adjust;		
+			printf("\n\t i: %d x: %d y: %d char: %c",i,accepted_tuple_chars[i].my_tuple.x,accepted_tuple_chars[i].my_tuple.y,accepted_tuple_chars[i].my_char,result_position_adjust);				
 			return return_tuple_pos;
 		}
+		accepted_tuple_chars[i].my_tuple.x=0;
+		accepted_tuple_chars[i].my_tuple.y=0;
 	}
 
 	return_tuple_pos.my_tuple.x=accepted_tuple_chars[end_of_stack].my_tuple.x;	
 	return_tuple_pos.my_tuple.y=accepted_tuple_chars[end_of_stack].my_tuple.y;		
-	return_tuple_pos.result_position=size_stack;		
+	return_tuple_pos.result_position_adjust=size_stack;		
 return return_tuple_pos;
 }
 
@@ -231,6 +233,7 @@ xy_tuple rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_valu
 	{
 		yfix=start_i+1;
  	}
+ 	int fixing_x_state=0;int fixing_y_state=0;
 	if(xfix<lenb)
 	{
 		for(i=start_i;i<yfix-1;i++)	
@@ -310,7 +313,9 @@ xy_tuple rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_valu
 				xfix=column_search;
 			}
 		}
-		printf("\n\t Ending fixing dir-x in row: %d and yfix: %d ",i,yfix);	
+		fixing_x_state=1;
+		printf("\n\t Ending fixing dir-x in row: %d and yfix: %d and fixing_x_state: %d",i,yfix,fixing_x_state);	
+		
 	}
 	else
 	{
@@ -382,46 +387,49 @@ xy_tuple rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_valu
 			else
 				fixing_notcomplete=0;
 		}	
-		printf("\n\t End of fixing dir-y. xfix: %d and yfix: %d ,lenb: %d \n",xfix,yfix,lenb);
+		fixing_y_state=1;
+		printf("\n\t End of fixing dir-y. xfix: %d and yfix: %d ,lenb: %d and fixing_y_state: %d \n",xfix,yfix,lenb,fixing_y_state);
 		fixing_end_tuple.x=xfix;
 		fixing_end_tuple.y=yfix;	
+		
 	}
 	else
 	{
 		printf("\n\t NOT fixing dir-y. xfix: %d and yfix: %d ,lenb: %d \n",xfix,yfix,lenb);
 	}
 
-
-	for(i=start_i,x=(a+start_i-1);i<=(stop_i);i++,x++)
+	if( (!fixing_x_state) && (!fixing_y_state) )
 	{
-		for(j=start_j,y=(b+start_j-1);j<=(stop_j);j++,y++)
+		for(i=start_i,x=(a+start_i-1);i<=(lena);i++,x++)
 		{
-			printf("\n\t ** I: %d J: %d lengths[i][j]: %d and x: %c y: %c",i,j,lengths[i][j],*x,*y);
-			
-			int error_inject=percent_error(error_percent);
-				 
-			if(error_inject)
+			for(j=start_j,y=(b+start_j-1);j<=(lenb);j++,y++)
 			{
-				error_inject_count++;
-			}
-	 
-			ops_count++; 
-			if ( XOR( (*x == *y), error_inject ) )
-			{
-				lengths[i][j] = lengths[i-1][j-1] +1;
-				ops_count++;
-			}
+				printf("\n\t ** I: %d J: %d lengths[i][j]: %d and x: %c y: %c",i,j,lengths[i][j],*x,*y);
 			
-			else
-			{
-				int ml = MAX(lengths[i-1][j], lengths[i][j-1]);
-				lengths[i][j] = ml;
-			}
+				int error_inject=percent_error(error_percent);
+					 
+				if(error_inject)
+				{
+					error_inject_count++;
+				}
+		 
+				ops_count++; 
+				if ( XOR( (*x == *y), error_inject ) )
+				{
+					lengths[i][j] = lengths[i-1][j-1] +1;
+					ops_count++;
+				}
 			
-			printf("\n\t -- I: %d J: %d lengths[i][j]: %d \n",i,j,lengths[i][j]); 
-		}
-	}
-	// printf("\n\n");exit(-1);
+				else
+				{
+					int ml = MAX(lengths[i-1][j], lengths[i][j-1]);
+					lengths[i][j] = ml;
+				}
+			
+				printf("\n\t -- I: %d J: %d lengths[i][j]: %d \n",i,j,lengths[i][j]); 
+			}
+		} 
+	}// printf("\n\n");exit(-1);
 	
 	printf("\n\t &&&&& Fixing x: %d y: %d \n",fixing_end_tuple.x,fixing_end_tuple.y);
 	return fixing_end_tuple;
