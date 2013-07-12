@@ -42,7 +42,7 @@ int top_of_stack;
 int end_of_stack;
 int count_stack;
 
-rollback_tuple_pos search_stack(xy_tuple fixing_end_tuple,int result_position)
+rollback_tuple_pos search_stack(xy_tuple fixing_end_tuple)
 {
 	int i;
 	printf("\n\t ALERT: Top-of-stack: %d and looking to rollback around x: %d y: %d ",top_of_stack,fixing_end_tuple.x,fixing_end_tuple.y);
@@ -429,6 +429,10 @@ xy_tuple rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_valu
 				printf("\n\t -- I: %d J: %d lengths[i][j]: %d \n",i,j,lengths[i][j]); 
 			}
 		} 
+		printf("\n\t #$#$#$ Fixing x: %d y: %d \n",fixing_end_tuple.x,fixing_end_tuple.y);
+		fixing_end_tuple.x=0;		fixing_end_tuple.y=0;
+		return fixing_end_tuple;
+		
 	}// printf("\n\n");exit(-1);
 	
 	printf("\n\t &&&&& Fixing x: %d y: %d \n",fixing_end_tuple.x,fixing_end_tuple.y);
@@ -516,6 +520,7 @@ char* lcs(const char *a,const char *b,double error_percent)
     result = bufr+bufrlen;
     int result_pos=bufrlen;
     *--result = '\0';
+	int result_length=0;
 //	*(result+result_pos)='\0';
 	i = lena-1; j = lenb-1;
 	int iprime=lena-2;
@@ -524,7 +529,7 @@ char* lcs(const char *a,const char *b,double error_percent)
 	
     int ij_considered=0;
 	int count_reset_seed=0;
-	int result_length=0;
+
 	int accepted_i=lena-1,accepted_j=lenb-1;
 	int last_considered_i=0,last_considered_j=0;
     while ( (i>0) && (j>0) ) 
@@ -649,7 +654,7 @@ char* lcs(const char *a,const char *b,double error_percent)
 			xy_tuple fixing_end_tuple=rollback(i,j,accepted_i,accepted_j,lengths[i][j],a,b,error_percent);
 			printf("\n\n\t -- Last considered i: %d j: %d \n\t Need to rollback the area until accepted-i: %d j: %d ",last_considered_i,last_considered_j,accepted_i,accepted_j);
 			
-			rollback_tuple_pos rolling_back=search_stack(fixing_end_tuple,result_pos);
+			rollback_tuple_pos rolling_back=search_stack(fixing_end_tuple);
 			
 			last_considered_i=i;last_considered_j=j;	
 			
