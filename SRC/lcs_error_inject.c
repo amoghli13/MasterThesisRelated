@@ -505,10 +505,10 @@ char* lcs(const char *a,const char *b,double error_percent)
     }
 	
 	printf("\n\t Finished filling the matrix, error-inject-count: %d ops-count: %d \n",error_inject_count,ops_count);
-    result = bufr;//+bufrlen;
+    result = bufr+bufrlen;
     int result_pos=bufrlen;
-   // *--result = '\0';
-	*(result+result_pos)='\0';
+    *--result = '\0';
+//	*(result+result_pos)='\0';
 	i = lena-1; j = lenb-1;
 	int iprime=lena-2;
 	int jprime= lenb -2;
@@ -611,9 +611,9 @@ char* lcs(const char *a,const char *b,double error_percent)
 		}
 		else if( (c1_op2) ) //&& (!c1_op1) && (!c2_op1) )
 		{
-			//*--result = a[i-1];
-			result_pos--;
-			*(result+result_pos)=a[i-1];
+			*--result = a[i-1];
+			//result_pos--;
+			//*(result+result_pos)=a[i-1];
 			result_length++;
 			last_considered_i=i; last_considered_j=j;	
 			accepted_i=i;accepted_j=j;
@@ -676,13 +676,8 @@ char* lcs(const char *a,const char *b,double error_percent)
     free(lengths);
 	printf("\n\t Finished tracing the matrix, error-inject-count: %d ops-count: %d \n",error_inject_count,ops_count);
     printf("\n\t Error-percent is %f\n\t",error_percent);	
-	printf("\n\t Lena: %d Lenb: %d ",lena,lenb);
-	char* result_wrapper=malloc(bufrlen*sizeof(char));
-	strcpy(result_wrapper,result);	    
-	printf("\n\t Before going : %s\n",result);
-	    sleep(2);
 
-    return strdup(result_wrapper);
+	return strdup(result);
 
 }
 

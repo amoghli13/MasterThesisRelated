@@ -10,11 +10,64 @@
 #define percent_error(x) ( ( ( (double) rand()/RAND_MAX) < x ) ? 1 : 0)
 #define XOR(x,y) ( (x&&(!y)) || ( (!x) && y ) )
 
+#define size_stack 40
+#define size_stack_minus1 (size_stack-1)
+
 int  **lengths;
 int lena,lenb;
 FILE* save_mat;
 int error_inject_count;
 int ops_count;
+
+typedef struct
+{
+	int x;
+	int y;
+}xy_tuple;
+
+typedef struct
+{
+	xy_tuple my_tuple;
+	char	my_char;
+}tuple_chars;
+
+typedef struct
+{
+	xy_tuple my_tuple;
+	int result_position;
+}rollback_tuple_pos;
+
+tuple_chars* accepted_tuple_chars;
+int top_of_stack;
+int end_of_stack;
+int count_stack;
+
+rollback_tuple_pos search_stack(xy_tuple fixing_end_tuple,int result_position)
+{
+	int i;
+	printf("\n\t ALERT: Top-of-stack: %d and looking to rollback around x: %d y: %d ",top_of_stack,fixing_end_tuple.x,fixing_end_tuple.y);
+	int result_pos_adjust=0;
+	rollback_tuple_pos return_tuple_pos;	
+	for(i=top_of_stack,result_pos_adjust=0;i!=end_of_stack;i=((i+size_stack_minus1)%size_stack),result_pos_adjust++)
+	{
+			//printf("\n\t i: %d x: %d y: %d char: %c",i,accepted_tuple_chars[i].my_tuple.x,accepted_tuple_chars[i].my_tuple.y,accepted_tuple_chars[i].my_char);
+		if( ( accepted_tuple_chars[i].my_tuple.x >= fixing_end_tuple.x ) && (accepted_tuple_chars[i].my_tuple.x >= fixing_end_tuple.x) )
+		{
+
+			return_tuple_pos.my_tuple.x=accepted_tuple_chars[i].my_tuple.x;
+			return_tuple_pos.my_tuple.y=accepted_tuple_chars[i].my_tuple.y;		
+			printf("\n\t i: %d x: %d y: %d char: %c",i,accepted_tuple_chars[i].my_tuple.x,accepted_tuple_chars[i].my_tuple.y,accepted_tuple_chars[i].my_char);	
+			return_tuple_pos.result_position=result_pos_adjust;		
+			return return_tuple_pos;
+		}
+	}
+
+	return_tuple_pos.my_tuple.x=accepted_tuple_chars[end_of_stack].my_tuple.x;	
+	return_tuple_pos.my_tuple.y=accepted_tuple_chars[end_of_stack].my_tuple.y;		
+	return_tuple_pos.result_position=size_stack;		
+return return_tuple_pos;
+}
+
 
 int search_in_row(const char* a,const char* b,int xfix,double error_percent,int curr_row_i,int start_j)
 {
@@ -37,7 +90,7 @@ int search_in_row(const char* a,const char* b,int xfix,double error_percent,int 
 		else
 		{
 			int ml = MAX(lengths[i-1][j], lengths[i][j-1]);
-			lengths[i+1][j+1] = ml;
+			lengths[i][j] = ml;
 		}			
 
 		printf("\n\t fixing_func i:%d j: %d x: %c y: %c lengths[i][j]: %d before_lenghts: %d error_inject: %d ",i,j,*x,*y,lengths[i][j],before_lenghts,error_inject);
@@ -101,11 +154,11 @@ return xfix;
 
 
 
-void rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,const char* a,const char* b,double error_percent)
+xy_tuple rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,const char* a,const char* b,double error_percent)
 {
 	int i,j;
 	const char *x,*y;
-	int error_inject;
+	xy_tuple fixing_end_tuple;
 	printf("\n\t Start_i: %d Start_j: %d Stop_i: %d Stop_j: %d ",start_i,start_j,stop_i,stop_j);
 	printf("\n\t Start_i-1: %d Start_j+1: %d x: %c y:%c lengths[start_i-1][start_j+1]: %d ",(start_i-1),(start_j+1),*(a+start_i-2),*(b+start_j),lengths[start_i-1][start_j+1]);
 	printf("\n\t Start_i+1: %d Start_j-1: %d x: %c y:%c lengths[start_i+1][start_j-1]: %d ",(start_i+1),(start_j-1),*(a+start_i),*(b+start_j-2),lengths[start_i+1][start_j-1]);
@@ -185,6 +238,7 @@ void rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,co
 			x=(a+i-1);
 			int lengths_ixfix=lengths[i][xfix-1]; // NOTE: lengths_ixfix has value of lengths[i][xfix-1]
 			printf("\n\t Starting fixing dir-x in row: %d and yfix: %d ",i,yfix);
+			int error_inject;
 			for(j=start_j,y=(b+start_j-1);j<xfix;j++,y++)
 			{
 				error_inject=percent_error(error_percent);
@@ -256,7 +310,7 @@ void rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,co
 				xfix=column_search;
 			}
 		}
-		printf("\n\t Ending fixing dir-x in row: %d and yfix: %d ",i,yfix);
+		printf("\n\t Ending fixing dir-x in row: %d and yfix: %d ",i,yfix);	
 	}
 	else
 	{
@@ -329,6 +383,8 @@ void rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,co
 				fixing_notcomplete=0;
 		}	
 		printf("\n\t End of fixing dir-y. xfix: %d and yfix: %d ,lenb: %d \n",xfix,yfix,lenb);
+		fixing_end_tuple.x=xfix;
+		fixing_end_tuple.y=yfix;	
 	}
 	else
 	{
@@ -342,7 +398,7 @@ void rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,co
 		{
 			printf("\n\t ** I: %d J: %d lengths[i][j]: %d and x: %c y: %c",i,j,lengths[i][j],*x,*y);
 			
-			error_inject=percent_error(error_percent);
+			int error_inject=percent_error(error_percent);
 				 
 			if(error_inject)
 			{
@@ -366,7 +422,9 @@ void rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,co
 		}
 	}
 	// printf("\n\n");exit(-1);
-
+	
+	printf("\n\t &&&&& Fixing x: %d y: %d \n",fixing_end_tuple.x,fixing_end_tuple.y);
+	return fixing_end_tuple;
 }
 
 
@@ -399,7 +457,7 @@ void save_mat_b4exit()
 
 }
  
-char * lcs(const char *a,const char *b,double error_percent) 
+char* lcs(const char *a,const char *b,double error_percent) 
 {
     // int lena = strlen(a)+1;     int lenb = strlen(b)+1;
 		lena=strlen(a)+1; lenb=strlen(b)+1;
@@ -448,7 +506,9 @@ char * lcs(const char *a,const char *b,double error_percent)
 	
 	printf("\n\t Finished filling the matrix, error-inject-count: %d ops-count: %d \n",error_inject_count,ops_count);
     result = bufr+bufrlen;
+    int result_pos=bufrlen;
     *--result = '\0';
+//	*(result+result_pos)='\0';
 	i = lena-1; j = lenb-1;
 	int iprime=lena-2;
 	int jprime= lenb -2;
@@ -552,11 +612,21 @@ char * lcs(const char *a,const char *b,double error_percent)
 		else if( (c1_op2) ) //&& (!c1_op1) && (!c2_op1) )
 		{
 			*--result = a[i-1];
+			//result_pos--;
+			//*(result+result_pos)=a[i-1];
 			result_length++;
 			last_considered_i=i; last_considered_j=j;	
 			accepted_i=i;accepted_j=j;
+
+			top_of_stack=(top_of_stack+1)%(size_stack);
+			end_of_stack=((top_of_stack+1)%size_stack);			
+			accepted_tuple_chars[top_of_stack].my_tuple.x=i;
+			accepted_tuple_chars[top_of_stack].my_tuple.y=j;			
+			accepted_tuple_chars[top_of_stack].my_char=a[iprime];
+
+		
 			//printf("\n\t C3 i: %d j: %d a[i-1]: %c b[j-1]: %c and ij_considered: %d lengths[i][j]: %d result_length: %d ",iprime,jprime,a[iprime],b[jprime],ij_considered,lengths[i][j],result_length);			
-			printf("\n\t C3 i: %d j: %d a[i-1]: %c b[j-1]: %c and ij_considered: %d lengths[i][j]: %d result_length: %d lengths[i][j-1]: %d ",i,j,a[iprime],b[jprime],ij_considered,lengths[i][j],result_length,lengths[i][j-1]);						
+			printf("\n\t C3 i: %d j: %d a[i-1]: %c b[j-1]: %c and ij_considered: %d lengths[i][j]: %d result_length: %d lengths[i][j-1]: %d top_of_stack: %d",i,j,a[iprime],b[jprime],ij_considered,lengths[i][j],result_length,lengths[i][j-1],top_of_stack);						
 			i-=1; j-=1;
 			iprime-=1;jprime-=1;
 			ij_considered=0;
@@ -568,8 +638,11 @@ char * lcs(const char *a,const char *b,double error_percent)
 			//printf("\n\n\t Exception! i: %d j: %d a[iprime]: %c b[jprime]: %c lengths[i-1][j]: %d lengths[i][j-1]:%d lengths[i][j]:%d  and ij_considered: %d ",iprime,jprime,a[iprime],b[jprime],lengths[i-1][j],lengths[i][j-1],lengths[i][j],ij_considered);					
 			printf("\n\n\t Exception! i: %d j: %d a[iprime]: %c b[jprime]: %c lengths[i-1][j]: %d lengths[i][j-1]:%d lengths[i][j]:%d  and ij_considered: %d ",i,j,a[iprime],b[jprime],lengths[i-1][j],lengths[i][j-1],lengths[i][j],ij_considered);					
 			//rollback(last_considered_i,last_considered_j,accepted_i,accepted_j,lengths[i][j],a,b,error_percent);
-			rollback(i,j,accepted_i,accepted_j,lengths[i][j],a,b,error_percent);
+			xy_tuple fixing_end_tuple=rollback(i,j,accepted_i,accepted_j,lengths[i][j],a,b,error_percent);
 			printf("\n\n\t -- Last considered i: %d j: %d \n\t Need to rollback the area until accepted-i: %d j: %d ",last_considered_i,last_considered_j,accepted_i,accepted_j);
+			
+			rollback_tuple_pos rolling_back=search_stack(fixing_end_tuple,result_pos);
+			
 			last_considered_i=i;last_considered_j=j;	
 			
 			/*if( lengths[i-1][j] < lengths[i][j-1] )
@@ -582,6 +655,10 @@ char * lcs(const char *a,const char *b,double error_percent)
 				i-=1;
 				iprime-=1;
 			} */
+			
+			printf("\n\t &&&&& Should find accepted point in trace from x: %d & y: %d ",fixing_end_tuple.x,fixing_end_tuple.y);
+			
+			
 			i=accepted_i-1;
 			j=accepted_j-1; 
 			iprime=i-1;jprime=j-1;
@@ -599,8 +676,15 @@ char * lcs(const char *a,const char *b,double error_percent)
     free(lengths);
 	printf("\n\t Finished tracing the matrix, error-inject-count: %d ops-count: %d \n",error_inject_count,ops_count);
     printf("\n\t Error-percent is %f\n\t",error_percent);	
-	printf("\n\t Lena: %d Lenb: %d ",lena,lenb);
-    return strdup(result);
+	/*printf("\n\t Lena: %d Lenb: %d ",lena,lenb);
+	char* result_wrapper=malloc(bufrlen*sizeof(char));
+	strcpy(result_wrapper,result);	    
+	printf("\n\t Before going : %s\n",result);
+	    sleep(2); */
+
+//    return strdup(result_wrapper);
+return(result);
+
 }
 
 int main(int argc, char *argv[])
@@ -615,7 +699,13 @@ int main(int argc, char *argv[])
  
  error_inject_count=0;
  ops_count=0;
- 
+ accepted_tuple_chars=( tuple_chars* ) calloc( size_stack,sizeof(tuple_chars) );
+ top_of_stack=-1;
+ end_of_stack=0;
+ int init_stack=0;
+ for( init_stack=0;init_stack<size_stack;init_stack++ )
+ 	accepted_tuple_chars[init_stack].my_char='-';
+ //top_of_stack=accepted_tuple_chars;
  // *************
  
  
