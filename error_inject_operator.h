@@ -21,12 +21,18 @@
 
 using namespace std;
 
+<<<<<<< HEAD
 inline static void seed_count_track();
 inline int rand_percent(double error_percent) ;
 inline int error_inject(double error_percent);
 
 inline static void seed_count_track()
 {
+=======
+
+inline static void seed_count_track()
+ {
+>>>>>>> d0f91f73332b90249e245cb101f7adec22cc4724
    	static int seed_count;
    // cout<<"\t seed_count: "<<seed_count;
     if(seed_count % seed_reset==0)
@@ -39,6 +45,7 @@ inline static void seed_count_track()
     seed_count++;
 }
 
+<<<<<<< HEAD
 int seed_count=0;
 
 
@@ -51,6 +58,17 @@ inline int rand_percent(double error_percent)
 }
 
 inline int error_inject(double error_percent)
+=======
+
+inline int rand_percent(int error_percent) 
+{
+	//cout<<"\n\t Error_percent: "<<error_percent<<"\n";
+	seed_count_track();
+	return ( ( ( rand()% 100 )< error_percent ) ? 1 : 0 ) ; 
+}
+
+inline int error_inject(int error_percent)
+>>>>>>> d0f91f73332b90249e245cb101f7adec22cc4724
 {
 	// cout<<"\n\t Error_percent: "<<error_percent<<"\n";
 	seed_count_track();
@@ -88,6 +106,10 @@ inline int error_inject(double error_percent)
 	return 0; // Just to remove the warning!
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> d0f91f73332b90249e245cb101f7adec22cc4724
 // using namespace std;
 
 template <class M>
@@ -96,6 +118,7 @@ class error_inject_operators
 
         public:
                 M operand;
+<<<<<<< HEAD
                 static double error_percent;
                 
 		friend	inline int rand_percent(double error_percent) ;
@@ -117,12 +140,30 @@ class error_inject_operators
                 {
                       cout<<"\n\t At addition overload!! \n";
                         if( !rand_percent(error_percent) )
+=======
+                int error_percent;
+                
+                //error_inject_operators(int value,int error_value)
+                //{
+                //	operand=value;
+                //	error_percent=error_value;
+                //}
+
+                M operator + (error_inject_operators arg)
+                {
+                //      cout<<"\n\t At addition overload!! ";
+                        if(1)// !rand_percent(error_percent) )
+>>>>>>> d0f91f73332b90249e245cb101f7adec22cc4724
                         {
                                 return operand + arg.operand;
                         }
                         else
                         {
+<<<<<<< HEAD
                               cout<<"\n\t Introudcing error-at addition overload!! "; 
+=======
+                //              cout<<"\n\t Introudcing error-at addition overload!! \t random-seed is: "<<random_seed;
+>>>>>>> d0f91f73332b90249e245cb101f7adec22cc4724
                                 return operand + (M)rand()%RAND_MAX;
                         }
                 };
@@ -264,6 +305,7 @@ class error_inject_operators
 
                 };
 
+<<<<<<< HEAD
 };
 
 
@@ -271,3 +313,7 @@ class error_inject_operators
 
 
 
+=======
+
+};
+>>>>>>> d0f91f73332b90249e245cb101f7adec22cc4724
