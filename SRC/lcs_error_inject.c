@@ -16,6 +16,7 @@
 int  **lengths;
 int lena,lenb;
 FILE* save_mat;
+FILE* save_rollback_ops;
 int error_inject_count;
 int ops_count;
 
@@ -46,6 +47,7 @@ rollback_tuple_pos search_stack(xy_tuple fixing_end_tuple,int result_pos)
 {
 	int i;
 	printf("\n\t ALERT: Top-of-stack: %d and looking to rollback around i: %d j: %d and result_pos: %d ",top_of_stack,fixing_end_tuple.i,fixing_end_tuple.j,result_pos);
+	fprintf(save_rollback_ops,"\n\t ALERT: Top-of-stack: %d and looking to rollback around i: %d j: %d and result_pos: %d ",top_of_stack,fixing_end_tuple.i,fixing_end_tuple.j,result_pos);
 	int result_position_adjust=0;
 	rollback_tuple_pos return_tuple_pos;	
 	for(i=top_of_stack,result_position_adjust=0;i!=end_of_stack;i=((i+size_stack_minus1)%size_stack),result_position_adjust++)
@@ -59,6 +61,7 @@ rollback_tuple_pos search_stack(xy_tuple fixing_end_tuple,int result_pos)
 			return_tuple_pos.result_position_adjust=result_position_adjust;	
 			end_of_stack=(top_of_stack+1)%size_stack;	
 			printf("\n\t Should rollback to this point *STACK SUGGESTIONS* i: %d x: %d y: %d char: %c result_position_adjust: %d",i,accepted_tuple_chars[i].my_tuple.i,accepted_tuple_chars[i].my_tuple.j,accepted_tuple_chars[i].my_char,result_position_adjust);				
+			fprintf(save_rollback_ops,"\n\t Should rollback to this point *STACK SUGGESTIONS* i: %d x: %d y: %d char: %c result_position_adjust: %d",i,accepted_tuple_chars[i].my_tuple.i,accepted_tuple_chars[i].my_tuple.j,accepted_tuple_chars[i].my_char,result_position_adjust);							
 			return return_tuple_pos;
 		}
 		accepted_tuple_chars[i].my_tuple.i=0;
@@ -167,6 +170,7 @@ xy_tuple rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_valu
 	const char *x,*y;
 	xy_tuple fixing_end_tuple;
 	printf("\n\t Start_i: %d Start_j: %d Stop_i: %d Stop_j: %d ",start_i,start_j,stop_i,stop_j);
+	fprintf(save_rollback_ops,"\n\t Start_i: %d Start_j: %d Stop_i: %d Stop_j: %d ",start_i,start_j,stop_i,stop_j);	
  	int fixing_x_state=0;int fixing_y_state=0;	
 	if( (start_i < (lena-1) ) && ( start_j < (lenb-1) ) )
 	{
@@ -659,7 +663,8 @@ char* lcs(const char *str_1,const char *str_2,double error_percent)
 			accepted_tuple_chars[top_of_stack].my_tuple.i=i;
 			accepted_tuple_chars[top_of_stack].my_tuple.j=j;			
 			//accepted_tuple_chars[top_of_stack].my_char=a[i-1];
-			//printf("\n\t C3 i: %d j: %d a[i-1]: %c b[j-1]: %c and ij_considered: %d lengths[i][j]: %d result_length: %d lengths[i][j-1]: %d top_of_stack: %d results: %s",i,j,a[i-1],b[j-1],ij_considered,lengths[i][j],result_length,lengths[i][j-1],top_of_stack,result);						
+			printf("\n\t C3 i: %d j: %d a[i-1]: %c b[j-1]: %c and ij_considered: %d lengths[i][j]: %d result_length: %d lengths[i][j-1]: %d top_of_stack: %d",i,j,a[i-1],b[j-1],ij_considered,lengths[i][j],result_length,lengths[i][j-1],top_of_stack);						
+			fprintf(save_rollback_ops,"\n\t C3 i: %d j: %d a[i-1]: %c b[j-1]: %c and ij_considered: %d lengths[i][j]: %d result_length: %d lengths[i][j-1]: %d top_of_stack: %d",i,j,a[i-1],b[j-1],ij_considered,lengths[i][j],result_length,lengths[i][j-1],top_of_stack);						
 			i-=1; j-=1;
 			ij_considered=0;
 		}
@@ -708,6 +713,7 @@ char* lcs(const char *str_1,const char *str_2,double error_percent)
 				result_pos=0;
 			}
 			printf("\n\t After rollover top-of-stack: %d end-of-stack: %d result_pos: %d",top_of_stack,end_of_stack,result_pos);
+			fprintf(save_rollback_ops,"\n\t After rollover top-of-stack: %d end-of-stack: %d result_pos: %d \n\t i: %d j: %d ",top_of_stack,end_of_stack,result_pos,i,j);			
 		}
         count_reset_seed++;
     }
@@ -720,8 +726,8 @@ char* lcs(const char *str_1,const char *str_2,double error_percent)
 	result_length=strlen(result);
 	printf("\n\t Result: %s \n\n Result-length: %d \n\n",result, result_length);
 
-	for(i=0;i<result_length;i++)
-		printf("\n\t i: %d result[i]: %c ",i,result[i]);
+//	for(i=0;i<result_length;i++)
+//		printf("\n\t i: %d result[i]: %c ",i,result[i]);
 	
 	//free(result);
 	free(la);
@@ -734,7 +740,8 @@ int main(int argc, char *argv[])
         int size1,size2;
         size_t r1,r2;
         FILE *fp1,*fp2;
-
+        char* save_rollback_ops_fname="save_rollback_ops.txt";
+	save_rollback_ops=fopen(save_rollback_ops_fname,"w");
 		size1=0;size2=0;//r1=0;r2=0;
  
  // ******* Global variables being initialized **********
@@ -851,7 +858,10 @@ int main(int argc, char *argv[])
 		
            // printf("\n\t LCS-result: %s \n\t Length of result: %d \n",result,(int)strlen(result)); // tsitest
 		//	printf("\n\t Len-a: %d Len-b: %d \n\n",(unsigned)strlen(clip_str_a),(unsigned)strlen(clip_str_b));
+		if( argc==6 )	fclose(save_mat);
+		fclose(save_rollback_ops);
             return 0;
         }
-	if( argc==6 )	fclose(save_mat);
+
+
 }

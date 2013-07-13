@@ -183,16 +183,21 @@ int main(int argc, char *argv[])
  
  
  
-        if(argc<6)
+        if(argc<5)
         {
-                printf("\n\t ERROR:  Expected inputs \n\t\t 1. Output file name \n\t\t 2.Two files. \n\t\t 3. String-length. \n\t\t 4. Error-percent. \n\t ------ Kindly provide appropriate inputs -------- \n\n");
+               // printf("\n\t ERROR:  Expected inputs \n\t\t 1. Output file name \n\t\t 2.Two files. \n\t\t 3. String-length. \n\t\t 4. Error-percent. \n\t ------ Kindly provide appropriate inputs -------- \n\n");
+		 printf("\n\t ERROR:  Expected inputs \n\t\t 1.Two files. \n\t\t 2. String-length. \n\t\t 3. Error-percent. \n\t\t 4. Output file name- Optional \n\t ------ Kindly provide appropriate inputs -------- \n\n");               
                 exit(-1);
         }
 		
-		char* filename=argv[1];
-		save_mat=fopen(argv[1],"w");
-        double error_percent=atof(argv[5]);
-		int string_length=atoi(argv[4]);
+		char* filename;
+		if(argc==6)
+		{
+			filename=argv[5];
+			save_mat=fopen(filename,"w");
+		}
+        double error_percent=atof(argv[4]);
+		int string_length=atoi(argv[3]);
 
         if(error_percent<0)
         {
@@ -200,7 +205,7 @@ int main(int argc, char *argv[])
                 exit(-1);
         }
 
-        fp1=fopen(argv[2],"r");
+        fp1=fopen(argv[1],"r");
         if(fp1!=NULL)
         {
                 // printf("\n File %s located successfully! \n",argv[1]);
@@ -216,7 +221,7 @@ int main(int argc, char *argv[])
                 exit(-1);
         }
 
-        fp2=fopen(argv[3],"r");
+        fp2=fopen(argv[2],"r");
         if(fp2!=NULL)
         {
                 // printf("\n File %s located successfully! \n",argv[2]);
