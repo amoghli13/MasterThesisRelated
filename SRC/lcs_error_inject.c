@@ -21,8 +21,8 @@ int ops_count;
 
 typedef struct
 {
-	int x;
-	int y;
+	int i;
+	int j;
 }xy_tuple;
 
 typedef struct
@@ -42,32 +42,37 @@ int top_of_stack;
 int end_of_stack;
 int count_stack;
 
-rollback_tuple_pos search_stack(xy_tuple fixing_end_tuple)
+rollback_tuple_pos search_stack(xy_tuple fixing_end_tuple,int result_pos)
 {
 	int i;
-	printf("\n\t ALERT: Top-of-stack: %d and looking to rollback around x: %d y: %d ",top_of_stack,fixing_end_tuple.x,fixing_end_tuple.y);
+	printf("\n\t ALERT: Top-of-stack: %d and looking to rollback around i: %d j: %d and result_pos: %d ",top_of_stack,fixing_end_tuple.i,fixing_end_tuple.j,result_pos);
 	int result_position_adjust=0;
 	rollback_tuple_pos return_tuple_pos;	
 	for(i=top_of_stack,result_position_adjust=0;i!=end_of_stack;i=((i+size_stack_minus1)%size_stack),result_position_adjust++)
 	{
 			//printf("\n\t i: %d x: %d y: %d char: %c",i,accepted_tuple_chars[i].my_tuple.x,accepted_tuple_chars[i].my_tuple.y,accepted_tuple_chars[i].my_char);
-		if( ( accepted_tuple_chars[i].my_tuple.x >= fixing_end_tuple.x ) && (accepted_tuple_chars[i].my_tuple.y >= fixing_end_tuple.y) )
+		if( ( accepted_tuple_chars[i].my_tuple.i >= fixing_end_tuple.i ) && (accepted_tuple_chars[i].my_tuple.j >= fixing_end_tuple.j) )
 		{
 
-			return_tuple_pos.my_tuple.x=accepted_tuple_chars[i].my_tuple.x;
-			return_tuple_pos.my_tuple.y=accepted_tuple_chars[i].my_tuple.y;		
-			return_tuple_pos.result_position_adjust=result_position_adjust;		
-			printf("\n\t i: %d x: %d y: %d char: %c",i,accepted_tuple_chars[i].my_tuple.x,accepted_tuple_chars[i].my_tuple.y,accepted_tuple_chars[i].my_char,result_position_adjust);				
+			return_tuple_pos.my_tuple.i=accepted_tuple_chars[i].my_tuple.i;
+			return_tuple_pos.my_tuple.j=accepted_tuple_chars[i].my_tuple.j;		
+			return_tuple_pos.result_position_adjust=result_position_adjust;	
+			end_of_stack=(top_of_stack+1)%size_stack;	
+			printf("\n\t Should rollback to this point *STACK SUGGESTIONS* i: %d x: %d y: %d char: %c result_position_adjust: %d",i,accepted_tuple_chars[i].my_tuple.i,accepted_tuple_chars[i].my_tuple.j,accepted_tuple_chars[i].my_char,result_position_adjust);				
 			return return_tuple_pos;
 		}
-		accepted_tuple_chars[i].my_tuple.x=0;
-		accepted_tuple_chars[i].my_tuple.y=0;
+		accepted_tuple_chars[i].my_tuple.i=0;
+		accepted_tuple_chars[i].my_tuple.j=0;
+		top_of_stack=((top_of_stack+size_stack_minus1)%size_stack);
 	}
 
-	return_tuple_pos.my_tuple.x=accepted_tuple_chars[end_of_stack].my_tuple.x;	
-	return_tuple_pos.my_tuple.y=accepted_tuple_chars[end_of_stack].my_tuple.y;		
+	return_tuple_pos.my_tuple.i=accepted_tuple_chars[end_of_stack].my_tuple.i;	
+	return_tuple_pos.my_tuple.j=accepted_tuple_chars[end_of_stack].my_tuple.j;		
 	return_tuple_pos.result_position_adjust=size_stack;		
+	printf("\n\t FATAL: stack overflow!!! :D \n");
+	top_of_stack=-1;end_of_stack=0;
 return return_tuple_pos;
+
 }
 
 
@@ -238,7 +243,7 @@ xy_tuple rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_valu
 			yfix=start_i+1;
 	 	}
 
-		if(xfix<lenb)
+		if(1)//xfix<lenb)
 		{
 			fixing_x_state=1;
 			for(i=start_i;i<yfix-1;i++)	
@@ -324,9 +329,10 @@ xy_tuple rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_valu
 		}
 		else
 		{
+			fixing_x_state=0;
 			printf("\n\t NOT fixing dir-x. xfix: %d and yfix: %d ,lenb: %d \n",xfix,yfix,lenb);
 		}
-		if(yfix<lena)
+		if(1)//yfix<lena)
 		{
 
 			fixing_y_state=1;
@@ -395,16 +401,21 @@ xy_tuple rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_valu
 					fixing_notcomplete=0;
 			}	
 			if(fixing_notcomplete)
+			{
 				fixing_y_state=0;
+			}
 			else
 				fixing_y_state=1;
 			printf("\n\t End of fixing dir-y. xfix: %d and yfix: %d ,lenb: %d and fixing_y_state: %d \n",xfix,yfix,lenb,fixing_y_state);
-			fixing_end_tuple.x=xfix;
-			fixing_end_tuple.y=yfix;	
+			if(xfix>=lenb) xfix=lenb-1;
+			if(yfix>=lena) xfix=lena-1;			
+			fixing_end_tuple.j=xfix;
+			fixing_end_tuple.i=yfix;	
 		
 		}
 		else
 		{
+			fixing_y_state=0;
 			printf("\n\t NOT fixing dir-y. xfix: %d and yfix: %d ,lenb: %d \n",xfix,yfix,lenb);
 		}
 	}
@@ -439,13 +450,13 @@ xy_tuple rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_valu
 				printf("\n\t -- I: %d J: %d lengths[i][j]: %d \n",i,j,lengths[i][j]); 
 			}
 		} 
-		printf("\n\t #$#$#$ Fixing x: %d y: %d \n",fixing_end_tuple.x,fixing_end_tuple.y);
-		fixing_end_tuple.x=0;		fixing_end_tuple.y=0;
+		printf("\n\t #$#$#$ Fixing x: %d y: %d \n",fixing_end_tuple.j,fixing_end_tuple.i);
+		fixing_end_tuple.i=0;		fixing_end_tuple.j=0;
 		return fixing_end_tuple;
 		
 	}// printf("\n\n");exit(-1);
 	
-	printf("\n\t &&&&& Fixing x: %d y: %d \n",fixing_end_tuple.x,fixing_end_tuple.y);
+	printf("\n\t &&&&& Fixing x: %d y: %d \n",fixing_end_tuple.j,fixing_end_tuple.i);
 	return fixing_end_tuple;
 }
 
@@ -479,13 +490,15 @@ void save_mat_b4exit()
 
 }
  
-char* lcs(const char *a,const char *b,double error_percent) 
+char* lcs(const char *str_1,const char *str_2,double error_percent) 
 {
+	const char* a=str_1;
+	const char* b=str_2;
     // int lena = strlen(a)+1;     int lenb = strlen(b)+1;
 		lena=strlen(a)+1; lenb=strlen(b)+1;
  //printf("\n\t Length of string-1: %d string-1: %s \n\t Length of string-2: %d string-2: %s \n",lena,a,lenb,b);
     int bufrlen = lena;
-    char bufr[bufrlen], *result;
+    char bufr[bufrlen];
 
     int i,j;
     const char *x, *y;
@@ -527,14 +540,14 @@ char* lcs(const char *a,const char *b,double error_percent)
     }
 	
 	printf("\n\t Finished filling the matrix, error-inject-count: %d ops-count: %d \n",error_inject_count,ops_count);
-    result = bufr+bufrlen;
-    int result_pos=bufrlen;
-    *--result = '\0';
+   // result = bufr+bufrlen;
+   char result[lena];
+    int result_pos=0;//lena-1;
+   // *--result = '\0';
+   //result[result_pos]='\0';
 	int result_length=0;
 	result_pos--; //This is the index if results were to be accessed as an array.
 	i = lena-1; j = lenb-1;
-	int iprime=lena-2;
-	int jprime= lenb -2;
     int error_inject_1,error_inject_2;
 	
     int ij_considered=0;
@@ -545,17 +558,18 @@ char* lcs(const char *a,const char *b,double error_percent)
     while ( (i>0) && (j>0) ) 
  	{
 		ij_considered++;
-        if(count_reset_seed%lena==0)
-        {
-             struct timeval t1;
-             gettimeofday(&t1, NULL);
-             srand(t1.tv_usec * t1.tv_sec);
-        }
+		/*if(count_reset_seed%lena==0)
+		{
+		     struct timeval t1;
+		     gettimeofday(&t1, NULL);
+		     srand(t1.tv_usec * t1.tv_sec);
+		}*/
          
 /*		error_inject_1=percent_error(error_percent); error_inject_2=percent_error(error_percent); if(error_inject_1) { error_inject_count++; }if(error_inject_2){ error_inject_count++;}*/
 		ops_count++;
  
-		int c1_char_comp1= (a[iprime]==b[jprime]); int c1_char_comp2= (a[iprime]==b[jprime]); int c1_char_comp3=(a[iprime]==b[jprime]);
+		int c1_char_comp1= ( *(a+i-1) == *(b+j-1) );//;(a[i-1]==b[j-1]); 
+		int c1_char_comp2= (a[i-1]==b[j-1]); int c1_char_comp3=(a[i-1]==b[j-1]);
  		int c1_op1=(lengths[i][j] == lengths[i-1][j] ); 
  		int c1_op2; // This is also used in Comp1.
  		int c1_op3=( lengths[i][j-1] <= lengths[i-1][j] );
@@ -613,11 +627,10 @@ char* lcs(const char *a,const char *b,double error_percent)
  
 		if( c1_op1 && (!c1_op2) && (c1_op3)  ) 
 		{
-			//printf("\n\t C1 i: %d j: %d a[i]: %c a[i-1]: %c b[j]: %c and ij_considered: %d lengths[i][j]:%d lengths[i-1][j]:%d ",iprime,jprime,a[iprime],a[iprime-1],b[jprime],ij_considered,lengths[i][j],lengths[i-1][j]);			
-			printf("\n\t C1 i: %d j: %d a[i]: %c a[i-1]: %c b[j]: %c and ij_considered: %d lengths[i][j]:%d lengths[i-1][j]:%d lengths[i][j-1]: %d ",i,j,a[iprime],a[iprime-1],b[jprime],ij_considered,lengths[i][j],lengths[i-1][j],lengths[i][j-1]);			
+
+			printf("\n\t C1 i: %d j: %d a[i]: %c a[i-1]: %c b[j]: %c and ij_considered: %d lengths[i][j]:%d lengths[i-1][j]:%d lengths[i][j-1]: %d ",i,j,a[i-1],a[i-2],b[j-1],ij_considered,lengths[i][j],lengths[i-1][j],lengths[i][j-1]);			
 			last_considered_i=i; last_considered_j=j;	
 			i -= 1;
-			iprime-=1;
 			ij_considered=0;
 			
 		}
@@ -625,17 +638,17 @@ char* lcs(const char *a,const char *b,double error_percent)
 		{
 		
 			last_considered_i=i; last_considered_j=j;		
-			//printf("\n\t C2 i: %d j: %d a[i]: %c b[j-1]: %c b[j]: %c and ij_considered: %d lengths[i][j]:%d lengths[i][j-1]: %d ",iprime,jprime,a[iprime],b[jprime-1],b[jprime],ij_considered,lengths[i][j],lengths[i][j-1]);			
-			printf("\n\t C2 i: %d j: %d a[i]: %c b[j-1]: %c b[j]: %c and ij_considered: %d lengths[i][j]:%d lengths[i-1][j]: %d lengths[i][j-1]: %d",i,j,a[iprime],b[jprime-1],b[jprime],ij_considered,lengths[i][j],lengths[i-1][j],lengths[i][j-1]);			
+			printf("\n\t C2 i: %d j: %d a[i]: %c b[j-1]: %c b[j]: %c and ij_considered: %d lengths[i][j]:%d lengths[i-1][j]: %d lengths[i][j-1]: %d",i,j,a[i-1],b[j-2],b[j-1],ij_considered,lengths[i][j],lengths[i-1][j],lengths[i][j-1]);			
 		
 			j-= 1;
-			jprime-=1;
 			ij_considered=0;
 		}
 		else if( (c1_op2) ) //&& (!c1_op1) && (!c2_op1) )
 		{
-			*--result = a[i-1];
-			result_pos--;
+			//*--result = a[i-1];
+
+			result[result_pos]=a[i-1];
+			result_pos++;			
 			//*(result+result_pos)=a[i-1];
 			result_length++;
 			last_considered_i=i; last_considered_j=j;	
@@ -643,50 +656,45 @@ char* lcs(const char *a,const char *b,double error_percent)
 
 			top_of_stack=(top_of_stack+1)%(size_stack);
 			end_of_stack=((top_of_stack+1)%size_stack);			
-			accepted_tuple_chars[top_of_stack].my_tuple.x=i;
-			accepted_tuple_chars[top_of_stack].my_tuple.y=j;			
-			accepted_tuple_chars[top_of_stack].my_char=a[iprime];
-
-		
-			//printf("\n\t C3 i: %d j: %d a[i-1]: %c b[j-1]: %c and ij_considered: %d lengths[i][j]: %d result_length: %d ",iprime,jprime,a[iprime],b[jprime],ij_considered,lengths[i][j],result_length);			
-			printf("\n\t C3 i: %d j: %d a[i-1]: %c b[j-1]: %c and ij_considered: %d lengths[i][j]: %d result_length: %d lengths[i][j-1]: %d top_of_stack: %d",i,j,a[iprime],b[jprime],ij_considered,lengths[i][j],result_length,lengths[i][j-1],top_of_stack);						
+			accepted_tuple_chars[top_of_stack].my_tuple.i=i;
+			accepted_tuple_chars[top_of_stack].my_tuple.j=j;			
+			//accepted_tuple_chars[top_of_stack].my_char=a[i-1];
+			//printf("\n\t C3 i: %d j: %d a[i-1]: %c b[j-1]: %c and ij_considered: %d lengths[i][j]: %d result_length: %d lengths[i][j-1]: %d top_of_stack: %d results: %s",i,j,a[i-1],b[j-1],ij_considered,lengths[i][j],result_length,lengths[i][j-1],top_of_stack,result);						
 			i-=1; j-=1;
-			iprime-=1;jprime-=1;
 			ij_considered=0;
 		}
 		
 		if(ij_considered>2)
 		{
 			stuck_need2exit(i,j,a,b);
-			//printf("\n\n\t Exception! i: %d j: %d a[iprime]: %c b[jprime]: %c lengths[i-1][j]: %d lengths[i][j-1]:%d lengths[i][j]:%d  and ij_considered: %d ",iprime,jprime,a[iprime],b[jprime],lengths[i-1][j],lengths[i][j-1],lengths[i][j],ij_considered);					
-			printf("\n\n\t Exception! i: %d j: %d a[iprime]: %c b[jprime]: %c lengths[i-1][j]: %d lengths[i][j-1]:%d lengths[i][j]:%d  and ij_considered: %d and results: %s ",i,j,a[iprime],b[jprime],lengths[i-1][j],lengths[i][j-1],lengths[i][j],ij_considered,result);					
+			//printf("\n\n\t Exception! i: %d j: %d a[i-1]: %c b[j-1]: %c lengths[i-1][j]: %d lengths[i][j-1]:%d lengths[i][j]:%d  and ij_considered: %d and results: %s ",i,j,a[i-1],b[j-1],lengths[i-1][j],lengths[i][j-1],lengths[i][j],ij_considered,result);					
 			//rollback(last_considered_i,last_considered_j,accepted_i,accepted_j,lengths[i][j],a,b,error_percent);
 			xy_tuple fixing_end_tuple=rollback(i,j,accepted_i,accepted_j,lengths[i][j],a,b,error_percent);
-			printf("\n\n\t -- Last considered i: %d j: %d \n\t Need to rollback the area until accepted-i: %d j: %d ",last_considered_i,last_considered_j,accepted_i,accepted_j);
+			//printf("\n\n\t -- Last considered i: %d j: %d \n\t Need to rollback the area until accepted-i: %d j: %d ",last_considered_i,last_considered_j,accepted_i,accepted_j);
 			
-			if( !( (fixing_end_tuple.x==0) && (fixing_end_tuple.y==0) && ( top_of_stack <0) ) )
+			if( !( (fixing_end_tuple.i==0) && (fixing_end_tuple.j==0) && ( top_of_stack <0) ) )
 			{
-				rollback_tuple_pos rolling_back=search_stack(fixing_end_tuple);
+				rollback_tuple_pos rolling_back=search_stack(fixing_end_tuple,result_pos);
 			
 				last_considered_i=i;last_considered_j=j;	
  
-				printf("\n\t &&&&& Should find accepted point in trace from x: %d & y: %d ",fixing_end_tuple.x,fixing_end_tuple.y);
+				printf("\n\t &&&&& Should find accepted point in trace from i: %d & j: %d ",fixing_end_tuple.i,fixing_end_tuple.j);
 			
-				if( (rolling_back.my_tuple.y) && (rolling_back.my_tuple.x) )
-				{	i=rolling_back.my_tuple.y-1;
-					j=rolling_back.my_tuple.x-1;
-					iprime=i-1;jprime=j-1;
-					result=result+rolling_back.result_position_adjust;
-					result_pos+=rolling_back.result_position_adjust;
-					printf("\n\t Rollback suggestion from stack---> i: %d j: %d ",i,j);
+				if( (rolling_back.my_tuple.i) && (rolling_back.my_tuple.j) )
+				{	i=rolling_back.my_tuple.i-1;
+					j=rolling_back.my_tuple.j-1;
+					// result=result+rolling_back.result_position_adjust-2;
+					result_pos-=rolling_back.result_position_adjust;
+					printf("\n\t Rollback suggestion from stack---> i: %d j: %d and result_pos: %d ",i,j,result_pos);
 				}
 				else
 				{
 					i=lena-1; //rolling_back.my_tuple.y-1;
 					j=lenb-1;//rolling_back.my_tuple.x-1;
-					result=bufr+bufrlen-1;
-					result_pos=bufrlen-1;
-					printf("\n\t Rollback suggestion from stack has been changed to ---> i: %d j: %d ",i,j);
+					// result=bufr+bufrlen-1;
+					//result_pos=bufrlen-1;
+					result_pos=0;
+					printf("\n\t Rollback suggestion from stack has been changed to ---> i: %d j: %d result_pos: %d ",i,j,result_pos);
 				}	
 				
 				ij_considered=0;
@@ -695,22 +703,30 @@ char* lcs(const char *a,const char *b,double error_percent)
 			{
 				i=lena-1; //rolling_back.my_tuple.y-1;
 				j=lenb-1;//rolling_back.my_tuple.x-1;
-				result=bufr+bufrlen-1;
-				result_pos=bufrlen-1;
+				// result=bufr+bufrlen-1;
+				//result_pos=bufrlen-1;
+				result_pos=0;
 			}
+			printf("\n\t After rollover top-of-stack: %d end-of-stack: %d result_pos: %d",top_of_stack,end_of_stack,result_pos);
 		}
         count_reset_seed++;
     }
 
 	//save_mat_b4exit();
     
-	free(la);
-    free(lengths);
+
 	printf("\n\t Finished tracing the matrix, error-inject-count: %d ops-count: %d \n",error_inject_count,ops_count);
-    printf("\n\t Error-percent is %f\n\t",error_percent);	
+    	printf("\n\t Error-percent is %f\n\t",error_percent);	
+	result_length=strlen(result);
+	printf("\n\t Result: %s \n\n Result-length: %d \n\n",result, result_length);
 
-	return strdup(result);
-
+	for(i=0;i<result_length;i++)
+		printf("\n\t i: %d result[i]: %c ",i,result[i]);
+	
+	//free(result);
+	free(la);
+	free(lengths);
+	//return strdup(result);
 }
 
 int main(int argc, char *argv[])
@@ -833,8 +849,8 @@ int main(int argc, char *argv[])
 
 			result=lcs(clip_str_a,clip_str_b,error_percent);
 		
-            printf("\n\t LCS-result: %s \n\t Length of result: %d \n",result,(int)strlen(result)); // tsitest
-			printf("\n\t Len-a: %d Len-b: %d \n\n",(unsigned)strlen(clip_str_a),(unsigned)strlen(clip_str_b));
+           // printf("\n\t LCS-result: %s \n\t Length of result: %d \n",result,(int)strlen(result)); // tsitest
+		//	printf("\n\t Len-a: %d Len-b: %d \n\n",(unsigned)strlen(clip_str_a),(unsigned)strlen(clip_str_b));
             return 0;
         }
 	if( argc==6 )	fclose(save_mat);
