@@ -67,6 +67,10 @@ public:
 		
 		for(int items=1;items<num_items;items++)
 		{
+				error_inject_operators<int> b4_rollback_max;
+				error_inject_operators<int> yet_to_rollback_prev_item;
+				b4_rollback_max=0;
+				yet_to_rollback_prev_item=1;		
 		
 			for(int checkpoint_zone=0,weight=0;checkpoint_zone<num_checkpoints;checkpoint_zone++)
 			{
@@ -76,7 +80,7 @@ public:
 				max_in_zone=0;				
 				int weights_bound= min( (weight+checkpoint_length),max_weight );
 				error_inject_operators<int> duh; //Need a constructor which can take value at declaration.
-				error_inject_operators<int> b4_rollback_max;
+
 				duh=0;
 				for( ;weight<weights_bound;weight++)
 				{
@@ -106,19 +110,67 @@ public:
 				{
 					
 					cout<<"\n\t --- Item-#: "<<items<<" weight-iter: "<<weight<<"\t checkpoint_zone: "<<checkpoint_zone<<"\t weight: "<<weights[items]<<"\t eval_mat[items][weight] "<<eval_mat[items][weight-1]<<" max_in_zone: "<<max_in_zone<<" eval_mat[items-1][weight-1-weights[items]] "<< eval_mat[items-1][weight-1-weights[items]]<<" values[items] "<<values[items]<<" b4_rollback_max: "<<b4_rollback_max<<endl;
-					if(b4_rollback_max!=max_in_zone)	
+					if( (b4_rollback_max!=max_in_zone) )
 					{
 						checkpoint_zone--;					
 						b4_rollback_max=max_in_zone;	
 					}
 					else
 					{
-						cout<<"\n\t ALERT!! not rolling back since b4_rollback_max=max_in_zone \n";
+						if( yet_to_rollback_prev_item==1 )
+						{
+							items--;
+							error_inject_operators<int> local_max_in_zone;
+							local_max_in_zone=0;
+							for(weight-=checkpoint_length;weight<weights_bound;weight++)	
+							{
+								eval_mat[items][weight]=eval_mat[items-1][weight];
+								int trace_flag=0;
+								if( (weight- weights[items]) >=0 )
+								{
+									duh=(eval_mat[items-1][weight-weights[items]]+values[items] );
+									if(  eval_mat[items][weight] < ( duh)  )
+									//	eval_mat[items][weight]=eval_mat[items][weight];
+									//else
+									{
+										eval_mat[items][weight]=duh;
+										trace_flag=1;
+									}
+									
+									cout<<"\n\t\t\t ALERT I: "<<items<<" weight: " <<weight<<" weights[items]: "<<(weights[items])<<" trace-flag: "<<trace_flag<<" max_in_zone: "<<max_in_zone<<" eval_mat[items][weight]: "<<eval_mat[items][weight];				
+								}
+								if( local_max_in_zone < eval_mat[items][weight] )
+									local_max_in_zone=eval_mat[items][weight];	
+								
+							}
+							// Untested code of line : ---> if( local_max_in_zone == max_in_zone )	{items--;goto one}	
+							// POTENTIALLY the above portion could cause error and this measure might not be upto no good!! :'(		
+							
+							if(local_max_in_zone>=max_in_zone)
+							{
+								checkpoint_zone=-1;								
+								items--;
+								yet_to_rollback_prev_item=1;							
+								b4_rollback_max=0;
+								cout<<"\n\t FATAL MOVE!!! local_max_in_zone: "<<local_max_in_zone<<" is equal to "<<max_in_zone<<endl;
+							}
+							else
+							{
+								items++;
+								cout<<"\n\t ALERT!!! local_max_in_zone: "<<local_max_in_zone<<" is equal to "<<max_in_zone<<endl;								
+							}
+						}
+						else
+						{
+							cout<<"\n\t ALERT!! not rolling back since b4_rollback_max=max_in_zone \n";
+							b4_rollback_max=0;
+							yet_to_rollback_prev_item=1;
+						}
 					}
 				}
 				else
 				{
-					b4_rollback_max=0;
+					//b4_rollback_max=0;
 					cout<<"\n\t Item-#: "<<items<<" weight-iter: "<<weight<<"\t checkpoint_zone: "<<checkpoint_zone<<" max-in-zone: "<<max_in_zone<<" duh: "<<duh<<" eval_mat[items][weight-1]: "<<eval_mat[items][weight-1]<<" values[items]: "<<values[items];
 				}
 				//cout<<"\n -- Done with checkpoint-zone: "<<checkpoint_zone<<" weight: "<<weight<<endl;				
