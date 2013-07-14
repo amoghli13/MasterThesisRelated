@@ -9,7 +9,7 @@ int main()
 
 	error_inject_operators<int>::error_percent=0.01;
 
-	Knapsack my_knapsack(10,40,5);
+	Knapsack my_knapsack(50,50,5);
 	my_knapsack.fill_matrix();
 	my_knapsack.print_info();
 	

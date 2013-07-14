@@ -31,6 +31,7 @@ public:
 		for(int i=0;i<num_items;i++)
 		{
 			weights[i]=rand()%5;
+			weights[i]=weights[i]+1;
 			values[i]=rand()%100;
 			eval_mat[i]=new error_inject_operators<int>[max_weight];
 		}
@@ -45,7 +46,7 @@ public:
 		cout<<endl;
 		for(int i=0;i<num_items;i++)
 		{
-			cout<<"\n \n";
+			cout<<"\n \n Item^^>>"<<i;
 			for(int j=0;j<max_weight;j++)
 			cout<<"\t "<<eval_mat[i][j];
 		
@@ -70,9 +71,13 @@ public:
 			for(int checkpoint_zone=0,weight=0;checkpoint_zone<num_checkpoints;checkpoint_zone++)
 			{
 				//cout<<"\n -- In Checkpoint-zone: "<<checkpoint_zone<<" weight: "<<weight<<endl;
+				weight=checkpoint_zone*checkpoint_length;
 				error_inject_operators<int> max_in_zone;
 				max_in_zone=0;				
 				int weights_bound= min( (weight+checkpoint_length),max_weight );
+				error_inject_operators<int> duh; //Need a constructor which can take value at declaration.
+				error_inject_operators<int> b4_rollback_max;
+				duh=0;
 				for( ;weight<weights_bound;weight++)
 				{
 					int trace_flag=0;						
@@ -80,29 +85,45 @@ public:
 
 					if( (weight- weights[items]) >=0 )
 					{
-						int duh=(eval_mat[items-1][weight-weights[items]]+values[items] );
-						if(  eval_mat[items][weight] > ( duh)  )
-							eval_mat[items][weight]=eval_mat[items][weight];
-						else
+						duh=(eval_mat[items-1][weight-weights[items]]+values[items] );
+						if(  eval_mat[items][weight] < ( duh)  )
+						//	eval_mat[items][weight]=eval_mat[items][weight];
+						//else
 						{
 							eval_mat[items][weight]=duh;
-							max_in_zone=eval_mat[items][weight] ;
 							trace_flag=1;
 						}
-						if( max_in_zone < eval_mat[items][weight] )
-							max_in_zone=eval_mat[items][weight];
-						
+				
 					}
-					//cout<<"\n\t I: "<<items<<" weight: " <<weight<<" weights[items]: "<<(weights[items])<<" trace-flag: "<<trace_flag;
+					if( max_in_zone < eval_mat[items][weight] )
+						max_in_zone=eval_mat[items][weight];					
+					cout<<"\n\t\t I: "<<items<<" weight: " <<weight<<" weights[items]: "<<(weights[items])<<" trace-flag: "<<trace_flag<<" max_in_zone: "<<max_in_zone<<" eval_mat[items][weight]: "<<eval_mat[items][weight];
 				}
-				if(max_in_zone!=eval_mat[items][weight-1])
-					cout<<"\n\t --- Item-#: "<<items<<" weight-iter: "<<weight<<"\t checkpoint_zone: "<<checkpoint_zone<<"\t weight: "<<weights[items]<<"\t eval_mat[items][weight] "<<eval_mat[items][weight-1]<<" max_in_zone: "<<max_in_zone<<endl;
+				 //The or part takes care of cases when fault happens at last point of the checkpoint zone- The 2nd operand to and takes care of cases where the first item is being considered ( where its expected to have max_in_zone==values[items])
+				duh=(eval_mat[items-1][weight-1-weights[items]]+values[items] ); // Weight should not be zero is the assumption :'(
+		
+				if( (max_in_zone!=eval_mat[items][weight-1] ) || ( ( !(max_in_zone - eval_mat[items][weight-1]) ) && ( (eval_mat[items][weight-1]!=duh  ) && (eval_mat[items-1][weight-1]!=eval_mat[items][weight-1]) ) ) )
+				{
+					
+					cout<<"\n\t --- Item-#: "<<items<<" weight-iter: "<<weight<<"\t checkpoint_zone: "<<checkpoint_zone<<"\t weight: "<<weights[items]<<"\t eval_mat[items][weight] "<<eval_mat[items][weight-1]<<" max_in_zone: "<<max_in_zone<<" eval_mat[items-1][weight-1-weights[items]] "<< eval_mat[items-1][weight-1-weights[items]]<<" values[items] "<<values[items]<<" b4_rollback_max: "<<b4_rollback_max<<endl;
+					if(b4_rollback_max!=max_in_zone)	
+					{
+						checkpoint_zone--;					
+						b4_rollback_max=max_in_zone;	
+					}
+					else
+					{
+						cout<<"\n\t ALERT!! not rolling back since b4_rollback_max=max_in_zone \n";
+					}
+				}
 				else
-					cout<<"\n\t Item-#: "<<items<<" weight-iter: "<<weight<<"\t checkpoint_zone: "<<checkpoint_zone<<" max-in-zone: "<<max_in_zone;
+				{
+					b4_rollback_max=0;
+					cout<<"\n\t Item-#: "<<items<<" weight-iter: "<<weight<<"\t checkpoint_zone: "<<checkpoint_zone<<" max-in-zone: "<<max_in_zone<<" duh: "<<duh<<" eval_mat[items][weight-1]: "<<eval_mat[items][weight-1]<<" values[items]: "<<values[items];
+				}
 				//cout<<"\n -- Done with checkpoint-zone: "<<checkpoint_zone<<" weight: "<<weight<<endl;				
 			}
-		}
-	
+		}	
 	}
 	
 	~Knapsack()
