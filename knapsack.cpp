@@ -1,4 +1,4 @@
-#include "error_inject_operator.h"
+#include "knapsack.h"
 
 using namespace std;
 
@@ -7,16 +7,11 @@ double error_inject_operators<M>::error_percent=0.01;
 int main()
 {
 
-error_inject_operators<int> var1,var2;
+	error_inject_operators<int>::error_percent=0.01;
 
-
-
-var1=100;
-var2=200;
-var1=var1+100;
-var1=var1+var2;
-var2=var1+100;
-
-
+	Knapsack my_knapsack(10,20);
+	my_knapsack.fill_matrix();
+	my_knapsack.print_info();
+	
 return 0;
 }
