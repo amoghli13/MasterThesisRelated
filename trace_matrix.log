@@ -1,186 +1,81 @@
 
+	 Num-items: 10	 Max-weight: 40	 Checkpoint-length: 5	 Num_checkpoints: 8
+
 	 In fill-matrix() 
 
-	 I: 1 weight0 weights[items]: 2 trace-flag: 0
-	 I: 1 weight1 weights[items]: 2 trace-flag: 0
-	 I: 1 weight2 weights[items]: 2 trace-flag: 1
-	 I: 1 weight3 weights[items]: 2 trace-flag: 1
-	 I: 1 weight4 weights[items]: 2 trace-flag: 1
-	 I: 1 weight5 weights[items]: 2 trace-flag: 1
-	 I: 1 weight6 weights[items]: 2 trace-flag: 1
-	 I: 1 weight7 weights[items]: 2 trace-flag: 1
-	 I: 1 weight8 weights[items]: 2 trace-flag: 1
-	 I: 1 weight9 weights[items]: 2 trace-flag: 1
-	 I: 1 weight10 weights[items]: 2 trace-flag: 1
-	 I: 1 weight11 weights[items]: 2 trace-flag: 1
-	 I: 1 weight12 weights[items]: 2 trace-flag: 1
-	 I: 1 weight13 weights[items]: 2 trace-flag: 1
-	 I: 1 weight14 weights[items]: 2 trace-flag: 1
-	 I: 1 weight15 weights[items]: 2 trace-flag: 1
-	 I: 1 weight16 weights[items]: 2 trace-flag: 1
-	 I: 1 weight17 weights[items]: 2 trace-flag: 1
-	 I: 1 weight18 weights[items]: 2 trace-flag: 1
-	 I: 1 weight19 weights[items]: 2 trace-flag: 1
-	 I: 2 weight0 weights[items]: 3 trace-flag: 0
-	 I: 2 weight1 weights[items]: 3 trace-flag: 0
-	 I: 2 weight2 weights[items]: 3 trace-flag: 0
-	 I: 2 weight3 weights[items]: 3 trace-flag: 1
-	 I: 2 weight4 weights[items]: 3 trace-flag: 1
-	 I: 2 weight5 weights[items]: 3 trace-flag: 1
-	 I: 2 weight6 weights[items]: 3 trace-flag: 1
-	 I: 2 weight7 weights[items]: 3 trace-flag: 1
-	 I: 2 weight8 weights[items]: 3 trace-flag: 1
-	 I: 2 weight9 weights[items]: 3 trace-flag: 1
-	 I: 2 weight10 weights[items]: 3 trace-flag: 1
-	 I: 2 weight11 weights[items]: 3 trace-flag: 1
-	 I: 2 weight12 weights[items]: 3 trace-flag: 1
-	 I: 2 weight13 weights[items]: 3 trace-flag: 1
-	 I: 2 weight14 weights[items]: 3 trace-flag: 1
-	 I: 2 weight15 weights[items]: 3 trace-flag: 1
-	 I: 2 weight16 weights[items]: 3 trace-flag: 1
-	 I: 2 weight17 weights[items]: 3 trace-flag: 1
-	 I: 2 weight18 weights[items]: 3 trace-flag: 1
-	 I: 2 weight19 weights[items]: 3 trace-flag: 1
-	 I: 3 weight0 weights[items]: 1 trace-flag: 0
-	 I: 3 weight1 weights[items]: 1 trace-flag: 1
-	 I: 3 weight2 weights[items]: 1 trace-flag: 1
-	 I: 3 weight3 weights[items]: 1 trace-flag: 1
-	 I: 3 weight4 weights[items]: 1 trace-flag: 1
-	 I: 3 weight5 weights[items]: 1 trace-flag: 1
-	 I: 3 weight6 weights[items]: 1 trace-flag: 1
-	 I: 3 weight7 weights[items]: 1 trace-flag: 1
-	 I: 3 weight8 weights[items]: 1 trace-flag: 1
-	 I: 3 weight9 weights[items]: 1 trace-flag: 1
-	 I: 3 weight10 weights[items]: 1 trace-flag: 1
-	 I: 3 weight11 weights[items]: 1 trace-flag: 1
-	 I: 3 weight12 weights[items]: 1 trace-flag: 1
-	 I: 3 weight13 weights[items]: 1 trace-flag: 1
-	 I: 3 weight14 weights[items]: 1 trace-flag: 1
-	 I: 3 weight15 weights[items]: 1 trace-flag: 1
-	 I: 3 weight16 weights[items]: 1 trace-flag: 1
-	 I: 3 weight17 weights[items]: 1 trace-flag: 1
-	 I: 3 weight18 weights[items]: 1 trace-flag: 1
-	 I: 3 weight19 weights[items]: 1 trace-flag: 1
-	 I: 4 weight0 weights[items]: 4 trace-flag: 0
-	 I: 4 weight1 weights[items]: 4 trace-flag: 0
-	 I: 4 weight2 weights[items]: 4 trace-flag: 0
-	 I: 4 weight3 weights[items]: 4 trace-flag: 0
-	 I: 4 weight4 weights[items]: 4 trace-flag: 0
-	 I: 4 weight5 weights[items]: 4 trace-flag: 0
-	 I: 4 weight6 weights[items]: 4 trace-flag: 0
-	 I: 4 weight7 weights[items]: 4 trace-flag: 0
-	 I: 4 weight8 weights[items]: 4 trace-flag: 1
-	 I: 4 weight9 weights[items]: 4 trace-flag: 1
-	 I: 4 weight10 weights[items]: 4 trace-flag: 1
-	 I: 4 weight11 weights[items]: 4 trace-flag: 1
-	 I: 4 weight12 weights[items]: 4 trace-flag: 1
-	 I: 4 weight13 weights[items]: 4 trace-flag: 1
-	 I: 4 weight14 weights[items]: 4 trace-flag: 1
-	 I: 4 weight15 weights[items]: 4 trace-flag: 1
-	 I: 4 weight16 weights[items]: 4 trace-flag: 1
-	 I: 4 weight17 weights[items]: 4 trace-flag: 1
-	 I: 4 weight18 weights[items]: 4 trace-flag: 1
-	 I: 4 weight19 weights[items]: 4 trace-flag: 1
-	 I: 5 weight0 weights[items]: 2 trace-flag: 0
-	 I: 5 weight1 weights[items]: 2 trace-flag: 0
-	 I: 5 weight2 weights[items]: 2 trace-flag: 0
-	 I: 5 weight3 weights[items]: 2 trace-flag: 1
-	 I: 5 weight4 weights[items]: 2 trace-flag: 0
-	 I: 5 weight5 weights[items]: 2 trace-flag: 1
-	 I: 5 weight6 weights[items]: 2 trace-flag: 1
-	 I: 5 weight7 weights[items]: 2 trace-flag: 1
-	 I: 5 weight8 weights[items]: 2 trace-flag: 1
-	 I: 5 weight9 weights[items]: 2 trace-flag: 1
-	 I: 5 weight10 weights[items]: 2 trace-flag: 1
-	 I: 5 weight11 weights[items]: 2 trace-flag: 1
-	 I: 5 weight12 weights[items]: 2 trace-flag: 1
-	 I: 5 weight13 weights[items]: 2 trace-flag: 1
-	 I: 5 weight14 weights[items]: 2 trace-flag: 1
-	 I: 5 weight15 weights[items]: 2 trace-flag: 1
-	 I: 5 weight16 weights[items]: 2 trace-flag: 1
-	 I: 5 weight17 weights[items]: 2 trace-flag: 1
-	 I: 5 weight18 weights[items]: 2 trace-flag: 1
-	 I: 5 weight19 weights[items]: 2 trace-flag: 1
-	 I: 6 weight0 weights[items]: 0 trace-flag: 1
-	 I: 6 weight1 weights[items]: 0 trace-flag: 1
-	 I: 6 weight2 weights[items]: 0 trace-flag: 1
-	 I: 6 weight3 weights[items]: 0 trace-flag: 1
-	 I: 6 weight4 weights[items]: 0 trace-flag: 1
-	 I: 6 weight5 weights[items]: 0 trace-flag: 1
-	 I: 6 weight6 weights[items]: 0 trace-flag: 1
-	 I: 6 weight7 weights[items]: 0 trace-flag: 1
-	 I: 6 weight8 weights[items]: 0 trace-flag: 1
-	 I: 6 weight9 weights[items]: 0 trace-flag: 1
-	 I: 6 weight10 weights[items]: 0 trace-flag: 1
-	 I: 6 weight11 weights[items]: 0 trace-flag: 1
-	 I: 6 weight12 weights[items]: 0 trace-flag: 1
-	 I: 6 weight13 weights[items]: 0 trace-flag: 1
-	 I: 6 weight14 weights[items]: 0 trace-flag: 1
-	 I: 6 weight15 weights[items]: 0 trace-flag: 1
-	 I: 6 weight16 weights[items]: 0 trace-flag: 1
-	 I: 6 weight17 weights[items]: 0 trace-flag: 1
-	 I: 6 weight18 weights[items]: 0 trace-flag: 1
-	 I: 6 weight19 weights[items]: 0 trace-flag: 1
-	 I: 7 weight0 weights[items]: 3 trace-flag: 0
-	 I: 7 weight1 weights[items]: 3 trace-flag: 0
-	 I: 7 weight2 weights[items]: 3 trace-flag: 0
-	 I: 7 weight3 weights[items]: 3 trace-flag: 0
-	 I: 7 weight4 weights[items]: 3 trace-flag: 0
-	 I: 7 weight5 weights[items]: 3 trace-flag: 0
-	 I: 7 weight6 weights[items]: 3 trace-flag: 0
-	 I: 7 weight7 weights[items]: 3 trace-flag: 0
-	 I: 7 weight8 weights[items]: 3 trace-flag: 0
-	 I: 7 weight9 weights[items]: 3 trace-flag: 1
-	 I: 7 weight10 weights[items]: 3 trace-flag: 1
-	 I: 7 weight11 weights[items]: 3 trace-flag: 1
-	 I: 7 weight12 weights[items]: 3 trace-flag: 1
-	 I: 7 weight13 weights[items]: 3 trace-flag: 1
-	 I: 7 weight14 weights[items]: 3 trace-flag: 1
-	 I: 7 weight15 weights[items]: 3 trace-flag: 1
-	 I: 7 weight16 weights[items]: 3 trace-flag: 1
-	 I: 7 weight17 weights[items]: 3 trace-flag: 1
-	 I: 7 weight18 weights[items]: 3 trace-flag: 1
-	 I: 7 weight19 weights[items]: 3 trace-flag: 1
-	 I: 8 weight0 weights[items]: 0 trace-flag: 1
-	 I: 8 weight1 weights[items]: 0 trace-flag: 1
-	 I: 8 weight2 weights[items]: 0 trace-flag: 1
-	 I: 8 weight3 weights[items]: 0 trace-flag: 1
-	 I: 8 weight4 weights[items]: 0 trace-flag: 1
-	 I: 8 weight5 weights[items]: 0 trace-flag: 1
-	 I: 8 weight6 weights[items]: 0 trace-flag: 1
-	 I: 8 weight7 weights[items]: 0 trace-flag: 1
-	 I: 8 weight8 weights[items]: 0 trace-flag: 1
-	 I: 8 weight9 weights[items]: 0 trace-flag: 1
-	 I: 8 weight10 weights[items]: 0 trace-flag: 1
-	 I: 8 weight11 weights[items]: 0 trace-flag: 1
-	 I: 8 weight12 weights[items]: 0 trace-flag: 1
-	 I: 8 weight13 weights[items]: 0 trace-flag: 1
-	 I: 8 weight14 weights[items]: 0 trace-flag: 1
-	 I: 8 weight15 weights[items]: 0 trace-flag: 1
-	 I: 8 weight16 weights[items]: 0 trace-flag: 1
-	 I: 8 weight17 weights[items]: 0 trace-flag: 1
-	 I: 8 weight18 weights[items]: 0 trace-flag: 1
-	 I: 8 weight19 weights[items]: 0 trace-flag: 1
-	 I: 9 weight0 weights[items]: 2 trace-flag: 0
-	 I: 9 weight1 weights[items]: 2 trace-flag: 0
-	 I: 9 weight2 weights[items]: 2 trace-flag: 0
-	 I: 9 weight3 weights[items]: 2 trace-flag: 1
-	 I: 9 weight4 weights[items]: 2 trace-flag: 1
-	 I: 9 weight5 weights[items]: 2 trace-flag: 1
-	 I: 9 weight6 weights[items]: 2 trace-flag: 1
-	 I: 9 weight7 weights[items]: 2 trace-flag: 1
-	 I: 9 weight8 weights[items]: 2 trace-flag: 1
-	 I: 9 weight9 weights[items]: 2 trace-flag: 1
-	 I: 9 weight10 weights[items]: 2 trace-flag: 1
-	 I: 9 weight11 weights[items]: 2 trace-flag: 1
-	 I: 9 weight12 weights[items]: 2 trace-flag: 1
-	 I: 9 weight13 weights[items]: 2 trace-flag: 1
-	 I: 9 weight14 weights[items]: 2 trace-flag: 1
-	 I: 9 weight15 weights[items]: 2 trace-flag: 1
-	 I: 9 weight16 weights[items]: 2 trace-flag: 1
-	 I: 9 weight17 weights[items]: 2 trace-flag: 1
-	 I: 9 weight18 weights[items]: 2 trace-flag: 1
-	 I: 9 weight19 weights[items]: 2 trace-flag: 1
+	 Item-#: 1 weight-iter: 5	 checkpoint_zone: 0 max-in-zone: 15
+	 Item-#: 1 weight-iter: 10	 checkpoint_zone: 1 max-in-zone: 15
+	 Item-#: 1 weight-iter: 15	 checkpoint_zone: 2 max-in-zone: 15
+	 Item-#: 1 weight-iter: 20	 checkpoint_zone: 3 max-in-zone: 15
+	 Item-#: 1 weight-iter: 25	 checkpoint_zone: 4 max-in-zone: 15
+	 Item-#: 1 weight-iter: 30	 checkpoint_zone: 5 max-in-zone: 15
+	 Item-#: 1 weight-iter: 35	 checkpoint_zone: 6 max-in-zone: 15
+	 Item-#: 1 weight-iter: 40	 checkpoint_zone: 7 max-in-zone: 844710429
+	 Item-#: 2 weight-iter: 5	 checkpoint_zone: 0 max-in-zone: 35
+	 Item-#: 2 weight-iter: 10	 checkpoint_zone: 1 max-in-zone: 50
+	 Item-#: 2 weight-iter: 15	 checkpoint_zone: 2 max-in-zone: 50
+	 Item-#: 2 weight-iter: 20	 checkpoint_zone: 3 max-in-zone: 50
+	 Item-#: 2 weight-iter: 25	 checkpoint_zone: 4 max-in-zone: 50
+	 Item-#: 2 weight-iter: 30	 checkpoint_zone: 5 max-in-zone: 50
+	 Item-#: 2 weight-iter: 35	 checkpoint_zone: 6 max-in-zone: 50
+	 Item-#: 2 weight-iter: 40	 checkpoint_zone: 7 max-in-zone: 844710429
+	 Item-#: 3 weight-iter: 5	 checkpoint_zone: 0 max-in-zone: 127
+	 Item-#: 3 weight-iter: 10	 checkpoint_zone: 1 max-in-zone: 142
+	 Item-#: 3 weight-iter: 15	 checkpoint_zone: 2 max-in-zone: 142
+	 Item-#: 3 weight-iter: 20	 checkpoint_zone: 3 max-in-zone: 142
+	 Item-#: 3 weight-iter: 25	 checkpoint_zone: 4 max-in-zone: 142
+	 Item-#: 3 weight-iter: 30	 checkpoint_zone: 5 max-in-zone: 142
+	 Item-#: 3 weight-iter: 35	 checkpoint_zone: 6 max-in-zone: 142
+	 Item-#: 3 weight-iter: 40	 checkpoint_zone: 7 max-in-zone: 844710429
+	 Item-#: 4 weight-iter: 5	 checkpoint_zone: 0 max-in-zone: 127
+	 Item-#: 4 weight-iter: 10	 checkpoint_zone: 1 max-in-zone: 148
+	 Item-#: 4 weight-iter: 15	 checkpoint_zone: 2 max-in-zone: 163
+	 Item-#: 4 weight-iter: 20	 checkpoint_zone: 3 max-in-zone: 163
+	 Item-#: 4 weight-iter: 25	 checkpoint_zone: 4 max-in-zone: 163
+	 Item-#: 4 weight-iter: 30	 checkpoint_zone: 5 max-in-zone: 163
+	 Item-#: 4 weight-iter: 35	 checkpoint_zone: 6 max-in-zone: 163
+	 Item-#: 4 weight-iter: 40	 checkpoint_zone: 7 max-in-zone: 844710429
+	 Item-#: 5 weight-iter: 5	 checkpoint_zone: 0 max-in-zone: 127
+	 Item-#: 5 weight-iter: 10	 checkpoint_zone: 1 max-in-zone: 169
+	 Item-#: 5 weight-iter: 15	 checkpoint_zone: 2 max-in-zone: 190
+	 Item-#: 5 weight-iter: 20	 checkpoint_zone: 3 max-in-zone: 190
+	 Item-#: 5 weight-iter: 25	 checkpoint_zone: 4 max-in-zone: 190
+	 Item-#: 5 weight-iter: 30	 checkpoint_zone: 5 max-in-zone: 1436994966
+	 Item-#: 5 weight-iter: 35	 checkpoint_zone: 6 max-in-zone: 190
+	 Item-#: 5 weight-iter: 40	 checkpoint_zone: 7 max-in-zone: 844710429
+	 Item-#: 6 weight-iter: 5	 checkpoint_zone: 0 max-in-zone: 186
+	 Item-#: 6 weight-iter: 10	 checkpoint_zone: 1 max-in-zone: 228
+	 Item-#: 6 weight-iter: 15	 checkpoint_zone: 2 max-in-zone: 249
+	 Item-#: 6 weight-iter: 20	 checkpoint_zone: 3 max-in-zone: 249
+	 Item-#: 6 weight-iter: 25	 checkpoint_zone: 4 max-in-zone: 249
+	 Item-#: 6 weight-iter: 30	 checkpoint_zone: 5 max-in-zone: 1436995025
+	 Item-#: 6 weight-iter: 35	 checkpoint_zone: 6 max-in-zone: 249
+	 Item-#: 6 weight-iter: 40	 checkpoint_zone: 7 max-in-zone: 844710488
+	 Item-#: 7 weight-iter: 5	 checkpoint_zone: 0 max-in-zone: 186
+	 Item-#: 7 weight-iter: 10	 checkpoint_zone: 1 max-in-zone: 239
+	 Item-#: 7 weight-iter: 15	 checkpoint_zone: 2 max-in-zone: 260
+	 Item-#: 7 weight-iter: 20	 checkpoint_zone: 3 max-in-zone: 275
+	 Item-#: 7 weight-iter: 25	 checkpoint_zone: 4 max-in-zone: 275
+	 Item-#: 7 weight-iter: 30	 checkpoint_zone: 5 max-in-zone: 1436995025
+	 --- Item-#: 7 weight-iter: 35	 checkpoint_zone: 6	 weight: 3	 eval_mat[items][weight] 275 max_in_zone: 275
+
+	 Item-#: 7 weight-iter: 40	 checkpoint_zone: 7 max-in-zone: 844710488
+	 Item-#: 8 weight-iter: 5	 checkpoint_zone: 0 max-in-zone: 212
+	 Item-#: 8 weight-iter: 10	 checkpoint_zone: 1 max-in-zone: 265
+	 Item-#: 8 weight-iter: 15	 checkpoint_zone: 2 max-in-zone: 286
+	 Item-#: 8 weight-iter: 20	 checkpoint_zone: 3 max-in-zone: 301
+	 Item-#: 8 weight-iter: 25	 checkpoint_zone: 4 max-in-zone: 301
+	 Item-#: 8 weight-iter: 30	 checkpoint_zone: 5 max-in-zone: 1436995051
+	 Item-#: 8 weight-iter: 35	 checkpoint_zone: 6 max-in-zone: 301
+	 Item-#: 8 weight-iter: 40	 checkpoint_zone: 7 max-in-zone: 844710514
+	 Item-#: 9 weight-iter: 5	 checkpoint_zone: 0 max-in-zone: 213
+	 Item-#: 9 weight-iter: 10	 checkpoint_zone: 1 max-in-zone: 275
+	 Item-#: 9 weight-iter: 15	 checkpoint_zone: 2 max-in-zone: 316
+	 Item-#: 9 weight-iter: 20	 checkpoint_zone: 3 max-in-zone: 337
+	 Item-#: 9 weight-iter: 25	 checkpoint_zone: 4 max-in-zone: 337
+	 Item-#: 9 weight-iter: 30	 checkpoint_zone: 5 max-in-zone: 1436995060
+	 Item-#: 9 weight-iter: 35	 checkpoint_zone: 6 max-in-zone: 1436995113
+	 Item-#: 9 weight-iter: 40	 checkpoint_zone: 7 max-in-zone: 844710514
 	 I: 0 W: 3 V: 86
 	 I: 1 W: 2 V: 15
 	 I: 2 W: 3 V: 35
@@ -192,13 +87,23 @@
 	 I: 8 W: 0 V: 26
 	 I: 9 W: 2 V: 36
 
-	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0
-	 0	 0	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15
-	 0	 0	 15	 35	 35	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50
-	 0	 92	 92	 107	 127	 127	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142
-	 0	 92	 92	 107	 127	 127	 142	 142	 148	 148	 163	 163	 163	 163	 163	 163	 163	 163	 163	 163
-	 0	 92	 92	 119	 127	 134	 154	 154	 169	 169	 175	 175	 190	 190	 190	 190	 190	 190	 190	 190
-	 59	 151	 151	 178	 186	 193	 213	 213	 228	 228	 234	 234	 249	 249	 249	 249	 249	 249	 249	 249
-	 59	 151	 151	 178	 186	 193	 213	 213	 228	 239	 239	 254	 254	 260	 260	 275	 275	 275	 275	 275
-	 85	 177	 177	 204	 212	 219	 239	 239	 254	 265	 265	 280	 280	 286	 286	 301	 301	 301	 301	 301
-	 85	 177	 177	 213	 213	 240	 248	 255	 275	 275	 290	 301	 301	 316	 316	 322	 322	 337	 337	 337
+ 
+	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0	 0
+ 
+	 0	 0	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 15	 844710429
+ 
+	 0	 0	 15	 35	 35	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 50	 844710429
+ 
+	 0	 92	 92	 107	 127	 127	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142	 142	 844710429
+ 
+	 0	 92	 92	 107	 127	 127	 142	 142	 148	 148	 163	 163	 163	 163	 163	 163	 163	 163	 163	 163	 163	 163	 163	 163	 163	 163	 163	 1436994939	 163	 163	 163	 163	 163	 163	 163	 163	 163	 163	 163	 844710429
+ 
+	 0	 92	 92	 119	 127	 134	 154	 154	 169	 169	 175	 175	 190	 190	 190	 190	 190	 190	 190	 190	 190	 190	 190	 190	 190	 190	 190	 1436994939	 190	 1436994966	 190	 190	 190	 190	 190	 190	 190	 190	 190	 844710429
+ 
+	 59	 151	 151	 178	 186	 193	 213	 213	 228	 228	 234	 234	 249	 249	 249	 249	 249	 249	 249	 249	 249	 249	 249	 249	 249	 249	 249	 1436994998	 249	 1436995025	 249	 249	 249	 249	 249	 249	 249	 249	 249	 844710488
+ 
+	 59	 151	 151	 178	 186	 193	 213	 213	 228	 239	 239	 254	 254	 260	 260	 214014491	 275	 275	 275	 275	 275	 275	 275	 275	 275	 275	 275	 1436994998	 275	 1436995025	 1436995024	 275	 1436995051	 275	 275	 275	 275	 275	 275	 844710488
+ 
+	 85	 177	 177	 204	 212	 219	 239	 239	 254	 265	 265	 280	 280	 286	 286	 214014517	 301	 301	 301	 301	 301	 301	 301	 301	 301	 301	 301	 1436995024	 301	 1436995051	 1436995050	 301	 1436995077	 301	 301	 301	 301	 301	 301	 844710514
+ 
+	 85	 177	 177	 213	 213	 240	 248	 255	 275	 275	 290	 301	 301	 316	 316	 214014517	 322	 214014553	 337	 337	 337	 337	 337	 337	 337	 337	 337	 1436995024	 337	 1436995060	 1436995050	 1436995087	 1436995086	 337	 1436995113	 337	 337	 337	 337	 844710514
