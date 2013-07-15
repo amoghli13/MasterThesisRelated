@@ -31,7 +31,7 @@ public:
 		for(int i=0;i<num_items;i++)
 		{
 			weights[i]=rand()%5;
-			weights[i]=weights[i]+1;
+			weights[i]=weights[i]+10;
 			values[i]=rand()%100;
 			eval_mat[i]=new error_inject_operators<int>[max_weight];
 		}
