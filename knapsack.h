@@ -9,6 +9,12 @@ class Knapsack
 	int num_checkpoints;
 	int*  weights;
 	int*	values;
+	error_inject_operators<int>* array_checkpoints_1;
+	error_inject_operators<int>* array_checkpoints_2;	
+	error_inject_operators<int>* array_checkpoints_3;		
+	error_inject_operators<int>* curr_item_1_checkpoints;
+	error_inject_operators<int>* curr_item_2_checkpoints;
+	error_inject_operators<int>* curr_item_checkpoints;	
 	error_inject_operators<int>** eval_mat;
 public:
 	Knapsack(int num_items_ip,int max_weight_ip,int checkpoint_length_ip,int seed_reset_ip=0)
@@ -26,6 +32,9 @@ public:
 		cout<<"\n\t Num-items: "<<num_items<<"\t Max-weight: "<<max_weight<<"\t Checkpoint-length: "<<checkpoint_length<<"\t Num_checkpoints: "<<num_checkpoints<<endl;
 		weights= new int[num_items];
 		values= new int[num_items];
+		array_checkpoints_1=new error_inject_operators<int>[num_checkpoints] ;
+		array_checkpoints_2=new error_inject_operators<int>[num_checkpoints] ;
+		array_checkpoints_3=new error_inject_operators<int>[num_checkpoints] ;				
 		eval_mat=new error_inject_operators<int>*[num_items];
 				
 		for(int i=0;i<num_items;i++)
@@ -58,15 +67,87 @@ public:
 	{
 	
 		cout<<"\n\t In fill-matrix() \n";
-		for(int items=0;items<max_weight;items++)
-			eval_mat[0][items]=0;
+		for(int weight=0;weight<max_weight;weight++)
+			eval_mat[0][weight]=0;
 
-		for(int weight=0;weight<num_items;weight++)
-			eval_mat[weight][0]=0;
+		for(int items=0;items<num_items;items++)
+			eval_mat[items][0]=0;
 
-		
-		for(int items=1;items<num_items;items++)
+		for(int weight=0;weight<max_weight;weight++)
 		{
+			int items=1;
+			curr_item_1_checkpoints=array_checkpoints_3;
+			curr_item_2_checkpoints=array_checkpoints_1;				
+			for(int checkpoint_zone=0,weight=0;checkpoint_zone<num_checkpoints;checkpoint_zone++)
+			{
+				//cout<<"\n -- In Checkpoint-zone: "<<checkpoint_zone<<" weight: "<<weight<<endl;
+				weight=checkpoint_zone*checkpoint_length;
+				error_inject_operators<int> max_in_zone;
+				max_in_zone=0;				
+				int weights_bound= min( (weight+checkpoint_length),max_weight );
+				error_inject_operators<int> duh; //Need a constructor which can take value at declaration.
+
+				duh=0;
+				for( ;weight<weights_bound;weight++)
+				{
+					int trace_flag=0;						
+					eval_mat[items][weight]=eval_mat[items-1][weight];
+
+					if( (weight- weights[items]) >=0 )
+					{
+						duh=(eval_mat[items-1][weight-weights[items]]+values[items] );
+						if(  eval_mat[items][weight] < ( duh)  )
+						//	eval_mat[items][weight]=eval_mat[items][weight];
+						//else
+						{
+							eval_mat[items][weight]=duh;
+							trace_flag=1;
+						}
+				
+					}
+					if( max_in_zone < eval_mat[items][weight] )
+						max_in_zone=eval_mat[items][weight];					
+					cout<<"\n\t\t I: "<<items<<" weight: " <<weight<<" weights[items]: "<<(weights[items])<<" trace-flag: "<<trace_flag<<" max_in_zone: "<<max_in_zone<<" eval_mat[items][weight]: "<<eval_mat[items][weight];
+				}
+				curr_item_1_checkpoints[checkpoint_zone]=max_in_zone;
+				curr_item_2_checkpoints[checkpoint_zone]=0;
+		
+			}
+			
+		}
+
+	error_inject_operators<int>* array_checkpoints_1;
+	error_inject_operators<int>* array_checkpoints_2;	
+	error_inject_operators<int>* array_checkpoints_3;		
+	error_inject_operators<int>* curr_item_1_checkpoints;
+	error_inject_operators<int>* curr_item_2_checkpoints;
+	error_inject_operators<int>* curr_item_checkpoints;	
+			
+		
+		for(int items=2;items<num_items;items++)
+		{
+		
+			switch( items%3)
+			{
+				case 0: 
+					curr_item_checkpoints=array_checkpoints_1;
+					curr_item_1_checkpoints=array_checkpoints_2;
+					curr_item_2_checkpoints=array_checkpoints_3;					
+				break;
+				case 1:
+					curr_item_checkpoints=array_checkpoints_3;
+					curr_item_1_checkpoints=array_checkpoints_1;
+					curr_item_2_checkpoints=array_checkpoints_2;					
+				break;
+				case 2:
+					curr_item_checkpoints=array_checkpoints_2;
+					curr_item_1_checkpoints=array_checkpoints_3;
+					curr_item_2_checkpoints=array_checkpoints_1;					
+				break;
+			
+			}
+		
+		
 				error_inject_operators<int> b4_rollback_max;
 				error_inject_operators<int> yet_to_rollback_prev_item;
 				b4_rollback_max=0;
