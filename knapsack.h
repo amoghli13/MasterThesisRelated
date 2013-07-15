@@ -206,70 +206,25 @@ public:
 				
 				 //The or part takes care of cases when fault happens at last point of the checkpoint zone- The 2nd operand to and takes care of cases where the first item is being considered ( where its expected to have max_in_zone==values[items])
 				duh=(eval_mat[items-1][weight-1-weights[items]]+values[items] ); // Weight should not be zero is the assumption :'(
-		
-				if( (max_in_zone!=eval_mat[items][weight-1] ) || ( ( !(max_in_zone - eval_mat[items][weight-1]) ) && ( (eval_mat[items][weight-1]!=duh  ) && (eval_mat[items-1][weight-1]!=eval_mat[items][weight-1]) ) ) )
+				//yet_to_rollback_prev_item
+				//if( (max_in_zone!=eval_mat[items][weight-1] ) || ( ( !(max_in_zone - eval_mat[items][weight-1]) ) && ( (eval_mat[items][weight-1]!=duh  ) && (eval_mat[items-1][weight-1]!=eval_mat[items][weight-1]) ) ) )
+				if(  ( max_in_zone >  max_checkpoint )  || (max_in_zone!=eval_mat[items][weight-1] ) )
 				{
-					
-					cout<<"\n\t --- Item-#: "<<items<<" weight-iter: "<<weight<<"\t checkpoint_zone: "<<checkpoint_zone<<"\t weight: "<<weights[items]<<"\t eval_mat[items][weight] "<<eval_mat[items][weight-1]<<" max_in_zone: "<<max_in_zone<<" eval_mat[items-1][weight-1-weights[items]] "<< eval_mat[items-1][weight-1-weights[items]]<<" values[items] "<<values[items]<<" b4_rollback_max: "<<b4_rollback_max<<endl;
-					if( (b4_rollback_max!=max_in_zone) )
+					if( yet_to_rollback_prev_item ==1 )
 					{
+						yet_to_rollback_prev_item=0;
 						checkpoint_zone--;					
-						b4_rollback_max=max_in_zone;	
 					}
 					else
 					{
-						if( yet_to_rollback_prev_item==1 )
-						{
-							items--;
-							error_inject_operators<int> local_max_in_zone;
-							local_max_in_zone=0;
-							for(weight-=checkpoint_length;weight<weights_bound;weight++)	
-							{
-								eval_mat[items][weight]=eval_mat[items-1][weight];
-								int trace_flag=0;
-								if( (weight- weights[items]) >=0 )
-								{
-									duh=(eval_mat[items-1][weight-weights[items]]+values[items] );
-									if(  eval_mat[items][weight] < ( duh)  )
-									//	eval_mat[items][weight]=eval_mat[items][weight];
-									//else
-									{
-										eval_mat[items][weight]=duh;
-										trace_flag=1;
-									}
-									
-									cout<<"\n\t\t\t ALERT I: "<<items<<" weight: " <<weight<<" weights[items]: "<<(weights[items])<<" trace-flag: "<<trace_flag<<" max_in_zone: "<<max_in_zone<<" eval_mat[items][weight]: "<<eval_mat[items][weight];				
-								}
-								if( local_max_in_zone < eval_mat[items][weight] )
-									local_max_in_zone=eval_mat[items][weight];	
-								
-							}
-							// Untested code of line : ---> if( local_max_in_zone == max_in_zone )	{items--;goto one}	
-							// POTENTIALLY the above portion could cause error and this measure might not be upto no good!! :'(		
-							
-							if(local_max_in_zone>=max_in_zone)
-							{
-								checkpoint_zone=-1;								
-								items--;
-								yet_to_rollback_prev_item=1;							
-								b4_rollback_max=0;
-								cout<<"\n\t FATAL MOVE!!! local_max_in_zone: "<<local_max_in_zone<<" is equal to "<<max_in_zone<<endl;
-							}
-							else
-							{
-								items++;
-								cout<<"\n\t ALERT!!! local_max_in_zone: "<<local_max_in_zone<<" is equal to "<<max_in_zone<<endl;								
-							}
-						}
-						else
-						{
-							cout<<"\n\t ALERT!! not rolling back since b4_rollback_max=max_in_zone \n";
-							b4_rollback_max=0;
-							yet_to_rollback_prev_item=1;
-							curr_item_checkpoints[checkpoint_zone]=max_in_zone;							
-							
-						}
+						yet_to_rollback_prev_item=1;
+						cout<<"\n\t FATAL----Need to roll back a row/item at: "<<items<<" checkpoint-zone: "<<checkpoint_zone<<" max_in_zone: "<<max_in_zone<<" max_checkpoint "<<max_checkpoint;
+						checkpoint_zone--;
+						items--;
+						
 					}
+					cout<<"\n\t --- Item-#: "<<items<<" weight-iter: "<<weight<<"\t checkpoint_zone: "<<checkpoint_zone<<"\t weight: "<<weights[items]<<"\t eval_mat[items][weight] "<<eval_mat[items][weight-1]<<" max_in_zone: "<<max_in_zone<<" eval_mat[items-1][weight-1-weights[items]] "<< eval_mat[items-1][weight-1-weights[items]]<<" values[items] "<<values[items]<<" b4_rollback_max: "<<b4_rollback_max<<endl;
+					
 				}
 				else
 				{
