@@ -73,7 +73,6 @@ public:
 		for(int items=0;items<num_items;items++)
 			eval_mat[items][0]=0;
 
-		for(int weight=0;weight<max_weight;weight++)
 		{
 			int items=1;
 			curr_item_1_checkpoints=array_checkpoints_3;
@@ -115,14 +114,6 @@ public:
 			}
 			
 		}
-
-	error_inject_operators<int>* array_checkpoints_1;
-	error_inject_operators<int>* array_checkpoints_2;	
-	error_inject_operators<int>* array_checkpoints_3;		
-	error_inject_operators<int>* curr_item_1_checkpoints;
-	error_inject_operators<int>* curr_item_2_checkpoints;
-	error_inject_operators<int>* curr_item_checkpoints;	
-			
 		
 		for(int items=2;items<num_items;items++)
 		{
@@ -133,16 +124,19 @@ public:
 					curr_item_checkpoints=array_checkpoints_1;
 					curr_item_1_checkpoints=array_checkpoints_2;
 					curr_item_2_checkpoints=array_checkpoints_3;					
+					cout<<"\n\t Case-0 !!";
 				break;
 				case 1:
 					curr_item_checkpoints=array_checkpoints_3;
 					curr_item_1_checkpoints=array_checkpoints_1;
 					curr_item_2_checkpoints=array_checkpoints_2;					
+					cout<<"\n\t Case-1 !!";
 				break;
 				case 2:
 					curr_item_checkpoints=array_checkpoints_2;
 					curr_item_1_checkpoints=array_checkpoints_3;
 					curr_item_2_checkpoints=array_checkpoints_1;					
+					cout<<"\n\t Case-2 !! "<<curr_item_1_checkpoints[0]<<" "<<curr_item_2_checkpoints[0];
 				break;
 			
 			}
@@ -152,16 +146,39 @@ public:
 				error_inject_operators<int> yet_to_rollback_prev_item;
 				b4_rollback_max=0;
 				yet_to_rollback_prev_item=1;		
-		
-			for(int checkpoint_zone=0,weight=0;checkpoint_zone<num_checkpoints;checkpoint_zone++)
-			{
-				//cout<<"\n -- In Checkpoint-zone: "<<checkpoint_zone<<" weight: "<<weight<<endl;
-				weight=checkpoint_zone*checkpoint_length;
-				error_inject_operators<int> max_in_zone;
+				error_inject_operators<int> max_in_zone,max_in_prev_zone;
 				max_in_zone=0;				
+		
+			for(int checkpoint_zone=0,weight=0;checkpoint_zone<num_checkpoints;checkpoint_zone++,max_in_prev_zone=curr_item_checkpoints[checkpoint_zone-1],max_in_zone=0)
+			{
+				cout<<"\n -- In Checkpoint-zone: "<<checkpoint_zone<<" weight: "<<weight<<endl;
+				weight=checkpoint_zone*checkpoint_length;
 				int weights_bound= min( (weight+checkpoint_length),max_weight );
 				error_inject_operators<int> duh; //Need a constructor which can take value at declaration.
 
+				int checkpoint_zone1=( (weight-weights[items])/checkpoint_length ) ;
+			//	if(!checkpoint_zone1) checkpoint_zone1=0;
+				int checkpoint_zone2=((weight+checkpoint_length-weights[items])/checkpoint_length);
+			//	if(!checkpoint_zone2) checkpoint_zone2=0;				
+				error_inject_operators<int> max_checkpoint;
+				max_checkpoint=values[items];
+				if( curr_item_1_checkpoints[checkpoint_zone1] > curr_item_1_checkpoints[checkpoint_zone2] )
+				{
+					max_checkpoint=max_checkpoint + curr_item_1_checkpoints[checkpoint_zone1];
+					cout<<"\n\t Zone1 max_checkpoint: "<<max_checkpoint;
+				}
+				else
+				{
+					max_checkpoint=max_checkpoint + curr_item_1_checkpoints[checkpoint_zone2];				
+					cout<<"\n\t Zone2 max_checkpoint: "<<max_checkpoint;					
+				}
+				if( curr_item_1_checkpoints[checkpoint_zone] > max_checkpoint )
+				{
+					max_checkpoint=curr_item_1_checkpoints[checkpoint_zone];
+					cout<<"\n\t MyZone ";
+				}
+				cout<<"\n\t -- In Checkpoint-zone: "<<checkpoint_zone<<" max_checkpoint "<<max_checkpoint<<" curr_item_1_checkpoints[checkpoint_zone] "<<curr_item_1_checkpoints[checkpoint_zone]<<" values[items] "<< values[items]<<" checkpoint_zone1: "<<( curr_item_1_checkpoints[checkpoint_zone1] )<<" checkpoint_zone2: "<<( curr_item_1_checkpoints[checkpoint_zone2] );
+				cout<<"\n\t -- In Checkpoint-zone: "<<checkpoint_zone<<" max_checkpoint "<<max_checkpoint<<" checkpoint_zone1 "<<checkpoint_zone1<<" checkpoint_zone2 "<<checkpoint_zone2;
 				duh=0;
 				for( ;weight<weights_bound;weight++)
 				{
@@ -184,6 +201,9 @@ public:
 						max_in_zone=eval_mat[items][weight];					
 					cout<<"\n\t\t I: "<<items<<" weight: " <<weight<<" weights[items]: "<<(weights[items])<<" trace-flag: "<<trace_flag<<" max_in_zone: "<<max_in_zone<<" eval_mat[items][weight]: "<<eval_mat[items][weight];
 				}
+			
+				
+				
 				 //The or part takes care of cases when fault happens at last point of the checkpoint zone- The 2nd operand to and takes care of cases where the first item is being considered ( where its expected to have max_in_zone==values[items])
 				duh=(eval_mat[items-1][weight-1-weights[items]]+values[items] ); // Weight should not be zero is the assumption :'(
 		
@@ -246,12 +266,16 @@ public:
 							cout<<"\n\t ALERT!! not rolling back since b4_rollback_max=max_in_zone \n";
 							b4_rollback_max=0;
 							yet_to_rollback_prev_item=1;
+							curr_item_checkpoints[checkpoint_zone]=max_in_zone;							
+							
 						}
 					}
 				}
 				else
 				{
 					//b4_rollback_max=0;
+					curr_item_checkpoints[checkpoint_zone]=max_in_zone;
+					if(max_in_zone>max_checkpoint) cout<<"\n\t NEW_FATAL_ALERT: max_in_zone: "<<max_in_zone<<" max_checkpoint "<<max_checkpoint;
 					cout<<"\n\t Item-#: "<<items<<" weight-iter: "<<weight<<"\t checkpoint_zone: "<<checkpoint_zone<<" max-in-zone: "<<max_in_zone<<" duh: "<<duh<<" eval_mat[items][weight-1]: "<<eval_mat[items][weight-1]<<" values[items]: "<<values[items];
 				}
 				//cout<<"\n -- Done with checkpoint-zone: "<<checkpoint_zone<<" weight: "<<weight<<endl;				
