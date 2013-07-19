@@ -34,3 +34,23 @@
 	 Considering node: 4 edge-weight: 4 	 v2: 4 D[v2] 6
 
 	 Result: 10
+	 
+	  /*   vector<ii> accepted_nodes;
+    vector<ii> accepted_nodes_ptr;    
+    D[s]=0;
+    accepted_nodes.push_back(ii(0,s));
+    int v=(*accepted_nodes.begin()).second;
+    for(vii::const_iterator it= G[v].begin();it!= G[v].end();it++)
+    {
+    	//cout<<"\n\t Node: "<<it->first<<" edge: "<<it->second;
+    }*/
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
