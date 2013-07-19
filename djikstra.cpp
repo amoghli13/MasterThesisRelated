@@ -2,6 +2,7 @@
 #include <set>
 #include <vector>
 #include<cstdio>
+#include<cstdlib>
 using namespace std;
  
 typedef vector<int> vi;
@@ -38,10 +39,9 @@ void sortMyNode(int v)
     {
     	 cout<<"\n\t Node: "<<G[v][i].first<<" edge "<<G[v][i].second;
     }    
-    
 }
  
-void Dijkstra(int s)
+void Dijkstra(int s,int destination)
 {
     /*set<ii> Q;
     D[s] = 0;
@@ -83,20 +83,31 @@ void Dijkstra(int s)
     D[s]=0;
     accepted_nodes.push_back(s);
     accepted_nodes_ptr[s]=0; // first-> the pointer/index position in above 
+    accepted_nodes_hash[s]=1;
     int v=(*accepted_nodes.begin());
     sortMyNode(v);
     int destination_notfound=1;
     while(destination_notfound)
     {
     	int accepted_nodes_size=accepted_nodes.size();
-
-	    for(int i=0;i<accepted_nodes_size;i++)
+	int reqd_idx_in_accepted_nodes=0;
+		cout<<"\n\t Current size of accepted_size: "<<accepted_nodes_size;
+	    for(int i=1;i<accepted_nodes_size;i++)
 	    {
-	    	int v=accepted_nodes[i];
-		ii tmp_reqd_ptr=G[accepted_nodes[i]][accepted_nodes_ptr[i]];
+	        if( G[accepted_nodes[i]].size() > accepted_nodes_ptr[i] )
+	    	if( G[accepted_nodes[i]][accepted_nodes_ptr[i]].second < G[reqd_idx_in_accepted_nodes][accepted_nodes_ptr[reqd_idx_in_accepted_nodes]].second )
+	    	{
+	    		reqd_idx_in_accepted_nodes=i;
+	    		cout<<"\n\t"<<G[accepted_nodes[i]][accepted_nodes_ptr[i]].second << " is lesser than "<<G[accepted_nodes[i-1]][accepted_nodes_ptr[i-1]].second ;
+	    		// exit(-1);
+	    	}
+	    	
+	    }
+	    	int v=accepted_nodes[reqd_idx_in_accepted_nodes];
+		ii tmp_reqd_ptr=G[v][accepted_nodes_ptr[reqd_idx_in_accepted_nodes]];
 	    	int v2=tmp_reqd_ptr.first;
 	    	int cost=tmp_reqd_ptr.second;
-	    	cout<<"\n\t Considering accepted node: "<<accepted_nodes[i]<<" and it's current viable node is: "<<v2<<" and the edge b/n them has a weight of "<<cost;
+	    	cout<<"\n\t Considering accepted node: "<<v<<" and it's current viable node is: "<<v2<<" and the edge b/n them has a weight of "<<cost;
 	    	int cost_compare=D[v]+cost;
 	    	if( D[v2] > cost_compare )
 	    	{
@@ -105,14 +116,29 @@ void Dijkstra(int s)
 		    	{
 		    		accepted_nodes_hash[v2]=1;
 			    	cout<<"\n\t Viable node: "<<v2<<" is accepted! since D[v2]: "<< D[v2] <<" is greater than "<<cost_compare; //and the edge b/n them has a weight of "<<cost;
-			    	sortMyNode(v2); cout<<endl;
-		    		accepted_nodes_ptr[v2]=0;			    				    	
-			    	
+			    	sortMyNode(v2); cout<<endl;			    				    	
+			    	accepted_nodes.push_back(v2);
+			    	accepted_nodes_ptr.push_back(0);
+			    	cout<<"\n\t  V2: "<<v2<< " Accepted_nodes_hash[v2] "<<accepted_nodes_hash[v2];
+			    	//exit(-1)			    	;
   			}
+  			//else
+  			accepted_nodes_ptr[reqd_idx_in_accepted_nodes]+=1;
 		    	D[v2]=cost_compare;
+			cout<<"\n Illi Saddu maadu accepted_nodes_ptr[reqd_idx_in_accepted_nodes] "<<accepted_nodes_ptr[reqd_idx_in_accepted_nodes]<<" and reqd_idx_in_accepted_nodes is "<<reqd_idx_in_accepted_nodes;
 		}
-	    }
+		else if ( accepted_nodes_hash[v2]==1 )
+		{
+			accepted_nodes_ptr[reqd_idx_in_accepted_nodes]+=1;
+			cout<<"\n\t Alli saddu maadu! accepted_nodes_ptr[reqd_idx_in_accepted_nodes] "<<accepted_nodes_ptr[reqd_idx_in_accepted_nodes]<<" and reqd_idx_in_accepted_nodes is "<<reqd_idx_in_accepted_nodes;
+		}
+		else
+			cout<<"\n\t Alli illa illu illa saddu maadu! \n";		
+		
+		
+    	if( v2==destination) 
     	destination_notfound=0;
+    	cout<<"\n\t Yay! destination_notfound is "<<destination_notfound;
     
     
     }
@@ -133,7 +159,7 @@ int main()
         G[b - 1].push_back(ii(a - 1, w));
     }
  
-    Dijkstra(s - 1);
+    Dijkstra(s - 1,t-1);
  
     printf("\n\n\t Result: %d\n", D[t - 1]);
  
