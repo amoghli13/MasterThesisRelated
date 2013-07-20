@@ -47,6 +47,30 @@ void sortMyNode(int v)
     }  */  
 }
  
+void trace_fault(int v,vector<int>& accepted_nodes,vector<int>& accepted_nodes_ptr,int accepted_nodes_idx)
+{
+int faulty_node=G[v][accepted_nodes_ptr[accepted_nodes_idx]-1].first; 
+int fault_node_idx;
+int sz=accepted_nodes.size();
+for( int i=0;i<sz;i++ )
+{
+	if( accepted_nodes[i]==faulty_node )
+	{
+		fault_node_idx=i;
+		i+=sz;
+	}
+}
+int start_ptr=accepted_nodes[fault_node_idx];
+if( start_ptr )
+{
+
+
+
+}
+
+return;
+} 
+ 
 void Dijkstra(int s,int destination)
 {
     
@@ -67,6 +91,15 @@ void Dijkstra(int s,int destination)
 		// cout<<"\n\t Current size of accepted_size: "<<accepted_nodes_size;
 	    for(int i=1;i<accepted_nodes_size;i++)
 	    {
+	    	if( accepted_nodes_ptr[i] )
+	    	if(  G[accepted_nodes[i]][accepted_nodes_ptr[i]].second < G[accepted_nodes[i]][accepted_nodes_ptr[i]-1].second  )
+	    	{
+	    		error_inject_operators<int> tmp;
+	    		tmp=G[accepted_nodes[i]][accepted_nodes_ptr[i]].second;
+	    		G[accepted_nodes[i]][accepted_nodes_ptr[i]].second=G[accepted_nodes[i]][accepted_nodes_ptr[i]-1].second;
+	    		G[accepted_nodes[i]][accepted_nodes_ptr[i]-1].second=tmp;
+	    	
+	    	}
 	        if( G[accepted_nodes[i]].size() > accepted_nodes_ptr[i] )
 	    	if( G[accepted_nodes[i]][accepted_nodes_ptr[i]].second < G[reqd_idx_in_accepted_nodes][accepted_nodes_ptr[reqd_idx_in_accepted_nodes]].second )
 	    	{
@@ -74,10 +107,18 @@ void Dijkstra(int s,int destination)
 	    		//cout<<"\n\t"<<G[accepted_nodes[i]][accepted_nodes_ptr[i]].second << " is lesser than "<<G[accepted_nodes[i-1]][accepted_nodes_ptr[i-1]].second ;
 	    		// exit(-1);
 	    	}
-	    	
 	    }
-	    	int v=accepted_nodes[reqd_idx_in_accepted_nodes];
+
 		ii tmp_reqd_ptr=G[v][accepted_nodes_ptr[reqd_idx_in_accepted_nodes]];
+		
+		if( accepted_nodes_ptr[reqd_idx_in_accepted_nodes] )
+		{
+			if( tmp_reqd_ptr.second < G[v][accepted_nodes_ptr[reqd_idx_in_accepted_nodes]-1].second )
+			{
+				trace_fault( v, accepted_nodes,accepted_nodes_ptr,reqd_idx_in_accepted_nodes );
+			} 
+		}
+	    	int v=accepted_nodes[reqd_idx_in_accepted_nodes];
 	    	int v2=tmp_reqd_ptr.first;
 	    	error_inject_operators<int> cost;
 	    	cost=tmp_reqd_ptr.second;
