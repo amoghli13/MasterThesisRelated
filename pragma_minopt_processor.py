@@ -1,13 +1,29 @@
 ##########################################
-# Pending:
-#	1. Should take care of comments- how?
-#
-#
-#Assumptions for now
-#	1. for loop:
+# Implementation:
+#	1. Support the pragma insertion. The stencil region is marked with pragma start & end and #dimensions, size of each dimension is extracted. - Done
+#	2. Parse the #dim, size in each dim to a method, which replaces the work. - Pending.
+#		a. Figure out number of dimensions in the array. - in regex find #of '['
+#		b. From 'a' we can determine the way in which the matrix/array elements are accessed. Need this info when replacing the pragma region.
+#		c. Array which is being updated and it's previous state should be determiined. -- LHS can be point to array_updating & term which appears the most in RHS can be thought of as array which 
+#		is providing the values. 
+#			side-note: All the extracted parameters should be conveyed to the user, so that any required change can be made. 
+#	3. items 2.a & 2.b would provide info to the method, which can replace the pramga bound region and does the following work
+#		a. Decompose the matrix into 3 levels, as required.
+#		b. Innsert L2 norm calculation.
+#		c. Use a method to check after each grid-update or just use it in between.
+#		d. Run for required number of iterations - SHOULD TAKE CARE!!!!!!
+
+
+# Assumptions for now
+#	1. for loop: 
 #		Param-1: a. The first term is either 'int' or the variable in respective dimension.
 #		Param-2: a. The terms after the variable (discovered in param-1) would be the relation and the subseqhuent term would be the size of this dimension.
 #
+#
+#
+##########################################
+# Future to-do ?
+#	1. Should take care of comments- how?
 #
 #
 ############################################
@@ -62,6 +78,7 @@ def extract_info(pragma_starts,pragma_ends,src_file_contents):
  				
 	for i in analysis_stats:
 		print "\n\t Stats: "+i+" "+str(analysis_stats[i])				
+	return analysis_stats
 								
 def main():
     try: 
@@ -124,7 +141,7 @@ def main():
    	print "\n\t Number of start and end is NOT equal: "+str(pragma_starts[0] ) + " , "+ str(pragma_ends[0] );
    	sys.exit()
 	
-    extract_info(pragma_starts[1],pragma_ends[1],src_file_contents);
+    analysis_stats=extract_info(pragma_starts[1],pragma_ends[1],src_file_contents);
 
 if __name__ == "__main__":
     main()

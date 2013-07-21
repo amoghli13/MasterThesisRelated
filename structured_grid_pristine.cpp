@@ -35,7 +35,11 @@ int main(int argc, char* argv[])
 			heat_mat2=A;
 		}
 		     
-		#pragma struct_grid start
+		//#pragma struct_grid start
+		#pragma struct_grid size 100,150
+		#pragma struct_grid curr_array heat_mat1
+		#pragma struct_grid prev_array heat_mat2
+		#pragma struct_grid data_layout 1 // 1. 1 dimensional, 2. 2 dimensional 3. 3-dimensional				
 		for (int row_idx = dependency_length ; row_idx < num_rows - dependency_length ; row_idx++) 
 		{
 			for (int col_idx = dependency_length ; col_idx < num_cols-dependency_length ; col_idx++) 
@@ -46,7 +50,7 @@ int main(int argc, char* argv[])
 						        + heat_mat2[index];
 			}
 		}
-		#pragma struct_grid end		
+		//#pragma struct_grid end		
 	}
 
 	save_matrix(heat_mat1,num_rows,num_cols,"matA",filename);
