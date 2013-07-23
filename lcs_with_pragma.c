@@ -17,7 +17,7 @@ char * lcs(const char *a,const char * b) {
     int  **lengths = malloc( lena*sizeof( int*));
     for (i=0; i<lena; i++) lengths[i] = la + i*lenb;
  
- 
+ #pragma dynamic_prog mat dimensions 2
  #pragma dynamic_prog solve num_conditions 3
  
  

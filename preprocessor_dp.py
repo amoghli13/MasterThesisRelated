@@ -40,6 +40,10 @@ def main():
     num_conditions_found=0; # Working variable to keep track of all the conditions that have been interpreted.
     num_conditions=0;
 
+    dimensions_found=0;
+    num_dimensions=0;
+    condn_params={}
+    
     for curr_line in src_file_contents:
     	
     	#print "\n\t "+str(line_count)+" : "+curr_line
@@ -62,9 +66,9 @@ def main():
 						print "\n\t Found number of conditions for solve: "+str( condns_stmt.group(1) )+" num_conditions_found "+str(num_conditions_found)+' num_conditions '+str(num_conditions);						
 					else:
 						print "\n\t Couldn't find the actual number of conditions for solve in line: "+str(line_count)
-				elif ( conditions_found and (num_conditions_found < num_conditions) ) :
+				elif ( conditions_found and dimensions_found and (num_conditions_found < num_conditions) ) :
 					condns_stmt=re.match(r'\s*\#pragma\s+dynamic_prog\s+solve\s+\cond\s+(\d+)+',curr_line);
-					print "\n\t Num_conditions_found "+str(num_conditions_found)+" is less than num_condtions: "+str(num_conditions)+"\n"
+					#print "\n\t Num_conditions_found "+str(num_conditions_found)+" is less than num_condtions: "+str(num_conditions)+"\n"
 					if condns_stmt:
 						#if( condns_stmt.group(1)== num_conditions_found+1 ):
 						print "\n\t ** Found the condition number "+str(condns_stmt.group())+' !! '
@@ -113,7 +117,7 @@ def main():
 								search_line=src_file_contents[search_line_idx];
 								confirm_curr_condition=re.match('\s*\#pragma\s+dynamic_prog\s+solve\s+\cond\s+(\d+)+ ',search_line)
 								if confirm_curr_condition:
-									print "\n\t FATAL if(condition) before coming across the pragma dynamic_prog solve cond statement on line "+str( search_line_idx ) +"\n\n "
+									print "\n\t FATAL if(condition) not found before coming across the pragma dynamic_prog solve cond statement on line "+str( search_line_idx ) +"\n\n "
 									sys.exit()
 								else:
 									if brace_notstarted:
@@ -122,19 +126,60 @@ def main():
 										if search_braces:
 											print "\n\t Found condition within () on line: "+str(search_line_idx);
 											brace_notstarted=0;
-											brace_start_line=search_line_idx
 											braces_notcompleted=0;
+											search_line_idx+=1 # To ensure the if(search_line_idx part does not come into play)																				
 										elif search_bases2:
 											brace_notstarted=0;
-											braces_notcompleted=0;											
+											braces_notcompleted=0;		
+											search_line_idx+=1 # To ensure the if(search_line_idx part does not come into play)									
 											print "\n\t Found 'else' instead of condition "+str(search_line)
 										else:
 											print "\n\t Did NOT find condition within () on line: "+str(search_line_idx);
 								search_line_idx-=1;
 							if ( search_line_idx<=start_search_line):
 								print "\n\t Condition not found before reaching pragma dynamic_prog solve cond statement on line "+str( search_line_idx ) +"\n\n "
+							else:
+								search_line_idx=brace_start_line;
+								print "\n\t Venturing to find statements from line "+str(search_line_idx)
+								while ( search_line_idx < brace_end_line  ):
+									search_line=src_file_contents[search_line_idx];
+									if (search_line_idx== brace_start_line ):
+										tmp= search_line.split('}',2)
+										#print "\n\t Muhahaha"+str(tmp)+" len(tmp) "+str(len(tmp));		
+										if len(tmp)==2:
+											search_line=tmp[1]							
+										elif len(tmp)==1:
+											search_line_idx+=1
+											search_line=src_file_contents[search_line_idx];
+									search_stmt=re.match('.*\=.*',search_line);
+									search_stmt2=re.match('\s*\#pragma\s+dynamic_prog\s+solve\s+\cond\s+(\d+)+ ',search_line)
+									if search_stmt2:
+										print "\n\t FATAL Found pragma dynamic_prog solve cond statement on line "+str( search_line_idx )+" before end of braces! \n\t This is likely a bug, please report it."
+									elif search_stmt:
+										search_stmt=re.match('\s+([^=]).*',search_line)
+										eqn_params=search_line.split('=',2)
+										eqn_params[1]=re.sub('\s$','',eqn_params[1])
+										print "\n\t Searching for stmt in line "+str(search_line)
+										if search_stmt:
+											print "\n\t ----- Found following items in the statement: "+str(eqn_params[0])+" , "+str(eqn_params[1])+" on line "+str(search_line_idx)
+											
+										else:
+											print "\n\t WARNING: Could not locate stmt in line "+str(search_line)
+									search_line_idx+=1;
+							
 				else:
-					print "\n\t I go nowhere!! since num_conditions_found is "+str(num_conditions_found)+' and num_conditions is '+str(num_conditions )+" :'( :'( ";
+					print "\n\t I go nowhere!! since num_conditions_found is "+str(num_conditions_found)+' and num_conditions is '+str(num_conditions )+" :'( :'( ";			
+							
+			elif ~dimensions_found:
+					dims_stmt=re.match(r'\s*\#pragma\s+dynamic_prog\s+mat\s+dimensions\s+(\d+)+',curr_line);
+					print "\n\t ^%$& \n"
+					if dims_stmt:
+						num_dimensions=0;#dims_stmt.group(1)
+						print "\n\t ^^^^ Number of dimensions is found  "+str(num_dimensions)
+						dimensions_found=1;	
+					else:
+						print "\n\t Searching for num-dimensions unsuccessful in line "+str(line_count)+"\n"									
+
 
  	line_count+=1;						
 				    
