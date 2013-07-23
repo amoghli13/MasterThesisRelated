@@ -33,6 +33,7 @@ def main():
     
     pragma_starts=[0]
     pragma_ends=[0]
+    src_file_length=len(src_file_contents);
     
     line_count=0;
     conditions_found=0;
@@ -42,7 +43,7 @@ def main():
     for curr_line in src_file_contents:
     	
     	#print "\n\t "+str(line_count)+" : "+curr_line
- 	line_count+=1;
+
     	matchObj=re.match(r'\s*\#pragma',curr_line)
     	if matchObj:
     		syntax_chk=re.match(r'\s*\#pragma\s+dynamic_prog',curr_line)
@@ -68,10 +69,45 @@ def main():
 						#if( condns_stmt.group(1)== num_conditions_found+1 ):
 						print "\n\t ** Found the condition number "+str(condns_stmt.group())+' !! '
 						num_conditions_found+=1;#num_conditions;
+						search_line_idx=line_count+1;
+						braces_notcompleted=1;
+						brace_notstarted=1;brace_start_line=0;
+						brace_notclosed=1;brace_end_line=0;
+						while (braces_notcompleted and ( search_line_idx < src_file_length ) ):
+							search_line=src_file_contents[search_line_idx];
+							confirm_curr_condition=re.match('\s*\#pragma\s+dynamic_prog\s+solve\s+\cond\s+(\d+)+ ',search_line)
+							if confirm_curr_condition:
+								print "\n\t FATAL braces did not complete before coming across next condn! \n\n "
+								sys.exit()
+							else:
+								if brace_notstarted:
+									search_braces=re.match('.*\{.*',search_line);
+									if search_braces:
+										print "\n\t Found brace { on line: "+str(search_line_idx);
+										brace_notstarted=0;
+										brace_start_line=search_line_idx
+									else:
+										print "\n\t Did NOT find brace { on line: "+str(search_line_idx);
+								elif brace_notclosed:
+									search_braces=re.match('.*\}.*',search_line);
+									if search_braces:
+										print "\n\t Found brace } on line: "+str(search_line_idx);
+										brace_notclosed=0;
+										braces_notcompleted=0;
+										brace_end_line=search_line_idx
+									else:
+										print "\n\t Did NOT find brace } on line: "+str(search_line_idx);
+								search_line_idx+=1;
+								#print "\n\t STATUS: brace_notstarted "+str(brace_notstarted)+" brace_notclosed "+str(brace_notclosed)+" braces_notcompleted "+str(braces_notcompleted)
+
+						if search_line_idx>=src_file_length:
+							print "FATAL: braces did not complete! search line "+str(search_line_idx)+" src_file_length"+str(src_file_length)+"\n\n"
+							sys.exit()
+						
 				else:
 					print "\n\t I go nowhere!! since num_conditions_found is "+str(num_conditions_found)+' and num_conditions is '+str(num_conditions )+" :'( :'( ";
 
-						
+ 	line_count+=1;						
 				    
 if __name__ == "__main__":
     main()    
