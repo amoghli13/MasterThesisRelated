@@ -56,7 +56,8 @@ def main():
 			solve_chk=re.match(r'\s*\#pragma\s+dynamic_prog\s+solve',curr_line)   
 			if solve_chk:
 				print "\n\t Found solve "+str(line_count)+" "+curr_line
-				condns_stmt=re.match(r'\s*\#pragma\s+dynamic_prog\s+solve\s+num_conditions',curr_line)   
+				condns_stmt=re.match(r'\s*\#pragma\s+dynamic_prog\s+solve\s+num_conditions',curr_line) 
+				condn_term_key=''  
 				if condns_stmt:
 					print "\n\t ** Found solve num_conditions in line "+str(line_count)+ " ** "
 					condns_stmt=re.match(r'\s*\#pragma\s+dynamic_prog\s+solve\s+num\_conditions\s+(\d+)+',curr_line)   
@@ -71,6 +72,10 @@ def main():
 					#print "\n\t Num_conditions_found "+str(num_conditions_found)+" is less than num_condtions: "+str(num_conditions)+"\n"
 					if condns_stmt:
 						#if( condns_stmt.group(1)== num_conditions_found+1 ):
+						
+						condn_term_key='cond'+str(condns_stmt.group(1))
+						print "\n\t condn_term_key is "+str(condn_term_key)+"\n"
+						condn_params['condn_term_key']={}
 						print "\n\t ** Found the condition number "+str(condns_stmt.group())+' !! '
 						num_conditions_found+=1;#num_conditions;
 						start_search_line=line_count;
@@ -89,17 +94,19 @@ def main():
 									search_braces=re.match('.*\{.*',search_line);
 									if search_braces:
 										print "\n\t Found brace { on line: "+str(search_line_idx);
-										brace_notstarted=0;
+										brace_notstarted=0
 										brace_start_line=search_line_idx
+										condn_params['condn_term_key']['brace_start']=brace_start_line;
 									else:
 										print "\n\t Did NOT find brace { on line: "+str(search_line_idx);
 								elif brace_notclosed:
 									search_braces=re.match('.*\}.*',search_line);
 									if search_braces:
 										print "\n\t Found brace } on line: "+str(search_line_idx);
-										brace_notclosed=0;
-										braces_notcompleted=0;
+										brace_notclosed=0
+										braces_notcompleted=0
 										brace_end_line=search_line_idx
+										condn_params['condn_term_key']['brace_end']=brace_end_line;										
 									else:
 										print "\n\t Did NOT find brace } on line: "+str(search_line_idx);
 								search_line_idx+=1;
@@ -141,6 +148,8 @@ def main():
 							else:
 								search_line_idx=brace_start_line;
 								print "\n\t Venturing to find statements from line "+str(search_line_idx)
+								condn_params['condn_term_key']['operations']={}
+								operation_count=0;
 								while ( search_line_idx < brace_end_line  ):
 									search_line=src_file_contents[search_line_idx];
 									if (search_line_idx== brace_start_line ):
@@ -159,22 +168,25 @@ def main():
 										search_stmt=re.match('\s+([^=]).*',search_line)
 										eqn_params=search_line.split('=',2)
 										eqn_params[1]=re.sub('\s$','',eqn_params[1])
+										operation_count_key='opcpount'+str(operation_count)
+										condn_params['condn_term_key']['operations']['operation_count_key']=[]
 										print "\n\t Searching for stmt in line "+str(search_line)
 										if search_stmt:
 											print "\n\t ----- Found following items in the statement: "+str(eqn_params[0])+" , "+str(eqn_params[1])+" on line "+str(search_line_idx)
-											
+											condn_params['condn_term_key']['operations']['operation_count_key'].append(eqn_params[0])
+											condn_params['condn_term_key']['operations']['operation_count_key'].append(eqn_params[1])
 										else:
 											print "\n\t WARNING: Could not locate stmt in line "+str(search_line)
 									search_line_idx+=1;
+								condn_params['condn_term_key']['operation_count']=operation_count;
 							
 				else:
 					print "\n\t I go nowhere!! since num_conditions_found is "+str(num_conditions_found)+' and num_conditions is '+str(num_conditions )+" :'( :'( ";			
 							
 			elif ~dimensions_found:
 					dims_stmt=re.match(r'\s*\#pragma\s+dynamic_prog\s+mat\s+dimensions\s+(\d+)+',curr_line);
-					print "\n\t ^%$& \n"
 					if dims_stmt:
-						num_dimensions=0;#dims_stmt.group(1)
+						num_dimensions=dims_stmt.group(1)
 						print "\n\t ^^^^ Number of dimensions is found  "+str(num_dimensions)
 						dimensions_found=1;	
 					else:
