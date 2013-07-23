@@ -69,6 +69,7 @@ def main():
 						#if( condns_stmt.group(1)== num_conditions_found+1 ):
 						print "\n\t ** Found the condition number "+str(condns_stmt.group())+' !! '
 						num_conditions_found+=1;#num_conditions;
+						start_search_line=line_count;
 						search_line_idx=line_count+1;
 						braces_notcompleted=1;
 						brace_notstarted=1;brace_start_line=0;
@@ -77,7 +78,7 @@ def main():
 							search_line=src_file_contents[search_line_idx];
 							confirm_curr_condition=re.match('\s*\#pragma\s+dynamic_prog\s+solve\s+\cond\s+(\d+)+ ',search_line)
 							if confirm_curr_condition:
-								print "\n\t FATAL braces did not complete before coming across next condn! \n\n "
+								print "\n\t FATAL braces did not complete before coming across next pragma dynamic_prog solve cond! \n\n "
 								sys.exit()
 							else:
 								if brace_notstarted:
@@ -103,7 +104,35 @@ def main():
 						if search_line_idx>=src_file_length:
 							print "FATAL: braces did not complete! search line "+str(search_line_idx)+" src_file_length"+str(src_file_length)+"\n\n"
 							sys.exit()
-						
+						else:
+							braces_notcompleted=1;
+							brace_notstarted=1;
+							brace_notclosed=1;
+							search_line_idx=brace_start_line;
+							while (braces_notcompleted and ( search_line_idx > start_search_line ) ):
+								search_line=src_file_contents[search_line_idx];
+								confirm_curr_condition=re.match('\s*\#pragma\s+dynamic_prog\s+solve\s+\cond\s+(\d+)+ ',search_line)
+								if confirm_curr_condition:
+									print "\n\t FATAL if(condition) before coming across the pragma dynamic_prog solve cond statement on line "+str( search_line_idx ) +"\n\n "
+									sys.exit()
+								else:
+									if brace_notstarted:
+										search_braces=re.match('.*\(.*\).*',search_line);
+										search_bases2=re.match('\s+else\s+',search_line);
+										if search_braces:
+											print "\n\t Found condition within () on line: "+str(search_line_idx);
+											brace_notstarted=0;
+											brace_start_line=search_line_idx
+											braces_notcompleted=0;
+										elif search_bases2:
+											brace_notstarted=0;
+											braces_notcompleted=0;											
+											print "\n\t Found 'else' instead of condition "+str(search_line)
+										else:
+											print "\n\t Did NOT find condition within () on line: "+str(search_line_idx);
+								search_line_idx-=1;
+							if ( search_line_idx<=start_search_line):
+								print "\n\t Condition not found before reaching pragma dynamic_prog solve cond statement on line "+str( search_line_idx ) +"\n\n "
 				else:
 					print "\n\t I go nowhere!! since num_conditions_found is "+str(num_conditions_found)+' and num_conditions is '+str(num_conditions )+" :'( :'( ";
 
