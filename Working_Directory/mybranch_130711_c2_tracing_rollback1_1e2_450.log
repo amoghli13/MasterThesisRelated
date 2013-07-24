@@ -1,0 +1,103 @@
+
+	 Reading files done. Size of file1: 939 and size of file2: 819 
+
+	 String-length: 450 Characters: 
+	 String1: Japan says a satellite launched into orbit Saturday could deliver Internet service many times faster than cable or DSL. The WINDS satellite was launched aboard a rocket in a joint venture between the Japan Aerospace Exploration Agency, or JAXA, and Mitsubishi Heavy Industries, CNN reported. The satellite will test new technology that aims to deliver "super high-speed Internet" service around the world, said a statement from JAXA. Initially, subsc 
+	 String2: Japan wants to be the first to tap super high speed access to the Internet and has just launched a satellite that would provide a boost to this technology. The Japan Aerospace Exploration Agency (JAXA) spearheaded the satellite launch on Saturday. JAXA's satellite-fired fast Internet project is a successful tie-up with Mitsubishi Heavy Industries and targets to provide the service to businesses and homes. A JAXA news release said: "The new techno
+
+	 Finished filling the matrix, error-inject-count: 2042 ops-count: 217674 
+
+	 C2 i: 450 j: 450 a[i]: c b[j-1]: n b[j]: o and ij_considered: 1 lengths[i][j]:229 lengths[i-1][j]: 228 lengths[i][j-1]: 229
+	 C2 i: 450 j: 449 a[i]: c b[j-1]: h b[j]: n and ij_considered: 1 lengths[i][j]:229 lengths[i-1][j]: 228 lengths[i][j-1]: 229
+	 C2 i: 450 j: 448 a[i]: c b[j-1]: c b[j]: h and ij_considered: 1 lengths[i][j]:229 lengths[i-1][j]: 228 lengths[i][j-1]: 229
+	 C3 i: 450 j: 447 a[i-1]: c b[j-1]: c and ij_considered: 1 lengths[i][j]: 229 result_length: 1 lengths[i][j-1]: 228 top_of_stack: 0
+	 C1 i: 449 j: 446 a[i]: s a[i-1]: b b[j]: e and ij_considered: 1 lengths[i][j]:228 lengths[i-1][j]:228 lengths[i][j-1]: 228 
+	 C1 i: 448 j: 446 a[i]: b a[i-1]: u b[j]: e and ij_considered: 1 lengths[i][j]:228 lengths[i-1][j]:228 lengths[i][j-1]: 228 
+	 C1 i: 447 j: 446 a[i]: u a[i-1]: s b[j]: e and ij_considered: 1 lengths[i][j]:228 lengths[i-1][j]:228 lengths[i][j-1]: 228 
+	 C2 i: 446 j: 446 a[i]: s b[j-1]: t b[j]: e and ij_considered: 1 lengths[i][j]:228 lengths[i-1][j]: 227 lengths[i][j-1]: 228
+	 C2 i: 446 j: 445 a[i]: s b[j-1]:   b[j]: t and ij_considered: 1 lengths[i][j]:228 lengths[i-1][j]: 227 lengths[i][j-1]: 228
+	 C2 i: 446 j: 444 a[i]: s b[j-1]: w b[j]:   and ij_considered: 1 lengths[i][j]:228 lengths[i-1][j]: 227 lengths[i][j-1]: 228
+	 C2 i: 446 j: 443 a[i]: s b[j-1]: e b[j]: w and ij_considered: 1 lengths[i][j]:228 lengths[i-1][j]: 227 lengths[i][j-1]: 228
+	 C2 i: 446 j: 442 a[i]: s b[j-1]: n b[j]: e and ij_considered: 1 lengths[i][j]:228 lengths[i-1][j]: 227 lengths[i][j-1]: 228
+	 C2 i: 446 j: 441 a[i]: s b[j-1]:   b[j]: n and ij_considered: 1 lengths[i][j]:228 lengths[i-1][j]: 227 lengths[i][j-1]: 228
+
+	 ------------------- Mostly stuck in a loop at i: 446 j: 440 !! ----------------
+
+ 
+	 a[i-2] : , a[i-1]:   a[i]: s a[i+1]: u  
+	 b[j-2] : h a[j-1]: e b[j]:   a[j+1]: n 
+
+
+	 Lengths[i-2][j-2]: 226 , Lengths[i-2][j-1]: 226 , Lengths[i-2][j]: 226, Lengths[i-2][j+1]: 226 
+
+	 Lengths[i-1][j-2]: 227 , Lengths[i-1][j-1]: 227 , Lengths[i-1][j]: 227, Lengths[i-1][j+1]: 227 
+
+
+	 Exception! i: 446 j: 440 a[iprime]: s b[jprime]:   lengths[i-1][j]: 227 lengths[i][j-1]:227 lengths[i][j]:228  and ij_considered: 3 
+	 Start_i: 446 Start_j: 440 Stop_i: 450 Stop_j: 447 
+	 Start_i-1: 445 Start_j+1: 441 x:   y:n lengths[start_i-1][start_j+1]: 227 
+	 Start_i+1: 447 Start_j-1: 439 x: u y:e lengths[start_i+1][start_j-1]: 227 
+	 *--* I: 445 J: 441 lengths[i-1][j]: 227 and x: s y: n
+	 *--* I: 445 J: 442 lengths[i-1][j]: 227 and x: s y: e
+	 *--* I: 445 J: 443 lengths[i-1][j]: 227 and x: s y: w
+	 *--* I: 445 J: 444 lengths[i-1][j]: 227 and x: s y:  
+	 *--* I: 445 J: 445 lengths[i-1][j]: 227 and x: s y: t
+	 *--* I: 445 J: 446 lengths[i-1][j]: 227 and x: s y: e
+	 *++* I: 445 J: 447 lengths[i-1][j]: 228 and x: s y: c
+	 |--| I: 447 J: 439 lengths[i][j]: 227 and x: u y:  
+	 |--| I: 448 J: 439 lengths[i][j]: 227 and x: b y:  
+	 |--| I: 449 J: 439 lengths[i][j]: 227 and x: s y:  
+	 |--| I: 450 J: 439 lengths[i][j]: 227 and x: c y:  
+	 Starting fixing dir-x in row: 446 and yfix: 451 
+	 fixing i:446 j: 440 x: s y:   lengths[i][j]: 227 before_lenghts: 228 error_inject: 0 
+	 fixing i:446 j: 441 x: s y: n lengths[i][j]: 227 before_lenghts: 228 error_inject: 0 
+	 fixing i:446 j: 442 x: s y: e lengths[i][j]: 227 before_lenghts: 228 error_inject: 0 
+	 fixing i:446 j: 443 x: s y: w lengths[i][j]: 227 before_lenghts: 228 error_inject: 0 
+	 fixing i:446 j: 444 x: s y:   lengths[i][j]: 227 before_lenghts: 228 error_inject: 0 
+	 fixing i:446 j: 445 x: s y: t lengths[i][j]: 227 before_lenghts: 228 error_inject: 0 
+	 fixing i:446 j: 446 x: s y: e lengths[i][j]: 227 before_lenghts: 228 error_inject: 0 
+	 ^^fixing** i:446 j: 447 x: s y: c lengths[i-1][xfix]: 228 lengths_ixfix: 228 error_inject: 0 
+	 Starting fixing dir-x in row: 447 and yfix: 451 
+	 fixing i:447 j: 440 x: u y:   lengths[i][j]: 227 before_lenghts: 228 error_inject: 0 
+	 fixing i:447 j: 441 x: u y: n lengths[i][j]: 227 before_lenghts: 228 error_inject: 0 
+	 fixing i:447 j: 442 x: u y: e lengths[i][j]: 227 before_lenghts: 228 error_inject: 0 
+	 fixing i:447 j: 443 x: u y: w lengths[i][j]: 227 before_lenghts: 228 error_inject: 0 
+	 fixing i:447 j: 444 x: u y:   lengths[i][j]: 227 before_lenghts: 228 error_inject: 0 
+	 fixing i:447 j: 445 x: u y: t lengths[i][j]: 227 before_lenghts: 228 error_inject: 0 
+	 fixing i:447 j: 446 x: u y: e lengths[i][j]: 227 before_lenghts: 228 error_inject: 0 
+	 ^^fixing** i:447 j: 447 x: u y: c lengths[i-1][xfix]: 228 lengths_ixfix: 228 error_inject: 0 
+	 Starting fixing dir-x in row: 448 and yfix: 451 
+	 fixing i:448 j: 440 x: b y:   lengths[i][j]: 227 before_lenghts: 228 error_inject: 0 
+	 fixing i:448 j: 441 x: b y: n lengths[i][j]: 227 before_lenghts: 228 error_inject: 0 
+	 fixing i:448 j: 442 x: b y: e lengths[i][j]: 227 before_lenghts: 228 error_inject: 0 
+	 fixing i:448 j: 443 x: b y: w lengths[i][j]: 227 before_lenghts: 228 error_inject: 0 
+	 fixing i:448 j: 444 x: b y:   lengths[i][j]: 227 before_lenghts: 228 error_inject: 0 
+	 fixing i:448 j: 445 x: b y: t lengths[i][j]: 227 before_lenghts: 228 error_inject: 0 
+	 fixing i:448 j: 446 x: b y: e lengths[i][j]: 227 before_lenghts: 228 error_inject: 0 
+	 ^^fixing** i:448 j: 447 x: b y: c lengths[i-1][xfix]: 228 lengths_ixfix: 228 error_inject: 0 
+	 Starting fixing dir-x in row: 449 and yfix: 451 
+	 fixing i:449 j: 440 x: s y:   lengths[i][j]: 227 before_lenghts: 228 error_inject: 0 
+	 fixing i:449 j: 441 x: s y: n lengths[i][j]: 227 before_lenghts: 228 error_inject: 0 
+	 fixing i:449 j: 442 x: s y: e lengths[i][j]: 227 before_lenghts: 228 error_inject: 0 
+	 fixing i:449 j: 443 x: s y: w lengths[i][j]: 227 before_lenghts: 228 error_inject: 0 
+	 fixing i:449 j: 444 x: s y:   lengths[i][j]: 227 before_lenghts: 228 error_inject: 0 
+	 fixing i:449 j: 445 x: s y: t lengths[i][j]: 227 before_lenghts: 228 error_inject: 0 
+	 fixing i:449 j: 446 x: s y: e lengths[i][j]: 227 before_lenghts: 228 error_inject: 0 
+	 ^^fixing** i:449 j: 447 x: s y: c lengths[i-1][xfix]: 228 lengths_ixfix: 228 error_inject: 0 
+	 Ending fixing dir-x in row: 450 and yfix: 451 and fixing_x_state: 1
+	 NOT fixing dir-y. xfix: 447 and yfix: 451 ,lenb: 451 
+
+	 &&&&& Fixing x: 440 y: 0 
+
+
+	 -- Last considered i: 446 j: 441 
+	 Need to rollback the area until accepted-i: 450 j: 447 
+	 ALERT: Top-of-stack: 0 and looking to rollback around x: 440 y: 0 
+	 i: 0 x: 450 y: 447 char: c
+	 &&&&& Should find accepted point in trace from x: 440 & y: 0 
+	 Rollback suggestion from stack---> i: 446 j: 449 
+	 C1 i: 446 j: 449 a[i]: s a[i-1]:   b[j]: n and ij_considered: 1 lengths[i][j]:228 lengths[i-1][j]:228 lengths[i][j-1]: 228 
+	 C1 i: 445 j: 449 a[i]:   a[i-1]: , b[j]: n and ij_considered: 1 lengths[i][j]:228 lengths[i-1][j]:228 lengths[i][j-1]: 228 
+	 C1 i: 444 j: 449 a[i]: , a[i-1]: y b[j]: n and ij_considered: 1 lengths[i][j]:228 lengths[i-1][j]:228 lengths[i][j-1]: 228 
+	 C1 i: 443 j: 449 a[i]: y a[i-1]: l b[j]: n and ij_considered: 1 lengths[i][j]:228 lengths[i-1][j]:228 lengths[i][j-1]: 228 
+	 C1 i: 442 j: 449 a[i]: l a[i-1]: l b[j]: n and ij_considered: 1 lengths[i][j]:228 lengths[i-1][j]:2
