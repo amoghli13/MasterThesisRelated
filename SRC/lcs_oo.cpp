@@ -15,7 +15,7 @@ double error_inject_operators<T>::error_percent=0.0;
 
 
 
-int  **lengths;
+error_inject_operators<int>** lengths;
 int lena,lenb;
 int lena_minus1,lenb_minus1;
 FILE* save_mat;
@@ -46,7 +46,354 @@ tuple_chars* accepted_tuple_chars;
 int top_of_stack;
 int end_of_stack;
 int count_stack;
+///////////////////////////////////////////////////////////////////////////////////////////////
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////// xy_tuple_rollback  ////////////////////////////////////////////////////////
+
+
+//xy_tuple rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,const char* a,const char* b,double error_percent)
+xy_tuple rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,error_inject_operators<char>* a,error_inject_operators<char>* b,double error_percent)
+{
+	int i,j;
+	error_inject_operators<char> x,y;//const char *x,*y;
+	xy_tuple fixing_end_tuple;
+	//printf("\n\t Start_i: %d Start_j: %d Stop_i: %d Stop_j: %d ",start_i,start_j,stop_i,stop_j);
+	// fprintf(save_rollback_ops,"\n\t Start_i: %d Start_j: %d Stop_i: %d Stop_j: %d ",start_i,start_j,stop_i,stop_j);	
+ 	int fixing_x_state=0;int fixing_y_state=0;	
+	if( (start_i < (lena-1) ) && ( start_j < (lenb-1) ) )
+	{
+		//	printf("\n\t Start_i-1: %d Start_j+1: %d x: %c y:%c lengths[start_i-1][start_j+1]: %d ",(start_i-1),(start_j+1),*(a+start_i-2),*(b+start_j),lengths[start_i-1][start_j+1]);
+		//	printf("\n\t Start_i+1: %d Start_j-1: %d x: %c y:%c lengths[start_i+1][start_j-1]: %d ",(start_i+1),(start_j-1),*(a+start_i),*(b+start_j-2),lengths[start_i+1][start_j-1]);
+	
+		// For rolling back, the following set of events should be checked.
+		// If If (start_i,start_j) is where the fault was injected, 
+		// 1. lengths[][] at the point (start_i-1,start_j+1) is equal or greater than lengths[][] at (start_i,start_j). If so, then no need to go forward.
+		// 2. lengths[start_i][start_j]=lengths[start_i][start_j+k] k=0 to l (should find it out!) and should then determine, whether lengths[start_i][start_j+k+1] be influenced by lengths[start_i][start_j] and should find, lengths[start_i][start_j+k+m] , where 'm' ends 
+		// 3. Same should be done for searching in start_i direction.
+		x=(a[start_i-1]);
+		y=(b[0]);
+		error_inject_operators<int> lengths_start_ij=lengths[start_i][start_j];
+		int xfix,yfix;
+		if( ! (lengths_start_ij==lengths[start_i-1][start_j+1] ) )
+		{
+			int column_search=start_j+1;
+			int row_search=start_i;
+			int char_comp=0;
+			int length_comp=0;
+		
+			int nolonger_need2search=1;
+			while( (nolonger_need2search) && ( column_search < lenb ) )
+			{
+				char_comp=( (x)== (b[column_search-1]) );
+				length_comp= (lengths[start_i][start_j]<=lengths[start_i-1][column_search]);
+				if(  ( (!length_comp) && (!char_comp) ) )
+				{
+					cout<<"\n\t *--* I: "<<(start_i-1)<<" J: "<<column_search<<" lengths[i-1][j]: "<<lengths[start_i-1][column_search]<<" x "<<x<<" y "<<b[column_search-1];
+					column_search++;
+				}
+				else
+				{
+					cout<<"\n\t *--* I: "<<(start_i-1)<<" J: "<<column_search<<" lengths[i-1][j]: "<<lengths[start_i-1][column_search]<<" x "<<x<<" y "<<b[column_search-1];				 
+					nolonger_need2search=0;
+				}
+			}
+			xfix=column_search;
+		}
+		else
+		{
+			xfix=start_j+1;
+		}
+		if( ! ( lengths_start_ij==lengths[start_i+1][start_j-1] ) )
+		{
+			int column_search=start_j-1;
+			int row_search=start_i+1;
+			int char_comp=0;
+			int length_comp=0;
+			//x=a; y=b;
+			int nolonger_need2search=1;
+			while( (nolonger_need2search) && ( ( column_search < lenb ) && ( row_search < lena ) ) )
+			{
+				char_comp=( (a+row_search-1)==(b+column_search) );
+				length_comp=(lengths[start_i][start_j]<=lengths[row_search][column_search]);
+				if(  ( (!length_comp) && (!char_comp) ) )
+				{
+					//printf("\n\t |--| I: %d J: %d lengths[i][j]: %d and x: %c y: %c",row_search,column_search,lengths[row_search][column_search],*(a+row_search-1),*(a+column_search));
+					cout<<"\n\t I: "<<row_search<<" J: "<<column_search<<" lengths[i][j]: "<<lengths[row_search][column_search]<<" x: "<<a[row_search-1]<<" y: "<<b[column_search];
+					row_search++;
+				}
+				else
+				{
+					//printf("\n\t |++| I: %d J: %d lengths[i][j]: %d and x: %c y: %c",row_search,column_search,lengths[row_search][column_search],*(a+row_search-1),*(b+column_search));
+					cout<<"\n\t I: "<<row_search<<" J: "<<column_search<<" lengths[i][j]: "<<lengths[row_search][column_search]<<" x: "<<a[row_search-1]<<" y: "<<b[column_search];
+					nolonger_need2search=0;
+				}
+			}
+			yfix=row_search;
+		}
+		else
+		{
+			yfix=start_i+1;
+	 	}
+
+		if(1)//xfix<lenb)
+		{
+			fixing_x_state=1;
+			for(i=start_i;i<yfix-1;i++)	
+			{
+				x=(a[i-1]);
+				error_inject_operators<int> lengths_ixfix;
+				lengths_ixfix=lengths[i][xfix-1]; // NOTE: lengths_ixfix has value of lengths[i][xfix-1]
+				printf("\n\t Starting fixing dir-x in row: %d and yfix: %d ",i,yfix);
+				int error_inject;
+				for(j=start_j;j<xfix;j++)
+				{
+					y=(b[start_j-1]);
+					error_inject_operators<int> before_lengths;
+					before_lengths=lengths[i][j];
+					if ( x == y)
+					{
+						lengths[i][j] = lengths[i-1][j-1] +1;
+					}
+			
+					else if ( lengths[i-1][j] > lengths[i][j-1] )
+					{
+						lengths[i][j] = lengths[i-1][j];
+					}
+					else
+					{
+						lengths[i][j]=lengths[i][j-1];
+					}			
+
+					//printf("\n\t fixing i:%d j: %d x: %c y: %c lengths[i][j]: %d before_lenghts: %d error_inject: %d ",i,j,*x,*y,lengths[i][j],before_lenghts,error_inject);
+					cout<<"\n\t fixining i: "<<i<<" j: "<<j<<" x "<<x<<" y "<<y<<" lengths[i][j]: "<<lengths[i][j]<<" before_lengths "<<before_lengths<<" error_inject "<<error_inject;
+
+				}
+	
+		}/*	
+		// NOTE: lengths[i][j]=lengths_ixfix		
+		// Assumption is that lengths[i][j] was faulty (j=yfix),and it was corrected in the above for-loop, hence lengths[i][j] being equal to lengths[i-1][j+1] implies lengths[i][j]  was propogated in lengths[i][j+1]. 
+				error_inject=percent_error(error_percent);
+				int need2search,column_search;
+				if( XOR( ( *x==*(b+xfix-1)),error_inject) )
+				{
+					lengths[i][xfix]=lengths[i-1][xfix-1]+1;
+					need2search=1;
+					column_search=xfix+1;
+					printf("\n\t ^^fixing i:%d j: %d x: %c y: %c lengths[i][j]: %d error_inject: %d ",i,xfix,*x,*(b+xfix-1),lengths[i][xfix],error_inject);
+
+				}
+				else 
+				{
+					if( lengths_ixfix > lengths[i-1][xfix] ) //
+					{
+						lengths[i][xfix]=lengths[i-1][xfix];
+						need2search=1;
+						column_search=xfix+1;
+						printf("\n\t ^^fixing^^ i:%d j: %d x: %c y: %c lengths[i-1][xfix]: %d lengths_ixfix: %d error_inject: %d ",i,xfix,*x,*(b+xfix-1),lengths[i-1][xfix],lengths_ixfix,error_inject);				
+					}
+					else
+					{
+						need2search=0;
+						printf("\n\t ^^fixing** i:%d j: %d x: %c y: %c lengths[i-1][xfix]: %d lengths_ixfix: %d error_inject: %d ",i,xfix,*x,*(b+xfix-1),lengths[i-1][xfix],lengths_ixfix,error_inject);				
+					}
+		
+				}
+		
+				int char_comp=0;
+				int lengths_comp=0;
+				while( (need2search) && (column_search < lenb) )
+				{
+					char_comp=( *x==*(b+column_search-1) );
+					lengths_comp=(lengths[i][column_search-1]==lengths[i-1][column_search] );
+					if ( (!lengths_comp) && (!char_comp) )
+					{
+						printf("\n\t --fixing-y- I: %d J: %d lengths[i][j]: %d and x: %c y: %c",i-1,column_search,lengths[i-1][column_search],*x,*(b+column_search-1));
+						lengths[i][column_search]=lengths[i-1][column_search];
+						column_search++;
+					}
+					else
+					{
+						printf("\n\t ++fixing+y+ I: %d J: %d lengths[i][j]: %d and x: %c y: %c",i-1,column_search,lengths[i-1][column_search],*x,*(b+column_search-1));
+				
+						need2search=0;
+					}
+					xfix=column_search;
+				}
+			}
+
+			printf("\n\t Ending fixing dir-x in row: %d and yfix: %d and fixing_x_state: %d",i,yfix,fixing_x_state);	
+			*/
+		}
+		/*else
+		{
+			fixing_x_state=0;
+			printf("\n\t NOT fixing dir-x. xfix: %d and yfix: %d ,lenb: %d \n",xfix,yfix,lenb);
+		}
+		if(1)//yfix<lena)
+		{
+
+			fixing_y_state=1;
+			int need2search=0;
+			int row_search=yfix;
+			int lengths_yfix=lengths[row_search-1][start_j];
+			int yfix_x; // x-value corresponding to yfix
+			yfix_x=start_j+1;
+		
+			if( *(a+row_search-2)==*(b+start_j-1) )
+				lengths[row_search-1][start_j]=lengths[row_search-1][start_j-1]+1;
+			else
+				lengths[row_search-1][start_j]=MAX(lengths[row_search-2][start_j],lengths[row_search-1][start_j-1]);
+
+			int fixing_notcomplete=1;			
+	 		while( (fixing_notcomplete) && (row_search < (lena-1)) )
+			{
+				while( (!need2search) && (yfix_x < xfix ) )
+				{
+					printf("\n\t Starting fixing dir-y. Probing in row: %d ( might need to fix row: %d ) xfix: %d and yfix_x: %d ",row_search,row_search-1,xfix,yfix_x);
+					x=a+row_search-1;// Char corresponding to 'yfix'
+					y=b+yfix_x-1;
+					if(*x==*y ) 
+					{
+						need2search=1; // For 'row_search' but until now 'row_search-1' row has not been dealt yet.
+						lengths[row_search][yfix_x]=lengths[row_search-1][yfix_x-1]+1;
+						printf("\n\t &&%%fixing i: %d j:%d x: %c y: %c lengths[row_search][yfix_x]: %d ",row_search,yfix_x,*x,*y,lengths[row_search][yfix_x]);
+					}
+					else 
+					{
+						lengths_yfix=lengths[row_search-1][yfix_x];
+						if( *(a+row_search-2)==*(b+start_j) )
+						{
+							lengths[row_search-1][yfix_x]=lengths[row_search-2][yfix_x-1]+1;
+						}
+						else
+						{
+							lengths[row_search-1][yfix_x]=MAX( lengths[row_search-2][yfix_x],lengths[row_search-1][yfix_x-1] );
+						}
+		
+						if( lengths_yfix > lengths[row_search][yfix_x-1]  )
+						{
+							need2search=1;
+							lengths[row_search][yfix_x]=MAX(lengths[row_search-1][yfix_x],lengths[row_search][yfix_x-1]);
+							printf("\n\t &&%%--fixing-- i: %d j: %d x: %c y: %c lengths[row_search][yfix_x-1]: %d ",row_search,yfix_x,*x,*y,lengths[row_search][yfix_x-1]);
+						}
+						else
+						{
+							need2search=0;
+							printf("\n\t &&%%++fixing++ i: %d j: %d x: %c y: %c lengths[row_search][yfix_x-1]: %d ",row_search,yfix_x,*x,*y,lengths[row_search][yfix_x-1]);
+							yfix_x++;
+						}
+			
+					}
+				}
+				if(need2search && (xfix < lenb ) ) // Should be careful about xfix<lenb, might cause problems to those cases in the bottom of the matrix.
+				{
+					printf("\n\t -- Going to searching in row: %d and xfix is %d and yfix_x: %d \n",row_search-1,xfix,yfix_x);
+					 xfix=search_in_row(a,b,xfix,error_percent,row_search-1,yfix_x);
+					printf("\n\t -- Returned from searching in row: %d and xfix is %d and yfix_x: %d \n",row_search-1,xfix,yfix_x);
+					row_search++;				
+					need2search=0;				
+					//exit(-1);
+				}	 
+				else
+					fixing_notcomplete=0;
+			}	
+			if(fixing_notcomplete)
+			{
+				fixing_y_state=0;
+			}
+			else
+				fixing_y_state=1;
+			printf("\n\t End of fixing dir-y. xfix: %d and yfix: %d ,lenb: %d and fixing_y_state: %d \n",xfix,yfix,lenb,fixing_y_state);
+			if(xfix>=lenb) xfix=lenb-1;
+			if(yfix>=lena) xfix=lena-1;			
+			fixing_end_tuple.j=xfix;
+			fixing_end_tuple.i=yfix;	
+		
+		}
+		else
+		{
+			fixing_y_state=0;
+			printf("\n\t NOT fixing dir-y. xfix: %d and yfix: %d ,lenb: %d \n",xfix,yfix,lenb);
+		}
+		*/
+	}
+	/* if( (!fixing_x_state) && (!fixing_y_state) )
+	{
+		for(i=start_i,x=(a+start_i-1);i<(lena);i++,x++)
+		{
+			for(j=start_j,y=(b+start_j-1);j<(lenb);j++,y++)
+			{
+				printf("\n\t ** I: %d J: %d lengths[i][j]: %d and x: %c y: %c",i,j,lengths[i][j],*x,*y);
+			
+				int error_inject=percent_error(error_percent);
+					 
+				if(error_inject)
+				{
+					error_inject_count++;
+				}
+		 
+				ops_count++; 
+				if ( XOR( (*x == *y), error_inject ) )
+				{
+					lengths[i][j] = lengths[i-1][j-1] +1;
+					ops_count++;
+				}
+			
+				else
+				{
+					int ml = MAX(lengths[i-1][j], lengths[i][j-1]);
+					lengths[i][j] = ml;
+				}
+			
+				printf("\n\t -- I: %d J: %d lengths[i][j]: %d \n",i,j,lengths[i][j]); 
+			}
+		} 
+		printf("\n\t #$#$#$ Fixing x: %d y: %d \n",fixing_end_tuple.j,fixing_end_tuple.i);
+		fixing_end_tuple.i=0;		fixing_end_tuple.j=0;
+		return fixing_end_tuple;
+		
+	} */  // printf("\n\n");exit(-1);
+	
+	//printf("\n\t &&&&& Fixing x: %d y: %d \n",fixing_end_tuple.j,fixing_end_tuple.i);
+	return fixing_end_tuple;
+}
+
+
+
+////////////////////////////////////////////  stuck_need2exit  ///////////////////////////////////////////////////
+void stuck_need2exit(int i,int j,error_inject_operators<char>*a,error_inject_operators<char>* b)
+{
+
+	int iprime=i-1;
+	int jprime=j-1;
+	printf("\n\n\t ------------------- Mostly stuck in a loop at i: %d j: %d !! ----------------\n\n",i,j);
+ 	cout<<"\n\t a[i-2] "<<a[iprime-2]<<" a[i-1] "<<a[iprime-1]<<" a[i]: "<<a[iprime]<<" a[i]: "<<a[iprime+1];
+ 	cout<<"\n\t b[i-2] "<<b[iprime-2]<<" b[i-1] "<<b[iprime-1]<<" b[i]: "<<b[iprime]<<" b[i]: "<<b[iprime+1]; 
+	cout<<"\n\t lengths[i-2][j-2] "<<lengths[i-2][j-2]<<" lengths[i-2][j-1] "<<lengths[i-2][j-1]<<" lengths[i-2][j] "<<lengths[i-2][j]<<" lengths[i-2][j+1] "<<lengths[i-2][j+1];
+	cout<<"\n\t lengths[i-1][j-2] "<<lengths[i-1][j-2]<<" lengths[i-1][j-1] "<<lengths[i-1][j-1]<<" lengths[i-1][j] "<<lengths[i-1][j]<<" lengths[i-1][j+1] "<<lengths[i-1][j+1];	
+ 
+}
+
+////////////////////////////////////////// save_mat_b4_exit /////////////////////////////////////////////////////
+
+void save_mat_b4exit()
+{
+	int i,j;
+	for(i=0;i<lena;i++)
+	{
+		fprintf(save_mat,"\n\n\t Row: %d \n",i);
+		for(j=0;j<lenb;j++)
+		{
+			fprintf(save_mat,"\t Col: %d %d ",j,lengths[i][j].operand);
+			
+		}
+	}
+
+}
+
+////////////////////////////////////////// Longest Common Subsequence ///////////////////////////////
 //char* lcs(error_inject_operators<char>* str_a,error_inject_operators<char>* str_b)
 char* lcs(const char* clip_str_a,const char* clip_str_b,double error_percent) 
 {
@@ -64,18 +411,11 @@ char* lcs(const char* clip_str_a,const char* clip_str_b,double error_percent)
 		b[i]=clip_str_b[i];				
 	}
 	
-    // int lena = strlen(a)+1;     int lenb = strlen(b)+1;
-	lena++; lenb++; //=strlen(a)+1; lenb=strlen(b)+1;
- //printf("\n\t Length of string-1: %d string-1: %s \n\t Length of string-2: %d string-2: %s \n",lena,a,lenb,b);
-    int bufrlen = lena;
-    char bufr[bufrlen];
-
-      // int *la = calloc(lena*lenb, sizeof( int));
-    	// int  **lengths = malloc( lena*sizeof( int*));
-	// lengths = malloc( lena*sizeof( int*));
-	// for (i=0; i<lena; i++) lengths[i] = la + i*lenb;
-	
-	error_inject_operators<int>** lengths;
+	lena++; lenb++; 
+        int bufrlen = lena;
+        char bufr[bufrlen];
+ 
+	//error_inject_operators<int>** lengths;
 	lengths= new error_inject_operators<int>*[lena];
 	
 	for(int i=0;i<lena;i++)
@@ -110,7 +450,7 @@ char* lcs(const char* clip_str_a,const char* clip_str_b,double error_percent)
 	
 	printf("\n\t Finished filling the matrix, error-inject-count: %d ops-count: %d \n",error_inject_count,ops_count);
 
-/*    char result[lena];
+    char result[lena];
     int result_pos=0;
     int result_length=0;
     result_pos--; //This is the index if results were to be accessed as an array.
@@ -122,20 +462,11 @@ char* lcs(const char* clip_str_a,const char* clip_str_b,double error_percent)
 
 	int accepted_i=lena-1,accepted_j=lenb-1;
 	int last_considered_i=0,last_considered_j=0;
-/*    while ( (i>0) && (j>0) ) 
+    while ( (i>0) && (j>0) ) 
  	{
 		ij_considered++;
-		//if(count_reset_seed%lena==0)
-		//{
-		   //  struct timeval t1;
-		   //  gettimeofday(&t1, NULL);
-		   //  srand(t1.tv_usec * t1.tv_sec);
-		//}
-         
-
-		ops_count++;
  
-		int c1_char_comp1= ( *(a+i-1) == *(b+j-1) );//;(a[i-1]==b[j-1]); 
+ 		int c1_char_comp1= ( a[i-1] == b[j-1] ); 
 		int c1_char_comp2= (a[i-1]==b[j-1]); int c1_char_comp3=(a[i-1]==b[j-1]);
  		int c1_op1=(lengths[i][j] == lengths[i-1][j] ); 
  		int c1_op2; // This is also used in Comp1.
@@ -157,45 +488,11 @@ char* lcs(const char* clip_str_a,const char* clip_str_b,double error_percent)
 			c1_op2=c1_char_comp2;
 		}
 		
-		// ==> For valid/rightful calculation 
-		
-		// ------------------- Initialization ---------------------
-		// Let c1_op1= lengths[i][j]==lengths[i-1][j] c2= TMR based comparison for a[iprime] and b[jprime]
-		// c1_op2 is always right (cos of TMR)
-		// c1_op3= ( lengths[i][j-1] > lengths[i-1][j] )
-		// c1_op4= lengths[i][j]==lengths[i][j-1]
-		
-		// 1. if c1_op2=1  ==> lengths[i][j]=lengths[i-1][j-1]+1.
-		//				==>  lengths[i][j]= a.( lengths[i][j-1] || lengths[i][j-1] + 1 ) 
-		//				             \\      b. ( lengths[i-1][j] || (lengths[i-1][j]+1) )
-		
-		// 2. So if, lengths[i-1][j]!=lengths[i][j]
-				// ==> a. c1_op2==1.
-				// ==> b. lengths[i][j-1] > lengths[i-1][j] ( ~ diff=1)
-		// 3. lengths[i][j-1]!=lengths[i][j]
-				// ==> a. c1_op2=1 ( or c2_op2) 
-				// ==> b. lengths[i][j-1] < lengths[i-1][j] ( ~ diff=1)
-				
-		//  -----------------------------------------------------				
-		// Following measures can be used to account for each case shown above.
-		
-		// 1. No need to bother mostly.
-		// 2. a should be checked! , if a is true, thats enough. if a is not true, then b can cause this condition! 
-		// 3. Same as 2!
-		
-		//----------- Boolean realization ---------------------
-		// 1. No need to bother.
-		// 2. If ( lengths[i-1][j]== lengths[i][j]) then if( (c1_op2==0)  && ( c1_op3==1 ) ) ==> Correct operation / else rollback until latest update. 
-			// c1_op3 can be affected, since lengths[i][j] or lengths[i][j-1] can be affected by a wrong computation in the process of computing one of the dependent result.
-		// 3. if (  lengths[i][j]== lengths[i][j-1] ) then (  ( c1_op2==0) && (  c2_op3==1 ) )
-		// Would be checked only if 2 is false (  ie., c1_op1=0, c1_op2=0 || c1_op3=0 )
-			//	a. If (c1_op4)=0, check if c1_op3
-			
  
 		if( c1_op1 && (!c1_op2) && (c1_op3)  ) 
 		{
 
-			printf("\n\t C1 i: %d j: %d a[i]: %c a[i-1]: %c b[j]: %c and ij_considered: %d lengths[i][j]:%d lengths[i-1][j]:%d lengths[i][j-1]: %d ",i,j,a[i-1],a[i-2],b[j-1],ij_considered,lengths[i][j],lengths[i-1][j],lengths[i][j-1]);			
+			//printf("\n\t C1 i: %d j: %d a[i]: %c a[i-1]: %c b[j]: %c and ij_considered: %d lengths[i][j]:%d lengths[i-1][j]:%d lengths[i][j-1]: %d ",i,j,a[i-1],a[i-2],b[j-1],ij_considered,lengths[i][j],lengths[i-1][j],lengths[i][j-1]);			
 			last_considered_i=i; last_considered_j=j;	
 			i -= 1;
 			ij_considered=0;
@@ -205,7 +502,7 @@ char* lcs(const char* clip_str_a,const char* clip_str_b,double error_percent)
 		{
 		
 			last_considered_i=i; last_considered_j=j;		
-			printf("\n\t C2 i: %d j: %d a[i]: %c b[j-1]: %c b[j]: %c and ij_considered: %d lengths[i][j]:%d lengths[i-1][j]: %d lengths[i][j-1]: %d",i,j,a[i-1],b[j-2],b[j-1],ij_considered,lengths[i][j],lengths[i-1][j],lengths[i][j-1]);			
+			//printf("\n\t C2 i: %d j: %d a[i]: %c b[j-1]: %c b[j]: %c and ij_considered: %d lengths[i][j]:%d lengths[i-1][j]: %d lengths[i][j-1]: %d",i,j,a[i-1],b[j-2],b[j-1],ij_considered,lengths[i][j],lengths[i-1][j],lengths[i][j-1]);			
 		
 			j-= 1;
 			ij_considered=0;
@@ -214,7 +511,7 @@ char* lcs(const char* clip_str_a,const char* clip_str_b,double error_percent)
 		{
 			//*--result = a[i-1];
 
-			result[result_pos]=a[i-1];
+			result[result_pos]=clip_str_a[i-1];
 			result_pos++;			
 			//*(result+result_pos)=a[i-1];
 			result_length++;
@@ -226,8 +523,8 @@ char* lcs(const char* clip_str_a,const char* clip_str_b,double error_percent)
 			accepted_tuple_chars[top_of_stack].my_tuple.i=i;
 			accepted_tuple_chars[top_of_stack].my_tuple.j=j;			
 			//accepted_tuple_chars[top_of_stack].my_char=a[i-1];
-			printf("\n\t C3 i: %d j: %d a[i-1]: %c b[j-1]: %c and ij_considered: %d lengths[i][j]: %d result_length: %d lengths[i][j-1]: %d top_of_stack: %d",i,j,a[i-1],b[j-1],ij_considered,lengths[i][j],result_length,lengths[i][j-1],top_of_stack);						
-			fprintf(save_rollback_ops,"\n\t C3 i: %d j: %d a[i-1]: %c b[j-1]: %c and ij_considered: %d lengths[i][j]: %d result_length: %d lengths[i][j-1]: %d top_of_stack: %d",i,j,a[i-1],b[j-1],ij_considered,lengths[i][j],result_length,lengths[i][j-1],top_of_stack);						
+			//printf("\n\t C3 i: %d j: %d a[i-1]: %c b[j-1]: %c and ij_considered: %d lengths[i][j]: %d result_length: %d lengths[i][j-1]: %d top_of_stack: %d",i,j,a[i-1],b[j-1],ij_considered,lengths[i][j],result_length,lengths[i][j-1],top_of_stack);						
+			//fprintf(save_rollback_ops,"\n\t C3 i: %d j: %d a[i-1]: %c b[j-1]: %c and ij_considered: %d lengths[i][j]: %d result_length: %d lengths[i][j-1]: %d top_of_stack: %d",i,j,a[i-1],b[j-1],ij_considered,lengths[i][j],result_length,lengths[i][j-1],top_of_stack);						
 			i-=1; j-=1;
 			ij_considered=0;
 		}
@@ -237,12 +534,11 @@ char* lcs(const char* clip_str_a,const char* clip_str_b,double error_percent)
 			stuck_need2exit(i,j,a,b);
 			//printf("\n\n\t Exception! i: %d j: %d a[i-1]: %c b[j-1]: %c lengths[i-1][j]: %d lengths[i][j-1]:%d lengths[i][j]:%d  and ij_considered: %d and results: %s ",i,j,a[i-1],b[j-1],lengths[i-1][j],lengths[i][j-1],lengths[i][j],ij_considered,result);					
 			//rollback(last_considered_i,last_considered_j,accepted_i,accepted_j,lengths[i][j],a,b,error_percent);
-			xy_tuple fixing_end_tuple=rollback(i,j,accepted_i,accepted_j,lengths[i][j],a,b,error_percent);
-			//printf("\n\n\t -- Last considered i: %d j: %d \n\t Need to rollback the area until accepted-i: %d j: %d ",last_considered_i,last_considered_j,accepted_i,accepted_j);
+			xy_tuple fixing_end_tuple;//=rollback(i,j,accepted_i,accepted_j,lengths[i][j],a,b,error_percent);
 			
 			if( !( (fixing_end_tuple.i==0) && (fixing_end_tuple.j==0) && ( top_of_stack <0) ) )
 			{
-				rollback_tuple_pos rolling_back=search_stack(fixing_end_tuple,result_pos);
+				rollback_tuple_pos rolling_back;//=search_stack(fixing_end_tuple,result_pos);
 			
 				last_considered_i=i;last_considered_j=j;	
  
@@ -275,10 +571,11 @@ char* lcs(const char* clip_str_a,const char* clip_str_b,double error_percent)
 				//result_pos=bufrlen-1;
 				result_pos=0;
 			}
-			printf("\n\t After rollover top-of-stack: %d end-of-stack: %d result_pos: %d",top_of_stack,end_of_stack,result_pos);
-			fprintf(save_rollback_ops,"\n\t After rollover top-of-stack: %d end-of-stack: %d result_pos: %d \n\t i: %d j: %d ",top_of_stack,end_of_stack,result_pos,i,j);			
+			/*printf("\n\t After rollover top-of-stack: %d end-of-stack: %d result_pos: %d",top_of_stack,end_of_stack,result_pos);
+			fprintf(save_rollback_ops,"\n\t After rollover top-of-stack: %d end-of-stack: %d result_pos: %d \n\t i: %d j: %d ",top_of_stack,end_of_stack,result_pos,i,j);		
+			*/	
 		}
-        count_reset_seed++;
+	// */
     }
 
 	//save_mat_b4exit();
@@ -293,10 +590,11 @@ char* lcs(const char* clip_str_a,const char* clip_str_b,double error_percent)
 //		printf("\n\t i: %d result[i]: %c ",i,result[i]);
 	
 	//free(result);
-	free(la);
-	free(lengths);
-	//return strdup(result);
-	*/
+
+	for(int i=0;i<lena;i++)
+		delete[] lengths[i];
+	delete[] lengths;
+	
 }
 
 
