@@ -127,8 +127,6 @@
 
 	 -- FOUND a plus operator:   ,  non_sense
 
-	 Found an operator-- so currently pass_new_operand  non_sensei
-
 	 Yes an operator has been found! 
 
 	 Number-of-groups in curr_term is 1 , ;
@@ -140,7 +138,7 @@
 
 	 -- NOTICE test_dict['res']['operands_rhs'][i] is  lengths[i+1][j]
 
-	 -- NOTICE test_dict['res']['operands_rhs'][i] is  non_sensei
+	 -- NOTICE test_dict['res']['operands_rhs'][i] is  non_sense[i]
 
 	 Found pragma with struct_grid in line: 34 :       #pragma dynamic_prog solve cond 3   	    
 
@@ -201,9 +199,7 @@
 
 	 -- FOUND a mul operator:   ,  lengths
 
-	 Found an operator-- so currently pass_new_operand  lengthsi- find_this
-
-	 Found an operator-- so currently pass_new_operand  lengthsi- find_thisi
+	 Found an operator-- so currently pass_new_operand  lengths[i- find_this[
 
 	 Yes an operator has been found! 
 
@@ -219,7 +215,7 @@
 
 	 j: 1 j
 
-	 -- Did not find any operator:  and curr_operand is  lengthsi- find_thisi[j]
+	 -- Did not find any operator:  and curr_operand is  lengths[i- find_this[i]][j]
 
 	 Number-of-groups in curr_term is 1 , ;           
 
@@ -230,7 +226,7 @@
 
 	 -- NOTICE test_dict['res']['operands_rhs'][i] is  lengths[i][j+1]
 
-	 -- NOTICE test_dict['res']['operands_rhs'][i] is  lengthsi- find_thisi[j]
+	 -- NOTICE test_dict['res']['operands_rhs'][i] is  lengths[i- find_this[i]][j]
 
 	 Found pragma with struct_grid in line: 41 :    #pragma dynamic_prog solve cond 4
 

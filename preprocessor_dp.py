@@ -43,29 +43,48 @@ def break_statement( search_line,operation_count,search_line_idx):
 					print "\n\t -- FOUND a plus operator: "+str(find_plus_operator[0] ) +" , "+str(find_plus_operator[1])
 					operator_found=1
 					pass_new_operator=find_plus_operator[0]
-					pass_new_operand=find_plus_operator[1]
+					pass_new_operand=find_plus_operator[1]+'['
 					pass_new_operand_copy=pass_new_operand
-					for k in range( len(curr_term) -1):
-						pass_new_operand=pass_new_operand_copy+str(curr_term[k+1])
+					for k in range( len(curr_term) -2):
+						pass_new_operand=pass_new_operand_copy+str(curr_term[k+1])+'['
 						pass_new_operand_copy=pass_new_operand
 						print "\n\t Found an operator-- so currently pass_new_operand "+str(pass_new_operand)
-					#if(len(find_plus_operator))						
+					pass_new_operand=pass_new_operand_copy+str(curr_term[len(curr_term)-1])+']'					
 				elif (len(find_minus_operator)>=2):
 					print "\n\t -- FOUND a minus operator: "+str(find_minus_operator[0] ) +" , "+str(find_minus_operator[1])
-					operator_found=1					
+					operator_found=1	
+					operator_found=1
+					pass_new_operator=find_minus_operator[0]
+					pass_new_operand=find_minus_operator[1]+'['
+					pass_new_operand_copy=pass_new_operand
+					for k in range( len(curr_term) -2):
+						pass_new_operand=pass_new_operand_copy+str(curr_term[k+1])+'['
+						pass_new_operand_copy=pass_new_operand
+						print "\n\t Found an operator-- so currently pass_new_operand "+str(pass_new_operand)
+					pass_new_operand=pass_new_operand_copy+str(curr_term[len(curr_term)-1])+']'										
 				elif (len(find_mul_operator)>=2):
 					print "\n\t -- FOUND a mul operator: "+str(find_mul_operator[0] ) +" , "+str(find_mul_operator[1])		
 					operator_found=1					
 					pass_new_operator=find_mul_operator[0]
-					pass_new_operand=find_mul_operator[1]
+					pass_new_operand=find_mul_operator[1]+'['
 					pass_new_operand_copy=pass_new_operand
-					for k in range( len(curr_term) -1):
-						pass_new_operand=pass_new_operand_copy+str(curr_term[k+1])
+					for k in range( len(curr_term) -2):
+						pass_new_operand=pass_new_operand_copy+str(curr_term[k+1])+'['
 						pass_new_operand_copy=pass_new_operand
-						print "\n\t Found an operator-- so currently pass_new_operand "+str(pass_new_operand)						
+						print "\n\t Found an operator-- so currently pass_new_operand "+str(pass_new_operand)
+					pass_new_operand=pass_new_operand_copy+str(curr_term[len(curr_term)-1])+']'				
 				elif (len(find_div_operator)>=2):
 					print "\n\t -- FOUND a div operator: "+str(find_div_operator[0] ) +" , "+str(find_div_operator[1])									
-					operator_found=1					
+					operator_found=1			
+					operator_found=1
+					pass_new_operator=find_div_operator[0]
+					pass_new_operand=find_div_operator[1]+'['
+					pass_new_operand_copy=pass_new_operand
+					for k in range( len(curr_term) -2):
+						pass_new_operand=pass_new_operand_copy+str(curr_term[k+1])+'['
+						pass_new_operand_copy=pass_new_operand
+						print "\n\t Found an operator-- so currently pass_new_operand "+str(pass_new_operand)
+					pass_new_operand=pass_new_operand_copy+str(curr_term[len(curr_term)-1])+']'								
 				else:
 					if(len(curr_term) >1 ):
 						for j in range( len(curr_term) -1):
@@ -82,6 +101,8 @@ def break_statement( search_line,operation_count,search_line_idx):
 						if (len(test_semicolon) ==1 ) :
 							if(test_semicolon[0]==''):
 								print "\n\t Space found instead of semicolon detected!! "+str(curr_term[0])
+								curr_operand=curr_operand_copy+']'
+								curr_operand_copy=curr_operand
 							else:
 								print "\n\t FATAL no semicolon/space in "+str(curr_term[0])	
 						else: #if( len(test_semicolon)>=1 ):
