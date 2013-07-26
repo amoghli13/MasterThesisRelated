@@ -25,17 +25,17 @@ char * lcs(const char *a,const char * b) {
         for (j=0,y=b; *y; j++,y++ ) {
       #pragma dynamic_prog solve cond 1
             if (*x == *y) {
-               lengths[i+1][j+1] = lengths[i][j] +1;
+               lengths[i+1][j+1] = lengths[i][j] + 1;
             }
       #pragma dynamic_prog solve cond 2            
             else if (  lengths[i+1][j] > lengths[i][j+1])  )
             {
-               lengths[i+1][j+1] = lengths[i+1][j];
+               lengths[i+1][j+1] = lengths[i+1][j] + non_sense[i];
    	    }
       #pragma dynamic_prog solve cond 3   	    
             else
             {
-               lengths[i+1][j+1] = lengths[i][j+1];            
+               lengths[i+1][j+1] = lengths[i][j+1] + lengths[i- find_this[i]][j];            
             }
         }
     }

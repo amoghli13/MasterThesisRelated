@@ -171,10 +171,46 @@ def main():
 										operation_count_key='opcpount'+str(operation_count)
 										condn_params['condn_term_key']['operations']['operation_count_key']=[]
 										print "\n\t Searching for stmt in line "+str(search_line)
+										temp_trial_erase_quickly='lengths'
 										if search_stmt:
 											print "\n\t ----- Found following items in the statement: "+str(eqn_params[0])+" , "+str(eqn_params[1])+" on line "+str(search_line_idx)
 											condn_params['condn_term_key']['operations']['operation_count_key'].append(eqn_params[0])
 											condn_params['condn_term_key']['operations']['operation_count_key'].append(eqn_params[1])
+											#operands_split=re.match('\s*.*[\+]  (.*)* ',eqn_params[1] );
+											"""operands_split=re.match('\s*([^\+\s+]+)+(\.*)',eqn_params[1] );											
+											if operands_split:
+												print "\n\t Ok, I've got "+str(operands_split.group(1));
+											else:
+												print "\n\t Could not break eqn_params[1] "<<eqn_params[1]"""
+											#operands_split=re.match('\s*([\[]+)+  ',eqn_params[1]);
+											"""duh=condn_params['num_dimensions'];
+											operands_plus_split=eqn_params[1].split('+');
+											print "\n\t NODAPPA len(operands_plus_split) "+str(len(operands_plus_split) )
+											operands_minus_split=eqn_params[1].split('-');
+											print "\n\t NODAPPA len(operands_minus_split) "+str(len(operands_minus_split) )
+											operands_mul_split=eqn_params[1].split('*');
+											print "\n\t NODAPPA len(operands_mul_split) "+str(len(operands_mul_split) )
+											operands_div_split=eqn_params[1].split('/');
+											print "\n\t NODAPPA len(operands_div_split) "+str(len(operands_div_split) )
+											operands_sqbrace1_split=eqn_params[1].split('[');
+											print "\n\t NODAPPA len(operands_sqbrace1_split) "+str(len(operands_sqbrace1_split) )"""
+											operands_sqbrace2_split=eqn_params[1].split(']');
+											print "\n\t NODAPPA len(operands_sqbrace1_split) "+str(len(operands_sqbrace2_split) )											
+											
+											for i in range( len(operands_sqbrace2_split) ):
+												curr_term=operands_sqbrace2_split[i].split('[')
+												if curr_term:
+													print "\n\t Number-of-groups in curr_term is "+str( len(curr_term) )#+" , "+str(curr_term[1])
+													for j in range( len(curr_term) ):
+														print "\n\t j: "+str(j)+" "+str(curr_term[j])
+													find_operator=curr_term[0].split('+')  #re.match('([\+]+)*\.*',curr_term[0] )
+													if (len(find_operator)>=2):
+														print "\n\t -- FOUND an operator: "+str(find_operator[0] ) +" , "+str(find_operator[1])
+													else:
+														print "\n\t -- Did not find any operator: "+str(curr_term[0])
+									
+											
+											
 										else:
 											print "\n\t WARNING: Could not locate stmt in line "+str(search_line)
 									search_line_idx+=1;
@@ -189,6 +225,7 @@ def main():
 						num_dimensions=dims_stmt.group(1)
 						print "\n\t ^^^^ Number of dimensions is found  "+str(num_dimensions)
 						dimensions_found=1;	
+						condn_params['num_dimensions']=num_dimensions
 					else:
 						print "\n\t Searching for num-dimensions unsuccessful in line "+str(line_count)+"\n"									
 
