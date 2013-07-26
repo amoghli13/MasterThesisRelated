@@ -45,27 +45,31 @@
 
 	 NODAPPA len(operands_sqbrace1_split) 3
 
-	 Number-of-groups in curr_term is 2
+	 Number-of-groups in curr_term is 2 ,  lengths[i
 
 	 j: 0  lengths
 
 	 j: 1 i
 
-	 -- Did not find any operator:  lengths
+	 -- Did not find any operator:  lengths and curr_operand is  lengths[i]
 
-	 Number-of-groups in curr_term is 2
+	 Number-of-groups in curr_term is 2 , [j
 
 	 j: 0 
 
 	 j: 1 j
 
-	 -- Did not find any operator: 
+	 -- Did not find any operator:  and curr_operand is  lengths[i][j]
 
-	 Number-of-groups in curr_term is 1
+	 Number-of-groups in curr_term is 1 ,  + 1;
 
 	 j: 0  + 1;
 
-	 -- FOUND an operator:   ,  1;
+	 -- FOUND a plus operator:   ,  1;
+
+	 Yes an operator has been found! 
+
+	 -- NOTICE test_dict['res']['operands_rhs'][i] is  lengths[i][j]
 
 	 Found pragma with struct_grid in line: 29 :       #pragma dynamic_prog solve cond 2            
 
@@ -99,35 +103,44 @@
 
 	 NODAPPA len(operands_sqbrace1_split) 4
 
-	 Number-of-groups in curr_term is 2
+	 Number-of-groups in curr_term is 2 ,  lengths[i+1
 
 	 j: 0  lengths
 
 	 j: 1 i+1
 
-	 -- Did not find any operator:  lengths
+	 -- Did not find any operator:  lengths and curr_operand is  lengths[i+1]
 
-	 Number-of-groups in curr_term is 2
+	 Number-of-groups in curr_term is 2 , [j
 
 	 j: 0 
 
 	 j: 1 j
 
-	 -- Did not find any operator: 
+	 -- Did not find any operator:  and curr_operand is  lengths[i+1][j]
 
-	 Number-of-groups in curr_term is 2
+	 Number-of-groups in curr_term is 2 ,  + non_sense[i
 
 	 j: 0  + non_sense
 
 	 j: 1 i
 
-	 -- FOUND an operator:   ,  non_sense
+	 -- FOUND a plus operator:   ,  non_sense
 
-	 Number-of-groups in curr_term is 1
+	 Found an operator-- so currently pass_new_operand  non_sensei
+
+	 Yes an operator has been found! 
+
+	 Number-of-groups in curr_term is 1 , ;
 
 	 j: 0 ;
 
-	 -- Did not find any operator: ;
+	 Hurray Semicolon detected!! 
+
+
+	 -- NOTICE test_dict['res']['operands_rhs'][i] is  lengths[i+1][j]
+
+	 -- NOTICE test_dict['res']['operands_rhs'][i] is  non_sensei
 
 	 Found pragma with struct_grid in line: 34 :       #pragma dynamic_prog solve cond 3   	    
 
@@ -155,58 +168,69 @@
 
 	 Venturing to find statements from line 36
 
-	 Searching for stmt in line                lengths[i+1][j+1] = lengths[i][j+1] + lengths[i- find_this[i]][j];            
+	 Searching for stmt in line                lengths[i+1][j+1] = lengths[i][j+1] * lengths[i- find_this[i]][j];            
 
 
-	 ----- Found following items in the statement:                lengths[i+1][j+1]  ,  lengths[i][j+1] + lengths[i- find_this[i]][j];            on line 37
+	 ----- Found following items in the statement:                lengths[i+1][j+1]  ,  lengths[i][j+1] * lengths[i- find_this[i]][j];            on line 37
 
 	 NODAPPA len(operands_sqbrace1_split) 6
 
-	 Number-of-groups in curr_term is 2
+	 Number-of-groups in curr_term is 2 ,  lengths[i
 
 	 j: 0  lengths
 
 	 j: 1 i
 
-	 -- Did not find any operator:  lengths
+	 -- Did not find any operator:  lengths and curr_operand is  lengths[i]
 
-	 Number-of-groups in curr_term is 2
+	 Number-of-groups in curr_term is 2 , [j+1
 
 	 j: 0 
 
 	 j: 1 j+1
 
-	 -- Did not find any operator: 
+	 -- Did not find any operator:  and curr_operand is  lengths[i][j+1]
 
-	 Number-of-groups in curr_term is 3
+	 Number-of-groups in curr_term is 3 ,  * lengths[i- find_this[i
 
-	 j: 0  + lengths
+	 j: 0  * lengths
 
 	 j: 1 i- find_this
 
 	 j: 2 i
 
-	 -- FOUND an operator:   ,  lengths
+	 -- FOUND a mul operator:   ,  lengths
 
-	 Number-of-groups in curr_term is 1
+	 Found an operator-- so currently pass_new_operand  lengthsi- find_this
+
+	 Found an operator-- so currently pass_new_operand  lengthsi- find_thisi
+
+	 Yes an operator has been found! 
+
+	 Number-of-groups in curr_term is 1 , 
 
 	 j: 0 
 
-	 -- Did not find any operator: 
+	 Space found instead of semicolon detected!! 
 
-	 Number-of-groups in curr_term is 2
+	 Number-of-groups in curr_term is 2 , [j
 
 	 j: 0 
 
 	 j: 1 j
 
-	 -- Did not find any operator: 
+	 -- Did not find any operator:  and curr_operand is  lengthsi- find_thisi[j]
 
-	 Number-of-groups in curr_term is 1
+	 Number-of-groups in curr_term is 1 , ;           
 
 	 j: 0 ;           
 
-	 -- Did not find any operator: ;           
+	 Hurray Semicolon detected!! 
+
+
+	 -- NOTICE test_dict['res']['operands_rhs'][i] is  lengths[i][j+1]
+
+	 -- NOTICE test_dict['res']['operands_rhs'][i] is  lengthsi- find_thisi[j]
 
 	 Found pragma with struct_grid in line: 41 :    #pragma dynamic_prog solve cond 4
 

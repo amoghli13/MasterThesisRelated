@@ -16,18 +16,104 @@ def break_statement( search_line,operation_count,search_line_idx):
 		#condn_params['condn_term_key']['operations']['operation_count_key'].append(eqn_params[1])
 		operands_sqbrace2_split=eqn_params[1].split(']');
 		print "\n\t NODAPPA len(operands_sqbrace1_split) "+str(len(operands_sqbrace2_split) )											
-		
+		test_dict={}
+		test_dict['res']={};
+		test_dict['res']['eqn_params']=[];
+		test_dict['res']['eqn_params'].append(eqn_params[0]);
+		test_dict['res']['eqn_params'].append(eqn_params[1])
+		term_start=0
+		term_end=0
+		operator_found=0
+		test_dict['res']['num_operands']=0
+		test_dict['res']['num_operators']=0 # num_operators=num_operands-1
+		test_dict['res']['operands_rhs']=[]
+		test_dict['res']['operators_rhs']=[]		
+		curr_operand=""
+		curr_operand_copy=curr_operand
+		pass_new_operand=""
+		pass_new_operator=""
 		for i in range( len(operands_sqbrace2_split) ):
 			curr_term=operands_sqbrace2_split[i].split('[')
 			if curr_term:
-				print "\n\t Number-of-groups in curr_term is "+str( len(curr_term) )#+" , "+str(curr_term[1])
+				print "\n\t Number-of-groups in curr_term is "+str( len(curr_term) )+" , "+str(operands_sqbrace2_split[i])
 				for j in range( len(curr_term) ):
 					print "\n\t j: "+str(j)+" "+str(curr_term[j])
-				find_operator=curr_term[0].split('+')  #re.match('([\+]+)*\.*',curr_term[0] )
-				if (len(find_operator)>=2):
-					print "\n\t -- FOUND an operator: "+str(find_operator[0] ) +" , "+str(find_operator[1])
+				find_plus_operator=curr_term[0].split('+');find_minus_operator=curr_term[0].split('-');find_mul_operator=curr_term[0].split('*');find_div_operator=curr_term[0].split('/')
+				if (len(find_plus_operator)>=2):
+					print "\n\t -- FOUND a plus operator: "+str(find_plus_operator[0] ) +" , "+str(find_plus_operator[1])
+					operator_found=1
+					pass_new_operator=find_plus_operator[0]
+					pass_new_operand=find_plus_operator[1]
+					pass_new_operand_copy=pass_new_operand
+					for k in range( len(curr_term) -1):
+						pass_new_operand=pass_new_operand_copy+str(curr_term[k+1])
+						pass_new_operand_copy=pass_new_operand
+						print "\n\t Found an operator-- so currently pass_new_operand "+str(pass_new_operand)
+					#if(len(find_plus_operator))						
+				elif (len(find_minus_operator)>=2):
+					print "\n\t -- FOUND a minus operator: "+str(find_minus_operator[0] ) +" , "+str(find_minus_operator[1])
+					operator_found=1					
+				elif (len(find_mul_operator)>=2):
+					print "\n\t -- FOUND a mul operator: "+str(find_mul_operator[0] ) +" , "+str(find_mul_operator[1])		
+					operator_found=1					
+					pass_new_operator=find_mul_operator[0]
+					pass_new_operand=find_mul_operator[1]
+					pass_new_operand_copy=pass_new_operand
+					for k in range( len(curr_term) -1):
+						pass_new_operand=pass_new_operand_copy+str(curr_term[k+1])
+						pass_new_operand_copy=pass_new_operand
+						print "\n\t Found an operator-- so currently pass_new_operand "+str(pass_new_operand)						
+				elif (len(find_div_operator)>=2):
+					print "\n\t -- FOUND a div operator: "+str(find_div_operator[0] ) +" , "+str(find_div_operator[1])									
+					operator_found=1					
 				else:
-					print "\n\t -- Did not find any operator: "+str(curr_term[0])
+					if(len(curr_term) >1 ):
+						for j in range( len(curr_term) -1):
+							#print "\n\t -- Now- curr_operand"
+							curr_operand=curr_operand_copy+str(curr_term[j])+str('[')
+							curr_operand_copy=curr_operand			
+						curr_operand=curr_operand_copy+str(curr_term[len(curr_term)-1] )+']'
+						curr_operand_copy=curr_operand
+						print "\n\t -- Did not find any operator: "+str(curr_term[0])+" and curr_operand is "+str(curr_operand)
+					
+					else:
+						#test_dict['res']['operands_rhs'].append(curr_operand)
+						test_semicolon=curr_term[0].split(';')
+						if (len(test_semicolon) ==1 ) :
+							if(test_semicolon[0]==''):
+								print "\n\t Space found instead of semicolon detected!! "+str(curr_term[0])
+							else:
+								print "\n\t FATAL no semicolon/space in "+str(curr_term[0])	
+						else: #if( len(test_semicolon)>=1 ):
+							#if(test_semicolon[0]==';' or test_semicolon[1]==';'):
+							duh=re.match('\.*\;\.*',curr_term[0])
+							if( duh ):
+								print "\n\t Hurray Semicolon detected!! \n";
+								test_dict['res']['operands_rhs'].append(curr_operand)
+								test_dict['res']['num_operands']=test_dict['res']['num_operands']+1
+								curr_operand=pass_new_operand
+								curr_operand_copy=pass_new_operand																
+							else:
+								print "\n\t FATAL: Semicolon detection has a BUG!!!! "+str(curr_term[0])+" length of test_semicolon "+str(len(test_semicolon))+" "+str(test_semicolon[0])+" "+str(test_semicolon[1])+" end"
+						#else:
+						#	print "\n\t FATAL: Semicolon detection has a BUG!!!! "+str(curr_term[0])+" length of test_semicolon "+str(len(test_semicolon))
+				if operator_found:
+					print "\n\t Yes an operator has been found! "
+					operator_found=0
+					test_dict['res']['operands_rhs'].append(curr_operand)					
+					test_dict['res']['operators_rhs'].append(pass_new_operator);
+					pass_new_operator=""
+					test_dict['res']['num_operands']=test_dict['res']['num_operands']+1
+					test_dict['res']['num_operators']=test_dict['res']['num_operators']+1					
+					curr_operand=pass_new_operand
+					curr_operand_copy=pass_new_operand
+					pass_new_operand=''
+					#test_dict
+		num_operands=test_dict['res']['num_operands']			
+		for i in range(test_dict['res']['num_operands']):
+			print "\n\t -- NOTICE test_dict['res']['operands_rhs'][i] is "+str(test_dict['res']['operands_rhs'][i]);
+					
+		return test_dict;
 
 
 def main():
@@ -203,7 +289,9 @@ def main():
 									elif search_stmt:
 										search_stmt=re.match('\s+([^=]).*',search_line)
 										if search_stmt:
-											break_statement(search_line,operation_count,search_line_idx)
+											test_dict=break_statement(search_line,operation_count,search_line_idx)
+											condn_params['result']=test_dict['res']
+											#print "\n\t condn_params['result']['var'] "+str(condn_params['result']['var']);
 											operation_count+=1;	
 										else:
 											print "\n\t WARNING: Could not locate stmt in line "+str(search_line)

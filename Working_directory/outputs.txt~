@@ -45,29 +45,27 @@
 
 	 NODAPPA len(operands_sqbrace1_split) 3
 
-	 Number-of-groups in curr_term is 2 ,  lengths[i
+	 Number-of-groups in curr_term is 2
 
 	 j: 0  lengths
 
 	 j: 1 i
 
-	 -- Did not find any operator:  lengths and curr_operand is  lengths[i]
+	 -- Did not find any operator:  lengths
 
-	 Number-of-groups in curr_term is 2 , [j
+	 Number-of-groups in curr_term is 2
 
 	 j: 0 
 
 	 j: 1 j
 
-	 -- Did not find any operator:  and curr_operand is  lengths[i][j]
+	 -- Did not find any operator: 
 
-	 Number-of-groups in curr_term is 1 ,  + 1;
+	 Number-of-groups in curr_term is 1
 
 	 j: 0  + 1;
 
-	 -- FOUND a plus operator:   ,  1;
-
-	 Yes an operator has been found! 
+	 -- FOUND an plus operator:   ,  1;
 
 	 Found pragma with struct_grid in line: 29 :       #pragma dynamic_prog solve cond 2            
 
@@ -101,37 +99,35 @@
 
 	 NODAPPA len(operands_sqbrace1_split) 4
 
-	 Number-of-groups in curr_term is 2 ,  lengths[i+1
+	 Number-of-groups in curr_term is 2
 
 	 j: 0  lengths
 
 	 j: 1 i+1
 
-	 -- Did not find any operator:  lengths and curr_operand is  lengths[i+1]
+	 -- Did not find any operator:  lengths
 
-	 Number-of-groups in curr_term is 2 , [j
+	 Number-of-groups in curr_term is 2
 
 	 j: 0 
 
 	 j: 1 j
 
-	 -- Did not find any operator:  and curr_operand is  lengths[i+1][j]
+	 -- Did not find any operator: 
 
-	 Number-of-groups in curr_term is 2 ,  + non_sense[i
+	 Number-of-groups in curr_term is 2
 
 	 j: 0  + non_sense
 
 	 j: 1 i
 
-	 -- FOUND a plus operator:   ,  non_sense
+	 -- FOUND an plus operator:   ,  non_sense
 
-	 Yes an operator has been found! 
-
-	 Number-of-groups in curr_term is 1 , ;
+	 Number-of-groups in curr_term is 1
 
 	 j: 0 ;
 
-	 Semicolon NOT detected!! ;
+	 -- Did not find any operator: ;
 
 	 Found pragma with struct_grid in line: 34 :       #pragma dynamic_prog solve cond 3   	    
 
@@ -159,60 +155,58 @@
 
 	 Venturing to find statements from line 36
 
-	 Searching for stmt in line                lengths[i+1][j+1] = lengths[i][j+1] * lengths[i- find_this[i]][j];            
+	 Searching for stmt in line                lengths[i+1][j+1] = lengths[i][j+1] + lengths[i- find_this[i]][j];            
 
 
-	 ----- Found following items in the statement:                lengths[i+1][j+1]  ,  lengths[i][j+1] * lengths[i- find_this[i]][j];            on line 37
+	 ----- Found following items in the statement:                lengths[i+1][j+1]  ,  lengths[i][j+1] + lengths[i- find_this[i]][j];            on line 37
 
 	 NODAPPA len(operands_sqbrace1_split) 6
 
-	 Number-of-groups in curr_term is 2 ,  lengths[i
+	 Number-of-groups in curr_term is 2
 
 	 j: 0  lengths
 
 	 j: 1 i
 
-	 -- Did not find any operator:  lengths and curr_operand is  lengths[i]
+	 -- Did not find any operator:  lengths
 
-	 Number-of-groups in curr_term is 2 , [j+1
+	 Number-of-groups in curr_term is 2
 
 	 j: 0 
 
 	 j: 1 j+1
 
-	 -- Did not find any operator:  and curr_operand is  lengths[i][j+1]
+	 -- Did not find any operator: 
 
-	 Number-of-groups in curr_term is 3 ,  * lengths[i- find_this[i
+	 Number-of-groups in curr_term is 3
 
-	 j: 0  * lengths
+	 j: 0  + lengths
 
 	 j: 1 i- find_this
 
 	 j: 2 i
 
-	 -- FOUND a mul operator:   ,  lengths
+	 -- FOUND an plus operator:   ,  lengths
 
-	 Yes an operator has been found! 
-
-	 Number-of-groups in curr_term is 1 , 
+	 Number-of-groups in curr_term is 1
 
 	 j: 0 
 
-	 Semicolon NOT detected!! 
+	 -- Did not find any operator: 
 
-	 Number-of-groups in curr_term is 2 , [j
+	 Number-of-groups in curr_term is 2
 
 	 j: 0 
 
 	 j: 1 j
 
-	 -- Did not find any operator:  and curr_operand is  lengths[i][j+1][j]
+	 -- Did not find any operator: 
 
-	 Number-of-groups in curr_term is 1 , ;           
+	 Number-of-groups in curr_term is 1
 
 	 j: 0 ;           
 
-	 Semicolon NOT detected!! ;           
+	 -- Did not find any operator: ;           
 
 	 Found pragma with struct_grid in line: 41 :    #pragma dynamic_prog solve cond 4
 
