@@ -1,6 +1,35 @@
 
 import getopt, sys,re
 
+
+def break_statement( search_line,operation_count,search_line_idx):
+	search_stmt=re.match('.*\=.*',search_line);
+	eqn_params=search_line.split('=',2)
+	eqn_params[1]=re.sub('\s$','',eqn_params[1])
+	operation_count_key='opcpount'+str(operation_count)
+	#condn_params['condn_term_key']['operations']['operation_count_key']=[]
+	print "\n\t Searching for stmt in line "+str(search_line)
+	temp_trial_erase_quickly='lengths'
+	if search_stmt:
+		print "\n\t ----- Found following items in the statement: "+str(eqn_params[0])+" , "+str(eqn_params[1])+" on line "+str(search_line_idx)
+		#condn_params['condn_term_key']['operations']['operation_count_key'].append(eqn_params[0])
+		#condn_params['condn_term_key']['operations']['operation_count_key'].append(eqn_params[1])
+		operands_sqbrace2_split=eqn_params[1].split(']');
+		print "\n\t NODAPPA len(operands_sqbrace1_split) "+str(len(operands_sqbrace2_split) )											
+		
+		for i in range( len(operands_sqbrace2_split) ):
+			curr_term=operands_sqbrace2_split[i].split('[')
+			if curr_term:
+				print "\n\t Number-of-groups in curr_term is "+str( len(curr_term) )#+" , "+str(curr_term[1])
+				for j in range( len(curr_term) ):
+					print "\n\t j: "+str(j)+" "+str(curr_term[j])
+				find_operator=curr_term[0].split('+')  #re.match('([\+]+)*\.*',curr_term[0] )
+				if (len(find_operator)>=2):
+					print "\n\t -- FOUND an operator: "+str(find_operator[0] ) +" , "+str(find_operator[1])
+				else:
+					print "\n\t -- Did not find any operator: "+str(curr_term[0])
+
+
 def main():
     try: 
         opts, args = getopt.getopt(sys.argv[1:],'i:h:v',['input',"help", 'verbose='])
@@ -43,7 +72,14 @@ def main():
     dimensions_found=0;
     num_dimensions=0;
     condn_params={}
-    
+    # Keys:
+    # condn_term_key=cond+str(condition-number)
+    #		*brace_start
+    #		*brace_end
+    #		*operations
+    #			*operations_count_key='opcpount'+str(operation_count)
+    #		*operation_count
+    # num_dimensions.
     for curr_line in src_file_contents:
     	
     	#print "\n\t "+str(line_count)+" : "+curr_line
@@ -166,51 +202,9 @@ def main():
 										print "\n\t FATAL Found pragma dynamic_prog solve cond statement on line "+str( search_line_idx )+" before end of braces! \n\t This is likely a bug, please report it."
 									elif search_stmt:
 										search_stmt=re.match('\s+([^=]).*',search_line)
-										eqn_params=search_line.split('=',2)
-										eqn_params[1]=re.sub('\s$','',eqn_params[1])
-										operation_count_key='opcpount'+str(operation_count)
-										condn_params['condn_term_key']['operations']['operation_count_key']=[]
-										print "\n\t Searching for stmt in line "+str(search_line)
-										temp_trial_erase_quickly='lengths'
 										if search_stmt:
-											print "\n\t ----- Found following items in the statement: "+str(eqn_params[0])+" , "+str(eqn_params[1])+" on line "+str(search_line_idx)
-											condn_params['condn_term_key']['operations']['operation_count_key'].append(eqn_params[0])
-											condn_params['condn_term_key']['operations']['operation_count_key'].append(eqn_params[1])
-											#operands_split=re.match('\s*.*[\+]  (.*)* ',eqn_params[1] );
-											"""operands_split=re.match('\s*([^\+\s+]+)+(\.*)',eqn_params[1] );											
-											if operands_split:
-												print "\n\t Ok, I've got "+str(operands_split.group(1));
-											else:
-												print "\n\t Could not break eqn_params[1] "<<eqn_params[1]"""
-											#operands_split=re.match('\s*([\[]+)+  ',eqn_params[1]);
-											"""duh=condn_params['num_dimensions'];
-											operands_plus_split=eqn_params[1].split('+');
-											print "\n\t NODAPPA len(operands_plus_split) "+str(len(operands_plus_split) )
-											operands_minus_split=eqn_params[1].split('-');
-											print "\n\t NODAPPA len(operands_minus_split) "+str(len(operands_minus_split) )
-											operands_mul_split=eqn_params[1].split('*');
-											print "\n\t NODAPPA len(operands_mul_split) "+str(len(operands_mul_split) )
-											operands_div_split=eqn_params[1].split('/');
-											print "\n\t NODAPPA len(operands_div_split) "+str(len(operands_div_split) )
-											operands_sqbrace1_split=eqn_params[1].split('[');
-											print "\n\t NODAPPA len(operands_sqbrace1_split) "+str(len(operands_sqbrace1_split) )"""
-											operands_sqbrace2_split=eqn_params[1].split(']');
-											print "\n\t NODAPPA len(operands_sqbrace1_split) "+str(len(operands_sqbrace2_split) )											
-											
-											for i in range( len(operands_sqbrace2_split) ):
-												curr_term=operands_sqbrace2_split[i].split('[')
-												if curr_term:
-													print "\n\t Number-of-groups in curr_term is "+str( len(curr_term) )#+" , "+str(curr_term[1])
-													for j in range( len(curr_term) ):
-														print "\n\t j: "+str(j)+" "+str(curr_term[j])
-													find_operator=curr_term[0].split('+')  #re.match('([\+]+)*\.*',curr_term[0] )
-													if (len(find_operator)>=2):
-														print "\n\t -- FOUND an operator: "+str(find_operator[0] ) +" , "+str(find_operator[1])
-													else:
-														print "\n\t -- Did not find any operator: "+str(curr_term[0])
-									
-											
-											
+											break_statement(search_line,operation_count,search_line_idx)
+											operation_count+=1;	
 										else:
 											print "\n\t WARNING: Could not locate stmt in line "+str(search_line)
 									search_line_idx+=1;
