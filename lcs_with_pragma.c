@@ -35,7 +35,7 @@ char * lcs(const char *a,const char * b) {
       #pragma dynamic_prog solve cond 3   	    
             else
             {
-               lengths[i+1][j+1] = lengths[i][j+1] * lengths[i- find_this[i]][j];            
+               lengths[i+1][j+1] = lengths[i][j+1] + lengths[i- find_this[i]][j];            
             }
         }
     }

@@ -51,7 +51,7 @@
 
 	 j: 1 i
 
-	 -- Did not find any operator:  lengths and curr_operand is  lengths[i]
+	 -- Did not find any operator:  lengths and curr_operand is  lengths[i] Current idx is i
 
 	 Number-of-groups in curr_term is 2 , [j
 
@@ -59,13 +59,15 @@
 
 	 j: 1 j
 
-	 -- Did not find any operator:  and curr_operand is  lengths[i][j]
+	 -- Did not find any operator:  and curr_operand is  lengths[i][j] Current idx is j
 
 	 Number-of-groups in curr_term is 1 ,  + 1;
 
 	 j: 0  + 1;
 
 	 -- FOUND a plus operator:   ,  1;
+
+	 Current idx:  + 1;	 and pass_new_operand is  1;[ + 1;]
 
 	 Yes an operator has been found! 
 
@@ -109,7 +111,7 @@
 
 	 j: 1 i+1
 
-	 -- Did not find any operator:  lengths and curr_operand is  lengths[i+1]
+	 -- Did not find any operator:  lengths and curr_operand is  lengths[i+1] Current idx is i+1
 
 	 Number-of-groups in curr_term is 2 , [j
 
@@ -117,7 +119,7 @@
 
 	 j: 1 j
 
-	 -- Did not find any operator:  and curr_operand is  lengths[i+1][j]
+	 -- Did not find any operator:  and curr_operand is  lengths[i+1][j] Current idx is j
 
 	 Number-of-groups in curr_term is 2 ,  + non_sense[i
 
@@ -126,6 +128,8 @@
 	 j: 1 i
 
 	 -- FOUND a plus operator:   ,  non_sense
+
+	 Current idx: i	 and pass_new_operand is  non_sense[i]
 
 	 Yes an operator has been found! 
 
@@ -166,10 +170,10 @@
 
 	 Venturing to find statements from line 36
 
-	 Searching for stmt in line                lengths[i+1][j+1] = lengths[i][j+1] * lengths[i- find_this[i]][j];            
+	 Searching for stmt in line                lengths[i+1][j+1] = lengths[i][j+1] + lengths[i- find_this[i]][j];            
 
 
-	 ----- Found following items in the statement:                lengths[i+1][j+1]  ,  lengths[i][j+1] * lengths[i- find_this[i]][j];            on line 37
+	 ----- Found following items in the statement:                lengths[i+1][j+1]  ,  lengths[i][j+1] + lengths[i- find_this[i]][j];            on line 37
 
 	 NODAPPA len(operands_sqbrace1_split) 6
 
@@ -179,7 +183,7 @@
 
 	 j: 1 i
 
-	 -- Did not find any operator:  lengths and curr_operand is  lengths[i]
+	 -- Did not find any operator:  lengths and curr_operand is  lengths[i] Current idx is i
 
 	 Number-of-groups in curr_term is 2 , [j+1
 
@@ -187,19 +191,21 @@
 
 	 j: 1 j+1
 
-	 -- Did not find any operator:  and curr_operand is  lengths[i][j+1]
+	 -- Did not find any operator:  and curr_operand is  lengths[i][j+1] Current idx is j+1
 
-	 Number-of-groups in curr_term is 3 ,  * lengths[i- find_this[i
+	 Number-of-groups in curr_term is 3 ,  + lengths[i- find_this[i
 
-	 j: 0  * lengths
+	 j: 0  + lengths
 
 	 j: 1 i- find_this
 
 	 j: 2 i
 
-	 -- FOUND a mul operator:   ,  lengths
+	 -- FOUND a plus operator:   ,  lengths
 
-	 Found an operator-- so currently pass_new_operand  lengths[i- find_this[
+	 Found an operator-- so currently pass_new_operand i- find_this[
+
+	 Current idx: i- find_this[i	 and pass_new_operand is  lengths[i- find_this[i]
 
 	 Yes an operator has been found! 
 
@@ -215,7 +221,7 @@
 
 	 j: 1 j
 
-	 -- Did not find any operator:  and curr_operand is  lengths[i- find_this[i]][j]
+	 -- Did not find any operator:  and curr_operand is  lengths[i- find_this[i]][j] Current idx is j
 
 	 Number-of-groups in curr_term is 1 , ;           
 

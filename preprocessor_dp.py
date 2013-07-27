@@ -45,11 +45,19 @@ def break_statement( search_line,operation_count,search_line_idx):
 					pass_new_operator=find_plus_operator[0]
 					pass_new_operand=find_plus_operator[1]+'['
 					pass_new_operand_copy=pass_new_operand
+					curr_idx='';curr_idx_copy=''
 					for k in range( len(curr_term) -2):
+						curr_idx=curr_idx_copy+str(curr_term[k+1])+'['
+						curr_idx_copy=curr_idx
 						pass_new_operand=pass_new_operand_copy+str(curr_term[k+1])+'['
 						pass_new_operand_copy=pass_new_operand
-						print "\n\t Found an operator-- so currently pass_new_operand "+str(pass_new_operand)
-					pass_new_operand=pass_new_operand_copy+str(curr_term[len(curr_term)-1])+']'					
+						print "\n\t Found an operator-- so currently pass_new_operand "+str(curr_idx)
+					curr_idx=curr_idx_copy+str(curr_term[len(curr_term)-1])
+					curr_idx_copy=curr_idx
+					pass_new_operand=pass_new_operand_copy+str(curr_term[len(curr_term)-1])+']'
+					pass_new_operand_copy=pass_new_operand
+					#num_open_braces-=1;
+					print "\n\t Current idx: "+str(curr_idx)+"\t and pass_new_operand is "+str(pass_new_operand)
 				elif (len(find_minus_operator)>=2):
 					print "\n\t -- FOUND a minus operator: "+str(find_minus_operator[0] ) +" , "+str(find_minus_operator[1])
 					operator_found=1	
@@ -57,22 +65,32 @@ def break_statement( search_line,operation_count,search_line_idx):
 					pass_new_operator=find_minus_operator[0]
 					pass_new_operand=find_minus_operator[1]+'['
 					pass_new_operand_copy=pass_new_operand
+					curr_idx='';curr_idx_copy=''
 					for k in range( len(curr_term) -2):
-						pass_new_operand=pass_new_operand_copy+str(curr_term[k+1])+'['
-						pass_new_operand_copy=pass_new_operand
-						print "\n\t Found an operator-- so currently pass_new_operand "+str(pass_new_operand)
-					pass_new_operand=pass_new_operand_copy+str(curr_term[len(curr_term)-1])+']'										
+						curr_idx=curr_idx_copy+str(curr_term[k+1])+'['
+						curr_idx_copy=curr_idx
+						print "\n\t Found an operator-- so currently pass_new_operand "+str(curr_idx)
+
+					curr_idx=curr_idx_copy+str(curr_term[len(curr_term)-1])+']'
+					curr_idx_copy=curr_idx
+					pass_new_operand=pass_new_operand_copy+str(curr_idx)
+					print "\n\t Current idx: "+str(curr_idx)										
 				elif (len(find_mul_operator)>=2):
 					print "\n\t -- FOUND a mul operator: "+str(find_mul_operator[0] ) +" , "+str(find_mul_operator[1])		
 					operator_found=1					
 					pass_new_operator=find_mul_operator[0]
 					pass_new_operand=find_mul_operator[1]+'['
 					pass_new_operand_copy=pass_new_operand
+					curr_idx='';curr_idx_copy=''
 					for k in range( len(curr_term) -2):
-						pass_new_operand=pass_new_operand_copy+str(curr_term[k+1])+'['
-						pass_new_operand_copy=pass_new_operand
-						print "\n\t Found an operator-- so currently pass_new_operand "+str(pass_new_operand)
-					pass_new_operand=pass_new_operand_copy+str(curr_term[len(curr_term)-1])+']'				
+						curr_idx=curr_idx_copy+str(curr_term[k+1])+'['
+						curr_idx_copy=curr_idx
+						print "\n\t Found an operator-- so currently pass_new_operand "+str(curr_idx)
+
+					curr_idx=curr_idx_copy+str(curr_term[len(curr_term)-1])+']'
+					curr_idx_copy=curr_idx
+					pass_new_operand=pass_new_operand_copy+str(curr_idx)
+					print "\n\t Current idx: "+str(curr_idx)			
 				elif (len(find_div_operator)>=2):
 					print "\n\t -- FOUND a div operator: "+str(find_div_operator[0] ) +" , "+str(find_div_operator[1])									
 					operator_found=1			
@@ -80,23 +98,33 @@ def break_statement( search_line,operation_count,search_line_idx):
 					pass_new_operator=find_div_operator[0]
 					pass_new_operand=find_div_operator[1]+'['
 					pass_new_operand_copy=pass_new_operand
+					curr_idx='';curr_idx_copy=''
 					for k in range( len(curr_term) -2):
-						pass_new_operand=pass_new_operand_copy+str(curr_term[k+1])+'['
-						pass_new_operand_copy=pass_new_operand
-						print "\n\t Found an operator-- so currently pass_new_operand "+str(pass_new_operand)
-					pass_new_operand=pass_new_operand_copy+str(curr_term[len(curr_term)-1])+']'								
+						curr_idx=curr_idx_copy+str(curr_term[k+1])+'['
+						curr_idx_copy=curr_idx
+						print "\n\t Found an operator-- so currently pass_new_operand "+str(curr_idx)
+
+					curr_idx=curr_idx_copy+str(curr_term[len(curr_term)-1])+']'
+					curr_idx_copy=curr_idx
+					pass_new_operand=pass_new_operand_copy+str(curr_idx)
+					print "\n\t Current idx: "+str(curr_idx)										
 				else:
 					if(len(curr_term) >1 ):
-						for j in range( len(curr_term) -1):
+						curr_idx=''
+						curr_idx_copy=curr_idx
+						for j in range( len(curr_term) -2):
 							#print "\n\t -- Now- curr_operand"
-							curr_operand=curr_operand_copy+str(curr_term[j])+str('[')
-							curr_operand_copy=curr_operand			
-						curr_operand=curr_operand_copy+str(curr_term[len(curr_term)-1] )+']'
+							curr_idx=curr_idx_copy+str(curr_term[j+1])
+							curr_idx_copy=curr_idx		
+							curr_operand=curr_operand_copy+str(curr_term[j+1])+str('[')
+							curr_operand_copy=curr_operand
+						curr_idx=curr_idx_copy+str(curr_term[len(curr_term)-1] )
+						curr_idx_copy=curr_idx
+						curr_operand=curr_operand_copy+curr_term[0]+'['+str(curr_term[len(curr_term)-1] )+']'
 						curr_operand_copy=curr_operand
-						print "\n\t -- Did not find any operator: "+str(curr_term[0])+" and curr_operand is "+str(curr_operand)
+						print "\n\t -- Did not find any operator: "+str(curr_term[0])+" and curr_operand is "+str(curr_operand)+" Current idx is "+str(curr_idx)
 					
 					else:
-						#test_dict['res']['operands_rhs'].append(curr_operand)
 						test_semicolon=curr_term[0].split(';')
 						if (len(test_semicolon) ==1 ) :
 							if(test_semicolon[0]==''):
@@ -105,8 +133,7 @@ def break_statement( search_line,operation_count,search_line_idx):
 								curr_operand_copy=curr_operand
 							else:
 								print "\n\t FATAL no semicolon/space in "+str(curr_term[0])	
-						else: #if( len(test_semicolon)>=1 ):
-							#if(test_semicolon[0]==';' or test_semicolon[1]==';'):
+						else: 
 							duh=re.match('\.*\;\.*',curr_term[0])
 							if( duh ):
 								print "\n\t Hurray Semicolon detected!! \n";
