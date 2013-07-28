@@ -40,7 +40,7 @@
 
 	 LHS operands: 
 
-	 # 0 term: if (a[i
+	 # 0 term: a[i
 
 	 # 1 term:  
 
@@ -56,11 +56,16 @@
 
 	 -- Did not find any operator:  b and curr_operand is  b[j] Current idx is j
 
-	 Number-of-groups in curr_term is 1 , ) {
+	 Number-of-groups in curr_term is 1 , ;
 
-	 j: 0 ) {
+	 j: 0 ;
 
-	 FATAL no semicolon/space in ) {
+	 Hurray Semicolon detected!! 
+
+
+	 -- NOTICE return_params['res']['rhs_operands'][i] is  b[j] and the indices are
+
+		 index-no: 0 index --> j
 
 	 Venturing to find statements from line 26
 
@@ -111,11 +116,13 @@
 
 	 Yes an operator has been found! 
 
-	 -- NOTICE test_dict['res']['rhs_operands'][i] is  lengths[i][j] and the indices are
+	 -- NOTICE return_params['res']['rhs_operands'][i] is  lengths[i][j] and the indices are
 
 		 index-no: 0 index --> i
 
 		 index-no: 1 index --> j
+
+	 condn_params[condn_term_key][statement_keyw']['eqn_params'][0] lengths[i+1][j+1] 
 
 	 Found pragma with struct_grid in line: 29 :       #pragma dynamic_prog solve cond 2            
 
@@ -140,7 +147,9 @@
 
 	 Found condition within () on line: 30
 
-	 --- CONDN ALERT found a greater than or equal operator! else if (  lengths[i+1][j]>= lengths[i][j+1])  ) term-0: else if (  lengths[i+1][j] term-1:  lengths[i][j+1])  )
+	 --- CONDN ALERT found a greater than operator! else if (  lengths[i+1][j] > lengths[i][j+1])  ) term-0: else if (  lengths[i+1][j]  term-1:  lengths[i][j+1])  )
+
+	 Before sending find_condn_great_operator[0]   lengths[i+1][j]  find_condn_great_operator[1]  lengths[i][j+1];
 
 	 LHS operands: 
 
@@ -148,7 +157,7 @@
 
 	 # 1 term: [j
 
-	 # 2 term: 
+	 # 2 term:  
 
 	 Yo! lhs-term: 0 index--> i+1
 
@@ -179,11 +188,13 @@
 	 Hurray Semicolon detected!! 
 
 
-	 -- NOTICE test_dict['res']['rhs_operands'][i] is  lengths[i][j+1] and the indices are
+	 -- NOTICE return_params['res']['rhs_operands'][i] is  lengths[i][j+1] and the indices are
 
 		 index-no: 0 index --> i
 
 		 index-no: 1 index --> j+1
+
+	 --**&&^^  condn_params[condn_term_key]['condn_unrolled']['eqn_params'][0]   lengths[i+1][j] 
 
 	 Venturing to find statements from line 31
 
@@ -243,15 +254,17 @@
 	 Hurray Semicolon detected!! 
 
 
-	 -- NOTICE test_dict['res']['rhs_operands'][i] is  lengths[i+1][j] and the indices are
+	 -- NOTICE return_params['res']['rhs_operands'][i] is  lengths[i+1][j] and the indices are
 
 		 index-no: 0 index --> i+1
 
 		 index-no: 1 index --> j
 
-	 -- NOTICE test_dict['res']['rhs_operands'][i] is  non_sense[i] and the indices are
+	 -- NOTICE return_params['res']['rhs_operands'][i] is  non_sense[i] and the indices are
 
 		 index-no: 0 index --> i
+
+	 condn_params[condn_term_key][statement_keyw']['eqn_params'][0] lengths[i+1][j+1] 
 
 	 Found pragma with struct_grid in line: 34 :       #pragma dynamic_prog solve cond 3   	    
 
@@ -367,17 +380,19 @@
 	 Hurray Semicolon detected!! 
 
 
-	 -- NOTICE test_dict['res']['rhs_operands'][i] is  lengths[i][j+find_this[i]] and the indices are
+	 -- NOTICE return_params['res']['rhs_operands'][i] is  lengths[i][j+find_this[i]] and the indices are
 
 		 index-no: 0 index --> i
 
 		 index-no: 1 index --> j+find_this[i]
 
-	 -- NOTICE test_dict['res']['rhs_operands'][i] is  lengths[i- find_this[i]][j] and the indices are
+	 -- NOTICE return_params['res']['rhs_operands'][i] is  lengths[i- find_this[i]][j] and the indices are
 
 		 index-no: 0 index --> i- find_this[i]
 
 		 index-no: 1 index --> j
+
+	 condn_params[condn_term_key][statement_keyw']['eqn_params'][0] lengths[i+1][j+1] 
 
 	 Found pragma with struct_grid in line: 41 :    #pragma dynamic_prog solve cond 4
 
@@ -395,3 +410,81 @@
 
 	 I go nowhere!! since num_conditions_found is 3 and num_conditions is 3 :'( :'( 
 
+	 ------------------------------------------------------------------------------------------ 
+
+	 Summarizing the condtions: 
+ 
+
+	 Number of conditions: 3
+
+	 I am condition number: 0
+
+		 Condn: 26
+
+		 Is else condn: 0
+
+			 LHS: a[i] 
+
+			 RHS-operator 0 -->  b[j] and the indices are
+
+				 index-no: 0 index --> j
+
+		 statement: lengths[i+1][j+1] = lengths[i][j] + 1 ;
+
+			 LHS: lengths[i+1][j+1] 	 RHS:  lengths[i][j] + 1 ;
+
+			 RHS-operator 0 -->  lengths[i][j] and the indices are
+
+				 index-no: 0 index --> i
+
+				 index-no: 1 index --> j
+
+	 I am condition number: 1
+
+		 Condn: 30
+
+		 Is else condn: 0
+
+			 LHS:   lengths[i+1][j] 
+
+			 RHS-operator 0 -->  lengths[i][j+1] and the indices are
+
+				 index-no: 0 index --> i
+
+				 index-no: 1 index --> j+1
+
+		 statement: lengths[i+1][j+1] = lengths[i+1][j] + non_sense[i];
+
+			 LHS: lengths[i+1][j+1] 	 RHS:  lengths[i+1][j] + non_sense[i];
+
+			 RHS-operator 0 -->  lengths[i+1][j] and the indices are
+
+				 index-no: 0 index --> i+1
+
+				 index-no: 1 index --> j
+
+			 RHS-operator 1 -->  non_sense[i] and the indices are
+
+				 index-no: 0 index --> i
+
+	 I am condition number: 2
+
+		 Condn: 35
+
+		 Is else condn: 1
+
+		 statement: lengths[i+1][j+1] = lengths[i][j+find_this[i]] + lengths[i- find_this[i]][j];
+
+			 LHS: lengths[i+1][j+1] 	 RHS:  lengths[i][j+find_this[i]] + lengths[i- find_this[i]][j];
+
+			 RHS-operator 0 -->  lengths[i][j+find_this[i]] and the indices are
+
+				 index-no: 0 index --> i
+
+				 index-no: 1 index --> j+find_this[i]
+
+			 RHS-operator 1 -->  lengths[i- find_this[i]][j] and the indices are
+
+				 index-no: 0 index --> i- find_this[i]
+
+				 index-no: 1 index --> j
