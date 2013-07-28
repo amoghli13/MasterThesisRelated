@@ -38,10 +38,10 @@
 
 	 Venturing to find statements from line 26
 
-	 Searching for stmt in line                lengths[i+1][j+1] = lengths[i][j] + 1;
+	 Searching for stmt in line                lengths[i+1][j+1] = lengths[i][j] + 1 ;
 
 
-	 ----- Found following items in the statement:                lengths[i+1][j+1]  ,  lengths[i][j] + 1; on line 27
+	 ----- Found following items in the statement:                lengths[i+1][j+1]  ,  lengths[i][j] + 1 ; on line 27
 
 	 NODAPPA len(operands_sqbrace1_split) 3
 
@@ -61,17 +61,28 @@
 
 	 -- Did not find any operator:  and curr_operand is  lengths[i][j] Current idx is j
 
-	 Number-of-groups in curr_term is 1 ,  + 1;
+	 Number-of-groups in curr_term is 1 ,  + 1 ;
 
-	 j: 0  + 1;
+	 j: 0  + 1 ;
 
-	 -- FOUND a plus operator:   ,  1;
+	 -- FOUND a plus operator:   ,  1 ;
 
-	 Current idx:  + 1;	 and pass_new_operand is  1;[ + 1;]
+	 ++ Current idx: 	 and pass_new_operand is  1 
+
+	 Disassemble the following operator!! 
+
+
+	 K: 0  
+
+	 K: 1  1 ;
 
 	 Yes an operator has been found! 
 
-	 -- NOTICE test_dict['res']['operands_rhs'][i] is  lengths[i][j]
+	 -- NOTICE test_dict['res']['operands_rhs'][i] is  lengths[i][j] and the indices are
+
+		 index-no: 0 index --> i
+
+		 index-no: 1 index --> j
 
 	 Found pragma with struct_grid in line: 29 :       #pragma dynamic_prog solve cond 2            
 
@@ -129,7 +140,14 @@
 
 	 -- FOUND a plus operator:   ,  non_sense
 
-	 Current idx: i	 and pass_new_operand is  non_sense[i]
+	 -- Current idx: i	 and pass_new_operand is  non_sense[i]
+
+	 Disassemble the following operator!! 
+
+
+	 K: 0  
+
+	 K: 1  non_sense
 
 	 Yes an operator has been found! 
 
@@ -140,9 +158,15 @@
 	 Hurray Semicolon detected!! 
 
 
-	 -- NOTICE test_dict['res']['operands_rhs'][i] is  lengths[i+1][j]
+	 -- NOTICE test_dict['res']['operands_rhs'][i] is  lengths[i+1][j] and the indices are
 
-	 -- NOTICE test_dict['res']['operands_rhs'][i] is  non_sense[i]
+		 index-no: 0 index --> i+1
+
+		 index-no: 1 index --> j
+
+	 -- NOTICE test_dict['res']['operands_rhs'][i] is  non_sense[i] and the indices are
+
+		 index-no: 0 index --> i
 
 	 Found pragma with struct_grid in line: 34 :       #pragma dynamic_prog solve cond 3   	    
 
@@ -170,10 +194,10 @@
 
 	 Venturing to find statements from line 36
 
-	 Searching for stmt in line                lengths[i+1][j+1] = lengths[i][j+1] + lengths[i- find_this[i]+dummy[j]][j];            
+	 Searching for stmt in line                lengths[i+1][j+1] = lengths[i][j+find_this[i]] + lengths[i- find_this[i]][j];            
 
 
-	 ----- Found following items in the statement:                lengths[i+1][j+1]  ,  lengths[i][j+1] + lengths[i- find_this[i]+dummy[j]][j];            on line 37
+	 ----- Found following items in the statement:                lengths[i+1][j+1]  ,  lengths[i][j+find_this[i]] + lengths[i- find_this[i]][j];            on line 37
 
 	 NODAPPA len(operands_sqbrace1_split) 7
 
@@ -185,13 +209,23 @@
 
 	 -- Did not find any operator:  lengths and curr_operand is  lengths[i] Current idx is i
 
-	 Number-of-groups in curr_term is 2 , [j+1
+	 Number-of-groups in curr_term is 3 , [j+find_this[i
 
 	 j: 0 
 
-	 j: 1 j+1
+	 j: 1 j+find_this
 
-	 -- Did not find any operator:  and curr_operand is  lengths[i][j+1] Current idx is j+1
+	 j: 2 i
+
+	 Index has plus operator!! j+find_this len(idx_split) 2
+
+	 ++ Did not find any operator:  and curr_operand is  lengths[i][j+find_this[i] Current idx is j+find_this[i]
+
+	 Number-of-groups in curr_term is 1 , 
+
+	 j: 0 
+
+	 Space found instead of semicolon detected!! 
 
 	 Number-of-groups in curr_term is 3 ,  + lengths[i- find_this[i
 
@@ -203,21 +237,18 @@
 
 	 -- FOUND a plus operator:   ,  lengths
 
+	 Index has minus operator!! i- find_this len(idx_split) 2
+
 	 Found an operator-- so currently pass_new_operand i- find_this[
 
-	 Current idx: i- find_this[i	 and pass_new_operand is  lengths[i- find_this[i]
+	 ++ Current idx: i- find_this[i]	 and pass_new_operand is  lengths[i- find_this[i]
 
-	 Yes an operator has been found! 
+	 Disassemble the following operator!! 
 
-	 Number-of-groups in curr_term is 2 , +dummy[j
 
-	 j: 0 +dummy
+	 K: 0  
 
-	 j: 1 j
-
-	 -- FOUND a plus operator:  , dummy
-
-	 Current idx: j	 and pass_new_operand is dummy[j]
+	 K: 1  lengths
 
 	 Yes an operator has been found! 
 
@@ -233,7 +264,7 @@
 
 	 j: 1 j
 
-	 -- Did not find any operator:  and curr_operand is dummy[j]][j] Current idx is j
+	 -- Did not find any operator:  and curr_operand is  lengths[i- find_this[i]][j] Current idx is j
 
 	 Number-of-groups in curr_term is 1 , ;           
 
@@ -242,11 +273,17 @@
 	 Hurray Semicolon detected!! 
 
 
-	 -- NOTICE test_dict['res']['operands_rhs'][i] is  lengths[i][j+1]
+	 -- NOTICE test_dict['res']['operands_rhs'][i] is  lengths[i][j+find_this[i]] and the indices are
 
-	 -- NOTICE test_dict['res']['operands_rhs'][i] is  lengths[i- find_this[i]
+		 index-no: 0 index --> i
 
-	 -- NOTICE test_dict['res']['operands_rhs'][i] is dummy[j]][j]
+		 index-no: 1 index --> j+find_this[i]
+
+	 -- NOTICE test_dict['res']['operands_rhs'][i] is  lengths[i- find_this[i]][j] and the indices are
+
+		 index-no: 0 index --> i- find_this[i]
+
+		 index-no: 1 index --> j
 
 	 Found pragma with struct_grid in line: 41 :    #pragma dynamic_prog solve cond 4
 

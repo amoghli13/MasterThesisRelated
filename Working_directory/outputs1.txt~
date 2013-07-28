@@ -41,18 +41,6 @@
 	 Searching for stmt in line                lengths[i+1][j+1] = lengths[i][j] + 1 ;
 
 
-	 LHS operands: 
-
-	 # 0 term:                lengths[i+1
-
-	 # 1 term: [j+1
-
-	 # 2 term:  
-
-	 Yo! lhs-term: 0 index--> i+1
-
-	 Yo! lhs-term: 1 index--> j+1
-
 	 ----- Found following items in the statement:                lengths[i+1][j+1]  ,  lengths[i][j] + 1 ; on line 27
 
 	 NODAPPA len(operands_sqbrace1_split) 3
@@ -90,11 +78,11 @@
 
 	 Yes an operator has been found! 
 
-	 -- NOTICE test_dict['res']['rhs_operands'][i] is  lengths[i][j] and the indices are
+	 -- NOTICE test_dict['res']['operands_rhs'][i] is  lengths[i][j] and the indices are
 
-		 index-no: 0 index --> i
+		 index-no: 0 index i
 
-		 index-no: 1 index --> j
+		 index-no: 1 index j
 
 	 Found pragma with struct_grid in line: 29 :       #pragma dynamic_prog solve cond 2            
 
@@ -123,18 +111,6 @@
 
 	 Searching for stmt in line                lengths[i+1][j+1] = lengths[i+1][j] + non_sense[i];
 
-
-	 LHS operands: 
-
-	 # 0 term:                lengths[i+1
-
-	 # 1 term: [j+1
-
-	 # 2 term:  
-
-	 Yo! lhs-term: 0 index--> i+1
-
-	 Yo! lhs-term: 1 index--> j+1
 
 	 ----- Found following items in the statement:                lengths[i+1][j+1]  ,  lengths[i+1][j] + non_sense[i]; on line 32
 
@@ -182,15 +158,15 @@
 	 Hurray Semicolon detected!! 
 
 
-	 -- NOTICE test_dict['res']['rhs_operands'][i] is  lengths[i+1][j] and the indices are
+	 -- NOTICE test_dict['res']['operands_rhs'][i] is  lengths[i+1][j] and the indices are
 
-		 index-no: 0 index --> i+1
+		 index-no: 0 index i+1
 
-		 index-no: 1 index --> j
+		 index-no: 1 index j
 
-	 -- NOTICE test_dict['res']['rhs_operands'][i] is  non_sense[i] and the indices are
+	 -- NOTICE test_dict['res']['operands_rhs'][i] is  non_sense[i] and the indices are
 
-		 index-no: 0 index --> i
+		 index-no: 0 index i
 
 	 Found pragma with struct_grid in line: 34 :       #pragma dynamic_prog solve cond 3   	    
 
@@ -220,18 +196,6 @@
 
 	 Searching for stmt in line                lengths[i+1][j+1] = lengths[i][j+find_this[i]] + lengths[i- find_this[i]][j];            
 
-
-	 LHS operands: 
-
-	 # 0 term:                lengths[i+1
-
-	 # 1 term: [j+1
-
-	 # 2 term:  
-
-	 Yo! lhs-term: 0 index--> i+1
-
-	 Yo! lhs-term: 1 index--> j+1
 
 	 ----- Found following items in the statement:                lengths[i+1][j+1]  ,  lengths[i][j+find_this[i]] + lengths[i- find_this[i]][j];            on line 37
 
@@ -309,17 +273,19 @@
 	 Hurray Semicolon detected!! 
 
 
-	 -- NOTICE test_dict['res']['rhs_operands'][i] is  lengths[i][j+find_this[i]] and the indices are
+	 -- NOTICE test_dict['res']['operands_rhs'][i] is  lengths[i][j+find_this[i]] and the indices are
 
-		 index-no: 0 index --> i
+		 index-no: 0 index i
 
-		 index-no: 1 index --> j+find_this[i]
+		 index-no: 1 index j+find_this[i]
 
-	 -- NOTICE test_dict['res']['rhs_operands'][i] is  lengths[i- find_this[i]][j] and the indices are
+		 index-no: 2 index i- find_this[i]
 
-		 index-no: 0 index --> i- find_this[i]
+	 -- NOTICE test_dict['res']['operands_rhs'][i] is  lengths[i- find_this[i]][j] and the indices are
 
-		 index-no: 1 index --> j
+		 index-no: 0 index i- find_this[i]
+
+		 index-no: 1 index j
 
 	 Found pragma with struct_grid in line: 41 :    #pragma dynamic_prog solve cond 4
 

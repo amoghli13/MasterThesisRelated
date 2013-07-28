@@ -46,18 +46,52 @@ def break_statement( search_line,operation_count,search_line_idx):
 					pass_new_operand=find_plus_operator[1]+'['
 					pass_new_operand_copy=pass_new_operand
 					curr_idx='';curr_idx_copy=''
-					for k in range( len(curr_term) -2):
-						curr_idx=curr_idx_copy+str(curr_term[k+1])+'['
+					
+					if( len(curr_term) >2 ):
+						idx_plus_split= curr_term[1].split( '+');idx_minus_split= curr_term[1].split( '-');idx_mul_split= curr_term[1].split( '*');idx_div_split= curr_term[1].split( '/');
+						if ( len(idx_plus_split) > 1):
+							print "\n\t Index has plus operator!! "+str(curr_term[1])+" len(idx_split) "+str(len(idx_plus_split))
+						elif ( len(idx_minus_split) > 1):
+							print "\n\t Index has minus operator!! "+str(curr_term[1])+" len(idx_split) "+str(len(idx_minus_split))
+						elif ( len(idx_mul_split) > 1):
+							print "\n\t Index has mul operator!! "+str(curr_term[1])+" len(idx_split) "+str(len(idx_mul_split))	
+						if ( len(idx_div_split) > 1):
+							print "\n\t Index has div operator!! "+str(curr_term[1])+" len(idx_split) "+str(len(idx_div_split))		
+							
+ 						for k in range( len(curr_term) -2):
+							curr_idx=curr_idx_copy+str(curr_term[k+1])+'['
+							curr_idx_copy=curr_idx
+							pass_new_operand=pass_new_operand_copy+str(curr_term[k+1])+'['
+							pass_new_operand_copy=pass_new_operand
+							print "\n\t Found an operator-- so currently pass_new_operand "+str(curr_idx)
+						curr_idx=curr_idx_copy+str(curr_term[len(curr_term)-1])+']'
 						curr_idx_copy=curr_idx
-						pass_new_operand=pass_new_operand_copy+str(curr_term[k+1])+'['
+						pass_new_operand=pass_new_operand_copy+str(curr_term[len(curr_term)-1])+']'
 						pass_new_operand_copy=pass_new_operand
-						print "\n\t Found an operator-- so currently pass_new_operand "+str(curr_idx)
-					curr_idx=curr_idx_copy+str(curr_term[len(curr_term)-1])
-					curr_idx_copy=curr_idx
-					pass_new_operand=pass_new_operand_copy+str(curr_term[len(curr_term)-1])+']'
-					pass_new_operand_copy=pass_new_operand
-					#num_open_braces-=1;
-					print "\n\t Current idx: "+str(curr_idx)+"\t and pass_new_operand is "+str(pass_new_operand)
+						#num_open_braces-=1;
+						print "\n\t ++ Current idx: "+str(curr_idx)+"\t and pass_new_operand is "+str(pass_new_operand)
+					else:
+					
+						#duh=re.match('\.*\;\.*',find_plus_operator[1])#curr_term[0])
+						check_semicolon=curr_term[0].split(';')
+						curr_idx=curr_idx_copy+str(curr_term[len(curr_term)-1])
+						curr_idx_copy=curr_idx
+						if ( len(check_semicolon) > 1 ):
+							remove_semicolon=find_plus_operator[1].split(';')
+							pass_new_operand=remove_semicolon[0] #check_semicolon[0]#find_plus_operator[1]
+							pass_new_operand_copy=pass_new_operand		
+							curr_idx=''
+							curr_idx_copy=''				
+							print "\n\t ++ Current idx: "+str(curr_idx)+"\t and pass_new_operand is "+str(pass_new_operand)							
+						else:
+							pass_new_operand=pass_new_operand_copy+str(curr_term[len(curr_term)-1])+']'
+							pass_new_operand_copy=pass_new_operand
+						#num_open_braces-=1;
+							print "\n\t -- Current idx: "+str(curr_idx)+"\t and pass_new_operand is "+str(pass_new_operand)
+					print "\n\t Disassemble the following operator!! \n"
+					for k in range( len(find_plus_operator) ):
+						print "\n\t K: "+str(k)+" "+str(find_plus_operator[k])
+					
 				elif (len(find_minus_operator)>=2):
 					print "\n\t -- FOUND a minus operator: "+str(find_minus_operator[0] ) +" , "+str(find_minus_operator[1])
 					operator_found=1	
@@ -110,20 +144,38 @@ def break_statement( search_line,operation_count,search_line_idx):
 					print "\n\t Current idx: "+str(curr_idx)										
 				else:
 					if(len(curr_term) >1 ):
-						curr_idx=''
-						curr_idx_copy=curr_idx
-						for j in range( len(curr_term) -2):
-							#print "\n\t -- Now- curr_operand"
-							curr_idx=curr_idx_copy+str(curr_term[j+1])
-							curr_idx_copy=curr_idx		
-							curr_operand=curr_operand_copy+str(curr_term[j+1])+str('[')
+						if(len(curr_term)>2):
+							idx_plus_split= curr_term[1].split( '+');idx_minus_split= curr_term[1].split( '-');idx_mul_split= curr_term[1].split( '*');idx_div_split= curr_term[1].split( '/');
+							if ( len(idx_plus_split) > 1):
+								print "\n\t Index has plus operator!! "+str(curr_term[1])+" len(idx_split) "+str(len(idx_plus_split))
+							elif ( len(idx_minus_split) > 1):
+								print "\n\t Index has minus operator!! "+str(curr_term[1])+" len(idx_split) "+str(len(idx_minus_split))
+							elif ( len(idx_mul_split) > 1):
+								print "\n\t Index has mul operator!! "+str(curr_term[1]+" len(idx_split) ")+str(len(idx_mul_split))	
+							if ( len(idx_div_split) > 1):
+								print "\n\t Index has div operator!! "+str(curr_term[1])+" len(idx_split) "+str(len(idx_div_split))														
+							curr_idx=''
+							curr_idx_copy=curr_idx
+							for j in range( len(curr_term) -2):
+								#print "\n\t -- Now- curr_operand"
+								curr_idx=curr_idx_copy+str(curr_term[j+1])+'['
+								curr_idx_copy=curr_idx		
+								curr_operand=curr_operand_copy+'['+str(curr_term[j+1])
+								curr_operand_copy=curr_operand
+							curr_idx=curr_idx_copy+str(curr_term[len(curr_term)-1] )+']'
+							curr_idx_copy=curr_idx
+							curr_operand=curr_operand_copy+curr_term[0]+'['+str(curr_term[len(curr_term)-1] )+']'
 							curr_operand_copy=curr_operand
-						curr_idx=curr_idx_copy+str(curr_term[len(curr_term)-1] )
-						curr_idx_copy=curr_idx
-						curr_operand=curr_operand_copy+curr_term[0]+'['+str(curr_term[len(curr_term)-1] )+']'
-						curr_operand_copy=curr_operand
-						print "\n\t -- Did not find any operator: "+str(curr_term[0])+" and curr_operand is "+str(curr_operand)+" Current idx is "+str(curr_idx)
-					
+							print "\n\t ++ Did not find any operator: "+str(curr_term[0])+" and curr_operand is "+str(curr_operand)+" Current idx is "+str(curr_idx)	
+						else:
+							curr_idx=''
+							curr_idx_copy=curr_idx
+							curr_idx=curr_idx_copy+str(curr_term[len(curr_term)-1] )
+							curr_idx_copy=curr_idx
+							curr_operand=curr_operand_copy+curr_term[0]+'['+str(curr_term[len(curr_term)-1] )+']'
+							curr_operand_copy=curr_operand
+							print "\n\t -- Did not find any operator: "+str(curr_term[0])+" and curr_operand is "+str(curr_operand)+" Current idx is "+str(curr_idx)	
+									
 					else:
 						test_semicolon=curr_term[0].split(';')
 						if (len(test_semicolon) ==1 ) :
