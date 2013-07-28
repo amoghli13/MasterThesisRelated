@@ -9,12 +9,23 @@
 """
 # Actual code
 import getopt, sys,re
+ 
+ 
+
+ 
 
 
-# Return hash
-#
-#
-
+############ Method: break_statement(search_line_op1,search_line_op2)
+ 
+# Return hash: return_params
+#	*eqn_params
+#	*lhs_operand
+#	*lhs_operand_indices
+#	*rhs_num_operands
+#	*rhs_num_operators
+#	*rhs_operands
+#	*rhs_operators
+#	*rhs_operands_indices
 
 
 
@@ -46,8 +57,8 @@ def break_statement( search_line_op1,search_line_op2):
 	pseudo_term=1
 	if pseudo_term: # Commenting this to make the code usable to all statemetns seperated by =,>,>=,<,<=,==
 		#print "\n\t ----- Found following items in the statement: "+str(eqn_params[0])+" , "+str(eqn_params[1])+" on line "+str(search_line_idx)
-		#condn_params['condn_term_key']['operations']['operation_count_key'].append(eqn_params[0])
-		#condn_params['condn_term_key']['operations']['operation_count_key'].append(eqn_params[1])
+		#condn_params[condn_term_key]['operations']['operation_count_key'].append(eqn_params[0])
+		#condn_params[condn_term_key]['operations']['operation_count_key'].append(eqn_params[1])
 		operands_sqbrace2_split=eqn_params[1].split(']');
 		print "\n\t NODAPPA len(operands_sqbrace1_split) "+str(len(operands_sqbrace2_split) )											
 
@@ -265,32 +276,24 @@ def break_statement( search_line_op1,search_line_op2):
 		return return_params;
 
 
-def main():
-    try: 
-        opts, args = getopt.getopt(sys.argv[1:],'i:h:v',['input',"help", 'verbose='])
-    except getopt.GetoptError as err:
-        # print help information and exit:
-        print str(err) # will print something like "option -a not recognized"
-        usage()
-        sys.exit(2)
-    verbose = False
-    for o, a in opts:
-        if o == "-v":
-            verbose = True
-            #print verbose
-        elif o in ("-h", "--help"):
-            usage()
-            sys.exit()
-        elif o in ("-i","--input"):
-            src_file = a
-            if( re.match(r'\s*.*\.(cpp|cc|c)',src_file,re.I) ):
-	            print "\n\t Source file: "+a+"\n";
-	    else:
-	    	 print "\n\t Source file should be of type *.cpp or *.cc \n"
-	    	 sys.exit()
-        else:
-            assert False, "unhandled option"
-    # ...
+############ Method: extract_condn_params(src_file):
+
+    # Keys for return (dictionary!)
+    # num_condns
+    # condn_term_key=cond+str(condition-number)
+    #		*brace_start
+    #		*brace_end
+    #		*num_statements
+    #		*statement_keywd - the method break_statement returns all the info about the STATEMENT to this key.
+    #		*operation_count
+    #		*is_else_condn
+    #		*condn_line
+    #		*condn_unrolled - the method break_statement returns all the info about the CONDITION to this key.
+    
+
+    
+ 
+def extract_condn_params(src_file):
     src_file_handle=open(src_file)
     src_file_contents=src_file_handle.readlines()
     src_file_handle.close()
@@ -307,17 +310,7 @@ def main():
     dimensions_found=0;
     num_dimensions=0;
     condn_params={}
-    # Keys:
-    # num_condns
-    # condn_term_key=cond+str(condition-number)
-    #		*brace_start
-    #		*brace_end
-    #		*num_statements
-    #		*statement_keywd - the method break_statement returns all the info about the STATEMENT to this key.
-    #		*operation_count
-    #		*is_elsel_condn
-    #		*condn_line
-    #		*condn_unrolled - the method break_statement returns all the info about the CONDITION to this key.
+
     # num_dimensions.
     for curr_line in src_file_contents:
     	
@@ -351,8 +344,10 @@ def main():
 						
 						condn_term_key='cond'+str(condns_stmt.group(1))
 						print "\n\t condn_term_key is "+str(condn_term_key)+"\n"
-						condn_params['condn_term_key']={}
-						condn_params['condn_term_key']['pragma_line']=line_count;
+						condn_params[condn_term_key]={}
+						condn_params[condn_term_key]['trial']='trial'+str(condns_stmt.group(1))
+						#condn_params['condn_term_key']={}						
+						condn_params[condn_term_key]['pragma_line']=line_count;
 						print "\n\t ** Found the condition number "+str(condns_stmt.group())+' !! '
 						num_conditions_found+=1;#num_conditions;
 						start_search_line=line_count;
@@ -373,7 +368,7 @@ def main():
 										print "\n\t Found brace { on line: "+str(search_line_idx);
 										brace_notstarted=0
 										brace_start_line=search_line_idx
-										condn_params['condn_term_key']['brace_start']=brace_start_line;
+										condn_params[condn_term_key]['brace_start']=brace_start_line;
 									else:
 										print "\n\t Did NOT find brace { on line: "+str(search_line_idx);
 								elif brace_notclosed:
@@ -383,7 +378,7 @@ def main():
 										brace_notclosed=0
 										braces_notcompleted=0
 										brace_end_line=search_line_idx
-										condn_params['condn_term_key']['brace_end']=brace_end_line;										
+										condn_params[condn_term_key]['brace_end']=brace_end_line;										
 									else:
 										print "\n\t Did NOT find brace } on line: "+str(search_line_idx);
 								search_line_idx+=1;
@@ -412,14 +407,14 @@ def main():
 											print "\n\t Found condition within () on line: "+str(search_line_idx);
 											brace_notstarted=0;
 											braces_notcompleted=0;
-											condn_params['condn_term_key']['condn_line']=search_line_idx
-											condn_params['condn_term_key']['is_elsel_condn']=0											
+											condn_params[condn_term_key]['condn_line']=search_line_idx
+											condn_params[condn_term_key]['is_else_condn']=0											
 											search_line_idx+=1 # To ensure the if(search_line_idx part does not come into play)																				
 										elif search_bases2:
 											brace_notstarted=0;
 											braces_notcompleted=0;		
-											condn_params['condn_term_key']['condn_line']=search_line_idx		
-											condn_params['condn_term_key']['is_elsel_condn']=1									
+											condn_params[condn_term_key]['condn_line']=search_line_idx		
+											condn_params[condn_term_key]['is_else_condn']=1									
 											search_line_idx+=1 # To ensure the if(search_line_idx part does not come into play)									
 											print "\n\t Found 'else' instead of condition "+str(search_line)
 										else:
@@ -428,20 +423,21 @@ def main():
 							if ( search_line_idx<=start_search_line):
 								print "\n\t Condition not found before reaching pragma dynamic_prog solve cond statement on line "+str( search_line_idx ) +"\n\n "
 							else:
-								condn_line_contents_b4correction=src_file_contents[condn_params['condn_term_key']['condn_line']]
+								condn_line_contents_b4correction=src_file_contents[condn_params[condn_term_key]['condn_line']]
 								condn_line_contents_front_space=re.sub('^\s*','',condn_line_contents_b4correction)
 								condn_line_contents=re.sub('\s*$','',condn_line_contents_front_space)
 								find_condn_great_operator=condn_line_contents.split('>');find_condn_greater_or_eq_operator=condn_line_contents.split('>=');
 								find_condn_less_operator=condn_line_contents.split('<');find_condn_lesser_or_equal_operator=condn_line_contents.split('<=');
 								find_condn_equal_operator=condn_line_contents.split('==');
-								condn_params['condn_term_key']['condn_unrolled']={}
+								condn_params[condn_term_key]['condn_unrolled']={}
 								if (len(find_condn_greater_or_eq_operator)>1):
 									print "\n\t --- CONDN ALERT found a greater than or equal operator! "+str(condn_line_contents)+" term-0: "+str(find_condn_greater_or_eq_operator[0])+" term-1: "+str(find_condn_greater_or_eq_operator[1])
 									duh=find_condn_greater_or_eq_operator[0].split('(') # Should have only 2 parts
 									find_condn_greater_or_eq_operator[0]=duh[1]
 									duh=find_condn_greater_or_eq_operator[1].split(')')
 									find_condn_greater_or_eq_operator[1]=duh[0]+';'
-									condn_params['condn_unrolled']=break_statement(find_condn_greater_or_eq_operator[0],find_condn_greater_or_eq_operator[1])								
+									result_params=break_statement(find_condn_greater_or_eq_operator[0],find_condn_greater_or_eq_operator[1])								
+									condn_params[condn_term_key]['condn_unrolled']=result_params['res']
 						
 								elif (len(find_condn_lesser_or_equal_operator)>1):
 									print "\n\t --- CONDN ALERT found a lesser than or equal operator! "+str(condn_line_contents)+" term-0: "+str(find_condn_lesser_or_equal_operator[0])+" term-1: "+str(find_condn_lesser_or_equal_operator[1])								
@@ -449,7 +445,8 @@ def main():
 									find_condn_lesser_or_equal_operator[0]=duh[1]
 									duh=find_condn_lesser_or_equal_operator[1].split(')')
 									find_condn_lesser_or_equal_operator[1]=duh[0]+';'									
-									condn_params['condn_unrolled']=break_statement(find_condn_lesser_or_equal_operator[0],find_condn_lesser_or_equal_operator[1])										
+									result_params=break_statement(find_condn_lesser_or_equal_operator[0],find_condn_lesser_or_equal_operator[1])										
+									condn_params[condn_term_key]['condn_unrolled']=result_params['res']
 								elif (len(find_condn_great_operator)>1):
 									print "\n\t --- CONDN ALERT found a greater than operator! "+str(condn_line_contents)+" term-0: "+str(find_condn_great_operator[0])+" term-1: "+str(find_condn_great_operator[1])							
 									duh=find_condn_great_operator[0].split('(') # Should have only 2 parts
@@ -457,18 +454,27 @@ def main():
 									duh=find_condn_great_operator[1].split(')')
 									find_condn_great_operator[1]=duh[0]+';'
 									print "\n\t Before sending find_condn_great_operator[0] "+str(find_condn_great_operator[0])+" find_condn_great_operator[1] "+str(find_condn_great_operator[1])
-									condn_params['condn_unrolled']=break_statement(find_condn_great_operator[0],find_condn_great_operator[1])										
+									result_params=break_statement(find_condn_great_operator[0],find_condn_great_operator[1])		
+									condn_params[condn_term_key]['condn_unrolled']=result_params['res']								
+									print "\n\t --**&&^^  condn_params[condn_term_key]['condn_unrolled']['eqn_params'][0] "+str(condn_params[condn_term_key]['condn_unrolled']['eqn_params'][0])
 								elif (len(find_condn_less_operator)>1):
 									print "\n\t --- CONDN ALERT found a lesser than operator! "+str(condn_line_contents)+" term-0: "+str(find_condn_less_operator[0])+" term-1: "+str(find_condn_less_operator[1])															
 									duh=find_condn_less_operator[0].split('(') # Should have only 2 parts
 									find_condn_less_operator[0]=duh[1]
 									duh=find_condn_less_operator[1].split(')')
 									find_condn_less_operator[1]=duh[0]+';'
-									condn_params['condn_unrolled']=break_statement(find_condn_less_operator[0],find_condn_less_operator[1])
+									result_param=break_statement(find_condn_less_operator[0],find_condn_less_operator[1])
+									condn_params[condn_term_key]['condn_unrolled']=result_params['res']
 								elif (len(find_condn_equal_operator)>1):
 									print "\n\t --- CONDN ALERT found a logical-equal operator! "+str(condn_line_contents)+" term-0: "+str(find_condn_equal_operator[0])+" term-1: "+str(find_condn_equal_operator[1])															
-									condn_params['condn_unrolled']=break_statement(find_condn_equal_operator[0],find_condn_equal_operator[1])									
-								elif (condn_params['condn_term_key']['is_elsel_condn']):
+									duh=find_condn_equal_operator[0].split('(') # Should have only 2 parts
+									find_condn_equal_operator[0]=duh[1]
+									duh=find_condn_equal_operator[1].split(')')
+									find_condn_equal_operator[1]=duh[0]+';'
+									result_params=break_statement(find_condn_equal_operator[0],find_condn_equal_operator[1])									
+									condn_params[condn_term_key]['condn_unrolled']=result_params['res']
+									
+								elif (condn_params[condn_term_key]['is_else_condn']):
 									print "\n\t --- CONDN ALERT found an else operator! "+str(condn_line_contents)																																																
 								else:
 									print "\n\t --- CONDN ALERT did NOT find a conditional operator! "+str(condn_line_contents)									
@@ -476,8 +482,10 @@ def main():
 								print "\n\t Venturing to find statements from line "+str(search_line_idx)
 								statement_num=0
 								statement_keywd='statement'+str(0)
-								condn_params['condn_term_key']['statement_keywd']={}
-								condn_params['condn_term_key']['num_statements']=0
+								condn_params[condn_term_key][statement_keywd]={}
+								#condn_params[condn_term_key][statement_keywd]['duh']='duh'
+								#condn_params[condn_term_key]['statement_keywd']={}
+								condn_params[condn_term_key]['num_statements']=0
 								while ( search_line_idx < brace_end_line  ):
 								
 									search_line=src_file_contents[search_line_idx];
@@ -501,14 +509,15 @@ def main():
 											search_line=search_line_dummy2
 											search_stmt=search_line.split('=') # SHOULD have only 2 parts!!
 											if (len(search_stmt)==2):
-												condn_params['condn_term_key']['num_statements']=condn_params['condn_term_key']['num_statements']+1;
-												statement_keywd='statement'+str(condn_params['condn_term_key']['num_statements'])									
+												condn_params[condn_term_key]['num_statements']=condn_params[condn_term_key]['num_statements']+1;
+												statement_keywd='statement'+str(condn_params[condn_term_key]['num_statements'])									
 												return_params=break_statement(search_stmt[0],search_stmt[1])  #(search_line,operation_count,search_line_idx)
 											else:
 												print "\n\t Search_line has following number of equals "+str( len(search_stmt) -1 )
 												sys.exit()										
-											condn_params['condn_term_key']['statement_keywd']=return_params['res']
-											print "\n\t condn_params['condn_term_key']['statement_keywd']['eqn_params'][0] "+str(condn_params['condn_term_key']['statement_keywd']['eqn_params'][0]);
+											condn_params[condn_term_key][statement_keywd]=return_params['res']
+											condn_params[condn_term_key][statement_keywd]['search_line']=search_line_dummy2											
+											print "\n\t condn_params[condn_term_key][statement_keyw']['eqn_params'][0] "+str(condn_params[condn_term_key][statement_keywd]['eqn_params'][0]);
 										else:
 											print "\n\t WARNING: Could not locate stmt in line "+str(search_line)
 									search_line_idx+=1;
@@ -528,6 +537,102 @@ def main():
 
 
  	line_count+=1;						
-				    
+    return condn_params
+##### Temp-reference remove it soon
+
+# Return hash: return_params
+#	*eqn_params
+#	*lhs_operand
+#	*lhs_operand_indices
+#	*rhs_num_operands
+#	*rhs_num_operators
+#	*rhs_operands
+#	*rhs_operators
+#	*rhs_operands_indices
+
+
+    # Keys for return (dictionary!)
+    # num_condns
+    # condn_term_key=cond+str(condition-number)
+    #		*brace_start
+    #		*brace_end
+    #		*num_statements
+    #		*statement_keywd - the method break_statement returns all the info about the STATEMENT to this key. 
+    #		       statement_keywd='statement'+str(condn_params[condn_term_key]['num_statements'])
+    #		*operation_count
+    #		*is_else_condn
+    #		*condn_line
+    #		*condn_unrolled - the method break_statement returns all the info about the CONDITION to this key.
+    
+
+
+	
+############## Method: summarize_condns	
+def summarize_condns(condn_params):
+	print "\n\t ------------------------------------------------------------------------------------------ "
+	print "\n\t Summarizing the condtions: \n "
+	print "\n\t Number of conditions: "+str(condn_params['num_condns'])
+	
+	for i in range(condn_params['num_condns']):
+		print "\n\t I am condition number: "+str(i)
+		condn_term_key='cond'+str(i+1)
+		statement_keywd='statement'+str(1)
+		print "\n\t\t Condn: "+str(condn_params[condn_term_key]['condn_line'])
+		print "\n\t\t Is else condn: "+str(condn_params[condn_term_key]['is_else_condn'])
+		if not (condn_params[condn_term_key]['is_else_condn']):
+			print "\n\t\t\t LHS: "+str(condn_params[condn_term_key]['condn_unrolled']['lhs_operand'])
+			for i in range(condn_params[condn_term_key]['condn_unrolled']['rhs_num_operands']):
+				print "\n\t\t\t RHS-operator "+str(i)+' --> '+str(condn_params[condn_term_key]['condn_unrolled']['rhs_operands'][i])+" and the indices are"
+				for k in range( len( condn_params[condn_term_key]['condn_unrolled']['rhs_operands_indices'][i] ) ):		
+					print "\n\t\t\t\t index-no: "+str(k)+" index --> "+str(condn_params[condn_term_key]['condn_unrolled']['rhs_operands_indices'][i][k])	
+
+			"""
+					rhs_num_operands=return_params['res']['rhs_num_operands']			
+		for i in range(return_params['res']['rhs_num_operands']):
+			print "\n\t -- NOTICE return_params['res']['rhs_operands'][i] is "+str(return_params['res']['rhs_operands'][i])+" and the indices are"
+			for k in range( len( return_params['res']['rhs_operands_indices'][i] ) ):		
+				print "\n\t\t index-no: "+str(k)+" index --> "+str(return_params['res']['rhs_operands_indices'][i][k])
+			
+			"""
+		print "\n\t\t statement: "+str(condn_params[condn_term_key][statement_keywd]['search_line'])
+		print "\n\t\t\t LHS: "+str(condn_params[condn_term_key][statement_keywd]['eqn_params'][0])+"\t RHS: "+str(condn_params[condn_term_key][statement_keywd]['eqn_params'][1])
+		for i in range(condn_params[condn_term_key][statement_keywd]['rhs_num_operands']):
+			print "\n\t\t\t RHS-operator "+str(i)+' --> '+str(condn_params[condn_term_key][statement_keywd]['rhs_operands'][i])+" and the indices are"
+			for k in range( len( condn_params[condn_term_key][statement_keywd]['rhs_operands_indices'][i] ) ):		
+				print "\n\t\t\t\t index-no: "+str(k)+" index --> "+str(condn_params[condn_term_key][statement_keywd]['rhs_operands_indices'][i][k])		
+	
+
+
+############# Main method
+def main():
+
+    try: 
+        opts, args = getopt.getopt(sys.argv[1:],'i:h:v',['input',"help", 'verbose='])
+    except getopt.GetoptError as err:
+        # print help information and exit:
+        print str(err) # will print something like "option -a not recognized"
+        usage()
+        sys.exit(2)
+    verbose = False
+    for o, a in opts:
+        if o == "-v":
+            verbose = True
+            #print verbose
+        elif o in ("-h", "--help"):
+            usage()
+            sys.exit()
+        elif o in ("-i","--input"):
+            src_file = a
+            if( re.match(r'\s*.*\.(cpp|cc|c)',src_file,re.I) ):
+	            print "\n\t Source file: "+a+"\n";
+	    else:
+	    	 print "\n\t Source file should be of type *.cpp or *.cc \n"
+	    	 sys.exit()
+        else:
+            assert False, "unhandled option"
+
+	condn_params=extract_condn_params(src_file)
+	summarize_condns(condn_params)			    
+	
 if __name__ == "__main__":
     main()    

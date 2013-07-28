@@ -28,7 +28,7 @@ char * lcs(const char *a,const char * b) {
                lengths[i+1][j+1] = lengths[i][j] + 1 ;
             }
       #pragma dynamic_prog solve cond 2            
-            else if (  lengths[i+1][j]>= lengths[i][j+1])  )
+            else if (  lengths[i+1][j] > lengths[i][j+1])  )
             {
                lengths[i+1][j+1] = lengths[i+1][j] + non_sense[i];
    	    }
