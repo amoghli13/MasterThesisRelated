@@ -11,6 +11,13 @@
 import getopt, sys,re
 
 
+# Return hash
+#
+#
+
+
+
+
 def break_statement( search_line_op1,search_line_op2):
 	#search_stmt=re.match('.*\=.*',search_line);
 	#eqn_params=search_line.split('=',2)
@@ -19,8 +26,8 @@ def break_statement( search_line_op1,search_line_op2):
 	eqn_params.append(search_line_op1)
 	eqn_params.append(search_line_op2)	
 	temp_trial_erase_quickly='lengths'
-	test_dict={}
-	test_dict['res']={};
+	return_params={}
+	return_params['res']={};
 	lhs_operand=eqn_params[0].split(']');
 	print "\n\t LHS operands: "
 	for i in range(len(lhs_operand)):
@@ -33,8 +40,8 @@ def break_statement( search_line_op1,search_line_op2):
 			lhs_indices.append(curr_term[1])
 		else:
 			print "\n\t Something fishy going on here! "+str(lhs_operand[i])
-	test_dict['res']['lhs_operand']=eqn_params[0]
-	test_dict['res']['lhs_operand_indices']=lhs_indices
+	return_params['res']['lhs_operand']=eqn_params[0]
+	return_params['res']['lhs_operand_indices']=lhs_indices
 	
 	pseudo_term=1
 	if pseudo_term: # Commenting this to make the code usable to all statemetns seperated by =,>,>=,<,<=,==
@@ -45,17 +52,17 @@ def break_statement( search_line_op1,search_line_op2):
 		print "\n\t NODAPPA len(operands_sqbrace1_split) "+str(len(operands_sqbrace2_split) )											
 
 
-		test_dict['res']['eqn_params']=[];
-		test_dict['res']['eqn_params'].append(eqn_params[0]);
-		test_dict['res']['eqn_params'].append(eqn_params[1])
+		return_params['res']['eqn_params']=[];
+		return_params['res']['eqn_params'].append(eqn_params[0]);
+		return_params['res']['eqn_params'].append(eqn_params[1])
 		term_start=0
 		term_end=0
 		operator_found=0
-		test_dict['res']['rhs_num_operands']=0
-		test_dict['res']['rhs_num_operators']=0 # rhs_num_operators=rhs_num_operands-1
-		test_dict['res']['rhs_operands']=[]
-		test_dict['res']['rhs_operators']=[]	
-		test_dict['res']['rhs_operands_indices']=[]
+		return_params['res']['rhs_num_operands']=0
+		return_params['res']['rhs_num_operators']=0 # rhs_num_operators=rhs_num_operands-1
+		return_params['res']['rhs_operands']=[]
+		return_params['res']['rhs_operators']=[]	
+		return_params['res']['rhs_operands_indices']=[]
 		curr_operand=""
 		curr_operand_copy=curr_operand
 		pass_new_operand=""
@@ -221,10 +228,10 @@ def break_statement( search_line_op1,search_line_op2):
 							duh=re.match('\.*\;\.*',curr_term[0])
 							if( duh ):
 								print "\n\t Hurray Semicolon detected!! \n";
-								test_dict['res']['rhs_operands'].append(curr_operand)
-								test_dict['res']['rhs_num_operands']=test_dict['res']['rhs_num_operands']+1
-								#test_dict['res']['rhs_operands_indices'][test_dict['res']['rhs_num_operators']]=curr_indices								
-								test_dict['res']['rhs_operands_indices'].append(curr_indices)
+								return_params['res']['rhs_operands'].append(curr_operand)
+								return_params['res']['rhs_num_operands']=return_params['res']['rhs_num_operands']+1
+								#return_params['res']['rhs_operands_indices'][return_params['res']['rhs_num_operators']]=curr_indices								
+								return_params['res']['rhs_operands_indices'].append(curr_indices)
 								curr_indices=[]
 								curr_operand=pass_new_operand
 								curr_operand_copy=pass_new_operand																
@@ -235,27 +242,27 @@ def break_statement( search_line_op1,search_line_op2):
 				if operator_found:
 					print "\n\t Yes an operator has been found! "
 					operator_found=0
-					test_dict['res']['rhs_operands'].append(curr_operand)					
-					test_dict['res']['rhs_operators'].append(pass_new_operator);
-					#test_dict['res']['rhs_operands_indices'][test_dict['res']['rhs_num_operators']]=curr_indices
-					test_dict['res']['rhs_operands_indices'].append(curr_indices)					
+					return_params['res']['rhs_operands'].append(curr_operand)					
+					return_params['res']['rhs_operators'].append(pass_new_operator);
+					#return_params['res']['rhs_operands_indices'][return_params['res']['rhs_num_operators']]=curr_indices
+					return_params['res']['rhs_operands_indices'].append(curr_indices)					
 					curr_indices=[]							
 					if curr_idx:
 						curr_indices.append(curr_idx)					
 
-					test_dict['res']['rhs_num_operands']=test_dict['res']['rhs_num_operands']+1
-					test_dict['res']['rhs_num_operators']=test_dict['res']['rhs_num_operators']+1					
+					return_params['res']['rhs_num_operands']=return_params['res']['rhs_num_operands']+1
+					return_params['res']['rhs_num_operators']=return_params['res']['rhs_num_operators']+1					
 					curr_operand=pass_new_operand
 					curr_operand_copy=pass_new_operand
 					pass_new_operand=''
 					pass_new_operator=""					
-					#test_dict
-		rhs_num_operands=test_dict['res']['rhs_num_operands']			
-		for i in range(test_dict['res']['rhs_num_operands']):
-			print "\n\t -- NOTICE test_dict['res']['rhs_operands'][i] is "+str(test_dict['res']['rhs_operands'][i])+" and the indices are"
-			for k in range( len( test_dict['res']['rhs_operands_indices'][i] ) ):		
-				print "\n\t\t index-no: "+str(k)+" index --> "+str(test_dict['res']['rhs_operands_indices'][i][k])
-		return test_dict;
+					#return_params
+		rhs_num_operands=return_params['res']['rhs_num_operands']			
+		for i in range(return_params['res']['rhs_num_operands']):
+			print "\n\t -- NOTICE return_params['res']['rhs_operands'][i] is "+str(return_params['res']['rhs_operands'][i])+" and the indices are"
+			for k in range( len( return_params['res']['rhs_operands_indices'][i] ) ):		
+				print "\n\t\t index-no: "+str(k)+" index --> "+str(return_params['res']['rhs_operands_indices'][i][k])
+		return return_params;
 
 
 def main():
@@ -305,12 +312,12 @@ def main():
     # condn_term_key=cond+str(condition-number)
     #		*brace_start
     #		*brace_end
-    #		*operations
-    #			*operations_count_key='opcpount'+str(operation_count)
+    #		*num_statements
+    #		*statement_keywd - the method break_statement returns all the info about the STATEMENT to this key.
     #		*operation_count
     #		*is_elsel_condn
     #		*condn_line
-    #		*condn_unrolled
+    #		*condn_unrolled - the method break_statement returns all the info about the CONDITION to this key.
     # num_dimensions.
     for curr_line in src_file_contents:
     	
@@ -496,12 +503,12 @@ def main():
 											if (len(search_stmt)==2):
 												condn_params['condn_term_key']['num_statements']=condn_params['condn_term_key']['num_statements']+1;
 												statement_keywd='statement'+str(condn_params['condn_term_key']['num_statements'])									
-												test_dict=break_statement(search_stmt[0],search_stmt[1])  #(search_line,operation_count,search_line_idx)
+												return_params=break_statement(search_stmt[0],search_stmt[1])  #(search_line,operation_count,search_line_idx)
 											else:
 												print "\n\t Search_line has following number of equals "+str( len(search_stmt) -1 )
 												sys.exit()										
-											condn_params['condn_term_key']['statement_keywd']['result']=test_dict['res']
-											#print "\n\t condn_params['result']['var'] "+str(condn_params['result']['var']);
+											condn_params['condn_term_key']['statement_keywd']=return_params['res']
+											print "\n\t condn_params['condn_term_key']['statement_keywd']['eqn_params'][0] "+str(condn_params['condn_term_key']['statement_keywd']['eqn_params'][0]);
 										else:
 											print "\n\t WARNING: Could not locate stmt in line "+str(search_line)
 									search_line_idx+=1;
