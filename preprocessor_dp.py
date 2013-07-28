@@ -1,4 +1,13 @@
+# Comments section
 
+"""
+
+#Pending
+	1.  The parameter extraction code/logic available for '+' operator should be repeated for '-','*','/'
+
+
+"""
+# Actual code
 import getopt, sys,re
 
 
@@ -10,28 +19,48 @@ def break_statement( search_line,operation_count,search_line_idx):
 	#condn_params['condn_term_key']['operations']['operation_count_key']=[]
 	print "\n\t Searching for stmt in line "+str(search_line)
 	temp_trial_erase_quickly='lengths'
+	test_dict={}
+	test_dict['res']={};
+	lhs_operand=eqn_params[0].split(']');
+	print "\n\t LHS operands: "
+	for i in range(len(lhs_operand)):
+		print "\n\t # "+str(i)+" term: "+str(lhs_operand[i]);
+	lhs_indices=[]
+	for i in range(len(lhs_operand)-1):
+		curr_term=lhs_operand[i].split('[')
+		if(len(curr_term) >1):
+			print "\n\t Yo! lhs-term: "+str(i)+" index--> "+str(curr_term[1])
+			lhs_indices.append(curr_term[1])
+		else:
+			print "\n\t Something fishy going on here! "+str(lhs_operand[i])
+	test_dict['res']['lhs_operand']=eqn_params[0]
+	test_dict['res']['lhs_operand_indices']=lhs_indices
+	
+	
 	if search_stmt:
 		print "\n\t ----- Found following items in the statement: "+str(eqn_params[0])+" , "+str(eqn_params[1])+" on line "+str(search_line_idx)
 		#condn_params['condn_term_key']['operations']['operation_count_key'].append(eqn_params[0])
 		#condn_params['condn_term_key']['operations']['operation_count_key'].append(eqn_params[1])
 		operands_sqbrace2_split=eqn_params[1].split(']');
 		print "\n\t NODAPPA len(operands_sqbrace1_split) "+str(len(operands_sqbrace2_split) )											
-		test_dict={}
-		test_dict['res']={};
+
+
 		test_dict['res']['eqn_params']=[];
 		test_dict['res']['eqn_params'].append(eqn_params[0]);
 		test_dict['res']['eqn_params'].append(eqn_params[1])
 		term_start=0
 		term_end=0
 		operator_found=0
-		test_dict['res']['num_operands']=0
-		test_dict['res']['num_operators']=0 # num_operators=num_operands-1
-		test_dict['res']['operands_rhs']=[]
-		test_dict['res']['operators_rhs']=[]		
+		test_dict['res']['rhs_num_operands']=0
+		test_dict['res']['rhs_num_operators']=0 # rhs_num_operators=rhs_num_operands-1
+		test_dict['res']['rhs_operands']=[]
+		test_dict['res']['rhs_operators']=[]	
+		test_dict['res']['rhs_operands_indices']=[]
 		curr_operand=""
 		curr_operand_copy=curr_operand
 		pass_new_operand=""
 		pass_new_operator=""
+		curr_indices=[]
 		for i in range( len(operands_sqbrace2_split) ):
 			curr_term=operands_sqbrace2_split[i].split('[')
 			if curr_term:
@@ -69,6 +98,7 @@ def break_statement( search_line,operation_count,search_line_idx):
 						pass_new_operand=pass_new_operand_copy+str(curr_term[len(curr_term)-1])+']'
 						pass_new_operand_copy=pass_new_operand
 						#num_open_braces-=1;
+						#curr_indices.append(curr_idx);
 						print "\n\t ++ Current idx: "+str(curr_idx)+"\t and pass_new_operand is "+str(pass_new_operand)
 					else:
 					
@@ -166,6 +196,7 @@ def break_statement( search_line,operation_count,search_line_idx):
 							curr_idx_copy=curr_idx
 							curr_operand=curr_operand_copy+curr_term[0]+'['+str(curr_term[len(curr_term)-1] )+']'
 							curr_operand_copy=curr_operand
+							curr_indices.append(curr_idx)
 							print "\n\t ++ Did not find any operator: "+str(curr_term[0])+" and curr_operand is "+str(curr_operand)+" Current idx is "+str(curr_idx)	
 						else:
 							curr_idx=''
@@ -174,6 +205,7 @@ def break_statement( search_line,operation_count,search_line_idx):
 							curr_idx_copy=curr_idx
 							curr_operand=curr_operand_copy+curr_term[0]+'['+str(curr_term[len(curr_term)-1] )+']'
 							curr_operand_copy=curr_operand
+							curr_indices.append(curr_idx)
 							print "\n\t -- Did not find any operator: "+str(curr_term[0])+" and curr_operand is "+str(curr_operand)+" Current idx is "+str(curr_idx)	
 									
 					else:
@@ -189,8 +221,11 @@ def break_statement( search_line,operation_count,search_line_idx):
 							duh=re.match('\.*\;\.*',curr_term[0])
 							if( duh ):
 								print "\n\t Hurray Semicolon detected!! \n";
-								test_dict['res']['operands_rhs'].append(curr_operand)
-								test_dict['res']['num_operands']=test_dict['res']['num_operands']+1
+								test_dict['res']['rhs_operands'].append(curr_operand)
+								test_dict['res']['rhs_num_operands']=test_dict['res']['rhs_num_operands']+1
+								#test_dict['res']['rhs_operands_indices'][test_dict['res']['rhs_num_operators']]=curr_indices								
+								test_dict['res']['rhs_operands_indices'].append(curr_indices)
+								curr_indices=[]
 								curr_operand=pass_new_operand
 								curr_operand_copy=pass_new_operand																
 							else:
@@ -200,19 +235,26 @@ def break_statement( search_line,operation_count,search_line_idx):
 				if operator_found:
 					print "\n\t Yes an operator has been found! "
 					operator_found=0
-					test_dict['res']['operands_rhs'].append(curr_operand)					
-					test_dict['res']['operators_rhs'].append(pass_new_operator);
-					pass_new_operator=""
-					test_dict['res']['num_operands']=test_dict['res']['num_operands']+1
-					test_dict['res']['num_operators']=test_dict['res']['num_operators']+1					
+					test_dict['res']['rhs_operands'].append(curr_operand)					
+					test_dict['res']['rhs_operators'].append(pass_new_operator);
+					#test_dict['res']['rhs_operands_indices'][test_dict['res']['rhs_num_operators']]=curr_indices
+					test_dict['res']['rhs_operands_indices'].append(curr_indices)					
+					curr_indices=[]							
+					if curr_idx:
+						curr_indices.append(curr_idx)					
+
+					test_dict['res']['rhs_num_operands']=test_dict['res']['rhs_num_operands']+1
+					test_dict['res']['rhs_num_operators']=test_dict['res']['rhs_num_operators']+1					
 					curr_operand=pass_new_operand
 					curr_operand_copy=pass_new_operand
 					pass_new_operand=''
+					pass_new_operator=""					
 					#test_dict
-		num_operands=test_dict['res']['num_operands']			
-		for i in range(test_dict['res']['num_operands']):
-			print "\n\t -- NOTICE test_dict['res']['operands_rhs'][i] is "+str(test_dict['res']['operands_rhs'][i]);
-					
+		rhs_num_operands=test_dict['res']['rhs_num_operands']			
+		for i in range(test_dict['res']['rhs_num_operands']):
+			print "\n\t -- NOTICE test_dict['res']['rhs_operands'][i] is "+str(test_dict['res']['rhs_operands'][i])+" and the indices are"
+			for k in range( len( test_dict['res']['rhs_operands_indices'][i] ) ):		
+				print "\n\t\t index-no: "+str(k)+" index --> "+str(test_dict['res']['rhs_operands_indices'][i][k])
 		return test_dict;
 
 
