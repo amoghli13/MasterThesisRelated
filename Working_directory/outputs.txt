@@ -36,12 +36,45 @@
 
 	 Found condition within () on line: 26
 
+	 --- CONDN ALERT found a logical-equal operator! if (a[i] == b[j]) { term-0: if (a[i]  term-1:  b[j]) {
+
+	 LHS operands: 
+
+	 # 0 term: if (a[i
+
+	 # 1 term:  
+
+	 Yo! lhs-term: 0 index--> i
+
+	 NODAPPA len(operands_sqbrace1_split) 2
+
+	 Number-of-groups in curr_term is 2 ,  b[j
+
+	 j: 0  b
+
+	 j: 1 j
+
+	 -- Did not find any operator:  b and curr_operand is  b[j] Current idx is j
+
+	 Number-of-groups in curr_term is 1 , ) {
+
+	 j: 0 ) {
+
+	 FATAL no semicolon/space in ) {
+
 	 Venturing to find statements from line 26
 
-	 Searching for stmt in line                lengths[i+1][j+1] = lengths[i][j] + 1 ;
+	 LHS operands: 
 
+	 # 0 term: lengths[i+1
 
-	 ----- Found following items in the statement:                lengths[i+1][j+1]  ,  lengths[i][j] + 1 ; on line 27
+	 # 1 term: [j+1
+
+	 # 2 term:  
+
+	 Yo! lhs-term: 0 index--> i+1
+
+	 Yo! lhs-term: 1 index--> j+1
 
 	 NODAPPA len(operands_sqbrace1_split) 3
 
@@ -78,7 +111,7 @@
 
 	 Yes an operator has been found! 
 
-	 -- NOTICE test_dict['res']['operands_rhs'][i] is  lengths[i][j] and the indices are
+	 -- NOTICE test_dict['res']['rhs_operands'][i] is  lengths[i][j] and the indices are
 
 		 index-no: 0 index --> i
 
@@ -107,12 +140,64 @@
 
 	 Found condition within () on line: 30
 
+	 --- CONDN ALERT found a greater than or equal operator! else if (  lengths[i+1][j]>= lengths[i][j+1])  ) term-0: else if (  lengths[i+1][j] term-1:  lengths[i][j+1])  )
+
+	 LHS operands: 
+
+	 # 0 term:   lengths[i+1
+
+	 # 1 term: [j
+
+	 # 2 term: 
+
+	 Yo! lhs-term: 0 index--> i+1
+
+	 Yo! lhs-term: 1 index--> j
+
+	 NODAPPA len(operands_sqbrace1_split) 3
+
+	 Number-of-groups in curr_term is 2 ,  lengths[i
+
+	 j: 0  lengths
+
+	 j: 1 i
+
+	 -- Did not find any operator:  lengths and curr_operand is  lengths[i] Current idx is i
+
+	 Number-of-groups in curr_term is 2 , [j+1
+
+	 j: 0 
+
+	 j: 1 j+1
+
+	 -- Did not find any operator:  and curr_operand is  lengths[i][j+1] Current idx is j+1
+
+	 Number-of-groups in curr_term is 1 , ;
+
+	 j: 0 ;
+
+	 Hurray Semicolon detected!! 
+
+
+	 -- NOTICE test_dict['res']['rhs_operands'][i] is  lengths[i][j+1] and the indices are
+
+		 index-no: 0 index --> i
+
+		 index-no: 1 index --> j+1
+
 	 Venturing to find statements from line 31
 
-	 Searching for stmt in line                lengths[i+1][j+1] = lengths[i+1][j] + non_sense[i];
+	 LHS operands: 
 
+	 # 0 term: lengths[i+1
 
-	 ----- Found following items in the statement:                lengths[i+1][j+1]  ,  lengths[i+1][j] + non_sense[i]; on line 32
+	 # 1 term: [j+1
+
+	 # 2 term:  
+
+	 Yo! lhs-term: 0 index--> i+1
+
+	 Yo! lhs-term: 1 index--> j+1
 
 	 NODAPPA len(operands_sqbrace1_split) 4
 
@@ -158,13 +243,13 @@
 	 Hurray Semicolon detected!! 
 
 
-	 -- NOTICE test_dict['res']['operands_rhs'][i] is  lengths[i+1][j] and the indices are
+	 -- NOTICE test_dict['res']['rhs_operands'][i] is  lengths[i+1][j] and the indices are
 
 		 index-no: 0 index --> i+1
 
 		 index-no: 1 index --> j
 
-	 -- NOTICE test_dict['res']['operands_rhs'][i] is  non_sense[i] and the indices are
+	 -- NOTICE test_dict['res']['rhs_operands'][i] is  non_sense[i] and the indices are
 
 		 index-no: 0 index --> i
 
@@ -192,12 +277,21 @@
 	 Found 'else' instead of condition             else
 
 
+	 --- CONDN ALERT found an else operator! else
+
 	 Venturing to find statements from line 36
 
-	 Searching for stmt in line                lengths[i+1][j+1] = lengths[i][j+find_this[i]] + lengths[i- find_this[i]][j];            
+	 LHS operands: 
 
+	 # 0 term: lengths[i+1
 
-	 ----- Found following items in the statement:                lengths[i+1][j+1]  ,  lengths[i][j+find_this[i]] + lengths[i- find_this[i]][j];            on line 37
+	 # 1 term: [j+1
+
+	 # 2 term:  
+
+	 Yo! lhs-term: 0 index--> i+1
+
+	 Yo! lhs-term: 1 index--> j+1
 
 	 NODAPPA len(operands_sqbrace1_split) 7
 
@@ -266,20 +360,20 @@
 
 	 -- Did not find any operator:  and curr_operand is  lengths[i- find_this[i]][j] Current idx is j
 
-	 Number-of-groups in curr_term is 1 , ;           
+	 Number-of-groups in curr_term is 1 , ;
 
-	 j: 0 ;           
+	 j: 0 ;
 
 	 Hurray Semicolon detected!! 
 
 
-	 -- NOTICE test_dict['res']['operands_rhs'][i] is  lengths[i][j+find_this[i]] and the indices are
+	 -- NOTICE test_dict['res']['rhs_operands'][i] is  lengths[i][j+find_this[i]] and the indices are
 
 		 index-no: 0 index --> i
 
 		 index-no: 1 index --> j+find_this[i]
 
-	 -- NOTICE test_dict['res']['operands_rhs'][i] is  lengths[i- find_this[i]][j] and the indices are
+	 -- NOTICE test_dict['res']['rhs_operands'][i] is  lengths[i- find_this[i]][j] and the indices are
 
 		 index-no: 0 index --> i- find_this[i]
 
