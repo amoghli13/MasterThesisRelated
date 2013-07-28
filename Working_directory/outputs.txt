@@ -111,11 +111,13 @@
 
 	 Yes an operator has been found! 
 
-	 -- NOTICE test_dict['res']['rhs_operands'][i] is  lengths[i][j] and the indices are
+	 -- NOTICE return_params['res']['rhs_operands'][i] is  lengths[i][j] and the indices are
 
 		 index-no: 0 index --> i
 
 		 index-no: 1 index --> j
+
+	 condn_params['condn_term_key']['statement_keywd']['eqn_params'][0] lengths[i+1][j+1] 
 
 	 Found pragma with struct_grid in line: 29 :       #pragma dynamic_prog solve cond 2            
 
@@ -179,7 +181,7 @@
 	 Hurray Semicolon detected!! 
 
 
-	 -- NOTICE test_dict['res']['rhs_operands'][i] is  lengths[i][j+1] and the indices are
+	 -- NOTICE return_params['res']['rhs_operands'][i] is  lengths[i][j+1] and the indices are
 
 		 index-no: 0 index --> i
 
@@ -243,15 +245,17 @@
 	 Hurray Semicolon detected!! 
 
 
-	 -- NOTICE test_dict['res']['rhs_operands'][i] is  lengths[i+1][j] and the indices are
+	 -- NOTICE return_params['res']['rhs_operands'][i] is  lengths[i+1][j] and the indices are
 
 		 index-no: 0 index --> i+1
 
 		 index-no: 1 index --> j
 
-	 -- NOTICE test_dict['res']['rhs_operands'][i] is  non_sense[i] and the indices are
+	 -- NOTICE return_params['res']['rhs_operands'][i] is  non_sense[i] and the indices are
 
 		 index-no: 0 index --> i
+
+	 condn_params['condn_term_key']['statement_keywd']['eqn_params'][0] lengths[i+1][j+1] 
 
 	 Found pragma with struct_grid in line: 34 :       #pragma dynamic_prog solve cond 3   	    
 
@@ -367,17 +371,19 @@
 	 Hurray Semicolon detected!! 
 
 
-	 -- NOTICE test_dict['res']['rhs_operands'][i] is  lengths[i][j+find_this[i]] and the indices are
+	 -- NOTICE return_params['res']['rhs_operands'][i] is  lengths[i][j+find_this[i]] and the indices are
 
 		 index-no: 0 index --> i
 
 		 index-no: 1 index --> j+find_this[i]
 
-	 -- NOTICE test_dict['res']['rhs_operands'][i] is  lengths[i- find_this[i]][j] and the indices are
+	 -- NOTICE return_params['res']['rhs_operands'][i] is  lengths[i- find_this[i]][j] and the indices are
 
 		 index-no: 0 index --> i- find_this[i]
 
 		 index-no: 1 index --> j
+
+	 condn_params['condn_term_key']['statement_keywd']['eqn_params'][0] lengths[i+1][j+1] 
 
 	 Found pragma with struct_grid in line: 41 :    #pragma dynamic_prog solve cond 4
 
