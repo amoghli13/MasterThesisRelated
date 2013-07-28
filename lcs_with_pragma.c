@@ -24,11 +24,11 @@ char * lcs(const char *a,const char * b) {
     for (i=0,x=a; *x; i++, x++) {
         for (j=0,y=b; *y; j++,y++ ) {
       #pragma dynamic_prog solve cond 1
-            if (*x == *y) {
+            if (a[i] == b[j]) {
                lengths[i+1][j+1] = lengths[i][j] + 1 ;
             }
       #pragma dynamic_prog solve cond 2            
-            else if (  lengths[i+1][j] > lengths[i][j+1])  )
+            else if (  lengths[i+1][j]>= lengths[i][j+1])  )
             {
                lengths[i+1][j+1] = lengths[i+1][j] + non_sense[i];
    	    }

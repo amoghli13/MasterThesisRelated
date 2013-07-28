@@ -11,13 +11,13 @@
 import getopt, sys,re
 
 
-def break_statement( search_line,operation_count,search_line_idx):
-	search_stmt=re.match('.*\=.*',search_line);
-	eqn_params=search_line.split('=',2)
-	eqn_params[1]=re.sub('\s$','',eqn_params[1])
-	operation_count_key='opcpount'+str(operation_count)
-	#condn_params['condn_term_key']['operations']['operation_count_key']=[]
-	print "\n\t Searching for stmt in line "+str(search_line)
+def break_statement( search_line_op1,search_line_op2):
+	#search_stmt=re.match('.*\=.*',search_line);
+	#eqn_params=search_line.split('=',2)
+	#eqn_params[1]=re.sub('\s$','',eqn_params[1])
+	eqn_params=[]
+	eqn_params.append(search_line_op1)
+	eqn_params.append(search_line_op2)	
 	temp_trial_erase_quickly='lengths'
 	test_dict={}
 	test_dict['res']={};
@@ -36,9 +36,9 @@ def break_statement( search_line,operation_count,search_line_idx):
 	test_dict['res']['lhs_operand']=eqn_params[0]
 	test_dict['res']['lhs_operand_indices']=lhs_indices
 	
-	
-	if search_stmt:
-		print "\n\t ----- Found following items in the statement: "+str(eqn_params[0])+" , "+str(eqn_params[1])+" on line "+str(search_line_idx)
+	pseudo_term=1
+	if pseudo_term: # Commenting this to make the code usable to all statemetns seperated by =,>,>=,<,<=,==
+		#print "\n\t ----- Found following items in the statement: "+str(eqn_params[0])+" , "+str(eqn_params[1])+" on line "+str(search_line_idx)
 		#condn_params['condn_term_key']['operations']['operation_count_key'].append(eqn_params[0])
 		#condn_params['condn_term_key']['operations']['operation_count_key'].append(eqn_params[1])
 		operands_sqbrace2_split=eqn_params[1].split(']');
@@ -301,12 +301,16 @@ def main():
     num_dimensions=0;
     condn_params={}
     # Keys:
+    # num_condns
     # condn_term_key=cond+str(condition-number)
     #		*brace_start
     #		*brace_end
     #		*operations
     #			*operations_count_key='opcpount'+str(operation_count)
     #		*operation_count
+    #		*is_elsel_condn
+    #		*condn_line
+    #		*condn_unrolled
     # num_dimensions.
     for curr_line in src_file_contents:
     	
@@ -328,6 +332,7 @@ def main():
 					if condns_stmt:
 						num_conditions=int(condns_stmt.group(1));
 						conditions_found=1;
+						condn_params['num_condns']=num_conditions
 						print "\n\t Found number of conditions for solve: "+str( condns_stmt.group(1) )+" num_conditions_found "+str(num_conditions_found)+' num_conditions '+str(num_conditions);						
 					else:
 						print "\n\t Couldn't find the actual number of conditions for solve in line: "+str(line_count)
@@ -340,6 +345,7 @@ def main():
 						condn_term_key='cond'+str(condns_stmt.group(1))
 						print "\n\t condn_term_key is "+str(condn_term_key)+"\n"
 						condn_params['condn_term_key']={}
+						condn_params['condn_term_key']['pragma_line']=line_count;
 						print "\n\t ** Found the condition number "+str(condns_stmt.group())+' !! '
 						num_conditions_found+=1;#num_conditions;
 						start_search_line=line_count;
@@ -379,6 +385,7 @@ def main():
 						if search_line_idx>=src_file_length:
 							print "FATAL: braces did not complete! search line "+str(search_line_idx)+" src_file_length"+str(src_file_length)+"\n\n"
 							sys.exit()
+#### This part searches for the actual if-else part. Although counter-intutitve to search the condition after looking for braces, does not make any difference! 
 						else:
 							braces_notcompleted=1;
 							brace_notstarted=1;
@@ -398,10 +405,14 @@ def main():
 											print "\n\t Found condition within () on line: "+str(search_line_idx);
 											brace_notstarted=0;
 											braces_notcompleted=0;
+											condn_params['condn_term_key']['condn_line']=search_line_idx
+											condn_params['condn_term_key']['is_elsel_condn']=0											
 											search_line_idx+=1 # To ensure the if(search_line_idx part does not come into play)																				
 										elif search_bases2:
 											brace_notstarted=0;
 											braces_notcompleted=0;		
+											condn_params['condn_term_key']['condn_line']=search_line_idx		
+											condn_params['condn_term_key']['is_elsel_condn']=1									
 											search_line_idx+=1 # To ensure the if(search_line_idx part does not come into play)									
 											print "\n\t Found 'else' instead of condition "+str(search_line)
 										else:
@@ -410,11 +421,58 @@ def main():
 							if ( search_line_idx<=start_search_line):
 								print "\n\t Condition not found before reaching pragma dynamic_prog solve cond statement on line "+str( search_line_idx ) +"\n\n "
 							else:
-								search_line_idx=brace_start_line;
+								condn_line_contents_b4correction=src_file_contents[condn_params['condn_term_key']['condn_line']]
+								condn_line_contents_front_space=re.sub('^\s*','',condn_line_contents_b4correction)
+								condn_line_contents=re.sub('\s*$','',condn_line_contents_front_space)
+								find_condn_great_operator=condn_line_contents.split('>');find_condn_greater_or_eq_operator=condn_line_contents.split('>=');
+								find_condn_less_operator=condn_line_contents.split('<');find_condn_lesser_or_equal_operator=condn_line_contents.split('<=');
+								find_condn_equal_operator=condn_line_contents.split('==');
+								condn_params['condn_term_key']['condn_unrolled']={}
+								if (len(find_condn_greater_or_eq_operator)>1):
+									print "\n\t --- CONDN ALERT found a greater than or equal operator! "+str(condn_line_contents)+" term-0: "+str(find_condn_greater_or_eq_operator[0])+" term-1: "+str(find_condn_greater_or_eq_operator[1])
+									duh=find_condn_greater_or_eq_operator[0].split('(') # Should have only 2 parts
+									find_condn_greater_or_eq_operator[0]=duh[1]
+									duh=find_condn_greater_or_eq_operator[1].split(')')
+									find_condn_greater_or_eq_operator[1]=duh[0]+';'
+									condn_params['condn_unrolled']=break_statement(find_condn_greater_or_eq_operator[0],find_condn_greater_or_eq_operator[1])								
+						
+								elif (len(find_condn_lesser_or_equal_operator)>1):
+									print "\n\t --- CONDN ALERT found a lesser than or equal operator! "+str(condn_line_contents)+" term-0: "+str(find_condn_lesser_or_equal_operator[0])+" term-1: "+str(find_condn_lesser_or_equal_operator[1])								
+									duh=find_condn_lesser_or_equal_operator[0].split('(') # Should have only 2 parts
+									find_condn_lesser_or_equal_operator[0]=duh[1]
+									duh=find_condn_lesser_or_equal_operator[1].split(')')
+									find_condn_lesser_or_equal_operator[1]=duh[0]+';'									
+									condn_params['condn_unrolled']=break_statement(find_condn_lesser_or_equal_operator[0],find_condn_lesser_or_equal_operator[1])										
+								elif (len(find_condn_great_operator)>1):
+									print "\n\t --- CONDN ALERT found a greater than operator! "+str(condn_line_contents)+" term-0: "+str(find_condn_great_operator[0])+" term-1: "+str(find_condn_great_operator[1])							
+									duh=find_condn_great_operator[0].split('(') # Should have only 2 parts
+									find_condn_great_operator[0]=duh[1]
+									duh=find_condn_great_operator[1].split(')')
+									find_condn_great_operator[1]=duh[0]+';'
+									print "\n\t Before sending find_condn_great_operator[0] "+str(find_condn_great_operator[0])+" find_condn_great_operator[1] "+str(find_condn_great_operator[1])
+									condn_params['condn_unrolled']=break_statement(find_condn_great_operator[0],find_condn_great_operator[1])										
+								elif (len(find_condn_less_operator)>1):
+									print "\n\t --- CONDN ALERT found a lesser than operator! "+str(condn_line_contents)+" term-0: "+str(find_condn_less_operator[0])+" term-1: "+str(find_condn_less_operator[1])															
+									duh=find_condn_less_operator[0].split('(') # Should have only 2 parts
+									find_condn_less_operator[0]=duh[1]
+									duh=find_condn_less_operator[1].split(')')
+									find_condn_less_operator[1]=duh[0]+';'
+									condn_params['condn_unrolled']=break_statement(find_condn_less_operator[0],find_condn_less_operator[1])
+								elif (len(find_condn_equal_operator)>1):
+									print "\n\t --- CONDN ALERT found a logical-equal operator! "+str(condn_line_contents)+" term-0: "+str(find_condn_equal_operator[0])+" term-1: "+str(find_condn_equal_operator[1])															
+									condn_params['condn_unrolled']=break_statement(find_condn_equal_operator[0],find_condn_equal_operator[1])									
+								elif (condn_params['condn_term_key']['is_elsel_condn']):
+									print "\n\t --- CONDN ALERT found an else operator! "+str(condn_line_contents)																																																
+								else:
+									print "\n\t --- CONDN ALERT did NOT find a conditional operator! "+str(condn_line_contents)									
+ 								search_line_idx=brace_start_line;
 								print "\n\t Venturing to find statements from line "+str(search_line_idx)
-								condn_params['condn_term_key']['operations']={}
-								operation_count=0;
+								statement_num=0
+								statement_keywd='statement'+str(0)
+								condn_params['condn_term_key']['statement_keywd']={}
+								condn_params['condn_term_key']['num_statements']=0
 								while ( search_line_idx < brace_end_line  ):
+								
 									search_line=src_file_contents[search_line_idx];
 									if (search_line_idx== brace_start_line ):
 										tmp= search_line.split('}',2)
@@ -431,14 +489,22 @@ def main():
 									elif search_stmt:
 										search_stmt=re.match('\s+([^=]).*',search_line)
 										if search_stmt:
-											test_dict=break_statement(search_line,operation_count,search_line_idx)
-											condn_params['result']=test_dict['res']
+											search_line_dummy=re.sub('\s*$','',search_line)
+											search_line_dummy2=re.sub('^\s*','',search_line_dummy)
+											search_line=search_line_dummy2
+											search_stmt=search_line.split('=') # SHOULD have only 2 parts!!
+											if (len(search_stmt)==2):
+												condn_params['condn_term_key']['num_statements']=condn_params['condn_term_key']['num_statements']+1;
+												statement_keywd='statement'+str(condn_params['condn_term_key']['num_statements'])									
+												test_dict=break_statement(search_stmt[0],search_stmt[1])  #(search_line,operation_count,search_line_idx)
+											else:
+												print "\n\t Search_line has following number of equals "+str( len(search_stmt) -1 )
+												sys.exit()										
+											condn_params['condn_term_key']['statement_keywd']['result']=test_dict['res']
 											#print "\n\t condn_params['result']['var'] "+str(condn_params['result']['var']);
-											operation_count+=1;	
 										else:
 											print "\n\t WARNING: Could not locate stmt in line "+str(search_line)
 									search_line_idx+=1;
-								condn_params['condn_term_key']['operation_count']=operation_count;
 							
 				else:
 					print "\n\t I go nowhere!! since num_conditions_found is "+str(num_conditions_found)+' and num_conditions is '+str(num_conditions )+" :'( :'( ";			
