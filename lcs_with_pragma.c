@@ -4,7 +4,8 @@
  
 #define MAX(A,B) (((A)>(B))? (A) : (B))
  
-char * lcs(const char *a,const char * b) {
+char * lcs(const char *a,const char * b) 
+{
     int lena = strlen(a)+1;
     int lenb = strlen(b)+1;
  
@@ -56,3 +57,10 @@ char * lcs(const char *a,const char * b) {
     free(la); free(lengths);
     return strdup(result);
 }
+
+int main()
+{
+    printf("%s\n", lcs("thisisatest", "testing123testing")); // tsitest
+    return 0;
+}
+

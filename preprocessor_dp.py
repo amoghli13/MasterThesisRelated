@@ -289,7 +289,7 @@ def break_statement( search_line_op1,search_line_op2):
     #		*is_else_condn
     #		*condn_line
     #		*condn_unrolled - the method break_statement returns all the info about the CONDITION to this key.
-    
+    #			*condn
 
     
  
@@ -438,7 +438,7 @@ def extract_condn_params(src_file):
 									find_condn_greater_or_eq_operator[1]=duh[0]+';'
 									result_params=break_statement(find_condn_greater_or_eq_operator[0],find_condn_greater_or_eq_operator[1])								
 									condn_params[condn_term_key]['condn_unrolled']=result_params['res']
-						
+									condn_params[condn_term_key]['condn_unrolled']['condn']='>='
 								elif (len(find_condn_lesser_or_equal_operator)>1):
 									print "\n\t --- CONDN ALERT found a lesser than or equal operator! "+str(condn_line_contents)+" term-0: "+str(find_condn_lesser_or_equal_operator[0])+" term-1: "+str(find_condn_lesser_or_equal_operator[1])								
 									duh=find_condn_lesser_or_equal_operator[0].split('(') # Should have only 2 parts
@@ -447,6 +447,7 @@ def extract_condn_params(src_file):
 									find_condn_lesser_or_equal_operator[1]=duh[0]+';'									
 									result_params=break_statement(find_condn_lesser_or_equal_operator[0],find_condn_lesser_or_equal_operator[1])										
 									condn_params[condn_term_key]['condn_unrolled']=result_params['res']
+									condn_params[condn_term_key]['condn_unrolled']['condn']='<='									
 								elif (len(find_condn_great_operator)>1):
 									print "\n\t --- CONDN ALERT found a greater than operator! "+str(condn_line_contents)+" term-0: "+str(find_condn_great_operator[0])+" term-1: "+str(find_condn_great_operator[1])							
 									duh=find_condn_great_operator[0].split('(') # Should have only 2 parts
@@ -457,6 +458,8 @@ def extract_condn_params(src_file):
 									result_params=break_statement(find_condn_great_operator[0],find_condn_great_operator[1])		
 									condn_params[condn_term_key]['condn_unrolled']=result_params['res']								
 									print "\n\t --**&&^^  condn_params[condn_term_key]['condn_unrolled']['eqn_params'][0] "+str(condn_params[condn_term_key]['condn_unrolled']['eqn_params'][0])
+									condn_params[condn_term_key]['condn_unrolled']['condn']='>'									
+									
 								elif (len(find_condn_less_operator)>1):
 									print "\n\t --- CONDN ALERT found a lesser than operator! "+str(condn_line_contents)+" term-0: "+str(find_condn_less_operator[0])+" term-1: "+str(find_condn_less_operator[1])															
 									duh=find_condn_less_operator[0].split('(') # Should have only 2 parts
@@ -465,6 +468,8 @@ def extract_condn_params(src_file):
 									find_condn_less_operator[1]=duh[0]+';'
 									result_param=break_statement(find_condn_less_operator[0],find_condn_less_operator[1])
 									condn_params[condn_term_key]['condn_unrolled']=result_params['res']
+									condn_params[condn_term_key]['condn_unrolled']['condn']='<'									
+									
 								elif (len(find_condn_equal_operator)>1):
 									print "\n\t --- CONDN ALERT found a logical-equal operator! "+str(condn_line_contents)+" term-0: "+str(find_condn_equal_operator[0])+" term-1: "+str(find_condn_equal_operator[1])															
 									duh=find_condn_equal_operator[0].split('(') # Should have only 2 parts
@@ -473,6 +478,7 @@ def extract_condn_params(src_file):
 									find_condn_equal_operator[1]=duh[0]+';'
 									result_params=break_statement(find_condn_equal_operator[0],find_condn_equal_operator[1])									
 									condn_params[condn_term_key]['condn_unrolled']=result_params['res']
+									condn_params[condn_term_key]['condn_unrolled']['condn']='=='									
 									
 								elif (condn_params[condn_term_key]['is_else_condn']):
 									print "\n\t --- CONDN ALERT found an else operator! "+str(condn_line_contents)																																																
@@ -563,6 +569,7 @@ def extract_condn_params(src_file):
     #		*is_else_condn
     #		*condn_line
     #		*condn_unrolled - the method break_statement returns all the info about the CONDITION to this key.
+    #			*condn
     
 
 
