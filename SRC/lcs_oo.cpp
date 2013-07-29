@@ -1,7 +1,7 @@
 #include "error_inject_operator.h"
 #include<cstdio>
 #include <string.h>
-
+#include <set>
 template <class T>
 double error_inject_operators<T>::error_percent=0.0;
 
@@ -53,11 +53,13 @@ int count_stack;
 /////////////////////////////////////// xy_tuple_rollback  ////////////////////////////////////////////////////////
 int rollback( int start_i,int start_j,error_inject_operators<char>*a,error_inject_operators<char>* b )
 {
+	start_i-=1;start_j-=1;
 	vector< pair<int,int> > check_list;
+	set< pair<int,int> > checked_list;
 	check_list.push_back(make_pair(start_i,start_j));
+	checked_list.insert(make_pair(start_i,start_j) );
 
-	vector< pair<int,int> >::iterator curr_pos;
-	curr_pos=check_list.begin();
+	//curr_pos=check_list.begin();
 	int current_position_check_list=0;
 	int checklist_notempty=1;
 
@@ -92,46 +94,62 @@ int rollback( int start_i,int start_j,error_inject_operators<char>*a,error_injec
 					  test_condn=3;
 					 break;					 
 			}
-			i=i-1; j=j-1;
-			if (a[i] == b[j])
+			if( i < lena_minus1 && j< lenb_minus1 )
 			{
-			   lengths[i+1][j+1] = lengths[i][j] + 1 ;
-			   used_condn=1;
-			}
-			else if (  lengths[i+1][j] > lengths[i][j+1] ) 
-			{
-			   lengths[i+1][j+1] = lengths[i+1][j] ; 
-			   used_condn=2;	   
-		   	}    
-			else
-			{
-			   lengths[i+1][j+1] = lengths[i][j+1]; 
-			   used_condn=3;	   
-			}
+				if (a[i] == b[j])
+				{
+				   lengths[i+1][j+1] = lengths[i][j] + 1 ;
+				   used_condn=1;
+				}
+				else if (  lengths[i+1][j] > lengths[i][j+1] ) 
+				{
+				   lengths[i+1][j+1] = lengths[i+1][j] ; 
+				   used_condn=2;	   
+			   	}    
+				else
+				{
+				   lengths[i+1][j+1] = lengths[i][j+1]; 
+				   used_condn=3;	   
+				}
 
-			if(used_condn==test_condn)
-			{
-				check_list.push_back(make_pair(i,j));
-				cout<<"\n\t Pushing in i: "<<i<<" j: "<<j;
-			}
-			cout<<"\n\t I: "<<i<<" J: "<<j<<" a[i]: "<<a[i]<<" b[j] "<<b[j]<<" lengths[i+1][j+1] "<<lengths[i+1][j+1]<<" test_condn "<<test_condn<<" used_condn "<<used_condn;
-					
+				if(used_condn==test_condn)
+				{
+					pair<int,int> insert_pair;
+					insert_pair=make_pair(i,j);
+					set< pair<int,int> >::iterator check_this_pair;
+					check_this_pair=checked_list.find(insert_pair);
+					if( check_this_pair==checked_list.end() )
+					{
+						check_list.push_back(insert_pair);
+						checked_list.insert(insert_pair);
+						cout<<"\n\t Pushing in i: "<<i<<" j: "<<j;					
+					}
+					else
+						cout<<"\n\t Already in checklist_vector. i: "<<i<<" j "<<j;
+				
+					//check_list.insert(make_pair(i,j));				
+
+				}
+				cout<<"\n\t I: "<<i<<" J: "<<j<<" a[i]: "<<a[i]<<" b[j] "<<b[j]<<" lengths[i+1][j+1] "<<lengths[i+1][j+1]<<" test_condn "<<test_condn<<" used_condn "<<used_condn;
+			}	
 		}
 		int length=check_list.size();
 		cout<<"\n\t Length of vector of pairs : "<<length;
 		//cout<<"\n\t check_list[length-1].first "<<check_list[length-1].first<<"\t check_list[length-1].second "<< check_list[length-1].second;
  
 		if( current_position_check_list < (length-1) )
+		//if(curr_pos!=check_list.end())
 		{
 			cout<<"\n\t curr_pos is not the end!! \n";
 			current_position_check_list++;
 			cout<<"\n\t Next-pair: "<<( check_list[current_position_check_list].first)<<", "<<( check_list[current_position_check_list].second);;
+ 			
 		}
 		else
 		{
 			checklist_notempty=0;
 		}
- 
+ 		//cout<<endl;exit(-1);
 	}
 
 	cout<<"\n\t Since I am almost done, let me get out of here!! \n";
