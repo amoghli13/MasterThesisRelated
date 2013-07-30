@@ -290,14 +290,16 @@ def break_statement( search_line_op1,search_line_op2):
     #		*condn_line
     #		*condn_unrolled - the method break_statement returns all the info about the CONDITION to this key.
     #			*condn
+    #		*my_condn
 
     
  
-def extract_condn_params(src_file):
-    src_file_handle=open(src_file)
-    src_file_contents=src_file_handle.readlines()
-    src_file_handle.close()
-    
+#def extract_condn_params(src_file):
+def extract_condn_params(src_file_contents):
+# src_file_handle=open(src_file)
+#    src_file_contents=src_file_handle.readlines()
+#    src_file_handle.close()
+
     pragma_starts=[0]
     pragma_ends=[0]
     src_file_length=len(src_file_contents);
@@ -408,13 +410,15 @@ def extract_condn_params(src_file):
 											brace_notstarted=0;
 											braces_notcompleted=0;
 											condn_params[condn_term_key]['condn_line']=search_line_idx
-											condn_params[condn_term_key]['is_else_condn']=0											
+											condn_params[condn_term_key]['is_else_condn']=0	
+											condn_params[condn_term_key]['my_condn']=src_file_contents[search_line_idx]										
 											search_line_idx+=1 # To ensure the if(search_line_idx part does not come into play)																				
 										elif search_bases2:
 											brace_notstarted=0;
 											braces_notcompleted=0;		
 											condn_params[condn_term_key]['condn_line']=search_line_idx		
-											condn_params[condn_term_key]['is_else_condn']=1									
+											condn_params[condn_term_key]['is_else_condn']=1	
+											condn_params[condn_term_key]['my_condn']=src_file_contents[search_line_idx]																					
 											search_line_idx+=1 # To ensure the if(search_line_idx part does not come into play)									
 											print "\n\t Found 'else' instead of condition "+str(search_line)
 										else:
@@ -523,7 +527,7 @@ def extract_condn_params(src_file):
 												sys.exit()										
 											condn_params[condn_term_key][statement_keywd]=return_params['res']
 											condn_params[condn_term_key][statement_keywd]['search_line']=search_line_dummy2											
-											print "\n\t condn_params[condn_term_key][statement_keyw']['eqn_params'][0] "+str(condn_params[condn_term_key][statement_keywd]['eqn_params'][0]);
+											print "\n\t condn_params[condn_term_key][statement_keywd']['eqn_params'][0] "+str(condn_params[condn_term_key][statement_keywd]['eqn_params'][0]);
 										else:
 											print "\n\t WARNING: Could not locate stmt in line "+str(search_line)
 									search_line_idx+=1;
@@ -565,15 +569,98 @@ def extract_condn_params(src_file):
     #		*num_statements
     #		*statement_keywd - the method break_statement returns all the info about the STATEMENT to this key. 
     #		       statement_keywd='statement'+str(condn_params[condn_term_key]['num_statements'])
+    #		* search_line
     #		*operation_count
     #		*is_else_condn
     #		*condn_line
     #		*condn_unrolled - the method break_statement returns all the info about the CONDITION to this key.
     #			*condn
+    #		*my_condn
     
 
 
 	
+############## Method: recreate_condns
+#def recreate_condns(condn_params):
+def recreate_condns(condn_params,src_file_contents):
+	print "\n\t ------------------------------------------------------------------------------------------ "
+	print "\n\t Summarizing the condtions: \n "
+	print "\n\t Number of conditions: "+str(condn_params['num_condns'])
+	
+	condn_stmts_4rollback=[]
+	curr_set_condn_stmts=[]
+	for i in range(condn_params['num_condns']):
+		print "\n\t I am condition number: "+str(i)
+		condn_term_key='cond'+str(i+1)
+		statement_keywd='statement'+str(1)
+		print "\n\t\t Condn: "+str(condn_params[condn_term_key]['condn_line'])
+		print "\n\t\t Is else condn: "+str(condn_params[condn_term_key]['is_else_condn'])
+		if not (condn_params[condn_term_key]['is_else_condn']):
+			condn_expression=str(condn_params[condn_term_key]['condn_unrolled']['lhs_operand'])+' '
+			print "\n\t\t\t LHS: "+str(condn_params[condn_term_key]['condn_unrolled']['lhs_operand'])
+			condn_expression=condn_expression+str(condn_params[condn_term_key]['condn_unrolled']['condn'])+'  '
+			for j in range(condn_params[condn_term_key]['condn_unrolled']['rhs_num_operands']):
+				print "\n\t\t\t RHS-operator "+str(j)+' --> '+str(condn_params[condn_term_key]['condn_unrolled']['rhs_operands'][j])+" and the indices are"
+				condn_expression=condn_expression+str(condn_params[condn_term_key]['condn_unrolled']['rhs_operands'][j])+'  '
+				for k in range( len( condn_params[condn_term_key]['condn_unrolled']['rhs_operands_indices'][j] ) ):		
+					print "\n\t\t\t\t index-no: "+str(k)+" index --> "+str(condn_params[condn_term_key]['condn_unrolled']['rhs_operands_indices'][j][k])	
+
+			print "\n\t Condition expression: "+str(condn_expression)
+			print "\n\t Condition :"+str(condn_params[condn_term_key]['my_condn'])
+			curr_set_condn_stmts.append(condn_params[condn_term_key]['my_condn'])
+			curr_set_condn_stmts.append('{')
+		else:
+			curr_set_condn_stmts.append('else')	
+			curr_set_condn_stmts.append('{')
+			"""
+					rhs_num_operands=return_params['res']['rhs_num_operands']			
+		for i in range(return_params['res']['rhs_num_operands']):
+			print "\n\t -- NOTICE return_params['res']['rhs_operands'][i] is "+str(return_params['res']['rhs_operands'][i])+" and the indices are"
+			for k in range( len( return_params['res']['rhs_operands_indices'][i] ) ):		
+				print "\n\t\t index-no: "+str(k)+" index --> "+str(return_params['res']['rhs_operands_indices'][i][k])
+			
+			"""
+		print "\n\t\t statement: "+str(condn_params[condn_term_key][statement_keywd]['search_line'])
+		local_stmt=str('\t')+str(condn_params[condn_term_key][statement_keywd]['search_line'])
+		curr_set_condn_stmts.append(local_stmt)
+		print "\n\t\t\t LHS: "+str(condn_params[condn_term_key][statement_keywd]['eqn_params'][0])+"\t RHS: "+str(condn_params[condn_term_key][statement_keywd]['eqn_params'][1])
+		for j in range(condn_params[condn_term_key][statement_keywd]['rhs_num_operands']):
+			print "\n\t\t\t RHS-operator "+str(j)+' --> '+str(condn_params[condn_term_key][statement_keywd]['rhs_operands'][j])+" and the indices are"
+			for k in range( len( condn_params[condn_term_key][statement_keywd]['rhs_operands_indices'][j] ) ):		
+				print "\n\t\t\t\t index-no: "+str(k)+" index --> "+str(condn_params[condn_term_key][statement_keywd]['rhs_operands_indices'][j][k])	
+		test_condn=i+1
+		set_condn_num= str('\t')+' test_condn='+str(test_condn)
+		print "\n\t Inserting set_condn_num: "+str(set_condn_num)+" test_condn: "+str(test_condn)+" i: "+str(i)+" condn_term_key "+condn_term_key
+		curr_set_condn_stmts.append(set_condn_num)
+		curr_set_condn_stmts.append('}')
+		condn_stmts_4rollback.append(curr_set_condn_stmts)
+		curr_set_condn_stmts=[]
+	
+	print "\n\t ----------------------------------------------------------------------------------- \n"
+	print "\n\t These are the condition(s) and other statments going to the method int rollback() \n"
+	for i in range( len(condn_stmts_4rollback) ): # This should be equal to condn_params['num_condns']
+		for j in range(len( condn_stmts_4rollback[i] ) ):
+			print "\n\t "+str(condn_stmts_4rollback[i][j])
+
+	# Alternate logic to produce conditions block! 			
+	print "\n\t ----------------------------------------------------------------------------------- \n"			
+	for i in range(condn_params['num_condns']):
+		print "\n\t I am condition number: "+str(i)
+		condn_term_key='cond'+str(i+1)
+		statement_keywd='statement'+str(1)
+		#if not (condn_params[condn_term_key]['is_else_condn']):
+		print "\n\t "+str(condn_params[condn_term_key]['my_condn'])  #+str(condn_params[condn_term_key]['condn_unrolled']['condn'] )
+		#else:
+		#	print "\n\t "+'else'
+		for j in range(condn_params[condn_term_key]['brace_start'],condn_params[condn_term_key]['brace_end']):
+			print "\n\t "+str(src_file_contents[j])
+		test_condn=i+1
+		set_condn_num= str('\t')+' test_condn='+str(test_condn)
+		print "\n\t\t "+str(set_condn_num)			
+		print "\n\t "+str(src_file_contents[condn_params[condn_term_key]['brace_end']])
+			
+			
+			
 ############## Method: summarize_condns	
 def summarize_condns(condn_params):
 	print "\n\t ------------------------------------------------------------------------------------------ "
@@ -610,6 +697,8 @@ def summarize_condns(condn_params):
 	
 
 
+
+
 ############# Main method
 def main():
 
@@ -637,9 +726,13 @@ def main():
 	    	 sys.exit()
         else:
             assert False, "unhandled option"
-
-	condn_params=extract_condn_params(src_file)
-	summarize_condns(condn_params)			    
+ 	src_file_handle=open(src_file)
+    	src_file_contents=src_file_handle.readlines()
+    	src_file_handle.close()
+	
+	condn_params=extract_condn_params(src_file_contents)
+	#summarize_condns(condn_params)
+	recreate_condns(condn_params,src_file_contents)			    
 	
 if __name__ == "__main__":
     main()    
