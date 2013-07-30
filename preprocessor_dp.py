@@ -204,6 +204,8 @@ def break_statement( search_line_op1,search_line_op2):
 								print "\n\t Index has div operator!! "+str(curr_term[1])+" len(idx_split) "+str(len(idx_div_split))														
 							curr_idx=''
 							curr_idx_copy=curr_idx
+							curr_operand=curr_operand_copy+curr_term[0]
+							curr_operand_copy=curr_operand
 							for j in range( len(curr_term) -2):
 								#print "\n\t -- Now- curr_operand"
 								curr_idx=curr_idx_copy+str(curr_term[j+1])+'['
@@ -212,7 +214,8 @@ def break_statement( search_line_op1,search_line_op2):
 								curr_operand_copy=curr_operand
 							curr_idx=curr_idx_copy+str(curr_term[len(curr_term)-1] )+']'
 							curr_idx_copy=curr_idx
-							curr_operand=curr_operand_copy+curr_term[0]+'['+str(curr_term[len(curr_term)-1] )+']'
+							#curr_operand=curr_operand_copy+curr_term[0]+'['+str(curr_term[len(curr_term)-1] )+']'
+							curr_operand=curr_operand_copy+'['+str(curr_term[len(curr_term)-1] )+']'									
 							curr_operand_copy=curr_operand
 							curr_indices.append(curr_idx)
 							print "\n\t ++ Did not find any operator: "+str(curr_term[0])+" and curr_operand is "+str(curr_operand)+" Current idx is "+str(curr_idx)	
@@ -698,8 +701,8 @@ def recreate_condns(condn_params,src_file_contents):
 						lhs_idx_breakdown=idx_breakdown(lhs_idx)
 						lhs_idx_terms_length=len(lhs_idx_breakdown)						
 						use_idx=0#( rhs_idx- lhs_idx)
-						print "\n\t RHS-idx has "+str(rhs_idx_terms_length)+" terms and LHS-idx has "+str(lhs_idx_terms_length)+" terms!! "									
-						print "\n\t\t RHS-operator "+str(k)+" index: "+str(rhs_idx )+" lhs-index "+str( lhs_idx)+" use_idx "+str(use_idx)                           
+						print "\n\t LHS-idx has "+str(lhs_idx_terms_length)+" terms and RHS-idx has "+str(rhs_idx_terms_length)+" terms!! "									
+						print "\n\t\t LHS-operator "+str(k)+" index: "+str(lhs_idx )+" rhs-index "+str(rhs_idx)+" use_idx "+str(use_idx)                           
 						
 				else:
 					print "\n\t The rhs_operand is NOT same as that of 'fill_array' "+str(rhs_operand_split[0])				
