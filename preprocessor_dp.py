@@ -280,6 +280,7 @@ def break_statement( search_line_op1,search_line_op2):
 
     # Keys for return (dictionary!)
     # num_condns
+    # fill_array
     # condn_term_key=cond+str(condition-number)
     #		*brace_start
     #		*brace_end
@@ -310,6 +311,7 @@ def extract_condn_params(src_file_contents):
     num_conditions=0;
 
     dimensions_found=0;
+    array_found=0;
     num_dimensions=0;
     condn_params={}
 
@@ -338,7 +340,7 @@ def extract_condn_params(src_file_contents):
 						print "\n\t Found number of conditions for solve: "+str( condns_stmt.group(1) )+" num_conditions_found "+str(num_conditions_found)+' num_conditions '+str(num_conditions);						
 					else:
 						print "\n\t Couldn't find the actual number of conditions for solve in line: "+str(line_count)
-				elif ( conditions_found and dimensions_found and (num_conditions_found < num_conditions) ) :
+				elif ( conditions_found and dimensions_found and array_found and (num_conditions_found < num_conditions) ) :
 					condns_stmt=re.match(r'\s*\#pragma\s+dynamic_prog\s+solve\s+\cond\s+(\d+)+',curr_line);
 					#print "\n\t Num_conditions_found "+str(num_conditions_found)+" is less than num_condtions: "+str(num_conditions)+"\n"
 					if condns_stmt:
@@ -535,7 +537,7 @@ def extract_condn_params(src_file_contents):
 				else:
 					print "\n\t I go nowhere!! since num_conditions_found is "+str(num_conditions_found)+' and num_conditions is '+str(num_conditions )+" :'( :'( ";			
 							
-			elif ~dimensions_found:
+			elif not dimensions_found:
 					dims_stmt=re.match(r'\s*\#pragma\s+dynamic_prog\s+mat\s+dimensions\s+(\d+)+',curr_line);
 					if dims_stmt:
 						num_dimensions=dims_stmt.group(1)
@@ -543,42 +545,50 @@ def extract_condn_params(src_file_contents):
 						dimensions_found=1;	
 						condn_params['num_dimensions']=num_dimensions
 					else:
-						print "\n\t Searching for num-dimensions unsuccessful in line "+str(line_count)+"\n"									
-
-
+						print "\n\t Searching for num-dimensions unsuccessful in line "+str(line_count)+" dimensions_found "+str(dimensions_found)+"\n"									
+			elif not array_found:
+					array_stmt=re.match(r'\s*\#pragma\s+dynamic_prog\s+mat\s+array\s+(\w+)+',curr_line);#\s+(\w+)+
+					if array_stmt:
+						#num_dimensions=dims_stmt.group(1)
+						print "\n\t ^^^^ Array is found  "+str(array_stmt.group(1))
+						array_found=1;
+						condn_params['fill_array']=array_stmt.group(1)
+					else:
+						print "\n\t Searching for array unsuccessful in line "+str(line_count)+" array_found "+str(array_found)+"\n"				
+					# #pragma dynamic_prog mat array lengths
  	line_count+=1;						
     return condn_params
-##### Temp-reference remove it soon
 
-# Return hash: return_params
-#	*eqn_params
-#	*lhs_operand
-#	*lhs_operand_indices
-#	*rhs_num_operands
-#	*rhs_num_operators
-#	*rhs_operands
-#	*rhs_operators
-#	*rhs_operands_indices
-
-
-    # Keys for return (dictionary!)
-    # num_condns
-    # condn_term_key=cond+str(condition-number)
-    #		*brace_start
-    #		*brace_end
-    #		*num_statements
-    #		*statement_keywd - the method break_statement returns all the info about the STATEMENT to this key. 
-    #		       statement_keywd='statement'+str(condn_params[condn_term_key]['num_statements'])
-    #		* search_line
-    #		*operation_count
-    #		*is_else_condn
-    #		*condn_line
-    #		*condn_unrolled - the method break_statement returns all the info about the CONDITION to this key.
-    #			*condn
-    #		*my_condn
-    
-
-
+############## Method: idx_breakdown
+def idx_breakdown(idx):
+	idx_plus_split=idx.split('+');idx_minus_split=idx.split('-'); # Neglect these for now! idx_mul_split=idx.split('*');idx_div_split=idx.split('/')
+	#idx_excess=0
+	idx_breakdown=[]
+	if( len(idx_plus_split) > 1 ): # ASSUMPTION: There is only one operator possible between iterative variable i and rest.
+		#indexed_variable_notfound=1
+		for m in range( len(idx_plus_split) ):
+			# check_indexed_variable=idx_plus_split[m].split('[') # It should not matter whether the other term is indexed variable or not! :-o
+			check_minus_variable=idx_plus_split[m].split('-')			
+			if( len(check_minus_variable)>1):
+				for n in range( len(check_minus_variable) ):
+					idx_breakdown.append(check_minus_variable[n])
+				print "\n\t Index also has a minus term !! "				
+			else:
+				idx_breakdown.append(idx_plus_split[m])
+	elif( len(idx_minus_split) > 1 ): # ASSUMPTION: There is only one operator possible between iterative variable i and rest.
+		#indexed_variable_notfound=1
+		for m in range( len(idx_minus_split) ):
+			# check_indexed_variable=idx_plus_split[m].split('[') # It should not matter whether the other term is indexed variable or not! :-o
+			check_plus_variable=idx_plus_split[m].split('-')			
+			if( len(check_plus_variable)>1):
+				for n in range( len(check_plus_variable) ):
+					idx_breakdown.append(check_plus_variable[n])
+				print "\n\t Index also has a plus term !! "				
+			else:
+				idx_breakdown.append(idx_plus_split[m])				
+	else:
+		idx_breakdown.append(idx_plus_split[0])
+	return idx_breakdown
 	
 ############## Method: recreate_condns
 #def recreate_condns(condn_params):
@@ -592,7 +602,7 @@ def recreate_condns(condn_params,src_file_contents):
 	for i in range(condn_params['num_condns']):
 		print "\n\t I am condition number: "+str(i)
 		condn_term_key='cond'+str(i+1)
-		statement_keywd='statement'+str(1)
+		statement_keywd='statement'+str(1) # NOTICE: This should be parameterized!!
 		print "\n\t\t Condn: "+str(condn_params[condn_term_key]['condn_line'])
 		print "\n\t\t Is else condn: "+str(condn_params[condn_term_key]['is_else_condn'])
 		if not (condn_params[condn_term_key]['is_else_condn']):
@@ -643,7 +653,7 @@ def recreate_condns(condn_params,src_file_contents):
 			print "\n\t "+str(condn_stmts_4rollback[i][j])
 
 	# Alternate logic to produce conditions block! 			
-	print "\n\t ----------------------------------------------------------------------------------- \n"			
+	"""print "\n\t ----------------------------------------------------------------------------------- \n"			
 	for i in range(condn_params['num_condns']):
 		print "\n\t I am condition number: "+str(i)
 		condn_term_key='cond'+str(i+1)
@@ -653,13 +663,48 @@ def recreate_condns(condn_params,src_file_contents):
 		#else:
 		#	print "\n\t "+'else'
 		for j in range(condn_params[condn_term_key]['brace_start'],condn_params[condn_term_key]['brace_end']):
-			print "\n\t "+str(src_file_contents[j])
+			print str(src_file_contents[j])
 		test_condn=i+1
 		set_condn_num= str('\t')+' test_condn='+str(test_condn)
-		print "\n\t\t "+str(set_condn_num)			
-		print "\n\t "+str(src_file_contents[condn_params[condn_term_key]['brace_end']])
+		print "\t"+str(set_condn_num)			
+		print str(src_file_contents[condn_params[condn_term_key]['brace_end']])
+	"""	
+	dependency_indices=[]	
+	curr_dependency_indices=[]
+	for i in range(condn_params['num_condns']):
+		condn_term_key='cond'+str(i+1)
+		for j in range(condn_params[condn_term_key]['num_statements']):
+			statement_keywd='statement'+str(j+1)
+			for k in range( len(condn_params[condn_term_key][statement_keywd]['lhs_operand_indices']) ):
+				print "\n\t LHS-index: "+str(condn_params[condn_term_key][statement_keywd]['lhs_operand_indices'][k])
+			lhs_operand_split=condn_params[condn_term_key][statement_keywd]['lhs_operand'].split('[')
+			lhs_operand_split[0]=re.sub('^\s*','',lhs_operand_split[0])
+			if( lhs_operand_split[0] == condn_params['fill_array'] ):
+				print "\n\t The lhs_operand is same as that of 'fill_array' "+str(lhs_operand_split[0]) # ASSUMPTION: LHS operand should be that of 'fill_array'
+			else:
+				print "\n\t The lhs_operand is NOT same as that of 'fill_array' "+str(lhs_operand_split[0])
 			
-			
+			for k in range(condn_params[condn_term_key][statement_keywd]['rhs_num_operands']):
+				rhs_operand_split=condn_params[condn_term_key][statement_keywd]['rhs_operands'][k].split('[')
+				rhs_operand_split[0]=re.sub('^\s*','',rhs_operand_split[0])
+				if( rhs_operand_split[0] == condn_params['fill_array'] ):
+					print "\n\t The rhs_operand is same as that of 'fill_array' "+str(rhs_operand_split[0])
+					for l in range( len(condn_params[condn_term_key][statement_keywd]['rhs_operands_indices'][k]) ):
+						rhs_idx=condn_params[condn_term_key][statement_keywd]['rhs_operands_indices'][k][l]
+						rhs_idx_breakdown=idx_breakdown(rhs_idx)
+						rhs_idx_terms_length=len(rhs_idx_breakdown)
+
+						lhs_idx=condn_params[condn_term_key][statement_keywd]['lhs_operand_indices'][l] 
+						lhs_idx_breakdown=idx_breakdown(lhs_idx)
+						lhs_idx_terms_length=len(lhs_idx_breakdown)						
+						use_idx=0#( rhs_idx- lhs_idx)
+						print "\n\t RHS-idx has "+str(rhs_idx_terms_length)+" terms and LHS-idx has "+str(lhs_idx_terms_length)+" terms!! "									
+						print "\n\t\t RHS-operator "+str(k)+" index: "+str(rhs_idx )+" lhs-index "+str( lhs_idx)+" use_idx "+str(use_idx)                           
+						
+				else:
+					print "\n\t The rhs_operand is NOT same as that of 'fill_array' "+str(rhs_operand_split[0])				
+								
+					
 			
 ############## Method: summarize_condns	
 def summarize_condns(condn_params):

@@ -20,6 +20,7 @@ char * lcs(const char *a,const char * b)
  
  #pragma dynamic_prog mat dimensions 2
  #pragma dynamic_prog solve num_conditions 3
+ #pragma dynamic_prog mat array lengths
  
  
     for (i=0,x=a; *x; i++, x++) {
@@ -37,7 +38,7 @@ char * lcs(const char *a,const char * b)
       #pragma dynamic_prog solve cond 3   	    
             else
             {
-               lengths[i+1][j+1] = lengths[i][j+1] ;
+               lengths[i+1][j+1] = lengths[i][j+1];
             }
         }
     }
