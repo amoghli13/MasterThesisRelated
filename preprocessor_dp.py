@@ -563,10 +563,17 @@ def extract_condn_params(src_file_contents):
     return condn_params
 
 ############## Method: idx_breakdown
+
+#idx_info
+#	*idx_breakdown
+#	*idx_breakdown_operations
+
+
 def idx_breakdown(idx):
 	idx_plus_split=idx.split('+');idx_minus_split=idx.split('-'); # Neglect these for now! idx_mul_split=idx.split('*');idx_div_split=idx.split('/')
 	#idx_excess=0
 	idx_breakdown=[]
+	idx_operations_breakdown=[]
 	if( len(idx_plus_split) > 1 ): # ASSUMPTION: There is only one operator possible between iterative variable i and rest.
 		#indexed_variable_notfound=1
 		for m in range( len(idx_plus_split) ):
@@ -575,9 +582,11 @@ def idx_breakdown(idx):
 			if( len(check_minus_variable)>1):
 				for n in range( len(check_minus_variable) ):
 					idx_breakdown.append(check_minus_variable[n])
+					idx_operations_breakdown.append('-')					
 				print "\n\t Index also has a minus term !! "				
 			else:
 				idx_breakdown.append(idx_plus_split[m])
+				idx_operations_breakdown.append('+')
 	elif( len(idx_minus_split) > 1 ): # ASSUMPTION: There is only one operator possible between iterative variable i and rest.
 		#indexed_variable_notfound=1
 		for m in range( len(idx_minus_split) ):
@@ -586,12 +595,17 @@ def idx_breakdown(idx):
 			if( len(check_plus_variable)>1):
 				for n in range( len(check_plus_variable) ):
 					idx_breakdown.append(check_plus_variable[n])
+					idx_operations_breakdown.append('+')					
 				print "\n\t Index also has a plus term !! "				
 			else:
-				idx_breakdown.append(idx_plus_split[m])				
+				idx_breakdown.append(idx_plus_split[m])	
+				idx_operations_breakdown.append('+')							
 	else:
 		idx_breakdown.append(idx_plus_split[0])
-	return idx_breakdown
+	idx_info={}
+	idx_info['idx_breakdown']=idx_breakdown;
+	idx_info['idx_breakdown_operations']=idx_operations_breakdown
+	return idx_info
 	
 ############## Method: recreate_condns
 #def recreate_condns(condn_params):
@@ -694,12 +708,12 @@ def recreate_condns(condn_params,src_file_contents):
 					print "\n\t The rhs_operand is same as that of 'fill_array' "+str(rhs_operand_split[0])
 					for l in range( len(condn_params[condn_term_key][statement_keywd]['rhs_operands_indices'][k]) ):
 						rhs_idx=condn_params[condn_term_key][statement_keywd]['rhs_operands_indices'][k][l]
-						rhs_idx_breakdown=idx_breakdown(rhs_idx)
-						rhs_idx_terms_length=len(rhs_idx_breakdown)
+						rhs_idx_info=idx_breakdown(rhs_idx)
+						rhs_idx_terms_length=len(rhs_idx_info['idx_breakdown'])
 
 						lhs_idx=condn_params[condn_term_key][statement_keywd]['lhs_operand_indices'][l] 
-						lhs_idx_breakdown=idx_breakdown(lhs_idx)
-						lhs_idx_terms_length=len(lhs_idx_breakdown)						
+						lhs_idx_info=idx_breakdown(lhs_idx)
+						lhs_idx_terms_length=len(lhs_idx_info['idx_breakdown'])						
 						use_idx=0#( rhs_idx- lhs_idx)
 						print "\n\t LHS-idx has "+str(lhs_idx_terms_length)+" terms and RHS-idx has "+str(rhs_idx_terms_length)+" terms!! "									
 						print "\n\t\t LHS-operator "+str(k)+" index: "+str(lhs_idx )+" rhs-index "+str(rhs_idx)+" use_idx "+str(use_idx)                           

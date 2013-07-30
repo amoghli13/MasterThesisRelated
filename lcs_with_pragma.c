@@ -33,7 +33,7 @@ char * lcs(const char *a,const char * b)
       #pragma dynamic_prog solve cond 2            
             else if (  lengths[i+1][j] > lengths[i][j+1])  )
             {
-               lengths[i+1][j+1] = lengths[i+1-duh[i]][j] + duh[i] ; 
+               lengths[i+1][j+1] = lengths[i+1-duh2-duh[i]][j] + duh[i] ; 
    	    }
       #pragma dynamic_prog solve cond 3   	    
             else
