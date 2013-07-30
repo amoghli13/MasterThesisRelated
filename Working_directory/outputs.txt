@@ -221,17 +221,17 @@
 
 	 NODAPPA len(operands_sqbrace1_split) 5
 
-	 Number-of-groups in curr_term is 3 ,  lengths[i+1-duh[i
+	 Number-of-groups in curr_term is 3 ,  lengths[i+1-duh2-duh[i
 
 	 j: 0  lengths
 
-	 j: 1 i+1-duh
+	 j: 1 i+1-duh2-duh
 
 	 j: 2 i
 
-	 Index has plus operator!! i+1-duh len(idx_split) 2
+	 Index has plus operator!! i+1-duh2-duh len(idx_split) 2
 
-	 ++ Did not find any operator:  lengths and curr_operand is  lengths[i+1-duh[i] Current idx is i+1-duh[i]
+	 ++ Did not find any operator:  lengths and curr_operand is  lengths[i+1-duh2-duh[i] Current idx is i+1-duh2-duh[i]
 
 	 Number-of-groups in curr_term is 1 , 
 
@@ -245,7 +245,7 @@
 
 	 j: 1 j
 
-	 -- Did not find any operator:  and curr_operand is  lengths[i+1-duh[i]][j] Current idx is j
+	 -- Did not find any operator:  and curr_operand is  lengths[i+1-duh2-duh[i]][j] Current idx is j
 
 	 Number-of-groups in curr_term is 2 ,  + duh[i
 
@@ -272,9 +272,9 @@
 
 	 FATAL: Semicolon detection has a BUG!!!!  ; length of test_semicolon 2    end
 
-	 -- NOTICE return_params['res']['rhs_operands'][i] is  lengths[i+1-duh[i]][j] and the indices are
+	 -- NOTICE return_params['res']['rhs_operands'][i] is  lengths[i+1-duh2-duh[i]][j] and the indices are
 
-		 index-no: 0 index --> i+1-duh[i]
+		 index-no: 0 index --> i+1-duh2-duh[i]
 
 		 index-no: 1 index --> j
 
@@ -424,13 +424,13 @@
 	 Condition :            else if (  lengths[i+1][j] > lengths[i][j+1])  )
 
 
-		 statement: lengths[i+1][j+1] = lengths[i+1-duh[i]][j] + duh[i] ;
+		 statement: lengths[i+1][j+1] = lengths[i+1-duh2-duh[i]][j] + duh[i] ;
 
-			 LHS: lengths[i+1][j+1] 	 RHS:  lengths[i+1-duh[i]][j] + duh[i] ;
+			 LHS: lengths[i+1][j+1] 	 RHS:  lengths[i+1-duh2-duh[i]][j] + duh[i] ;
 
-			 RHS-operator 0 -->  lengths[i+1-duh[i]][j] and the indices are
+			 RHS-operator 0 -->  lengths[i+1-duh2-duh[i]][j] and the indices are
 
-				 index-no: 0 index --> i+1-duh[i]
+				 index-no: 0 index --> i+1-duh2-duh[i]
 
 				 index-no: 1 index --> j
 
@@ -476,7 +476,7 @@
 
 	 {
 
-	 	lengths[i+1][j+1] = lengths[i+1-duh[i]][j] + duh[i] ;
+	 	lengths[i+1][j+1] = lengths[i+1-duh2-duh[i]][j] + duh[i] ;
 
 	 	 test_condn=2
 
@@ -518,9 +518,9 @@
 
 	 Index also has a minus term !! 
 
-	 LHS-idx has 2 terms and RHS-idx has 3 terms!! 
+	 LHS-idx has 2 terms and RHS-idx has 4 terms!! 
 
-		 LHS-operator 0 index: i+1 rhs-index i+1-duh[i] use_idx 0
+		 LHS-operator 0 index: i+1 rhs-index i+1-duh2-duh[i] use_idx 0
 
 	 LHS-idx has 2 terms and RHS-idx has 1 terms!! 
 
