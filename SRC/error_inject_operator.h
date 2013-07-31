@@ -312,7 +312,35 @@ class error_inject_operators
 					      cout<<"\n\t Introducing error-at greater than or equal to overload!! \t op_1: "<< operand << "\t op_2: "<<arg.operand;				
 						return (operand >= ( arg.operand + ( (M) rand() %RAND_MAX ) ));								
 					}
-				}
+				};
+				
+				int operator >= (M arg )
+				{
+					if( !rand_percent(error_percent) )
+		                        {
+						return (operand >= arg);
+					}
+					else
+					{
+					      cout<<"\n\t Introducing error-at greater than or equal to overload!! \t op_1: "<< operand << "\t op_2: "<<arg;
+						return (operand >= ( arg + ( (M) rand() %RAND_MAX ) ));								
+					}
+				};				
+		
+		
+				int operator <= (M arg )
+				{
+					if( !rand_percent(error_percent) )
+		                        {
+						return (operand <= arg);
+					}
+					else
+					{
+					      cout<<"\n\t Introducing error-at greater than or equal to overload!! \t op_1: "<< operand << "\t op_2: "<<arg;
+						return (operand <= ( arg + ( (M) rand() %RAND_MAX ) ));								
+					}
+				}	
+		
 		
 				int operator <= (error_inject_operators arg)
 				{
