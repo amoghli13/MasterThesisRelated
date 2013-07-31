@@ -48,13 +48,148 @@ int end_of_stack;
 int count_stack;
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-///////////////////////////////////////////////////////////////////////////////////////////////
+rollback_tuple_pos search_stack(xy_tuple fixing_end_tuple,int result_pos)
+{
+	int i;
+	printf("\n\t ALERT: Top-of-stack: %d and looking to rollback around i: %d j: %d and result_pos: %d ",top_of_stack,fixing_end_tuple.i,fixing_end_tuple.j,result_pos);
+	fprintf(save_rollback_ops,"\n\t ALERT: Top-of-stack: %d and looking to rollback around i: %d j: %d and result_pos: %d ",top_of_stack,fixing_end_tuple.i,fixing_end_tuple.j,result_pos);
+	int result_position_adjust=0;
+	rollback_tuple_pos return_tuple_pos;	
+	for(i=top_of_stack,result_position_adjust=0;i!=end_of_stack;i=((i+size_stack_minus1)%size_stack),result_position_adjust++)
+	{
+			//printf("\n\t i: %d x: %d y: %d char: %c",i,accepted_tuple_chars[i].my_tuple.x,accepted_tuple_chars[i].my_tuple.y,accepted_tuple_chars[i].my_char);
+		if( ( accepted_tuple_chars[i].my_tuple.i >= fixing_end_tuple.i ) && (accepted_tuple_chars[i].my_tuple.j >= fixing_end_tuple.j) )
+		{
+
+			return_tuple_pos.my_tuple.i=accepted_tuple_chars[i].my_tuple.i;
+			return_tuple_pos.my_tuple.j=accepted_tuple_chars[i].my_tuple.j;		
+			return_tuple_pos.result_position_adjust=result_position_adjust;	
+			end_of_stack=(top_of_stack+1)%size_stack;	
+			printf("\n\t Should rollback to this point *STACK SUGGESTIONS* i: %d x: %d y: %d char: %c result_position_adjust: %d",i,accepted_tuple_chars[i].my_tuple.i,accepted_tuple_chars[i].my_tuple.j,accepted_tuple_chars[i].my_char,result_position_adjust);				
+			fprintf(save_rollback_ops,"\n\t Should rollback to this point *STACK SUGGESTIONS* i: %d x: %d y: %d char: %c result_position_adjust: %d",i,accepted_tuple_chars[i].my_tuple.i,accepted_tuple_chars[i].my_tuple.j,accepted_tuple_chars[i].my_char,result_position_adjust);							
+			return return_tuple_pos;
+		}
+		accepted_tuple_chars[i].my_tuple.i=0;
+		accepted_tuple_chars[i].my_tuple.j=0;
+		top_of_stack=((top_of_stack+size_stack_minus1)%size_stack);
+	}
+
+	return_tuple_pos.my_tuple.i=accepted_tuple_chars[end_of_stack].my_tuple.i;	
+	return_tuple_pos.my_tuple.j=accepted_tuple_chars[end_of_stack].my_tuple.j;		
+	return_tuple_pos.result_position_adjust=size_stack;		
+	printf("\n\t FATAL: stack overflow!!! :D \n");
+	top_of_stack=-1;end_of_stack=0;
+return return_tuple_pos;
+
+}
+
+
+///////////////////////////////////////////search_in_row////////////////////////////////////////////////////
+
+
+//int search_in_row(const char* a,const char* b,int xfix,double error_percent,int curr_row_i,int start_j)
+int search_in_row(error_inject_operators<char>* a,error_inject_operators<char>* b,int xfix,double error_percent,int curr_row_i,int start_j)
+{
+	int i,j;
+	i=curr_row_i;
+//	const char* x,*y;
+	error_inject_operators<char> x,y;
+	int error_inject;
+	x=a[curr_row_i-1];
+	error_inject_operators<int> lengths_ixfix;
+	lengths_ixfix=lengths[i][xfix-1]; // NOTE: lengths_ixfix has value of lengths[i][xfix-1]
+	for(j=start_j;( (j<xfix) && ( 1 ) );j++)
+	{
+		y=b[j];
+
+ 		if ( x == y)
+		{
+			lengths[i][j] = lengths[i-1][j-1] +1;
+		}
+			
+		else if( lengths[i-1][j] > lengths[i][j-1] )
+		{
+			lengths[i][j] = lengths[i-1][j];
+		}
+		else
+		{
+			lengths[i][j]=lengths[i][j-1];
+		}
+ 	
+ 		//printf("\n\t fixing_func i:%d j: %d x: %c y: %c lengths[i][j]: %d before_lenghts: %d error_inject: %d ",i,j,*x,*y,lengths[i][j],before_lenghts,error_inject);
+ 		cout<<"\n\t fixing_func i: "<<i<<" j: "<<j<<" x: "<<x<<" y: "<<y<<" lengths[i][j] "<<lengths[i][j]<<" lengths_ixfix: "<<lengths_ixfix;
+
+	}
+	
+	
+// NOTE: lengths[i][j]=lengths_ixfix		
+// Assumption is that lengths[i][j] was faulty (j=yfix),and it was corrected in the above for-loop, hence lengths[i][j] being equal to lengths[i-1][j+1] implies lengths[i][j]  was propogated in lengths[i][j+1]. 
+	//error_inject=percent_error(error_percent);
+	int need2search,column_search;
+	y=b[xfix-1];
+	if( x== y) //b[xfix-1] )
+	{
+		lengths[i][xfix]=lengths[i-1][xfix-1]+1;
+		need2search=1;
+		column_search=xfix+1;
+		//printf("\n\t ^^fixing_func i:%d j: %d x: %c y: %c lengths[i][j]: %d error_inject: %d ",i,xfix,*x,*(b+xfix-1),lengths[i][xfix],error_inject);
+		cout<<"\n\t ^^fixing_func i: "<<i<<" j: "<<j<<" x: "<<x<<" y: "<<y<<" lengths[i][j] "<<lengths[i][j];
+
+	}
+	else 
+	{
+		if( lengths_ixfix > lengths[i-1][xfix] ) //
+		{
+			lengths[i][xfix]=lengths[i-1][xfix];
+			need2search=1;
+			column_search=xfix+1;
+			//printf("\n\t ^^fixing_func^^ i:%d j: %d x: %c y: %c lengths[i-1][xfix]: %d lengths_ixfix: %d error_inject: %d ",i,xfix,*x,*(b+xfix-1),lengths[i-1][xfix],lengths_ixfix,error_inject);				
+	 		cout<<"\n\t ^^fixing_func^^ i: "<<i<<" j: "<<j<<" x: "<<x<<" y: "<<y<<" lengths[i][j] "<<lengths[i][j]<<" lengths_ixfix: "<<lengths_ixfix;			
+			
+		}
+		else
+		{
+			need2search=0;
+			//printf("\n\t ^^fixing_func** i:%d j: %d x: %c y: %c lengths[i-1][xfix]: %d lengths_ixfix: %d error_inject: %d ",i,xfix,*x,*(b+xfix-1),lengths[i-1][xfix],lengths_ixfix,error_inject);				
+	 		cout<<"\n\t fixing_func i: "<<i<<" j: "<<j<<" x: "<<x<<" y: "<<y<<" lengths[i][j] "<<lengths[i][j]<<" lengths_ixfix: "<<lengths_ixfix;			
+		}
+		
+	}
+	
+	int char_comp=0;
+	int lengths_comp=0;
+	while( (need2search) && (column_search < lenb) )
+	{
+		y=b[column_search-1];
+		char_comp=( x== y); // b[column_search-1]);
+		lengths_comp=(lengths[i][column_search-1]==lengths[i-1][column_search] );
+		if ( (!lengths_comp) && (!char_comp) )
+		{
+			//printf("\n\t --fixing_func-y- I: %d J: %d lengths[i-1][j]: %d and x: %c y: %c",i,column_search,lengths[i-1][column_search],*x,*(b+column_search-1));
+	 		cout<<"\n\t --fixing_func-y- i: "<<i<<" j: "<<j<<" x: "<<x<<" y: "<<y<<" lengths[i][j] "<<lengths[i][j];
+			lengths[i][column_search]=lengths[i-1][column_search];			
+			column_search++;
+		}
+		else
+		{
+			//printf("\n\t ++fixing_func+y+ I: %d J: %d lengths[i-1][j]: %d and x: %c y: %c",i,column_search,lengths[i-1][column_search],*x,*(b+column_search-1));
+	 		cout<<"\n\t ++fixing_func+y+ i: "<<i<<" j: "<<j<<" x: "<<x<<" y: "<<y<<" lengths[i][j] "<<lengths[i][j];
+			
+			need2search=0;
+		}
+		xfix=column_search;
+	}
+
+return xfix;
+
+}
+
 
 /////////////////////////////////////// xy_tuple_rollback  ////////////////////////////////////////////////////////
 
 
 //xy_tuple rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,const char* a,const char* b,double error_percent)
-xy_tuple rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,error_inject_operators<char>* a,error_inject_operators<char>* b,double error_percent)
+xy_tuple rollback(int start_i,int start_j,int stop_i,int stop_j,error_inject_operators<int> lengths_value,error_inject_operators<char>* a,error_inject_operators<char>* b,double error_percent)
 {
 	int i,j;
 	error_inject_operators<char> x,y;//const char *x,*y;
@@ -545,7 +680,7 @@ char* lcs(const char* clip_str_a,const char* clip_str_b,double error_percent)
 			stuck_need2exit(i,j,a,b);
 			//printf("\n\n\t Exception! i: %d j: %d a[i-1]: %c b[j-1]: %c lengths[i-1][j]: %d lengths[i][j-1]:%d lengths[i][j]:%d  and ij_considered: %d and results: %s ",i,j,a[i-1],b[j-1],lengths[i-1][j],lengths[i][j-1],lengths[i][j],ij_considered,result);					
 			//rollback(last_considered_i,last_considered_j,accepted_i,accepted_j,lengths[i][j],a,b,error_percent);
-			xy_tuple fixing_end_tuple;//=rollback(i,j,accepted_i,accepted_j,lengths[i][j],a,b,error_percent);
+			xy_tuple fixing_end_tuple=rollback(i,j,accepted_i,accepted_j,lengths[i][j],a,b,error_percent);
 			
 			if( !( (fixing_end_tuple.i==0) && (fixing_end_tuple.j==0) && ( top_of_stack <0) ) )
 			{
