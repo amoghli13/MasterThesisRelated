@@ -21,11 +21,42 @@
  	}
  	else
  	{
+ 		cout<<"\n\t FATAL tmr_greater op1 "<<a1<<" op2 "<<a2;
 	 	cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" are not equal and hence, exitting! \n ";
 	 	exit(-1);
  	}
  	
- 	cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" result "<<result<<endl;
+ 	//cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" result "<<result<<endl;
+ 	return result;
+ }
+ 
+ inline error_inject_operators<int> tmr_add ( error_inject_operators<int> a1,error_inject_operators<int> a2)
+ {
+ 	error_inject_operators<int> res1,res2,res3;
+ 	res1= a1 + a2;
+ 	res2= a1 + a2;
+ 	res3= a1 + a2;
+ 	error_inject_operators<int> result;
+ 	if(  (res1 == res2 ) || (res1==res2) || (res1==res2) )
+ 	{
+ 		result=res1;
+ 	}
+ 	else if ( (res3 == res2 ) || (res3==res2) || (res3==res2) )
+ 	{
+ 		result=res2; 	
+ 	}
+ 	else if ( (res1 == res3 ) || (res1==res3) || (res1==res3) )
+ 	{
+ 		result=res3; 	
+ 	}
+ 	else
+ 	{
+ 		cout<<"\n\t FATAL tmr_add op1 "<<a1<<" op2 "<<a2; 	
+	 	cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" are not equal and hence, exitting! \n ";
+	 	exit(-1);
+ 	}
+ 	
+ 	//cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" result "<<result<<endl;
  	return result;
  }
  
@@ -193,17 +224,17 @@ public:
 			//	if(!checkpoint_zone2) checkpoint_zone2=0;				
 				error_inject_operators<int> max_checkpoint;
 				max_checkpoint=values[items];
-				if( curr_item_1_checkpoints[checkpoint_zone1] > curr_item_1_checkpoints[checkpoint_zone2] )
+				if( tmr_greater( curr_item_1_checkpoints[checkpoint_zone1] , curr_item_1_checkpoints[checkpoint_zone2] ) >=1 )
 				{
-					max_checkpoint=max_checkpoint + curr_item_1_checkpoints[checkpoint_zone1];
+					max_checkpoint=tmr_add(max_checkpoint , curr_item_1_checkpoints[checkpoint_zone1]);
 					//cout<<"\n\t Zone1 max_checkpoint: "<<max_checkpoint;
 				}
 				else
 				{
-					max_checkpoint=max_checkpoint + curr_item_1_checkpoints[checkpoint_zone2];				
+					max_checkpoint=tmr_add(max_checkpoint , curr_item_1_checkpoints[checkpoint_zone2]);				
 					//cout<<"\n\t Zone2 max_checkpoint: "<<max_checkpoint;					
 				}
-				if( curr_item_1_checkpoints[checkpoint_zone] > max_checkpoint )
+				if( tmr_greater(curr_item_1_checkpoints[checkpoint_zone] ,max_checkpoint ) >=1 )
 				{
 					max_checkpoint=curr_item_1_checkpoints[checkpoint_zone];
 					//cout<<"\n\t MyZone ";

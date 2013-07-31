@@ -11,7 +11,7 @@ int main()
 
 	Knapsack my_knapsack(5000,5000,10);
 	my_knapsack.fill_matrix();
-	my_knapsack.print_info();
+	//my_knapsack.print_info();
 	
 return 0;
 }
