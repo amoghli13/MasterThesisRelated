@@ -1,3 +1,7 @@
+// PENDING
+// TMR fatal sequence should be handelled.
+
+
 #include "error_inject_operator.h"
 #include<cstdio>
 #include <string.h>
@@ -75,7 +79,7 @@ inline error_inject_operators<int> tmr_add ( error_inject_operators<int> a1,erro
  	{
  		cout<<"\n\t FATAL tmr_add op1 "<<a1<<" op2 "<<a2; 	
 	 	cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" are not equal and hence, exitting! \n ";
-	 	exit(-1);
+	 	tmr_add(a1,a2);//exit(-1);
  	}
  	
  	cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" result "<<result<<endl;
@@ -105,7 +109,7 @@ inline error_inject_operators<int> tmr_add ( error_inject_operators<int> a1,int 
  	{
  		cout<<"\n\t FATAL tmr_add op1 "<<a1<<" op2 "<<a2; 	
 	 	cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" are not equal and hence, exitting! \n ";
-	 	exit(-1);
+	 	tmr_add(a1,a2);//exit(-1);
  	}
  	
  	//cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" result "<<result<<endl;
@@ -649,6 +653,7 @@ char* lcs(const char* clip_str_a,const char* clip_str_b,int checkpoint_length)
 	x=a[i];
        	error_inject_operators<int> curr_checkpoint_limit;	
        	curr_checkpoint_limit=checkpoint_length;
+       	int checkpoint_length_plus1=checkpoint_length+1;
  	for( int checkpoint_zone=0; checkpoint_zone < (num_checkpoints) ; checkpoint_zone++ )
         {
 		int j=checkpoint_zone * checkpoint_length;
@@ -690,7 +695,7 @@ char* lcs(const char* clip_str_a,const char* clip_str_b,int checkpoint_length)
 	       else
 	      {
 	       		cout<<"\n\t i: "<<i<<" j: "<<j<<" max_in_zone: "<<max_in_zone<<" lengths[i+1][j-1] "<<lengths[i+1][j-1] <<" lengths[i+1][j-checkpoint_length-1]: "<<lengths[i+1][j-checkpoint_length-1]<<" curr_checkpoint_limt "<<curr_checkpoint_limit;
-        		curr_checkpoint_limit=tmr_add(lengths[i+1][j-1],checkpoint_length);
+        		curr_checkpoint_limit=tmr_add(lengths[i+1][j-1],checkpoint_length_plus1);
              }
        }
     }
