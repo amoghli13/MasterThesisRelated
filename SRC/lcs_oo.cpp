@@ -49,7 +49,72 @@ tuple_chars* accepted_tuple_chars;
 int top_of_stack;
 int end_of_stack;
 int count_stack;
-///////////////////////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////// tmr_add /////////////////////////////////////////
+inline error_inject_operators<int> tmr_add ( error_inject_operators<int> a1,error_inject_operators<int> a2)
+ {
+ 	error_inject_operators<int> res1,res2,res3;
+ 	res1= a1 + a2;
+ 	res2= a1 + a2;
+ 	res3= a1 + a2;
+ 	error_inject_operators<int> result;
+ 	if(  (res1 == res2 ) || (res1==res2) || (res1==res2) )
+ 	{
+ 		result=res1;
+ 	}
+ 	else if ( (res3 == res2 ) || (res3==res2) || (res3==res2) )
+ 	{
+ 		result=res2; 	
+ 	}
+ 	else if ( (res1 == res3 ) || (res1==res3) || (res1==res3) )
+ 	{
+ 		result=res3; 	
+ 	}
+ 	else
+ 	{
+ 		cout<<"\n\t FATAL tmr_add op1 "<<a1<<" op2 "<<a2; 	
+	 	cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" are not equal and hence, exitting! \n ";
+	 	exit(-1);
+ 	}
+ 	
+ 	cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" result "<<result<<endl;
+ 	return result;
+ }
+
+inline error_inject_operators<int> tmr_add ( error_inject_operators<int> a1,int a2)
+ {
+ 	error_inject_operators<int> res1,res2,res3;
+ 	res1= a1 + a2;
+ 	res2= a1 + a2;
+ 	res3= a1 + a2;
+ 	error_inject_operators<int> result;
+ 	if(  (res1 == res2 ) || (res1==res2) || (res1==res2) )
+ 	{
+ 		result=res1;
+ 	}
+ 	else if ( (res3 == res2 ) || (res3==res2) || (res3==res2) )
+ 	{
+ 		result=res2; 	
+ 	}
+ 	else if ( (res1 == res3 ) || (res1==res3) || (res1==res3) )
+ 	{
+ 		result=res3; 	
+ 	}
+ 	else
+ 	{
+ 		cout<<"\n\t FATAL tmr_add op1 "<<a1<<" op2 "<<a2; 	
+	 	cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" are not equal and hence, exitting! \n ";
+	 	exit(-1);
+ 	}
+ 	
+ 	//cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" result "<<result<<endl;
+ 	return result;
+ }
+
+
+
+////////////////////////////////////////search_stack///////////////////////////////////////////////////////
 
 rollback_tuple_pos search_stack(xy_tuple fixing_end_tuple,int result_pos)
 {
@@ -497,7 +562,7 @@ xy_tuple rollback(int start_i,int start_j,int stop_i,int stop_j,error_inject_ope
 			}
 		} 
 		//printf("\n\t #$#$#$ Fixing x: %d y: %d \n",fixing_end_tuple.j,fixing_end_tuple.i);
-		cout<<"\n\t #$#$#$ Fixing x: "<<fixing_end_tuple.i<<" y: "<<fixing_end_tuple.j;
+		//cout<<"\n\t #$#$#$ Fixing x: "<<fixing_end_tuple.i<<" y: "<<fixing_end_tuple.j;
 		fixing_end_tuple.i=0;		fixing_end_tuple.j=0;
 		return fixing_end_tuple;
 		
@@ -536,7 +601,7 @@ void save_mat_b4exit()
 		for(j=0;j<lenb;j++)
 		{
 			//fprintf(save_mat,"\t Col: %d %d ",j,lengths[i][j].operand);
-			save_mat<<"\n\t Col: "<<j<<" lengths[i][j]: "<<lengths[i][j].operand;
+			save_mat<<"\t Col: "<<j<<" , "<<lengths[i][j].operand;
 		}
 	}
 
@@ -577,28 +642,31 @@ char* lcs(const char* clip_str_a,const char* clip_str_b,int checkpoint_length)
     error_inject_operators<char> x,y; 
     
    
-    int num_checkpoints= ( lenb_minus1 -1)/checkpoint_length;
-    
+    int num_checkpoints= ( ( ( lenb_minus1 -1)/checkpoint_length) +1);
+    cout<<"\n\t Num checkpoints "<<num_checkpoints<<" lenb_minus1 "<<lenb_minus1<<" checkpoint_length "<<checkpoint_length<<endl;
     for (int i=0; i<(lena_minus1); i++)
     {
 	x=a[i];
+       	error_inject_operators<int> curr_checkpoint_limit;	
+       	curr_checkpoint_limit=checkpoint_length;
  	for( int checkpoint_zone=0; checkpoint_zone < (num_checkpoints) ; checkpoint_zone++ )
         {
 		int j=checkpoint_zone * checkpoint_length;
         	int checkpoint_limit= j + checkpoint_length;
         	if( lenb_minus1< checkpoint_length ) 
         		checkpoint_length=lenb_minus1;
-        	error_inject_operators<int> curr_checkpoint_limit;
-        	curr_checkpoint_limit=lengths[i+1][j-1]+checkpoint_length;
-        	error_inject_operators<int> num_updates;
-        	num_updates=0;
-		for (;j<checkpoint_length; j++ )
+
+        	error_inject_operators<int> max_in_zone;
+        	max_in_zone=0;
+        	cout<<"\n\t In checkpoint-zone: "<<checkpoint_zone<<"\t j: "<<j<<" curr_checkpoint_limit: "<<curr_checkpoint_limit;
+		for (;j<checkpoint_limit; j++ )
+		
+		//for(int j=0;j<lenb_minus1;j++)
 		{
 		 	y=b[j];
 			if ( x==y )
 			{
 				lengths[i+1][j+1] = lengths[i][j] +1;
-				num_updates=num_updates+1;
 			}
 			else if(lengths[i+1][j] > lengths[i][j+1]) 
 			{
@@ -608,20 +676,26 @@ char* lcs(const char* clip_str_a,const char* clip_str_b,int checkpoint_length)
 			{
 				lengths[i+1][j+1]=lengths[i][j+1];
 			}
+			cout<<"\n\t\t i: "<<i<<" j: "<<j<<" lengths[i+1][j+1]: "<<lengths[i+1][j+1];
+			
+			if( max_in_zone < lengths[i+1][j+1] )
+				max_in_zone=lengths[i+1][j+1];
 	       }
 	       
-	       if(  ( num_updates > checkpoint_length ) || ( lengths[i+1][j-1] < curr_checkpoint_limit )  )
+	       if( max_in_zone > curr_checkpoint_limit )
 	       {
-	       		cout<<"\n\t ALERT i: "<<i<<" j: "<<j<<" num_updates: "<<num_updates<<" lengths[i+1][j-1] "<<lengths[i+1][j-1] <<" lengths[i+1][j-checkpoint_length-1]: "<<lengths[i+1][j-checkpoint_length-1]<<" curr_checkpoint_limt "<<curr_checkpoint_limit;
+	       		cout<<"\n\t ---- ALERT i: "<<i<<" j: "<<j<<" max_in_zone: "<<max_in_zone<<" lengths[i+1][j-1] "<<lengths[i+1][j-1] <<" lengths[i+1][j-checkpoint_length-1]: "<<lengths[i+1][j-checkpoint_length-1]<<" curr_checkpoint_limt "<<curr_checkpoint_limit;
 			checkpoint_zone--;	       		
 	       }
 	       else
-	       		cout<<"\n\t i: "<<i<<" j: "<<j<<" num_updates: "<<num_updates<<" lengths[i+1][j-1] "<<lengths[i+1][j-1] <<" lengths[i+1][j-checkpoint_length-1]: "<<lengths[i+1][j-checkpoint_length-1]<<" curr_checkpoint_limt "<<curr_checkpoint_limit;
-
+	      {
+	       		cout<<"\n\t i: "<<i<<" j: "<<j<<" max_in_zone: "<<max_in_zone<<" lengths[i+1][j-1] "<<lengths[i+1][j-1] <<" lengths[i+1][j-checkpoint_length-1]: "<<lengths[i+1][j-checkpoint_length-1]<<" curr_checkpoint_limt "<<curr_checkpoint_limit;
+        		curr_checkpoint_limit=tmr_add(lengths[i+1][j-1],checkpoint_length);
+             }
        }
     }
 	save_mat_b4exit();
-//	cout<<endl;exit(-1);
+	//cout<<endl;exit(-1);
 	printf("\n\t Finished filling the matrix, error-inject-count: %d ops-count: %d \n",error_inject_count,ops_count);
 
     char result[lena];
@@ -908,9 +982,7 @@ int main(int argc,char* argv[])
 				error_inject_str_b[i]=clip_str_b[i];				
 			}
 
-
-			
-			//printf("\n\t String-length: %d \n",string_length);
+			printf("\n\t Error-percent: %f lena: %d lenb: %d lena_minus1 : %d lenb_minus1: %d ",error_percent,lena,lenb,lena_minus1,lenb_minus1);
 			printf("\n\t String-length: %d Characters: \n\t String1: %s \n\t String2: %s\n",string_length,clip_str_a,clip_str_b);
 
 			result=lcs(clip_str_a,clip_str_b,checkpoint_length);
