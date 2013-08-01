@@ -1,7 +1,9 @@
 #include "error_inject_operator.h"
 #include<cstdio>
 #include <string.h>
-
+#include <cstdlib>
+#include <cstdio>
+#include <fstream>
 template <class T>
 double error_inject_operators<T>::error_percent=0.0;
 
@@ -18,7 +20,8 @@ double error_inject_operators<T>::error_percent=0.0;
 error_inject_operators<int>** lengths;
 int lena,lenb;
 int lena_minus1,lenb_minus1;
-FILE* save_mat;
+//FILE* save_mat;
+ofstream save_mat;
 FILE* save_rollback_ops;
 int error_inject_count;
 int ops_count;
@@ -52,7 +55,7 @@ rollback_tuple_pos search_stack(xy_tuple fixing_end_tuple,int result_pos)
 {
 	int i;
 	printf("\n\t ALERT: Top-of-stack: %d and looking to rollback around i: %d j: %d and result_pos: %d ",top_of_stack,fixing_end_tuple.i,fixing_end_tuple.j,result_pos);
-	fprintf(save_rollback_ops,"\n\t ALERT: Top-of-stack: %d and looking to rollback around i: %d j: %d and result_pos: %d ",top_of_stack,fixing_end_tuple.i,fixing_end_tuple.j,result_pos);
+	//fprintf(save_rollback_ops,"\n\t ALERT: Top-of-stack: %d and looking to rollback around i: %d j: %d and result_pos: %d ",top_of_stack,fixing_end_tuple.i,fixing_end_tuple.j,result_pos);
 	int result_position_adjust=0;
 	rollback_tuple_pos return_tuple_pos;	
 	for(i=top_of_stack,result_position_adjust=0;i!=end_of_stack;i=((i+size_stack_minus1)%size_stack),result_position_adjust++)
@@ -66,7 +69,7 @@ rollback_tuple_pos search_stack(xy_tuple fixing_end_tuple,int result_pos)
 			return_tuple_pos.result_position_adjust=result_position_adjust;	
 			end_of_stack=(top_of_stack+1)%size_stack;	
 			printf("\n\t Should rollback to this point *STACK SUGGESTIONS* i: %d x: %d y: %d char: %c result_position_adjust: %d",i,accepted_tuple_chars[i].my_tuple.i,accepted_tuple_chars[i].my_tuple.j,accepted_tuple_chars[i].my_char,result_position_adjust);				
-			fprintf(save_rollback_ops,"\n\t Should rollback to this point *STACK SUGGESTIONS* i: %d x: %d y: %d char: %c result_position_adjust: %d",i,accepted_tuple_chars[i].my_tuple.i,accepted_tuple_chars[i].my_tuple.j,accepted_tuple_chars[i].my_char,result_position_adjust);							
+			//fprintf(save_rollback_ops,"\n\t Should rollback to this point *STACK SUGGESTIONS* i: %d x: %d y: %d char: %c result_position_adjust: %d",i,accepted_tuple_chars[i].my_tuple.i,accepted_tuple_chars[i].my_tuple.j,accepted_tuple_chars[i].my_char,result_position_adjust);							
 			return return_tuple_pos;
 		}
 		accepted_tuple_chars[i].my_tuple.i=0;
@@ -88,7 +91,7 @@ return return_tuple_pos;
 
 
 //int search_in_row(const char* a,const char* b,int xfix,double error_percent,int curr_row_i,int start_j)
-int search_in_row(error_inject_operators<char>* a,error_inject_operators<char>* b,int xfix,double error_percent,int curr_row_i,int start_j)
+int search_in_row(error_inject_operators<char>* a,error_inject_operators<char>* b,int xfix,int curr_row_i,int start_j)
 {
 	int i,j;
 	i=curr_row_i;
@@ -124,7 +127,6 @@ int search_in_row(error_inject_operators<char>* a,error_inject_operators<char>* 
 	
 // NOTE: lengths[i][j]=lengths_ixfix		
 // Assumption is that lengths[i][j] was faulty (j=yfix),and it was corrected in the above for-loop, hence lengths[i][j] being equal to lengths[i-1][j+1] implies lengths[i][j]  was propogated in lengths[i][j+1]. 
-	//error_inject=percent_error(error_percent);
 	int need2search,column_search;
 	y=b[xfix-1];
 	if( x== y) //b[xfix-1] )
@@ -189,7 +191,7 @@ return xfix;
 
 
 //xy_tuple rollback(int start_i,int start_j,int stop_i,int stop_j,int lengths_value,const char* a,const char* b,double error_percent)
-xy_tuple rollback(int start_i,int start_j,int stop_i,int stop_j,error_inject_operators<int> lengths_value,error_inject_operators<char>* a,error_inject_operators<char>* b,double error_percent)
+xy_tuple rollback(int start_i,int start_j,int stop_i,int stop_j,error_inject_operators<int> lengths_value,error_inject_operators<char>* a,error_inject_operators<char>* b)
 {
 	int i,j;
 	error_inject_operators<char> x,y;//const char *x,*y;
@@ -434,7 +436,7 @@ xy_tuple rollback(int start_i,int start_j,int stop_i,int stop_j,error_inject_ope
 				{
 					//printf("\n\t -- Going to searching in row: %d and xfix is %d and yfix_x: %d \n",row_search-1,xfix,yfix_x);
 					cout<<"\n\t Going to searching in row: "<<(row_search-1)<<" xfix: "<<xfix<<" yfix_x: "<<yfix_x;
-					// xfix=search_in_row(a,b,xfix,error_percent,row_search-1,yfix_x); - NOTICE Uncomment! 
+					 xfix=search_in_row(a,b,xfix,row_search-1,yfix_x); // NOTICE Uncomment! 
 					// printf("\n\t -- Returned from searching in row: %d and xfix is %d and yfix_x: %d \n",row_search-1,xfix,yfix_x);
 					cout<<"\n\t Going to searching in row: "<<(row_search-1)<<" xfix: "<<xfix<<" yfix_x: "<<yfix_x;					
 					row_search++;				
@@ -529,19 +531,19 @@ void save_mat_b4exit()
 	int i,j;
 	for(i=0;i<lena;i++)
 	{
-		fprintf(save_mat,"\n\n\t Row: %d \n",i);
+		//fprintf(save_mat,"\n\n\t Row: %d \n",i);
+		save_mat<<"\n\n\t Row: "<<i<<" \n";
 		for(j=0;j<lenb;j++)
 		{
-			fprintf(save_mat,"\t Col: %d %d ",j,lengths[i][j].operand);
-			
+			//fprintf(save_mat,"\t Col: %d %d ",j,lengths[i][j].operand);
+			save_mat<<"\n\t Col: "<<j<<" lengths[i][j]: "<<lengths[i][j].operand;
 		}
 	}
 
 }
 
 ////////////////////////////////////////// Longest Common Subsequence ///////////////////////////////
-//char* lcs(error_inject_operators<char>* str_a,error_inject_operators<char>* str_b)
-char* lcs(const char* clip_str_a,const char* clip_str_b,double error_percent) 
+char* lcs(const char* clip_str_a,const char* clip_str_b,int checkpoint_length) 
 {
 	error_inject_operators<char>* a;
 	error_inject_operators<char>* b;	
@@ -572,28 +574,54 @@ char* lcs(const char* clip_str_a,const char* clip_str_b,double error_percent)
 	}
 
     int ops_count=0;
-	error_inject_operators<char> x,y; 
+    error_inject_operators<char> x,y; 
+    
+   
+    int num_checkpoints= ( lenb_minus1 -1)/checkpoint_length;
+    
     for (int i=0; i<(lena_minus1); i++)
     {
 	x=a[i];
-        for (int j=0;j<lenb_minus1; j++ )
+ 	for( int checkpoint_zone=0; checkpoint_zone < (num_checkpoints) ; checkpoint_zone++ )
         {
-	 	y=b[j];
-		if ( x==y )
+		int j=checkpoint_zone * checkpoint_length;
+        	int checkpoint_limit= j + checkpoint_length;
+        	if( lenb_minus1< checkpoint_length ) 
+        		checkpoint_length=lenb_minus1;
+        	error_inject_operators<int> curr_checkpoint_limit;
+        	curr_checkpoint_limit=lengths[i+1][j-1]+checkpoint_length;
+        	error_inject_operators<int> num_updates;
+        	num_updates=0;
+		for (;j<checkpoint_length; j++ )
 		{
-			lengths[i+1][j+1] = lengths[i][j] +1;
-		}
-		else if(lengths[i+1][j] > lengths[i][j+1]) 
-		{
-			lengths[i+1][j+1] = lengths[i+1][j];
-		}
-		else
-		{
-			lengths[i+1][j+1]=lengths[i][j+1];
-		}
+		 	y=b[j];
+			if ( x==y )
+			{
+				lengths[i+1][j+1] = lengths[i][j] +1;
+				num_updates=num_updates+1;
+			}
+			else if(lengths[i+1][j] > lengths[i][j+1]) 
+			{
+				lengths[i+1][j+1] = lengths[i+1][j];
+			}
+			else
+			{
+				lengths[i+1][j+1]=lengths[i][j+1];
+			}
+	       }
+	       
+	       if(  ( num_updates > checkpoint_length ) || ( lengths[i+1][j-1] < curr_checkpoint_limit )  )
+	       {
+	       		cout<<"\n\t ALERT i: "<<i<<" j: "<<j<<" num_updates: "<<num_updates<<" lengths[i+1][j-1] "<<lengths[i+1][j-1] <<" lengths[i+1][j-checkpoint_length-1]: "<<lengths[i+1][j-checkpoint_length-1]<<" curr_checkpoint_limt "<<curr_checkpoint_limit;
+			checkpoint_zone--;	       		
+	       }
+	       else
+	       		cout<<"\n\t i: "<<i<<" j: "<<j<<" num_updates: "<<num_updates<<" lengths[i+1][j-1] "<<lengths[i+1][j-1] <<" lengths[i+1][j-checkpoint_length-1]: "<<lengths[i+1][j-checkpoint_length-1]<<" curr_checkpoint_limt "<<curr_checkpoint_limit;
+
        }
     }
-	
+	save_mat_b4exit();
+//	cout<<endl;exit(-1);
 	printf("\n\t Finished filling the matrix, error-inject-count: %d ops-count: %d \n",error_inject_count,ops_count);
 
     char result[lena];
@@ -680,7 +708,7 @@ char* lcs(const char* clip_str_a,const char* clip_str_b,double error_percent)
 			stuck_need2exit(i,j,a,b);
 			//printf("\n\n\t Exception! i: %d j: %d a[i-1]: %c b[j-1]: %c lengths[i-1][j]: %d lengths[i][j-1]:%d lengths[i][j]:%d  and ij_considered: %d and results: %s ",i,j,a[i-1],b[j-1],lengths[i-1][j],lengths[i][j-1],lengths[i][j],ij_considered,result);					
 			//rollback(last_considered_i,last_considered_j,accepted_i,accepted_j,lengths[i][j],a,b,error_percent);
-			xy_tuple fixing_end_tuple=rollback(i,j,accepted_i,accepted_j,lengths[i][j],a,b,error_percent);
+			xy_tuple fixing_end_tuple=rollback(i,j,accepted_i,accepted_j,lengths[i][j],a,b);
 			
 			if( !( (fixing_end_tuple.i==0) && (fixing_end_tuple.j==0) && ( top_of_stack <0) ) )
 			{
@@ -724,11 +752,10 @@ char* lcs(const char* clip_str_a,const char* clip_str_b,double error_percent)
 	// */
     }
 
-	//save_mat_b4exit();
+	
     
 
-	printf("\n\t Finished tracing the matrix, error-inject-count: %d ops-count: %d \n",error_inject_count,ops_count);
-    	printf("\n\t Error-percent is %f\n\t",error_percent);	
+	printf("\n\t Finished tracing the matrix, error-inject-count: %d ops-count: %d \n",error_inject_count,ops_count);	
 	result_length=strlen(result);
 	printf("\n\t Result: %s \n\n Result-length: %d \n\n",result, result_length);
 
@@ -773,20 +800,21 @@ int main(int argc,char* argv[])
  
  
  
-        if(argc<5)
+        if(argc<6)
         {
-                printf("\n\t ERROR:  Expected inputs \n\t\t 1.Two files. \n\t\t 2. String-length. \n\t\t 3. Error-percent. \n\t\t 4. Output file name (optional) \n\n\t ------ Kindly provide appropriate inputs -------- \n\n");
+                printf("\n\t ERROR:  Expected inputs \n\t\t 1.Two files. \n\t\t 2. String-length. \n\t\t 3. Error-percent. \n\t\t 4. Checkpoint length \n\t\t 5. Output file name (optional) \n\n\t ------ Kindly provide appropriate inputs -------- \n\n");
                 exit(-1);
         }
 		
 
         double error_percent=atof(argv[4]);
-		int string_length=atoi(argv[3]);
+	int string_length=atoi(argv[3]);
+	int checkpoint_length=atoi(argv[5]);
 
-	if(argc==6)
+	if(argc==7)
 	{
-		char* filename=argv[6];
-		save_mat=fopen(argv[6],"w");
+		//save_mat=fopen(argv[6],"w");
+		save_mat.open( argv[6],std::ofstream::out );
 	}
 
         if(error_percent<0)
@@ -865,8 +893,8 @@ int main(int argc,char* argv[])
 			strncpy(clip_str_a,str_a,string_length);
 			strncpy(clip_str_b,str_b,string_length);
 
-			error_inject_operators<char>::error_percent=0.00000;
-			error_inject_operators<int>::error_percent=0.00;			
+			error_inject_operators<char>::error_percent=error_percent;
+			error_inject_operators<int>::error_percent=error_percent;	
 			error_inject_operators<char>* error_inject_str_a;
 			error_inject_operators<char>* error_inject_str_b;	
 			lena=string_length;lenb=string_length;	
@@ -885,12 +913,16 @@ int main(int argc,char* argv[])
 			//printf("\n\t String-length: %d \n",string_length);
 			printf("\n\t String-length: %d Characters: \n\t String1: %s \n\t String2: %s\n",string_length,clip_str_a,clip_str_b);
 
-			//result=lcs(clip_str_a,clip_str_b,error_percent);
-		
-           // printf("\n\t LCS-result: %s \n\t Length of result: %d \n",result,(int)strlen(result)); // tsitest
-		//	printf("\n\t Len-a: %d Len-b: %d \n\n",(unsigned)strlen(clip_str_a),(unsigned)strlen(clip_str_b));
-		if( argc==6 )	fclose(save_mat);
+			result=lcs(clip_str_a,clip_str_b,checkpoint_length);
+ 
+		if( argc==7 )	
+		{
+			cout<<"\n\t Save_mat file: "<<argv[6];
+			save_mat.close();//fclose(save_mat);
+			cout<<"\n\t Argc: "<<argc<<endl;
+		}
 		fclose(save_rollback_ops);
+
            
         }
 
