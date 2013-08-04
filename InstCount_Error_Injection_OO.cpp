@@ -42,31 +42,29 @@ ofstream OutFile;
 static UINT64 icount = 0;
 int notin_405dae=1;    
 int check_405dae=0;
-
-// Print a memory read record
-VOID RecordMemRead(VOID * ip, VOID * addr)
-{
-    //fprintf(trace,"%p: R %p\n", ip, addr);
-    cout<<"\n\t Inst: "<<ip<<" read-addr: "<<addr;
-}
-
-// Print a memory write record
-VOID RecordMemWrite(VOID * ip, VOID * addr)
-{
-//    fprintf(trace,"%p: W %p\n", ip, addr);
-    cout<<"\n\t Inst: "<<(UINT64) ip<<" write-addr: "<<addr;
-}
-
-
+ 
+ 
 // This function is called before every instruction is executed
 VOID docount( int inst_bypass,void* ip)
 {
 	//cout<<"\n\t Inst "<<ip<<" bypass: "<<inst_bypass<<" icount "<<icount;
 	if(inst_bypass) 
 		icount++;
-
 }
 
+
+VOID RecordMemRead(VOID * ip, VOID * addr)
+{
+   // fprintf(trace,"%p: R %p\n", ip, addr);
+   cout<<"\n\t MEM_OPN Inst: "<<ip<<" Read address: "<<addr;
+}
+
+// Print a memory write record
+VOID RecordMemWrite(VOID * ip, VOID * addr)
+{
+//    fprintf(trace,"%p: W %p\n", ip, addr);
+   cout<<"\n\t MEM_OPN Inst: "<<ip<<" Write address: "<<addr;
+}
 
 // Pin calls this function every time a new instruction is encountered
 VOID Instruction(INS ins, VOID *v)
@@ -74,7 +72,7 @@ VOID Instruction(INS ins, VOID *v)
     // Insert a call to docount before every instruction, no arguments are passed
   //   INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)docount,IARG_END);
     string disassemble=INS_Disassemble(ins);
-    cout<<"\n\t INS-disassemble: "<<disassemble<<" ip "<<INS_Address(ins);
+    cout<<"\n\t INS-disassemble: "<<disassemble<<"\t inst_ptr_ "<<INS_Address(ins)<<"\t next_inst "<<INS_NextAddress(ins)<<endl;
     //if( (disassemble=="call 0x405dae") || (disassemble=="call 0x405e86") )
    // (disassemble=="call 0x") ||
    //4060fa; 405cea;405e6e;405f40;405e86;401264;405dea;406114;405dae;405f40;405d00
@@ -102,7 +100,8 @@ VOID Instruction(INS ins, VOID *v)
     	}
     }
      INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)docount,IARG_UINT32,notin_405dae, IARG_INST_PTR,IARG_END);
- /*    UINT32 memOperands = INS_MemoryOperandCount(ins);
+     
+         UINT32 memOperands = INS_MemoryOperandCount(ins);
 
     // Iterate over each memory operand of the instruction.
     for (UINT32 memOp = 0; memOp < memOperands; memOp++)
@@ -126,7 +125,10 @@ VOID Instruction(INS ins, VOID *v)
                 IARG_MEMORYOP_EA, memOp,
                 IARG_END);
         }
-    } */
+    }
+     
+     
+ 
 }    
 
 typedef struct routine_info
@@ -147,38 +149,7 @@ VOID rtn_count(rtn_info* curr_rtn_info,VOID *v)
 {
 	curr_rtn_info->call_count+=1;
 }
-
-VOID Routine( RTN rtn,rtn_info* curr_rtn_info, VOID *v )
-{
-
-	int rtn_primary_count=0;
-	RTN_Open(rtn);
-	// 263552
-	//264160
-	for(INS ins=RTN_InsHead(rtn); INS_Valid(ins); ins= INS_Next(ins) )
-		rtn_primary_count++;
  
-	int rtn_secondary_count=0;
-	for(INS ins=RTN_InsHead(rtn); INS_Valid(ins); ins= INS_Next(ins) )
-	{
-	
-		if(INS_HasFallThrough(ins) )
-		{
-			rtn_secondary_count++;
-			string disassemble=INS_Disassemble(ins);			
-			cout<<"\n\t\t\t RTN-Ins: "<<disassemble;
-		}
-	
-	}
-	curr_rtn_info->primary_count=rtn_primary_count;
-	curr_rtn_info->secondary_count=rtn_secondary_count;
-	cout<<"\n\t\t RTN: "<<RTN_Name(rtn)<<" primary count: "<<rtn_primary_count<<" secondary count "<<rtn_secondary_count;
-	cout<<endl; 
-	RTN_Close(rtn);
-
-}
-
-
  
 VOID ImageLoad(IMG img, VOID *v)
 {
@@ -194,10 +165,9 @@ VOID ImageLoad(IMG img, VOID *v)
 			RTN_Open(rtn);
 			rtn_info* curr_rtn_info=new rtn_info;
 			curr_rtn_info->call_count=0;			
-			curr_rtn_info->bypass=0;
-			curr_rtn_info->_next=rtn_list;
+ 			curr_rtn_info->_next=rtn_list;
 			rtn_list=curr_rtn_info;
-			curr_rtn_info->execute_count=0;
+ 
 			if( SYM_Valid( RTN_Sym(rtn) ) )
 			{
 				string sym_name=PIN_UndecorateSymbolName( SYM_Name( RTN_Sym(rtn) ) , UNDECORATION_NAME_ONLY ) ;
@@ -209,7 +179,6 @@ VOID ImageLoad(IMG img, VOID *v)
 				RTN_InsertCall(rtn, IPOINT_BEFORE, (AFUNPTR) rtn_count,IARG_PTR,curr_rtn_info,IARG_END);
 			}
 			RTN_Close(rtn);
-			Routine(rtn,curr_rtn_info,0);
 
 		}
 	
@@ -230,15 +199,11 @@ VOID Fini(INT32 code, VOID *v)
 	//Write to a file since cout and cerr maybe closed by the application
 	OutFile.setf(ios::showbase);
 	OutFile<<"\n\t Opening now at Fini! \n";
-	UINT64 recount_primary=0,recount_secondary=0;
-	for(rtn_info* curr_rtn_info=rtn_list; curr_rtn_info; curr_rtn_info=curr_rtn_info->_next )	
+ 	for(rtn_info* curr_rtn_info=rtn_list; curr_rtn_info; curr_rtn_info=curr_rtn_info->_next )	
 	{ 
 		if( curr_rtn_info->call_count  )
 		{
-			int primary_local_count=(curr_rtn_info->call_count)*(curr_rtn_info->primary_count);
-			int secondary_local_count=(curr_rtn_info->call_count)*(curr_rtn_info->secondary_count);		
-	 		recount_primary+=primary_local_count;	recount_secondary+=secondary_local_count;
-			OutFile << "\t Procedure "<<curr_rtn_info->sym_name<<" calls "<<curr_rtn_info->call_count<<" recount_primary "<<recount_primary<<" recount_secondary "<<recount_secondary<<endl;
+ 			OutFile << "\t Procedure "<<curr_rtn_info->sym_name<<" calls "<<curr_rtn_info->call_count<<endl;
 		}
     	}
     	OutFile<<"\n\t iCount: "<<icount<<endl<<endl;
