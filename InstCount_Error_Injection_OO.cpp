@@ -54,30 +54,37 @@ VOID RecordMemRead(VOID * ip, VOID * addr)
 VOID RecordMemWrite(VOID * ip, VOID * addr)
 {
 //    fprintf(trace,"%p: W %p\n", ip, addr);
-    cout<<"\n\t Inst: "<<ip<<" write-addr: "<<addr;
+    cout<<"\n\t Inst: "<<(UINT64) ip<<" write-addr: "<<addr;
 }
 
 
 // This function is called before every instruction is executed
-VOID docount(VOID* ip) {
-if(notin_405dae ) icount++; }//cout<<"\n\t Inst: "<<ip; }
+VOID docount( int inst_bypass,void* ip)
+{
+	//cout<<"\n\t Inst "<<ip<<" bypass: "<<inst_bypass<<" icount "<<icount;
+	if(inst_bypass) 
+		icount++;
+
+}
 
 
 // Pin calls this function every time a new instruction is encountered
 VOID Instruction(INS ins, VOID *v)
 {
     // Insert a call to docount before every instruction, no arguments are passed
-    INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)docount,IARG_INST_PTR, IARG_END);
+  //   INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)docount,IARG_END);
     string disassemble=INS_Disassemble(ins);
-    cout<<"\n\t INS-disassemble: "<<disassemble;
+    cout<<"\n\t INS-disassemble: "<<disassemble<<" ip "<<INS_Address(ins);
     //if( (disassemble=="call 0x405dae") || (disassemble=="call 0x405e86") )
    // (disassemble=="call 0x") ||
    //4060fa; 405cea;405e6e;405f40;405e86;401264;405dea;406114;405dae;405f40;405d00
    
     if( (disassemble=="call 0x405dae") || (disassemble=="call 0x405e86") || (disassemble=="call 0x4061dc") || 
-    (disassemble=="call 0x405cea") ||  (disassemble=="call 0x405d00") ||  (disassemble=="call 0x405e6e") ||  
-     (disassemble=="call 0x401264") || (disassemble=="call 0x405f40") || (disassemble=="call 0x405dea") || 
-     (disassemble=="call 0x4060fa") || (disassemble=="call 0x405cea") || (disassemble=="call 0x406114") || (disassemble=="call 0x405d00") )    
+       (disassemble=="call 0x405cea") ||  (disassemble=="call 0x405d00") ||  (disassemble=="call 0x405e6e") ||  
+       (disassemble=="call 0x401264") || (disassemble=="call 0x405f40") || (disassemble=="call 0x405dea") || 
+       (disassemble=="call 0x4060fa") || (disassemble=="call 0x405cea") || (disassemble=="call 0x406114") ||
+       (disassemble=="call 0x405d00") || ( disassemble=="call 0x405a5e") || ( disassemble=="call 0x608160") ||
+       (disassemble=="call 0x4041e6") || ( disassemble=="call 0x403e27") )    
     {
     	cout<<"\n\t NOTE: call 0x405dae. notin_405dae-before: "<<notin_405dae<<" icount "<<icount<<" disassemble "<<disassemble;
     	notin_405dae=0;
@@ -94,7 +101,7 @@ VOID Instruction(INS ins, VOID *v)
 	    	cout<<"\n\t NOTE: ret to call 0x405dae. notin_405dae-after: "<<notin_405dae<<" icount "<<icount<<" disassemble "<<disassemble;    	
     	}
     }
- 
+     INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)docount,IARG_UINT32,notin_405dae, IARG_INST_PTR,IARG_END);
  /*    UINT32 memOperands = INS_MemoryOperandCount(ins);
 
     // Iterate over each memory operand of the instruction.
@@ -166,7 +173,7 @@ VOID Routine( RTN rtn,rtn_info* curr_rtn_info, VOID *v )
 	curr_rtn_info->primary_count=rtn_primary_count;
 	curr_rtn_info->secondary_count=rtn_secondary_count;
 	cout<<"\n\t\t RTN: "<<RTN_Name(rtn)<<" primary count: "<<rtn_primary_count<<" secondary count "<<rtn_secondary_count;
-	cout<<endl;
+	cout<<endl; 
 	RTN_Close(rtn);
 
 }
