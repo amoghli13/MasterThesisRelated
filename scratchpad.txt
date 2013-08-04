@@ -1,0 +1,63 @@
+	 INS-disassemble: call 0x7f4ff72ad0d0 ip 139981425923604
+	 
+	iCount: 2684466
+	iCount: 3681863
+	iCount: 2757963
+	iCount: 9466686		 
+	iCount: 10379449		 
+
+	 INS-disassemble: call 0x405e86 ip 4212437
+	 NOTE: call 0x405dae. notin_405dae-before: 0 icount 1503967 disassemble call 0x405e86
+	 NOTE: call 0x405dae. notin_405dae-after: 0 icount 1503967 disassemble call 0x405e86
+	 
+140175406499344 
+0x7f7d214f80d0
+1412691
+
+-----------------------------------------------------------------
+
+	 INS-disassemble: call 0x4060fa	 inst_ptr_ 4216953	 next_inst 4216958
+
+	 NOTE: call 0x405dae. notin_405dae-before: 1 icount 1388266 disassemble call 0x4060fa
+	 NOTE: call 0x405dae. notin_405dae-after: 0 icount 1388266 disassemble call 0x4060fa
+	 MEM_OPN Inst: 0x40585c Read address: 0x7fff432e5998
+	 MEM_OPN Inst: 0x405861 Read address: 0x7fff432e5968
+	 MEM_OPN Inst: 0x405865 Read address: 0xd30000
+	 MEM_OPN Inst: 0x40586b Read address: 0x7fff432e5998
+	 MEM_OPN Inst: 0x405870 Read address: 0x7fff432e5978
+	 MEM_OPN Inst: 0x405879 Write address: 0x7fff432e5908
+	 INS-disassemble: push rbp	 inst_ptr_ 4219130	 next_inst 4219131
+
+	 INS-disassemble: mov rbp, rsp	 inst_ptr_ 4219131	 next_inst 4219134
+
+	 INS-disassemble: mov qword ptr [rbp-0x8], rdi	 inst_ptr_ 4219134	 next_inst 4219138
+
+	 INS-disassemble: mov eax, esi	 inst_ptr_ 4219138	 next_inst 4219140
+
+	 INS-disassemble: mov byte ptr [rbp-0xc], al	 inst_ptr_ 4219140	 next_inst 4219143
+
+	 INS-disassemble: mov rax, qword ptr [rbp-0x8]	 inst_ptr_ 4219143	 next_inst 4219147
+
+	 INS-disassemble: movzx edx, byte ptr [rbp-0xc]	 inst_ptr_ 4219147	 next_inst 4219151
+
+	 INS-disassemble: mov byte ptr [rax], dl	 inst_ptr_ 4219151	 next_inst 4219153
+
+	 INS-disassemble: pop rbp	 inst_ptr_ 4219153	 next_inst 4219154
+
+	 NOTE: ret to call 0x405dae. notin_405dae-before: 0 icount 1388276 disassemble pop rbp
+	 NOTE: ret to call 0x405dae. notin_405dae-after: 1 icount 1388276 disassemble pop rbp
+	 INS-disassemble: ret 	 inst_ptr_ 4219154	 next_inst 4219155
+
+	 MEM_OPN Inst: 0x4060fa Write address: 0x7fff432e5900
+	 MEM_OPN Inst: 0x4060fe Write address: 0x7fff432e58f8
+	 MEM_OPN Inst: 0x406104 Write address: 0x7fff432e58f4
+	 MEM_OPN Inst: 0x406107 Read address: 0x7fff432e58f8
+	 MEM_OPN Inst: 0x40610b Read address: 0x7fff432e58f4
+	 MEM_OPN Inst: 0x40610f Write address: 0xd30080
+	 MEM_OPN Inst: 0x406111 Read address: 0x7fff432e5900
+	 MEM_OPN Inst: 0x406112 Read address: 0x7fff432e5908
+	 
+	ZN22error_inject_operatorsIcEeqES0
+	ZN22error_inject_operatorsIiEaSEi 	 
+	 
+	 	 	

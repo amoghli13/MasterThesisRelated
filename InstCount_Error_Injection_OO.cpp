@@ -33,6 +33,7 @@ END_LEGAL */
 #include <fstream>
 #include <stdio.h>
 #include <string.h>
+#include <set>
 #include "pin.H"
 
 ofstream OutFile;
@@ -43,29 +44,83 @@ static UINT64 icount = 0;
 int notin_405dae=1;    
 int check_405dae=0;
  
+//UINT64* monitor_address; 
+set<void* > monitor_address;
+ ////////////////////////
+const string& Target2RtnName(ADDRINT target)
+{
+  const string & name = RTN_FindNameByAddress(target);
+
+  if (name == "")
+      return *new string("[Unknown routine]");
+  else
+      return *new string(name);
+}
+/////////
+void A_RegisterAddr(void *addr)
+{
+	monitor_address.insert(addr);
+  cout<<"\n\t Adding address: "<<addr;
+}
+/////////////////////////////
+
+static void A_DoMem(bool isStore, void *addr, ADDRINT pc)
+{
+
+	if( monitor_address.find(addr) !=monitor_address.end() )
+	{
+		
+		cout<<"\n\t Address in use: "<<addr<<" PC "<<pc;
+	}
+}
+
+
+
+/////////////
+
+static void I_Trace(TRACE trace, void *v)
+{
+
+    //FIXME if (PIN_IsSignalHandler()) {Sequence_ProcessSignalHandler(head)};
+    	if( RTN_Valid( TRACE_Rtn(trace) ) )
+		cout<<"\n\t This trace is in: "<<( RTN_Name( TRACE_Rtn(trace) ) );
+	for(BBL bbl = TRACE_BblHead(trace); BBL_Valid(bbl); bbl = BBL_Next(bbl)) 
+	{
+
+		//INS tail = BBL_InsTail(bbl);
+
+		// All memory reads/writes
+		for( INS ins = BBL_InsHead(bbl); INS_Valid(ins); ins = INS_Next(ins) ) 
+		{
+
+		    if( INS_IsMemoryRead(ins)
+		        || INS_HasMemoryRead2(ins)
+		        || INS_IsMemoryWrite(ins)
+		    ) 
+		    {
+		      cout<<"\n\t Ins_mem: "<<INS_Address(ins)<<" disassemble: "<<INS_Disassemble(ins)<<endl;
+		        INS_InsertCall(ins, IPOINT_BEFORE,
+		                       (AFUNPTR)A_DoMem,
+		                       IARG_BOOL, INS_IsMemoryWrite(ins),
+		                       (INS_IsMemoryWrite(ins) ? IARG_MEMORYWRITE_EA : (INS_IsMemoryRead(ins) ? IARG_MEMORYREAD_EA : IARG_MEMORYREAD2_EA)),
+		                       IARG_INST_PTR,
+		                       IARG_END);
+		    }
+		}
+	}
+}
+
+
+////////////////////////////////////////////////////////////////
  
 // This function is called before every instruction is executed
-VOID docount( int inst_bypass,void* ip)
+VOID docount( int inst_bypass,ADDRINT sp,void* ip)
 {
-	//cout<<"\n\t Inst "<<ip<<" bypass: "<<inst_bypass<<" icount "<<icount;
+	//cout<<"\n\t Inst "<<ip<<" bypass: "<<inst_bypass<<" icount "<<icount<<" stack-pointer: "<<sp;
 	if(inst_bypass) 
 		icount++;
 }
-
-
-VOID RecordMemRead(VOID * ip, VOID * addr)
-{
-   // fprintf(trace,"%p: R %p\n", ip, addr);
-   cout<<"\n\t MEM_OPN Inst: "<<ip<<" Read address: "<<addr;
-}
-
-// Print a memory write record
-VOID RecordMemWrite(VOID * ip, VOID * addr)
-{
-//    fprintf(trace,"%p: W %p\n", ip, addr);
-   cout<<"\n\t MEM_OPN Inst: "<<ip<<" Write address: "<<addr;
-}
-
+ 
 // Pin calls this function every time a new instruction is encountered
 VOID Instruction(INS ins, VOID *v)
 {
@@ -99,35 +154,8 @@ VOID Instruction(INS ins, VOID *v)
 	    	cout<<"\n\t NOTE: ret to call 0x405dae. notin_405dae-after: "<<notin_405dae<<" icount "<<icount<<" disassemble "<<disassemble;    	
     	}
     }
-     INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)docount,IARG_UINT32,notin_405dae, IARG_INST_PTR,IARG_END);
-     
-         UINT32 memOperands = INS_MemoryOperandCount(ins);
-
-    // Iterate over each memory operand of the instruction.
-    for (UINT32 memOp = 0; memOp < memOperands; memOp++)
-    {
-        if (INS_MemoryOperandIsRead(ins, memOp))
-        {
-            INS_InsertPredicatedCall(
-                ins, IPOINT_BEFORE, (AFUNPTR)RecordMemRead,
-                IARG_INST_PTR,
-                IARG_MEMORYOP_EA, memOp,
-                IARG_END);
-        }
-        // Note that in some architectures a single memory operand can be 
-        // both read and written (for instance incl (%eax) on IA-32)
-        // In that case we instrument it once for read and once for write.
-        if (INS_MemoryOperandIsWritten(ins, memOp))
-        {
-            INS_InsertPredicatedCall(
-                ins, IPOINT_BEFORE, (AFUNPTR)RecordMemWrite,
-                IARG_INST_PTR,
-                IARG_MEMORYOP_EA, memOp,
-                IARG_END);
-        }
-    }
-     
-     
+     INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)docount,IARG_UINT32,notin_405dae,IARG_REG_VALUE, REG_STACK_PTR,IARG_INST_PTR,IARG_END);
+   
  
 }    
 
@@ -156,7 +184,7 @@ VOID ImageLoad(IMG img, VOID *v)
  	cout<< endl<<"loading "<< IMG_Name(img).c_str()<<endl;
  	
  
-	for( SEC sec=IMG_SecHead(img); SEC_Valid(sec) ; sec=SEC_Next(sec) )
+/*	for( SEC sec=IMG_SecHead(img); SEC_Valid(sec) ; sec=SEC_Next(sec) )
 	{
 		cout<<"\n\t In Section: "<<SEC_Name(sec);
 		
@@ -183,9 +211,37 @@ VOID ImageLoad(IMG img, VOID *v)
 		}
 	
 	}
+*/
+	for( SYM sym = IMG_RegsymHead(img); SYM_Valid(sym); sym = SYM_Next(sym) )
+	{
 
+		RTN rtn1=RTN_FindByName(img, SYM_Name(sym).c_str()); 
+		if( RTN_Valid(rtn1) );
+	 	{
+	 		 RTN_Open(rtn1);
+	 		 ADDRINT my_addr=RTN_Address(rtn1);
+	 		 char* sym_name=(char *)SYM_Name(sym).c_str();
+			cout <<"\n\t Sym name: "<<sym_name<<" addr"<<my_addr<<endl;
+			bool has_rand=strcmp(sym_name,"rand");
+			if(!has_rand)
+			{
+				cout<<"\n\t +++Sym_name: "<<sym_name<<" has_rand "<<has_rand<<endl;
+			}
+	 
+	  		if( (my_addr==4218090) || (!has_rand)  ) //|| ( strstr(sym_name.c_str(),"rand" ) ) )
+			{
+				cout <<"\n\t REGISTERING Sym name: "<<sym_name<<" addr"<<my_addr<<" has_rand "<<has_rand<<endl;			
+			      RTN_InsertCall(rtn1, IPOINT_BEFORE,
+					     (AFUNPTR)A_RegisterAddr,
+					     IARG_G_ARG0_CALLEE,
+					     IARG_END);		
+		
+			}
+		
+	 		RTN_Close(rtn1);
+	 	}
 
-
+	}
 }					
 
 
@@ -234,13 +290,14 @@ int main(int argc, char * argv[])
 {
     // Initialize pin
     if (PIN_Init(argc, argv)) return Usage();
-
+	//monitor_address= new UINT64[100];
     OutFile.open(KnobOutputFile.Value().c_str());
 
     // Register Instruction to be called to instrument instructions
     INS_AddInstrumentFunction(Instruction, 0);
     PIN_InitSymbols();
     IMG_AddInstrumentFunction(ImageLoad, 0);
+    TRACE_AddInstrumentFunction(I_Trace, 0);    
   //  RTN_AddInstrumentFunction(Routine, 0);
 
     // Register Fini to be called when the application exits
