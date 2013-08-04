@@ -40,6 +40,8 @@ ofstream OutFile;
 // The running count of instructions is kept here
 // make it static to help the compiler optimize docount
 static UINT64 icount = 0;
+int notin_405dae=1;    
+int check_405dae=0;
 
 // Print a memory read record
 VOID RecordMemRead(VOID * ip, VOID * addr)
@@ -52,14 +54,15 @@ VOID RecordMemRead(VOID * ip, VOID * addr)
 VOID RecordMemWrite(VOID * ip, VOID * addr)
 {
 //    fprintf(trace,"%p: W %p\n", ip, addr);
-    cout<<"\n\t Inst: "<<ip<<" write-addr: "<<addr1;
+    cout<<"\n\t Inst: "<<ip<<" write-addr: "<<addr;
 }
 
 
 // This function is called before every instruction is executed
-VOID docount(VOID* ip) { icount++; }//cout<<"\n\t Inst: "<<ip; }
+VOID docount(VOID* ip) {
+if(notin_405dae ) icount++; }//cout<<"\n\t Inst: "<<ip; }
 
-int check_405dae=0;    
+
 // Pin calls this function every time a new instruction is encountered
 VOID Instruction(INS ins, VOID *v)
 {
@@ -67,19 +70,28 @@ VOID Instruction(INS ins, VOID *v)
     INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)docount,IARG_INST_PTR, IARG_END);
     string disassemble=INS_Disassemble(ins);
     cout<<"\n\t INS-disassemble: "<<disassemble;
-    if( disassemble=="call 0x405dae")
+    //if( (disassemble=="call 0x405dae") || (disassemble=="call 0x405e86") )
+   // (disassemble=="call 0x") ||
+   //4060fa; 405cea;405e6e;405f40;405e86;401264;405dea;406114;405dae;405f40;405d00
+   
+    if( (disassemble=="call 0x405dae") || (disassemble=="call 0x405e86") || (disassemble=="call 0x4061dc") || 
+    (disassemble=="call 0x405cea") ||  (disassemble=="call 0x405d00") ||  (disassemble=="call 0x405e6e") ||  
+     (disassemble=="call 0x401264") || (disassemble=="call 0x405f40") || (disassemble=="call 0x405dea") || 
+     (disassemble=="call 0x4060fa") || (disassemble=="call 0x405cea") || (disassemble=="call 0x406114") || (disassemble=="call 0x405d00") )    
     {
-    	cout<<"\n\t NOTE: call 0x405dae. check_405dae-before: "<<check_405dae;
+    	cout<<"\n\t NOTE: call 0x405dae. notin_405dae-before: "<<notin_405dae<<" icount "<<icount<<" disassemble "<<disassemble;
+    	notin_405dae=0;
     	check_405dae=1;
-    	cout<<"\n\t NOTE: call 0x405dae. check_405dae-after: "<<check_405dae;    	
+    	cout<<"\n\t NOTE: call 0x405dae. notin_405dae-after: "<<notin_405dae<<" icount "<<icount<<" disassemble "<<disassemble;	
     }
     if(check_405dae)
     {
     	if( (disassemble=="ret ") || ( disassemble=="pop rbp" ) )
     	{
-	    	cout<<"\n\t NOTE: ret to call 0x405dae. check_405dae-before: "<<check_405dae;
+	    	cout<<"\n\t NOTE: ret to call 0x405dae. notin_405dae-before: "<<notin_405dae<<" icount "<<icount<<" disassemble "<<disassemble;
+	    	notin_405dae=1;
 	    	check_405dae=0;
-	    	cout<<"\n\t NOTE: ret to call 0x405dae. check_405dae-after: "<<check_405dae;    	
+	    	cout<<"\n\t NOTE: ret to call 0x405dae. notin_405dae-after: "<<notin_405dae<<" icount "<<icount<<" disassemble "<<disassemble;    	
     	}
     }
  
