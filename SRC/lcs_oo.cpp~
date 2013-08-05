@@ -373,7 +373,7 @@ xy_tuple rollback(int start_i,int start_j,int stop_i,int stop_j,error_inject_ope
 					}			
 
 					//printf("\n\t fixing i:%d j: %d x: %c y: %c lengths[i][j]: %d before_lenghts: %d error_inject: %d ",i,j,*x,*y,lengths[i][j],before_lenghts,error_inject);
-					cout<<"\n\t fixining i: "<<i<<" j: "<<j<<" x "<<x<<" y "<<y<<" lengths[i][j]: "<<lengths[i][j]<<" before_lengths "<<before_lengths;//<<" error_inject "<<error_inject;
+					cout<<"\n\t fixining i: "<<i<<" j: "<<j<<" x "<<x<<" y "<<y<<" lengths[i][j]: "<<lengths[i][j]<<" before_lengths "<<before_lengths<<" error_inject "<<error_inject;
 
 				}
 	
