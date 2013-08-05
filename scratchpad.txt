@@ -1,11 +1,21 @@
 	 INS-disassemble: call 0x7f4ff72ad0d0 ip 139981425923604
-	 
+------------------------------------------------------------------------	 
 	iCount: 2684466
 	iCount: 3681863
 	iCount: 2757963
 	iCount: 9466686		 
-	iCount: 10379449		 
+Isuper:	iCount: 10379449		 
 
+M1: without-0x4060fa	 iCount: 10314469
+M2: without-0x4060fa	 iCount: 10308128
+
+
+I1: M1: Excluding all excpet random_r iCount: 9466707
+I2: M1: Excluding (all,random_r) iCount: 9044389
+I3: M1: Excluding (all) iCount: 9828609 I4: --> rand() 784220
+Imax= I1-I4= 8682487
+Isuper-Imax= 1696962
+-----------------------------------------------------------------------
 	 INS-disassemble: call 0x405e86 ip 4212437
 	 NOTE: call 0x405dae. notin_405dae-before: 0 icount 1503967 disassemble call 0x405e86
 	 NOTE: call 0x405dae. notin_405dae-after: 0 icount 1503967 disassemble call 0x405e86
@@ -59,5 +69,61 @@
 	 
 	ZN22error_inject_operatorsIcEeqES0
 	ZN22error_inject_operatorsIiEaSEi 	 
+----------------------------------------------------------------------------
+
+ (disassemble=="call 0x405dae") || (disassemble=="call 0x405e86") || (disassemble=="call 0x4061dc") || 
+       (disassemble=="call 0x405cea") ||  (disassemble=="call 0x405d00") ||  (disassemble=="call 0x405e6e") ||  
+       (disassemble=="call 0x401264") || (disassemble=="call 0x405f40") || (disassemble=="call 0x405dea") || 
+       (disassemble=="call 0x4060fa")  || (disassemble=="call 0x406114") || ( disassemble=="call 0x405a5e") || 
+       ( disassemble=="call 0x608160") || (disassemble=="call 0x4041e6") || ( disassemble=="call 0x403e27") )    
+       
+
+405cea ---> 4218090       
+405dae ---> 4218286
+405e86 ---> 4218502 
+4061dc ---> 4219356
+405d00 -> 4218112.
+405e6e -> 4218478
+401264 -> 4199012
+405f40 -> 4218688
+405dea -> 4218346
+4060fa -> 4219130
+406114 -> 4219156
+405a5e -> 4217438
+608160 -> 6324576
+4041e6 ->4211174
+403e27 -> 4210215
+
+
+
+
+(my_addr==4218090)  || (my_addr==4218286)  || (my_addr==4218502)  || (my_addr==4219356)  || 
+	  		(my_addr==4218112)  || (my_addr==4218478)  || (my_addr==4218688)  || (my_addr==4218346)  || 
+	  		(my_addr==4219130)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	 
 	 	 	

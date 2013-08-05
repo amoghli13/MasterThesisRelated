@@ -1,3 +1,5 @@
+// Pending- should include copyrights to Maid tool ? Mostly no since it has the following copyright notice!
+
 /*BEGIN_LEGAL 
 Intel Open Source License 
 
@@ -33,6 +35,7 @@ END_LEGAL */
 #include <fstream>
 #include <stdio.h>
 #include <string.h>
+#include <string>
 #include <set>
 #include "pin.H"
 
@@ -41,11 +44,32 @@ ofstream OutFile;
 // The running count of instructions is kept here
 // make it static to help the compiler optimize docount
 static UINT64 icount = 0;
+static UINT64 icount2 = 0;
 int notin_405dae=1;    
 int check_405dae=0;
  
-//UINT64* monitor_address; 
-set<void* > monitor_address;
+set<char*> monitor_routine;
+static int dont_bypass_calls=1;
+
+////////////////////
+
+// This function is called before every instruction is executed
+VOID docount( int inst_bypass,ADDRINT sp,void* ip)
+{
+	//cout<<"\n\t Inst "<<ip<<" bypass: "<<inst_bypass<<" icount "<<icount<<" stack-pointer: "<<sp;
+	if(inst_bypass) 
+		icount++;
+}
+//////
+VOID docount2( int inst_bypass,ADDRINT sp,void* ip)
+{
+	//cout<<"\n\t Inst "<<ip<<" bypass: "<<inst_bypass<<" icount "<<icount<<" stack-pointer: "<<sp;
+	if(inst_bypass) 
+		icount2++;
+}
+ 
+
+
  ////////////////////////
 const string& Target2RtnName(ADDRINT target)
 {
@@ -56,24 +80,54 @@ const string& Target2RtnName(ADDRINT target)
   else
       return *new string(name);
 }
-/////////
-void A_RegisterAddr(void *addr)
+//////////
+static BOOL IsPLT(TRACE trace)
 {
-	monitor_address.insert(addr);
-  cout<<"\n\t Adding address: "<<addr;
+    RTN rtn = TRACE_Rtn(trace);
+
+    // All .plt thunks have a valid RTN
+    if (!RTN_Valid(rtn))
+        return FALSE;
+
+    if (".plt" == SEC_Name(RTN_Sec(rtn)))
+        return TRUE;
+    return FALSE;
 }
+
 /////////////////////////////
+ 
+///////////////
 
-static void A_DoMem(bool isStore, void *addr, ADDRINT pc)
+void A_ProcessDirectCall(ADDRINT ip, ADDRINT target, ADDRINT sp)
 {
+  char* rtn_name=(char*) ( Target2RtnName(target).c_str() );
 
-	if( monitor_address.find(addr) !=monitor_address.end() )
-	{
-		
-		cout<<"\n\t Address in use: "<<addr<<" PC "<<pc;
-	}
+  if( monitor_routine.find(rtn_name) != monitor_routine.end() )
+  {
+  	dont_bypass_calls=0;
+  	cout<<"\n\t NOTICE found the direct call to "<<rtn_name<<" dont_bypass_calls "<<dont_bypass_calls<<endl;
+  }
+  else
+  	dont_bypass_calls=1;
+  cout << "\n\t direct call: " << rtn_name <<" dont_bypass_calls "<<dont_bypass_calls<<endl;  	
+ 
 }
+///////////////
+void A_ProcessIndirectCall(ADDRINT ip, ADDRINT target, ADDRINT sp)
+{
+  char* rtn_name=(char*) ( Target2RtnName(target).c_str() );
 
+  if( monitor_routine.find(rtn_name) != monitor_routine.end() )
+  {
+  	dont_bypass_calls=0;
+  	cout<<"\n\t NOTICE found the indirect call to "<<rtn_name<<" dont_bypass_calls "<<dont_bypass_calls<<endl;
+  }
+  else
+  	dont_bypass_calls=1;
+  cout << "\n\t indirect call: " << rtn_name <<" dont_bypass_calls "<<dont_bypass_calls<<endl;  	
+  //return return_result;
+ // callStack.ProcessCall(sp, target);
+}
 
 
 /////////////
@@ -87,13 +141,46 @@ static void I_Trace(TRACE trace, void *v)
 	for(BBL bbl = TRACE_BblHead(trace); BBL_Valid(bbl); bbl = BBL_Next(bbl)) 
 	{
 
-		//INS tail = BBL_InsTail(bbl);
+///////////////////////////////////
+		INS tail = BBL_InsTail(bbl);
+		
+		if( INS_IsSyscall(tail) )
+		{
+			cout<<"\n\t  Tail is a system call "<<" inst: "<<INS_Disassemble(tail);
+		}
+		
+		
+            if( INS_IsCall(tail) )
+            {
+                if( INS_IsDirectBranchOrCall(tail) )
+                {
+                    ADDRINT target = INS_DirectBranchOrCallTargetAddress(tail);
+                    INS_InsertPredicatedCall(tail, IPOINT_BEFORE,
+                                             (AFUNPTR)A_ProcessDirectCall,
+                                             IARG_INST_PTR,
+                                             IARG_ADDRINT, target,
+                                             IARG_REG_VALUE, REG_STACK_PTR,
+                                             IARG_END);
+                }
+                else if( !IsPLT(trace) ) 
+                {
+                    INS_InsertPredicatedCall(tail, IPOINT_BEFORE,
+                                             (AFUNPTR)A_ProcessIndirectCall,
+                                             IARG_INST_PTR,
+                                             IARG_BRANCH_TARGET_ADDR,
+                                             IARG_REG_VALUE, REG_STACK_PTR,
+                                             IARG_END);
+                }
+            }
 
-		// All memory reads/writes
+		
+		
+/////////////////////////////
+
 		for( INS ins = BBL_InsHead(bbl); INS_Valid(ins); ins = INS_Next(ins) ) 
 		{
 
-		    if( INS_IsMemoryRead(ins)
+		   /* if( INS_IsMemoryRead(ins)
 		        || INS_HasMemoryRead2(ins)
 		        || INS_IsMemoryWrite(ins)
 		    ) 
@@ -105,29 +192,24 @@ static void I_Trace(TRACE trace, void *v)
 		                       (INS_IsMemoryWrite(ins) ? IARG_MEMORYWRITE_EA : (INS_IsMemoryRead(ins) ? IARG_MEMORYREAD_EA : IARG_MEMORYREAD2_EA)),
 		                       IARG_INST_PTR,
 		                       IARG_END);
-		    }
-		}
+		    }*/
+		        cout<<"\n\t trace-ins-disassemble: "<<INS_Disassemble(ins)<<" calls_bypass "<<dont_bypass_calls<<endl;
+		         INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)docount2,IARG_UINT32,dont_bypass_calls,IARG_REG_VALUE, REG_STACK_PTR,IARG_INST_PTR,IARG_END);
+		} 
 	}
 }
 
 
 ////////////////////////////////////////////////////////////////
  
-// This function is called before every instruction is executed
-VOID docount( int inst_bypass,ADDRINT sp,void* ip)
-{
-	//cout<<"\n\t Inst "<<ip<<" bypass: "<<inst_bypass<<" icount "<<icount<<" stack-pointer: "<<sp;
-	if(inst_bypass) 
-		icount++;
-}
- 
+
 // Pin calls this function every time a new instruction is encountered
 VOID Instruction(INS ins, VOID *v)
 {
     // Insert a call to docount before every instruction, no arguments are passed
   //   INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)docount,IARG_END);
     string disassemble=INS_Disassemble(ins);
-    cout<<"\n\t INS-disassemble: "<<disassemble<<"\t inst_ptr_ "<<INS_Address(ins)<<"\t next_inst "<<INS_NextAddress(ins)<<endl;
+    cout<<"\n\t INS-disassemble: "<<disassemble<<endl;//<<"\t inst_ptr_ "<<INS_Address(ins);<<"\t next_inst "<<INS_NextAddress(ins)<<endl;
     //if( (disassemble=="call 0x405dae") || (disassemble=="call 0x405e86") )
    // (disassemble=="call 0x") ||
    //4060fa; 405cea;405e6e;405f40;405e86;401264;405dea;406114;405dae;405f40;405d00
@@ -135,9 +217,9 @@ VOID Instruction(INS ins, VOID *v)
     if( (disassemble=="call 0x405dae") || (disassemble=="call 0x405e86") || (disassemble=="call 0x4061dc") || 
        (disassemble=="call 0x405cea") ||  (disassemble=="call 0x405d00") ||  (disassemble=="call 0x405e6e") ||  
        (disassemble=="call 0x401264") || (disassemble=="call 0x405f40") || (disassemble=="call 0x405dea") || 
-       (disassemble=="call 0x4060fa") || (disassemble=="call 0x405cea") || (disassemble=="call 0x406114") ||
-       (disassemble=="call 0x405d00") || ( disassemble=="call 0x405a5e") || ( disassemble=="call 0x608160") ||
-       (disassemble=="call 0x4041e6") || ( disassemble=="call 0x403e27") )    
+       (disassemble=="call 0x4060fa")  || (disassemble=="call 0x406114") || ( disassemble=="call 0x405a5e") || 
+       ( disassemble=="call 0x608160") || (disassemble=="call 0x4041e6") || ( disassemble=="call 0x403e27") )    
+      // if(  (disassemble=="call 0x4060fa") )
     {
     	cout<<"\n\t NOTE: call 0x405dae. notin_405dae-before: "<<notin_405dae<<" icount "<<icount<<" disassemble "<<disassemble;
     	notin_405dae=0;
@@ -221,20 +303,27 @@ VOID ImageLoad(IMG img, VOID *v)
 	 		 RTN_Open(rtn1);
 	 		 ADDRINT my_addr=RTN_Address(rtn1);
 	 		 char* sym_name=(char *)SYM_Name(sym).c_str();
-			cout <<"\n\t Sym name: "<<sym_name<<" addr"<<my_addr<<endl;
-			bool has_rand=strcmp(sym_name,"rand");
+			string undecorate_sym_name=PIN_UndecorateSymbolName( SYM_Name( RTN_Sym(rtn1) ) , UNDECORATION_NAME_ONLY ) ;			
+			cout <<"\n\t Sym name: "<<sym_name<<" alias "<<undecorate_sym_name<<" addr"<<my_addr<<endl;
+
+			bool has_rand=strcmp(sym_name,"random_r");
 			if(!has_rand)
 			{
 				cout<<"\n\t +++Sym_name: "<<sym_name<<" has_rand "<<has_rand<<endl;
 			}
-	 
-	  		if( (my_addr==4218090) || (!has_rand)  ) //|| ( strstr(sym_name.c_str(),"rand" ) ) )
+
+	  		if( (my_addr==4218090)  || (my_addr==4218286)  || (my_addr==4218502)  || (my_addr==4219356)  || 
+	  		(my_addr==4218112)  || (my_addr==4218478)  || (my_addr==4199012)  || (my_addr==4218688)  
+	  		|| (my_addr==4218346)  || (my_addr==4219130)  || (my_addr==4217438)  || (my_addr==4219156)  
+	  		|| (my_addr==6324576)  || (my_addr==4211174)  || (my_addr==4210215) ) //|| (!has_rand) )
 			{
+				monitor_routine.insert(sym_name);
 				cout <<"\n\t REGISTERING Sym name: "<<sym_name<<" addr"<<my_addr<<" has_rand "<<has_rand<<endl;			
-			      RTN_InsertCall(rtn1, IPOINT_BEFORE,
-					     (AFUNPTR)A_RegisterAddr,
-					     IARG_G_ARG0_CALLEE,
-					     IARG_END);		
+			      //RTN_InsertCall(rtn1, IPOINT_BEFORE,
+				//	     (AFUNPTR)A_RegisterAddr,
+				//	     IARG_G_ARG0_CALLEE,
+				//	     IARG_END);		
+
 		
 			}
 		
@@ -263,6 +352,7 @@ VOID Fini(INT32 code, VOID *v)
 		}
     	}
     	OutFile<<"\n\t iCount: "<<icount<<endl<<endl;
+    	OutFile<<"\n\t iCount: "<<icount2<<endl<<endl;    	
     	OutFile<<"\n\t Closing now at Fini ! \n";
     	OutFile.close();
 }
