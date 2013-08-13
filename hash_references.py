@@ -11,16 +11,21 @@
 #	*rhs_operands_indices
 
 
+############ Method: extract_condn_params(src_file):
+
     # Keys for return (dictionary!)
     # num_condns
     # fill_array
+    # indices
+    # size=[]
+    # num_dimensions
+    # inner_loop_open
+    # inner_loop_close    
     # condn_term_key=cond+str(condition-number)
     #		*brace_start
     #		*brace_end
     #		*num_statements
-    #		*statement_keywd - the method break_statement returns all the info about the STATEMENT to this key. 
-    #		       statement_keywd='statement'+str(condn_params[condn_term_key]['num_statements'])
-    #		* search_line
+    #		*statement_keywd - the method break_statement returns all the info about the STATEMENT to this key.
     #		*operation_count
     #		*is_else_condn
     #		*condn_line

@@ -18,13 +18,20 @@ char * lcs(const char *a,const char * b)
     int  **lengths = malloc( lena*sizeof( int*));
     for (i=0; i<lena; i++) lengths[i] = la + i*lenb;
  
- #pragma dynamic_prog mat dimensions 2
+ #pragma dynamic_prog mat dimensions 2 i,j
+ #pragma dynamic_prog mat size 100, 500
  #pragma dynamic_prog solve num_conditions 3
  #pragma dynamic_prog mat array lengths
+// 45651132
  
+    for (i=0,i<lena;i++)
+   {
+         x=a[i];
+ #pragma dynamic_prog inner_loop_solve open
  
-    for (i=0,x=a; *x; i++, x++) {
-        for (j=0,y=b; *y; j++,y++ ) {
+         for (j=0; j < lenb ;y++ ) 
+        {
+           y=b[j];
       #pragma dynamic_prog solve cond 1
             if (a[i] == b[j])
             {
@@ -41,6 +48,7 @@ char * lcs(const char *a,const char * b)
                lengths[i+1][j+1] = lengths[i][j+1];
             }
         }
+ #pragma dynamic_prog inner_loop_solve close
     }
    #pragma dynamic_prog solve cond 4
     result = bufr+bufrlen;

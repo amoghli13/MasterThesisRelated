@@ -284,6 +284,11 @@ def break_statement( search_line_op1,search_line_op2):
     # Keys for return (dictionary!)
     # num_condns
     # fill_array
+    # indices
+    # size=[]
+    # num_dimensions
+    # inner_loop_open
+    # inner_loop_close    
     # condn_term_key=cond+str(condition-number)
     #		*brace_start
     #		*brace_end
@@ -316,6 +321,9 @@ def extract_condn_params(src_file_contents):
     dimensions_found=0;
     array_found=0;
     num_dimensions=0;
+    inner_loop_open=0;
+    inner_loop_close=0;
+    size_found=0;
     condn_params={}
 
     # num_dimensions.
@@ -343,7 +351,8 @@ def extract_condn_params(src_file_contents):
 						print "\n\t Found number of conditions for solve: "+str( condns_stmt.group(1) )+" num_conditions_found "+str(num_conditions_found)+' num_conditions '+str(num_conditions);						
 					else:
 						print "\n\t Couldn't find the actual number of conditions for solve in line: "+str(line_count)
-				elif ( conditions_found and dimensions_found and array_found and (num_conditions_found < num_conditions) ) :
+												
+				elif ( conditions_found and dimensions_found and size_found and inner_loop_open and (not inner_loop_close ) and array_found and (num_conditions_found < num_conditions) ) :
 					condns_stmt=re.match(r'\s*\#pragma\s+dynamic_prog\s+solve\s+\cond\s+(\d+)+',curr_line);
 					#print "\n\t Num_conditions_found "+str(num_conditions_found)+" is less than num_condtions: "+str(num_conditions)+"\n"
 					if condns_stmt:
@@ -546,9 +555,38 @@ def extract_condn_params(src_file_contents):
 						num_dimensions=dims_stmt.group(1)
 						print "\n\t ^^^^ Number of dimensions is found  "+str(num_dimensions)
 						dimensions_found=1;	
-						condn_params['num_dimensions']=num_dimensions
+						condn_params['num_dimensions']=int(num_dimensions)
+						dims_stmt=curr_line.split('dimensions')  #re.match(r'\s*\#pragma\s+dynamic_prog\s+mat\s+dimensions\s+(\d+)+\s+(.*)+',curr_line);
+						if dims_stmt:
+							dummy=dims_stmt[1].split(' ');
+							if ( len(dummy) > 1 ): #indices=
+								print "\n\t After that I find: "+str( dummy[len(dummy)-1] );
+								indices=dummy[len(dummy)-1].split(',');
+								condn_params['indices']=[]
+								for index in range( len(indices) ):
+									print "\n\t Idx-# "+str(index)+" index: "+str(indices[index])+" --";
+									local_duh=re.sub('\s*$','',indices[index])
+									condn_params['indices'].append(local_duh);
 					else:
-						print "\n\t Searching for num-dimensions unsuccessful in line "+str(line_count)+" dimensions_found "+str(dimensions_found)+"\n"									
+						print "\n\t Searching for num-dimensions unsuccessful in line "+str(line_count)+" dimensions_found "+str(dimensions_found)+"\n"	
+			elif not size_found:
+					size_stmt=re.match(r'\s*\#pragma\s+dynamic_prog\s+mat\s+size\s+',curr_line);
+					if dims_stmt:
+						print "\n\t Size of dimensions is found  "+str(curr_line)
+ 						dims_stmt=curr_line.split('size')  #re.match(r'\s*\#pragma\s+dynamic_prog\s+mat\s+dimensions\s+(\d+)+\s+(.*)+',curr_line);
+						if dims_stmt:
+							print "\n\t After that I find: "+str( dummy[len(dummy)-1] );
+							sizes=dims_stmt[1].split(',') #dummy[len(dummy)-1].split(',');
+							condn_params['size']=[]
+							for index in range( len(sizes) ):
+								print "\n\t Idx-# "+str(index)+" index: "+str(sizes[index]);
+								local_duh1=re.sub('^\s*','',sizes[index])
+								local_duh=re.sub('\s*$','',local_duh1)
+								local_duh=int(local_duh)
+								condn_params['size'].append(local_duh)
+							size_found=1
+					else:
+						print "\n\t Searching for size unsuccessful in line "+str(line_count)+" dimensions_found "+str(size_found)+"\n"																			
 			elif not array_found:
 					array_stmt=re.match(r'\s*\#pragma\s+dynamic_prog\s+mat\s+array\s+(\w+)+',curr_line);#\s+(\w+)+
 					if array_stmt:
@@ -557,7 +595,25 @@ def extract_condn_params(src_file_contents):
 						array_found=1;
 						condn_params['fill_array']=array_stmt.group(1)
 					else:
-						print "\n\t Searching for array unsuccessful in line "+str(line_count)+" array_found "+str(array_found)+"\n"				
+						print "\n\t Searching for array unsuccessful in line "+str(line_count)+" array_found "+str(array_found)+"\n"	
+			elif ( (not inner_loop_open) or (not inner_loop_close) ):
+				inner_loop_stmt=re.match(r'\s*\#pragma\s+dynamic_prog\s+inner_loop_solve\s+(\w+)+',curr_line);		
+				if inner_loop_stmt:
+					if ( inner_loop_stmt.group(1)=='open' ):
+						print "\n\t Found inner loop-open in line "+str(line_count)+" "+str(curr_line)
+						inner_loop_open=1;
+						inner_loop_close=0;
+						condn_params['inner_loop_open']=line_count;
+					elif ( inner_loop_stmt.group(1)=='close' ):						
+						print "\n\t Found inner loop-close in line "+str(line_count)+" "+str(curr_line)
+						inner_loop_open=1;
+						inner_loop_close=1;				
+						condn_params['inner_loop_close']=line_count;								
+					else:
+						print "\n\t Did NOT find inner loop-open in line "+str(line_count)+" "+str(curr_line)						
+				else:
+					print "\n\t Did NOT find inner loop-open in line "+str(line_count)+" "+str(curr_line)						
+
 					# #pragma dynamic_prog mat array lengths
  	line_count+=1;						
     return condn_params
@@ -607,10 +663,45 @@ def idx_breakdown(idx):
 	idx_info['idx_breakdown_operations']=idx_operations_breakdown
 	return idx_info
 	
+####################### Method: insert_checkpoints ####################
+
+def insert_checkpoints(condn_params,src_file_contents):
+	print "\n\t [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[ "
+	print "\n\t Number of dimensions in the given problem: "+str(condn_params['num_dimensions'])
+	for i in range(condn_params['num_dimensions']):
+		print "\n\t Idx-# "+str(i)+" index: "+str(condn_params['indices'][i])+" size "+str(condn_params['size'][i]);
+	print "\n\t Inner-loop open: "+str(condn_params['inner_loop_open'])+" close: "+str(condn_params['inner_loop_close'])+" \n"
+	for_loop_line=condn_params['inner_loop_open'] + 1;
+	for_loop_not_found=1;
+	curr_line= src_file_contents[for_loop_line];	
+	while for_loop_not_found:
+		curr_line= src_file_contents[for_loop_line];
+		is_for_loop=re.match(r'\s*.*for.*\(.*\;.*\;.*\)',curr_line);
+		if is_for_loop:
+			print "\n\t Found a for loop in line no: "+str(for_loop_line)+" "+str(curr_line);
+			for_loop_not_found=0;
+		else:
+			for_loop_line+=1;
+	print "\n\t Start inserting stuff until this line: "+str(for_loop_line);
+	checkpoint_length= ( condn_params['size'][ (condn_params['num_dimensions'] -1) ] / 20 );
+	print "\n\t Without bounding, the checkpoint length would be "+str(checkpoint_length);
+	if ( checkpoint_length < 10 ):
+		checkpoint_length=10;
+	elif (checkpoint_length > 25):
+		checkpoint_length=25;
+	print 	"\n\t With bounding, the checkpoint length would be "+str(checkpoint_length);	
+	
+ 
+	
+	
 ############## Method: recreate_condns
 #def recreate_condns(condn_params):
 def recreate_condns(condn_params,src_file_contents):
 	print "\n\t ------------------------------------------------------------------------------------------ "
+	print "\n\t Number of dimensions in the given problem: "+str(condn_params['num_dimensions'])
+	for i in range(condn_params['num_dimensions']):
+		print "\n\t Idx-# "+str(i)+" index: "+str(condn_params['indices'][i])+" size "+str(condn_params['size'][i]);
+	print "\n\t Inner-loop open: "+str(condn_params['inner_loop_open'])+" close: "+str(condn_params['inner_loop_close'])+" \n"
 	print "\n\t Summarizing the condtions: \n "
 	print "\n\t Number of conditions: "+str(condn_params['num_condns'])
 	
@@ -715,9 +806,11 @@ def recreate_condns(condn_params,src_file_contents):
 						lhs_idx_info=idx_breakdown(lhs_idx)
 						lhs_idx_terms_length=len(lhs_idx_info['idx_breakdown'])						
 						use_idx=0#( rhs_idx- lhs_idx)
-						print "\n\t LHS-idx has "+str(lhs_idx_terms_length)+" terms and RHS-idx has "+str(rhs_idx_terms_length)+" terms!! "									
-						print "\n\t\t LHS-operator "+str(k)+" index: "+str(lhs_idx )+" rhs-index "+str(rhs_idx)+" use_idx "+str(use_idx)                           
-						
+						print "\n\t LHS-idx has "+str(lhs_idx_terms_length)+" terms and RHS-idx "+str(rhs_idx)+" has "+str(rhs_idx_terms_length)+" terms!! "	
+						for m in range(rhs_idx_terms_length):
+							print "\n\t\t RHS: term # "+str(m)+" term: "+str( rhs_idx_info['idx_breakdown'][m])                        
+						print "\n ---- \n";
+						#print "\n\t\t LHS-operator "+str(k)+" index: "+str(lhs_idx )+" rhs-index "+str(rhs_idx)+" use_idx "+str(use_idx)                           
 				else:
 					print "\n\t The rhs_operand is NOT same as that of 'fill_array' "+str(rhs_operand_split[0])				
 								
@@ -795,6 +888,7 @@ def main():
 	condn_params=extract_condn_params(src_file_contents)
 	#summarize_condns(condn_params)
 	recreate_condns(condn_params,src_file_contents)			    
+	insert_checkpoints(condn_params,src_file_contents)
 	
 if __name__ == "__main__":
     main()    
