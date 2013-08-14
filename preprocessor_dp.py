@@ -900,6 +900,7 @@ def recreate_condns(condn_params,src_file_contents):
 						print "\n\t LHS-idx has "+str(lhs_idx_terms_length)+" terms and RHS-idx "+str(rhs_idx)+" has "+str(rhs_idx_terms_length)+" terms!! "	
  						if( rhs_operand_split[0] == condn_params['fill_array'] ):
  							difference_in_idx=str( rhs_idx_info['rest_of_the_idx'] )+' - '+str(lhs_idx_info['rest_of_the_idx'])
+ 							recreate_condn_params[condn_term_key][statement_keywd]['index_translation'].append(difference_in_idx)
  							print "\n\t Difference in idx: "+str(difference_in_idx)
 								
   			
