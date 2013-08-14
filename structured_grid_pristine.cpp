@@ -39,7 +39,9 @@ int main(int argc, char* argv[])
 		#pragma struct_grid size 100,150
 		#pragma struct_grid curr_array heat_mat1
 		#pragma struct_grid prev_array heat_mat2
-		#pragma struct_grid data_layout 1 // 1. 1 dimensional, 2. 2 dimensional 3. 3-dimensional				
+		#pragma struct_grid data_layout 1 // 1. 1 dimensional, 2. 2 dimensional 3. 3-dimensional
+		#pragma struct_grid dependency_length 1
+		
 		for (int row_idx = dependency_length ; row_idx < num_rows - dependency_length ; row_idx++) 
 		{
 			for (int col_idx = dependency_length ; col_idx < num_cols-dependency_length ; col_idx++) 
