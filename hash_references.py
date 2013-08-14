@@ -33,31 +33,16 @@
     #			*condn
     #		*my_condn
     
-    
-						rhs_idx_plus_split=rhs_idx.split('+');rhs_idx_minus_split=rhs_idx.split('-'); # Neglect these for now! rhs_idx_mul_split=rhs_idx.split('*');rhs_idx_div_split=rhs_idx.split('/')
-						#rhs_idx_excess=0
-						rhs_idx_breakdown=[]
-						if( len(rhs_idx_plus_split) > 1 ): # ASSUMPTION: There is only one operator possible between iterative variable i and rest.
-							#indexed_variable_notfound=1
-							for m in range( len(rhs_idx_plus_split) ):
-								# check_indexed_variable=rhs_idx_plus_split[m].split('[') # It should not matter whether the other term is indexed variable or not! :-o
-								check_minus_variable=rhs_idx_plus_split[m].split('-')								
-								if( len(check_minus_variable)>1):
-									for n in range( len(check_minus_variable) ):
-										rhs_idx_breakdown.append(check_minus_variable[n])
-									print "\n\t Index also has a minus term !! "									
-								else:
-									rhs_idx_breakdown.append(rhs_idx_plus_split[m])
-						elif( len(rhs_idx_minus_split) > 1 ): # ASSUMPTION: There is only one operator possible between iterative variable i and rest.
-							#indexed_variable_notfound=1
-							for m in range( len(rhs_idx_minus_split) ):
-								# check_indexed_variable=rhs_idx_plus_split[m].split('[') # It should not matter whether the other term is indexed variable or not! :-o
-								check_plus_variable=rhs_idx_plus_split[m].split('-')								
-								if( len(check_plus_variable)>1):
-									for n in range( len(check_plus_variable) ):
-										rhs_idx_breakdown.append(check_plus_variable[n])
-									print "\n\t Index also has a plus term !! "									
-								else:
-									rhs_idx_breakdown.append(rhs_idx_plus_split[m])									
-						else:
-							rhs_idx_breakdown.append(rhs_idx_plus_split[0])    
+
+############## Method: recreate_condns
+
+#return -> recreate_condn_params={}
+# num_condns
+# cond_term_key= cond+str(condn_num)
+#	*num_statements
+# statement_keywd=statement+str(statement_num)
+# 	*rhs_operands_indices=[]
+# 	*lhs_operand_indices=[]
+#	*index_translation=[]
+
+

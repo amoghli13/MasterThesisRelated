@@ -684,3 +684,18 @@
 	 Without bounding, the checkpoint length would be 25
 
 	 With bounding, the checkpoint length would be 25
+
+	 Current condition is the update condition!! Condn:             if (a[i] == b[j])
+
+
+	 Cond: 0 statement: 0 index: 0 index-translation:  - 1
+
+	 Cond: 0 statement: 0 index: 1 index-translation:  - 1
+
+	 Cond: 1 statement: 0 index: 0 index-translation: 1 - 1
+
+	 Cond: 1 statement: 0 index: 1 index-translation:  - 1
+
+	 Cond: 2 statement: 0 index: 0 index-translation:  - 1
+
+	 Cond: 2 statement: 0 index: 1 index-translation: 1 - 1

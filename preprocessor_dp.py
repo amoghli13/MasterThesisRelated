@@ -647,9 +647,9 @@ def extract_condn_params(src_file_contents):
 ############## Method: idx_breakdown
 
 #idx_info
-#	*idx_breakdown
-#	*idx_breakdown_operations
-
+#	*idx_breakdown=[]
+#	*idx_breakdown_operations=[]
+#	*rest_of_the_idx=[]
 
 def idx_breakdown(idx,idx_to_match):
 	idx_plus_split=idx.split('+');idx_minus_split=idx.split('-'); # Neglect these for now! idx_mul_split=idx.split('*');idx_div_split=idx.split('/')
@@ -724,7 +724,7 @@ def idx_breakdown(idx,idx_to_match):
 	
 ####################### Method: insert_checkpoints ####################
 
-def insert_checkpoints(condn_params,src_file_contents):
+def insert_checkpoints(condn_params,recreate_condn_params,src_file_contents):
 	print "\n\t [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[ "
 	print "\n\t Number of dimensions in the given problem: "+str(condn_params['num_dimensions'])
 	for i in range(condn_params['num_dimensions']):
@@ -751,10 +751,29 @@ def insert_checkpoints(condn_params,src_file_contents):
 	print 	"\n\t With bounding, the checkpoint length would be "+str(checkpoint_length);	
 	num_checkpoints= ( condn_params['size'][ (condn_params['num_dimensions'] -1) ] / checkpoint_length );
  
-	
+ 	for i in range(recreate_condn_params['num_condns'] ):
+ 		cond_term_key='cond'+str(i+1)
+ 		if( recreate_condn_params['update_condn']['condn_num']==i ):
+ 			print "\n\t Current condition is the update condition!! Condn: "+str(condn_params[cond_term_key]['my_condn']);
+ 		for j in range( recreate_condn_params[cond_term_key]['num_statements'] ):
+			statement_keywd='statement'+str(j+1)
+			for k in range( len(recreate_condn_params[cond_term_key][statement_keywd]['index_translation']) ):
+				print "\n\t Cond: "+str(i)+" statement: "+str(j)+" index: "+str(k)+" index-translation: "+str(recreate_condn_params[cond_term_key][statement_keywd]['index_translation'][k])
 	
 ############## Method: recreate_condns
-#def recreate_condns(condn_params):
+
+#return -> recreate_condn_params={}
+# num_condns
+# update_condn
+#	*condn_num
+#	*condn_line
+# cond_term_key= cond+str(condn_num)
+#	*num_statements
+# statement_keywd=statement+str(statement_num)
+# 	*rhs_operands_indices=[]
+# 	*lhs_operand_indices=[]
+#	*index_translation=[]
+
 def recreate_condns(condn_params,src_file_contents):
 	print "\n\t ------------------------------------------------------------------------------------------ "
 	print "\n\t Number of dimensions in the given problem: "+str(condn_params['num_dimensions'])
@@ -844,6 +863,8 @@ def recreate_condns(condn_params,src_file_contents):
 
 	recreate_condn_params={}
 	
+	recreate_condn_params['num_condns']=condn_params['num_condns']
+	recreate_condn_params['update_condn']={}			
 	
 	for i in range(condn_params['num_condns']):
 		condn_term_key='cond'+str(i+1)
@@ -853,6 +874,8 @@ def recreate_condns(condn_params,src_file_contents):
 		for j in range(condn_params[condn_term_key]['num_statements']):
 			statement_keywd='statement'+str(j+1)
 			recreate_condn_params[condn_term_key][statement_keywd]={}
+			recreate_condn_params[condn_term_key][statement_keywd]['lhs_operand_indices']=	[]
+			recreate_condn_params[condn_term_key][statement_keywd]['lhs_operand_indices']= condn_params[condn_term_key][statement_keywd]['lhs_operand_indices'];			
 			for k in range( len(condn_params[condn_term_key][statement_keywd]['lhs_operand_indices']) ):
 				print "\n\t LHS-index: "+str(condn_params[condn_term_key][statement_keywd]['lhs_operand_indices'][k])
 			lhs_operand_split=condn_params[condn_term_key][statement_keywd]['lhs_operand'].split('[')
@@ -868,6 +891,8 @@ def recreate_condns(condn_params,src_file_contents):
 					condn_params['update_condn']=condn_params[condn_term_key];
 					update_condn_not_found=0;
 					update_condn_line= condn_params[condn_term_key]['condn_line'];
+					recreate_condn_params['update_condn']['condn_num']=i
+					recreate_condn_params['update_condn']['condn_line']=update_condn_line					
 					print "\n\t %$^& The update equation for the problem is at: "+str(update_condn_line);
 				else:
 					print "\n\n\t ERROR: The Dynamic Programming problem has more than one update equation. \n\t\t The previous update equation was found at "+str(update_condn_line)
@@ -904,7 +929,7 @@ def recreate_condns(condn_params,src_file_contents):
  							print "\n\t Difference in idx: "+str(difference_in_idx)
 								
   			
-								
+	return recreate_condn_params								
 					
 			
 ############## Method: summarize_condns	
@@ -978,8 +1003,8 @@ def main():
 	
 	condn_params=extract_condn_params(src_file_contents)
 	#summarize_condns(condn_params)
-	recreate_condns(condn_params,src_file_contents)			    
-	insert_checkpoints(condn_params,src_file_contents)
+	recreate_condn_params=recreate_condns(condn_params,src_file_contents)			    
+	insert_checkpoints(condn_params,recreate_condn_params,src_file_contents)
 	
 if __name__ == "__main__":
     main()    
