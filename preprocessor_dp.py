@@ -651,7 +651,7 @@ def extract_condn_params(src_file_contents):
 #	*idx_breakdown_operations
 
 
-def idx_breakdown(idx):
+def idx_breakdown(idx,idx_to_match):
 	idx_plus_split=idx.split('+');idx_minus_split=idx.split('-'); # Neglect these for now! idx_mul_split=idx.split('*');idx_div_split=idx.split('/')
 	#idx_excess=0
 	idx_breakdown=[]
@@ -687,6 +687,39 @@ def idx_breakdown(idx):
 	idx_info={}
 	idx_info['idx_breakdown']=idx_breakdown;
 	idx_info['idx_breakdown_operations']=idx_operations_breakdown
+	
+	idx_terms_length=len(idx_info['idx_breakdown'] );
+
+	#idx_match_term;
+	rest_of_the_idx=''
+	for m in range(idx_terms_length):
+		if( idx_info['idx_breakdown'][m]==idx_to_match ):
+			idx_match_term=m		
+
+	if( idx_match_term==0):
+		print "\n\t CASE-1 "
+		for m in range(idx_terms_length-2):
+			rest_of_the_idx=rest_of_the_idx+str(idx_info['idx_breakdown_operations'][m])+str(idx_info['idx_breakdown'][m+1])
+		if( idx_terms_length-1 ):
+			rest_of_the_idx=rest_of_the_idx+str(idx_info['idx_breakdown'][idx_terms_length-1])
+	elif( idx_match_term==(idx_terms_length-1) ):
+		print "\n\t CASE-2 "
+		for m in range(idx_terms_length-2):
+			rest_of_the_idx=rest_of_the_idx+str(idx_info['idx_breakdown'][m])+str(idx_info['idx_breakdown_operations'][m])
+		rest_of_the_idx=rest_of_the_idx+str(idx_info['idx_breakdown'][idx_terms_length-2])
+	else:
+		print "\n\t CASE-3 "
+		for m in range(idx_terms_length-1):
+			if( not ( (m)==idx_match_term ) ):
+				if( not ( (m+1)==idx_match_term ) ):
+					rest_of_the_idx=rest_of_the_idx+str(idx_info['idx_breakdown'][m])+str(idx_info['idx_breakdown_operations'][m])
+				else:
+					rest_of_the_idx=rest_of_the_idx+str(idx_info['idx_breakdown'][m])+str(idx_info['idx_breakdown_operations'][m+1])
+					m=m+1
+			print "\n\t m: "+str(m)+" rest_of_the_idx "+str(rest_of_the_idx)
+		rest_of_the_idx=rest_of_the_idx+str(idx_info['idx_breakdown'][idx_terms_length-1])
+	print "\n\t idx: "+idx+" idx_variable: "+idx_to_match+" and rest of the idx: "+str(rest_of_the_idx)
+	idx_info['rest_of_the_idx']=rest_of_the_idx
 	return idx_info
 	
 ####################### Method: insert_checkpoints ####################
@@ -731,6 +764,7 @@ def recreate_condns(condn_params,src_file_contents):
 	print "\n\t Summarizing the condtions: \n "
 	print "\n\t Number of conditions: "+str(condn_params['num_condns'])
 	
+
 	condn_stmts_4rollback=[]
 	curr_set_condn_stmts=[]
 	for i in range(condn_params['num_condns']):
@@ -807,11 +841,18 @@ def recreate_condns(condn_params,src_file_contents):
 	curr_dependency_indices=[]
 	update_condn_not_found=1;
 	update_condn_line=0;
+
+	recreate_condn_params={}
+	
+	
 	for i in range(condn_params['num_condns']):
 		condn_term_key='cond'+str(i+1)
+		recreate_condn_params[condn_term_key]={}
+		recreate_condn_params[condn_term_key]['num_statements']=condn_params[condn_term_key]['num_statements']		
 		print "\n\t NEW CONDN ALERT \n"
 		for j in range(condn_params[condn_term_key]['num_statements']):
 			statement_keywd='statement'+str(j+1)
+			recreate_condn_params[condn_term_key][statement_keywd]={}
 			for k in range( len(condn_params[condn_term_key][statement_keywd]['lhs_operand_indices']) ):
 				print "\n\t LHS-index: "+str(condn_params[condn_term_key][statement_keywd]['lhs_operand_indices'][k])
 			lhs_operand_split=condn_params[condn_term_key][statement_keywd]['lhs_operand'].split('[')
@@ -841,26 +882,25 @@ def recreate_condns(condn_params,src_file_contents):
 					print "\n\t The rhs_operand is same as that of 'fill_array' "+str(rhs_operand_split[0])
 				else:
 					print "\n\t The rhs_operand is NOT same as that of 'fill_array' "+str(rhs_operand_split[0])	
-				if( not (condn_params[condn_term_key][statement_keywd]['rhs_operands_indices'][k][0]==0) ):	
+				if( not (condn_params[condn_term_key][statement_keywd]['rhs_operands_indices'][k][0]==0) ):
+					recreate_condn_params[condn_term_key][statement_keywd]['rhs_operands_indices']=	[]
+					recreate_condn_params[condn_term_key][statement_keywd]['rhs_operands_indices']= condn_params[condn_term_key][statement_keywd]['rhs_operands_indices'][k]
+					recreate_condn_params[condn_term_key][statement_keywd]['index_translation']=[]
 					for l in range( len(condn_params[condn_term_key][statement_keywd]['rhs_operands_indices'][k]) ):
 						rhs_idx=condn_params[condn_term_key][statement_keywd]['rhs_operands_indices'][k][l]
-						rhs_idx_info=idx_breakdown(rhs_idx)
+						rhs_idx_info=idx_breakdown(rhs_idx,condn_params['indices'][l] )
 						rhs_idx_terms_length=len(rhs_idx_info['idx_breakdown'])
 						if( len(rhs_idx_info['idx_breakdown'])>2):
 							print "\n\n\t ERROR: The RHS operand has an index "+str(rhs_idx)+" with more than two terms in it. This feature is currently not supported \n\n"
 							sys.exit()
 						lhs_idx=condn_params[condn_term_key][statement_keywd]['lhs_operand_indices'][l] 
-						lhs_idx_info=idx_breakdown(lhs_idx)
+						lhs_idx_info=idx_breakdown(lhs_idx,condn_params['indices'][l] )
 						lhs_idx_terms_length=len(lhs_idx_info['idx_breakdown'])						
 						use_idx=0#( rhs_idx- lhs_idx)
 						print "\n\t LHS-idx has "+str(lhs_idx_terms_length)+" terms and RHS-idx "+str(rhs_idx)+" has "+str(rhs_idx_terms_length)+" terms!! "	
-						for m in range(rhs_idx_terms_length):
-							print "\n\t\t RHS: term # "+str(m)+" term: "+str( rhs_idx_info['idx_breakdown'][m])                        
-						for m in range(rhs_idx_terms_length-1):
-							if( rhs_idx_info['idx_breakdown'][m]==condn_params['indices'][l] ):
-								print "\n\t Index term "+str(rhs_idx_info['idx_breakdown'][m])+" is similar to "+condn_params['indices'][l] 
-							print "\n\t RHS: operator# "+str(m)+" operator "+str(rhs_idx_info['idx_breakdown_operations'][m])
-							#if( operand_same_as_fill_array ):
+ 						if( rhs_operand_split[0] == condn_params['fill_array'] ):
+ 							difference_in_idx=str( rhs_idx_info['rest_of_the_idx'] )+' - '+str(lhs_idx_info['rest_of_the_idx'])
+ 							print "\n\t Difference in idx: "+str(difference_in_idx)
 								
   			
 								

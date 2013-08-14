@@ -565,13 +565,29 @@
 
 	 The rhs_operand is same as that of 'fill_array' lengths
 
+	 CASE-1 
+
+	 idx: i idx_variable: i and rest of the idx: 
+
+	 CASE-1 
+
+	 idx: i+1 idx_variable: i and rest of the idx: 1
+
 	 LHS-idx has 2 terms and RHS-idx i has 1 terms!! 
 
-		 RHS: term # 0 term: i
+	 Difference in idx:  - 1
+
+	 CASE-1 
+
+	 idx: j idx_variable: j and rest of the idx: 
+
+	 CASE-1 
+
+	 idx: j+1 idx_variable: j and rest of the idx: 1
 
 	 LHS-idx has 2 terms and RHS-idx j has 1 terms!! 
 
-		 RHS: term # 0 term: j
+	 Difference in idx:  - 1
 
 	 The rhs_operand is NOT same as that of 'fill_array' 1
 
@@ -588,19 +604,29 @@
 
 	 The rhs_operand is same as that of 'fill_array' lengths
 
+	 CASE-1 
+
+	 idx: i+1 idx_variable: i and rest of the idx: 1
+
+	 CASE-1 
+
+	 idx: i+1 idx_variable: i and rest of the idx: 1
+
 	 LHS-idx has 2 terms and RHS-idx i+1 has 2 terms!! 
 
-		 RHS: term # 0 term: i
+	 Difference in idx: 1 - 1
 
-		 RHS: term # 1 term: 1
+	 CASE-1 
 
-	 Index term i is similar to i
+	 idx: j idx_variable: j and rest of the idx: 
 
-	 RHS: operator# 0 operator +
+	 CASE-1 
+
+	 idx: j+1 idx_variable: j and rest of the idx: 1
 
 	 LHS-idx has 2 terms and RHS-idx j has 1 terms!! 
 
-		 RHS: term # 0 term: j
+	 Difference in idx:  - 1
 
 	 NEW CONDN ALERT 
 
@@ -615,19 +641,29 @@
 
 	 The rhs_operand is same as that of 'fill_array' lengths
 
+	 CASE-1 
+
+	 idx: i idx_variable: i and rest of the idx: 
+
+	 CASE-1 
+
+	 idx: i+1 idx_variable: i and rest of the idx: 1
+
 	 LHS-idx has 2 terms and RHS-idx i has 1 terms!! 
 
-		 RHS: term # 0 term: i
+	 Difference in idx:  - 1
+
+	 CASE-1 
+
+	 idx: j+1 idx_variable: j and rest of the idx: 1
+
+	 CASE-1 
+
+	 idx: j+1 idx_variable: j and rest of the idx: 1
 
 	 LHS-idx has 2 terms and RHS-idx j+1 has 2 terms!! 
 
-		 RHS: term # 0 term: j
-
-		 RHS: term # 1 term: 1
-
-	 Index term j is similar to j
-
-	 RHS: operator# 0 operator +
+	 Difference in idx: 1 - 1
 
 	 [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[ 
 
