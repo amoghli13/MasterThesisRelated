@@ -23,6 +23,7 @@ char * lcs(const char *a,const char * b)
  #pragma dynamic_prog solve num_conditions 3
  #pragma dynamic_prog mat array lengths
 // 45651132
+//                lengths[i+1][j+1] = lengths[i+1-duh2-duh[i]][j] + duh[i] ; 
  
     for (i=0,i<lena;i++)
    {
@@ -35,12 +36,12 @@ char * lcs(const char *a,const char * b)
       #pragma dynamic_prog solve cond 1
             if (a[i] == b[j])
             {
-               lengths[i+1][j+1] = lengths[i][j] + 1 ;
+               lengths[i+1][j+1] = lengths[i][j] + 1;
             }
       #pragma dynamic_prog solve cond 2            
             else if (  lengths[i+1][j] > lengths[i][j+1])  )
             {
-               lengths[i+1][j+1] = lengths[i+1-duh2-duh[i]][j] + duh[i] ; 
+               lengths[i+1][j+1] = lengths[i+1]][j] ;
    	    }
       #pragma dynamic_prog solve cond 3   	    
             else

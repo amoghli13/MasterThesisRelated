@@ -230,6 +230,9 @@ def break_statement( search_line_op1,search_line_op2):
 							print "\n\t -- Did not find any operator: "+str(curr_term[0])+" and curr_operand is "+str(curr_operand)+" Current idx is "+str(curr_idx)	
 									
 					else:
+						b4=curr_term[0];
+					        #curr_term[0]=re.sub('\s*$','',curr_term[0])
+					        print "\n\t b4: "+str(b4)+" now-- "+str(curr_term[0])+" end"
 						test_semicolon=curr_term[0].split(';')
 						if (len(test_semicolon) ==1 ) :
 							if(test_semicolon[0]==''):
@@ -239,8 +242,14 @@ def break_statement( search_line_op1,search_line_op2):
 							else:
 								print "\n\t FATAL no semicolon/space in "+str(curr_term[0])	
 						else: 
-							duh=re.match('\.*\;\.*',curr_term[0])
-							if( duh ):
+							only_semicolon_found=1;
+							for semicolon_idx in range(len( test_semicolon ) ):
+								only_space=re.match('\s*^\s*$',test_semicolon[semicolon_idx])
+								if( not only_space ):
+									only_semicolon_found=0
+								print "\n\t semicolon-idx "+str(semicolon_idx)+" "+str(test_semicolon[semicolon_idx])+" only_semicolon_found: "+str(only_semicolon_found)
+							duh=re.match(';$',curr_term[0])
+							if( only_semicolon_found ):
 								print "\n\t Hurray Semicolon detected!! \n";
 								return_params['res']['rhs_operands'].append(curr_operand)
 								return_params['res']['rhs_num_operands']=return_params['res']['rhs_num_operands']+1
@@ -251,10 +260,13 @@ def break_statement( search_line_op1,search_line_op2):
 								curr_operand_copy=pass_new_operand																
 							else:
 								print "\n\t FATAL: Semicolon detection has a BUG!!!! "+str(curr_term[0])+" length of test_semicolon "+str(len(test_semicolon))+" "+str(test_semicolon[0])+" "+str(test_semicolon[1])+" end"
+								#print "\n\t Semicolon found!! "
+								
 						#else:
 						#	print "\n\t FATAL: Semicolon detection has a BUG!!!! "+str(curr_term[0])+" length of test_semicolon "+str(len(test_semicolon))
 				if operator_found:
-					print "\n\t Yes an operator has been found! "
+					print "\n\t Yes an operator has been found! pass_new_operand: "+str(pass_new_operand);
+
 					operator_found=0
 					return_params['res']['rhs_operands'].append(curr_operand)					
 					return_params['res']['rhs_operators'].append(pass_new_operator);
@@ -268,8 +280,22 @@ def break_statement( search_line_op1,search_line_op2):
 					return_params['res']['rhs_num_operators']=return_params['res']['rhs_num_operators']+1					
 					curr_operand=pass_new_operand
 					curr_operand_copy=pass_new_operand
+
+					if ( i==( len(operands_sqbrace2_split) -1 ) ):
+					       
+						print "\n\t And this is the last term!!! "+str(curr_term[0])+"\n"
+						return_params['res']['rhs_num_operands']=return_params['res']['rhs_num_operands']+1
+						return_params['res']['rhs_operands'].append(pass_new_operand)
+						if curr_idx:
+							return_params['res']['rhs_operands_indices'].append(curr_idx)
+						else:
+							curr_indices=[0];
+							return_params['res']['rhs_operands_indices'].append(curr_indices)	
+					
 					pass_new_operand=''
-					pass_new_operator=""					
+					pass_new_operator=""			
+
+														
 					#return_params
 		rhs_num_operands=return_params['res']['rhs_num_operands']			
 		for i in range(return_params['res']['rhs_num_operands']):
@@ -690,7 +716,7 @@ def insert_checkpoints(condn_params,src_file_contents):
 	elif (checkpoint_length > 25):
 		checkpoint_length=25;
 	print 	"\n\t With bounding, the checkpoint length would be "+str(checkpoint_length);	
-	
+	num_checkpoints= ( condn_params['size'][ (condn_params['num_dimensions'] -1) ] / checkpoint_length );
  
 	
 	
@@ -779,8 +805,11 @@ def recreate_condns(condn_params,src_file_contents):
 	"""	
 	dependency_indices=[]	
 	curr_dependency_indices=[]
+	update_condn_not_found=1;
+	update_condn_line=0;
 	for i in range(condn_params['num_condns']):
 		condn_term_key='cond'+str(i+1)
+		print "\n\t NEW CONDN ALERT \n"
 		for j in range(condn_params[condn_term_key]['num_statements']):
 			statement_keywd='statement'+str(j+1)
 			for k in range( len(condn_params[condn_term_key][statement_keywd]['lhs_operand_indices']) ):
@@ -791,17 +820,35 @@ def recreate_condns(condn_params,src_file_contents):
 				print "\n\t The lhs_operand is same as that of 'fill_array' "+str(lhs_operand_split[0]) # ASSUMPTION: LHS operand should be that of 'fill_array'
 			else:
 				print "\n\t The lhs_operand is NOT same as that of 'fill_array' "+str(lhs_operand_split[0])
-			
+
+			print "\n\t There are "+str(condn_params[condn_term_key][statement_keywd]['rhs_num_operands'])+" number of RHS operands. "				
+			if( condn_params[condn_term_key][statement_keywd]['rhs_num_operands'] > 1 ):
+				if( update_condn_not_found):							
+					condn_params['update_condn']=condn_params[condn_term_key];
+					update_condn_not_found=0;
+					update_condn_line= condn_params[condn_term_key]['condn_line'];
+					print "\n\t %$^& The update equation for the problem is at: "+str(update_condn_line);
+				else:
+					print "\n\n\t ERROR: The Dynamic Programming problem has more than one update equation. \n\t\t The previous update equation was found at "+str(update_condn_line)
+					print "\n\t\t The problem seems to be Polyadic and is not supported by this parser. \n\n"
+					sys.exit()
 			for k in range(condn_params[condn_term_key][statement_keywd]['rhs_num_operands']):
 				rhs_operand_split=condn_params[condn_term_key][statement_keywd]['rhs_operands'][k].split('[')
 				rhs_operand_split[0]=re.sub('^\s*','',rhs_operand_split[0])
+				operand_same_as_fill_array=0;
 				if( rhs_operand_split[0] == condn_params['fill_array'] ):
+					operand_same_as_fill_array=1
 					print "\n\t The rhs_operand is same as that of 'fill_array' "+str(rhs_operand_split[0])
+				else:
+					print "\n\t The rhs_operand is NOT same as that of 'fill_array' "+str(rhs_operand_split[0])	
+				if( not (condn_params[condn_term_key][statement_keywd]['rhs_operands_indices'][k][0]==0) ):	
 					for l in range( len(condn_params[condn_term_key][statement_keywd]['rhs_operands_indices'][k]) ):
 						rhs_idx=condn_params[condn_term_key][statement_keywd]['rhs_operands_indices'][k][l]
 						rhs_idx_info=idx_breakdown(rhs_idx)
 						rhs_idx_terms_length=len(rhs_idx_info['idx_breakdown'])
-
+						if( len(rhs_idx_info['idx_breakdown'])>2):
+							print "\n\n\t ERROR: The RHS operand has an index "+str(rhs_idx)+" with more than two terms in it. This feature is currently not supported \n\n"
+							sys.exit()
 						lhs_idx=condn_params[condn_term_key][statement_keywd]['lhs_operand_indices'][l] 
 						lhs_idx_info=idx_breakdown(lhs_idx)
 						lhs_idx_terms_length=len(lhs_idx_info['idx_breakdown'])						
@@ -809,10 +856,13 @@ def recreate_condns(condn_params,src_file_contents):
 						print "\n\t LHS-idx has "+str(lhs_idx_terms_length)+" terms and RHS-idx "+str(rhs_idx)+" has "+str(rhs_idx_terms_length)+" terms!! "	
 						for m in range(rhs_idx_terms_length):
 							print "\n\t\t RHS: term # "+str(m)+" term: "+str( rhs_idx_info['idx_breakdown'][m])                        
-						print "\n ---- \n";
-						#print "\n\t\t LHS-operator "+str(k)+" index: "+str(lhs_idx )+" rhs-index "+str(rhs_idx)+" use_idx "+str(use_idx)                           
-				else:
-					print "\n\t The rhs_operand is NOT same as that of 'fill_array' "+str(rhs_operand_split[0])				
+						for m in range(rhs_idx_terms_length-1):
+							if( rhs_idx_info['idx_breakdown'][m]==condn_params['indices'][l] ):
+								print "\n\t Index term "+str(rhs_idx_info['idx_breakdown'][m])+" is similar to "+condn_params['indices'][l] 
+							print "\n\t RHS: operator# "+str(m)+" operator "+str(rhs_idx_info['idx_breakdown_operations'][m])
+							#if( operand_same_as_fill_array ):
+								
+  			
 								
 					
 			
