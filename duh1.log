@@ -126,13 +126,13 @@
 
 	 NODAPPA len(operands_sqbrace1_split) 3
 
-	 Number-of-groups in curr_term is 2 ,  lengths[i
+	 Number-of-groups in curr_term is 2 ,  lengths[i+2
 
 	 j: 0  lengths
 
-	 j: 1 i
+	 j: 1 i+2
 
-	 -- Did not find any operator:  lengths and curr_operand is  lengths[i] Current idx is i
+	 -- Did not find any operator:  lengths and curr_operand is  lengths[i+2] Current idx is i+2
 
 	 Number-of-groups in curr_term is 2 , [j
 
@@ -140,7 +140,7 @@
 
 	 j: 1 j
 
-	 -- Did not find any operator:  and curr_operand is  lengths[i][j] Current idx is j
+	 -- Did not find any operator:  and curr_operand is  lengths[i+2][j] Current idx is j
 
 	 Number-of-groups in curr_term is 1 ,  + 1;
 
@@ -162,9 +162,9 @@
 	 And this is the last term!!!  + 1;
 
 
-	 -- NOTICE return_params['res']['rhs_operands'][i] is  lengths[i][j] and the indices are
+	 -- NOTICE return_params['res']['rhs_operands'][i] is  lengths[i+2][j] and the indices are
 
-		 index-no: 0 index --> i
+		 index-no: 0 index --> i+2
 
 		 index-no: 1 index --> j
 
@@ -447,13 +447,13 @@
 	 Condition :            if (a[i] == b[j])
 
 
-		 statement: lengths[i+1][j+1] = lengths[i][j] + 1;
+		 statement: lengths[i+1][j+1] = lengths[i+2][j] + 1;
 
-			 LHS: lengths[i+1][j+1] 	 RHS:  lengths[i][j] + 1;
+			 LHS: lengths[i+1][j+1] 	 RHS:  lengths[i+2][j] + 1;
 
-			 RHS-operator 0 -->  lengths[i][j] and the indices are
+			 RHS-operator 0 -->  lengths[i+2][j] and the indices are
 
-				 index-no: 0 index --> i
+				 index-no: 0 index --> i+2
 
 				 index-no: 1 index --> j
 
@@ -523,7 +523,7 @@
 
 	 {
 
-	 	lengths[i+1][j+1] = lengths[i][j] + 1;
+	 	lengths[i+1][j+1] = lengths[i+2][j] + 1;
 
 	 	 test_condn=1
 
@@ -567,15 +567,15 @@
 
 	 CASE-1 
 
-	 idx: i idx_variable: i and rest of the idx: 
+	 idx: i+2 idx_variable: i and rest of the idx: 2
 
 	 CASE-1 
 
 	 idx: i+1 idx_variable: i and rest of the idx: 1
 
-	 LHS-idx has 2 terms and RHS-idx i has 1 terms!! 
+	 LHS-idx has 2 terms and RHS-idx i+2 has 2 terms!! 
 
-	 Difference in idx:  - 1
+	 Difference in idx: 2 - 1
 
 	 CASE-1 
 
@@ -688,14 +688,36 @@
 	 Current condition is the update condition!! Condn:             if (a[i] == b[j])
 
 
-	 Cond: 0 statement: 0 index: 0 index-translation:  - 1
+	 Cond: 0 statement: 0 lhs-index-num: 0 lhs-index: i+1
 
-	 Cond: 0 statement: 0 index: 1 index-translation:  - 1
+	 Cond: 0 statement: 0 lhs-index-num: 1 lhs-index: j+1
 
-	 Cond: 1 statement: 0 index: 0 index-translation: 1 - 1
+	 Currently considering the operand-num: 0 and the operand is  lengths[i+2][j] and it has 
 
-	 Cond: 1 statement: 0 index: 1 index-translation:  - 1
+	 Cond: 0 statement: 0 operand-num: 0 rhs-index-num: 0 rhs-index: i+2
 
-	 Cond: 2 statement: 0 index: 0 index-translation:  - 1
+	 Cond: 0 statement: 0 operand-num: 0 rhs-index-num: 1 rhs-index: j
 
-	 Cond: 2 statement: 0 index: 1 index-translation: 1 - 1
+	 Operand-num 0 is same as 'fill_array' lengths
+
+	 Index-num: 0 term-no: 0 term: i
+
+	 Index-num: 0 term-no: 1 term: 2
+
+	 This-idx: 2--
+
+	 This index term 2 is not dimensional-index-variable but seems to NOT be indexed and is an integer in itself! 
+
+	 Index-num: 1 term-no: 0 term: j
+
+	 Currently considering the operand-num: 1 and the operand is  1 and it has 
+
+	 Cond: 0 statement: 0 operand-num: 1 rhs-index-num: 0 rhs-index: 0
+
+	 Operand-num 1 is NOT same as 'fill_array' 1
+
+	 Operand:  lengths[i+2][j] is searched for lengths
+
+	 This Operand:  lengths[i+2][j]
+
+	 Operand:  1 is searched for lengths

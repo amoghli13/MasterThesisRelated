@@ -38,11 +38,23 @@
 
 #return -> recreate_condn_params={}
 # num_condns
+# update_condn
+#	*condn_num
+#	*condn_line
 # cond_term_key= cond+str(condn_num)
 #	*num_statements
 # statement_keywd=statement+str(statement_num)
 # 	*rhs_operands_indices=[]
+#	*rhs_idx_info={}
 # 	*lhs_operand_indices=[]
+#	*lhs_idx_info={}
 #	*index_translation=[]
 
+
+############## Method: idx_breakdown
+
+#idx_info
+#	*idx_breakdown=[]
+#	*idx_breakdown_operations=[]
+#	*rest_of_the_idx=[]
 
