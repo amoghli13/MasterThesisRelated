@@ -60,10 +60,8 @@ def insert_checkpoints(condn_params,recreate_condn_params,src_file_contents):
 	for i in range(condn_params['num_dimensions']):
 		print "\n\t Idx-# "+str(i)+" index: "+str(condn_params['indices'][i])+" size "+str(condn_params['size'][i]);
 	print "\n\t Inner-loop open: "+str(condn_params['inner_loop_open'])+" close: "+str(condn_params['inner_loop_close'])+" \n"
-	for_loop_line=condn_params['inner_loop_open'] + 1;
-	curr_line= src_file_contents[for_loop_line];	
 
-	print "\n\t Start inserting stuff until this line: "+str(for_loop_line);
+	
 	checkpoint_length= ( condn_params['size'][ (condn_params['num_dimensions'] -1) ] / 20 );
 	print "\n\t Without bounding, the checkpoint length would be "+str(checkpoint_length);
 	if ( checkpoint_length < 10 ):
@@ -91,6 +89,25 @@ def insert_checkpoints(condn_params,recreate_condn_params,src_file_contents):
 					if(condn_params['fill_array'] == operand_name[0]):
 						print "\n\t Operand-num "+str(m)+" is same as 'fill_array' "+str(operand_name[0])
 						#idx_cleared=1
+						print "\n CHECKOUT: To update "+str(recreate_condn_params[condn_term_key][statement_keywd]['lhs_idx_info'][m][0]['rest_of_the_idx'])+", you'd use this row: "+str(recreate_condn_params[condn_term_key][statement_keywd]['rhs_idx_info'][m][0]['rest_of_the_idx'])   
+						print " and index translation rhs2lhs is "+str(recreate_condn_params[condn_term_key][statement_keywd]['index_translation_rhs2lhs'][0])+" and lhs2rhs is "+str(recreate_condn_params[condn_term_key][statement_keywd]['index_translation_lhs2rhs'][0])						
+						if ( ( recreate_condn_params[condn_term_key][statement_keywd]['rhs_idx_info'][m][0]['rest_of_the_idx']) ):
+							if ( recreate_condn_params[condn_term_key][statement_keywd]['lhs_idx_info'][m][0]['rest_of_the_idx']):
+								highest_dim_idx_translation_lhs2rhs= int( recreate_condn_params[condn_term_key][statement_keywd]['lhs_idx_info'][m][0]['rest_of_the_idx']  ) - int(recreate_condn_params[condn_term_key][statement_keywd]['rhs_idx_info'][m][0]['rest_of_the_idx'])
+								if( abs(highest_dim_idx_translation_lhs2rhs) >1 ):
+									# Future-work: Need to write a small-loop to create the switch statement to alternate b/n the checkpoints' max and require asmany arrays of checkpoint_items as " highest_dim_idx_translation_lhs2rhs+1 "
+									# Also should ensure that if a rollback to a previous row should be done, then all those rows from that point should be flushed! 
+									print " ERROR: In the update condition (cond-#) "+str(i+1)+" lhs and rhs index difference "+str(highest_dim_idx_translation_lhs2rhs)+" is greater than 1, which is currently not supported"
+									sys.exit()
+								else:
+									print "\n\t highest_dim_idx_translation_lhs2rhs is "+str(highest_dim_idx_translation_lhs2rhs)
+							else:
+								highest_dim_idx_translation_lhs2rhs=int(recreate_condn_params[condn_term_key][statement_keywd]['rhs_idx_info'][m][0]['rest_of_the_idx']   )
+								print "\n\t highest_dim_idx_translation_lhs2rhs is "+str(highest_dim_idx_translation_lhs2rhs)								
+						elif ( recreate_condn_params[condn_term_key][statement_keywd]['lhs_idx_info'][m][0]['rest_of_the_idx']):
+							highest_dim_idx_translation_lhs2rhs=int(recreate_condn_params[condn_term_key][statement_keywd]['lhs_idx_info'][m][0]['rest_of_the_idx']   )
+							print "\n\t highest_dim_idx_translation_lhs2rhs is "+str(highest_dim_idx_translation_lhs2rhs)							
+		
 						for k in range( len( condn_params[condn_term_key][statement_keywd]['rhs_operands_indices'][m] ) ):						
 							for l in range(len( recreate_condn_params[condn_term_key][statement_keywd]['rhs_idx_info'][m][k]['idx_breakdown'] ) ):
 								print "\n\t Index-num: "+str(k)+" term-no: "+str(l)+" term: "+str(recreate_condn_params[condn_term_key][statement_keywd]['rhs_idx_info'][m][k]['idx_breakdown'][l])
@@ -128,11 +145,125 @@ def insert_checkpoints(condn_params,recreate_condn_params,src_file_contents):
 				print "\n\t Rest_of_the_rhs: "+str(rest_of_the_rhs_res)
 
 	for_loop_not_found=1
+	for_loop_line=condn_params['inner_loop_open'] + 1;
+	curr_line= src_file_contents[for_loop_line];	
+	my_for_loop=''	
 	while for_loop_not_found:
 		curr_line= src_file_contents[for_loop_line];
 		is_for_loop=re.match(r'\s*.*for.*\(.*\;.*\;.*\)',curr_line);
 		if is_for_loop:
 			print "\n\t Found a for loop in line no: "+str(for_loop_line)+" "+str(curr_line);
 			for_loop_not_found=0;
+			my_for_loop=curr_line;
 		else:
-			for_loop_line+=1;		
+			for_loop_line+=1;	
+			
+	print "\n\t Start inserting stuff until this line: "+str(for_loop_line);
+	my_for_loop_split=my_for_loop.split(';')	
+	my_for_loop_split_arraylen=len(my_for_loop_split)
+	if ( my_for_loop_split_arraylen < 3):
+		print "\n\t ERROR: The SOLVE inner loop preprocessor was specified to follow the for loop in line(0-indexed) "+str(for_loop_line)+" but it does not have necessary 3 parameters of the for loop. \n\n"
+		sys.exit()
+	else:
+		for i in range(my_for_loop_split_arraylen):
+			print "\n\t Term-# "+str(i)+" term --> "+str(my_for_loop_split[i])
+			
+		## Trying to findout the size of the innermost loop! 		
+		## Assumption: That the second-term of for-loop has only one comparsion involving innermost loop's index-variable and it's size.
+		print "\n\t Trying to change bounds of this (/subset of this) term "+str(my_for_loop_split[1])
+		print "\n\t This is the index of concern: "+str(condn_params['indices'][ ( len(condn_params['indices']) -1) ])
+		my_for_loop_split[1]=re.sub('^\s*','',my_for_loop_split[1]);
+		my_for_loop_split[1]=re.sub('\s*$','',my_for_loop_split[1])
+		size_term_split=my_for_loop_split[1].split(' ');
+		for i in range( len( size_term_split ) ):
+			print "\n\t Term-# "+str(i)+" term: "+str(size_term_split[i])
+		#size_term_split[0]=re.sub('^\s*','',size_term_split[0])
+		#size_term_split[0]=re.sub('^\s*','',size_term_split[0])
+		if( size_term_split[0]==condn_params['indices'][( len(condn_params['indices']) -1) ] ):
+			print "\n\t Index match!!"		
+		else:
+			print "\n\t Index mismatch! --> "+str(size_term_split[0])+" <--> "+str(condn_params['indices'][( len(condn_params['indices']) -1) ])
+			print "\n\t ERROR: The SOLVE inner loop preprocessor was specified to follow the for loop in line(0-indexed) "+str(for_loop_line)+" but the middle-term"+str(size_term_split[0])+"does not seem to feature the innermost loop's index-variable "+str(condn_params['indices'][( len(condn_params['indices']) -1) ])+" in the lhs of comparison! "
+			sys.exit()
+			
+		## Perhaps it was futile to attempt this above section, apart from making the script fool-proof! 
+		insert_checkpoint_code={}
+		insert_checkpoint_code['btw_outer_and_inner_loop']=[]	
+		outerloop_variable_idex=condn_params['indices'][0]
+		dummy='switch( '+str(outerloop_variable_idex)+' % 2 )'
+		insert_checkpoint_code['btw_outer_and_inner_loop'].append(dummy)
+		insert_checkpoint_code['btw_outer_and_inner_loop'].append("	{")
+		insert_checkpoint_code['btw_outer_and_inner_loop'].append("		case 0: ")
+		insert_checkpoint_code['btw_outer_and_inner_loop'].append("			curr_item_checkpoints=array_checkpoints_2;")
+		insert_checkpoint_code['btw_outer_and_inner_loop'].append("			curr_item_1_checkpoints=array_checkpoints_1;")
+		insert_checkpoint_code['btw_outer_and_inner_loop'].append("	 				break;")
+		insert_checkpoint_code['btw_outer_and_inner_loop'].append("		case 1:")
+		insert_checkpoint_code['btw_outer_and_inner_loop'].append("			curr_item_checkpoints=array_checkpoints_1;")
+		insert_checkpoint_code['btw_outer_and_inner_loop'].append("			curr_item_1_checkpoints=array_checkpoints_2;")
+		insert_checkpoint_code['btw_outer_and_inner_loop'].append("				break;")
+ 		insert_checkpoint_code['btw_outer_and_inner_loop'].append("\n")	
+		insert_checkpoint_code['btw_outer_and_inner_loop'].append("    }")	
+		insert_checkpoint_code['btw_outer_and_inner_loop'].append("\n")	
+       		insert_checkpoint_code['btw_outer_and_inner_loop'].append("error_inject_operators<int> curr_checkpoint_limit;")	
+	       	insert_checkpoint_code['btw_outer_and_inner_loop'].append("curr_checkpoint_limit=checkpoint_length;")
+	       	insert_checkpoint_code['btw_outer_and_inner_loop'].append("int checkpoint_length_plus1=checkpoint_length+1;")
+	       	insert_checkpoint_code['btw_outer_and_inner_loop'].append("int yet_to_rollback_prev_item=1;")
+	 	insert_checkpoint_code['btw_outer_and_inner_loop'].append("for( int checkpoint_zone=0; checkpoint_zone < (num_checkpoints) ; checkpoint_zone++ )")
+		insert_checkpoint_code['btw_outer_and_inner_loop'].append("{")
+		insert_checkpoint_code['btw_outer_and_inner_loop'].append("	int j=checkpoint_zone * checkpoint_length;")
+		insert_checkpoint_code['btw_outer_and_inner_loop'].append("	int checkpoint_limit= j + checkpoint_length;")
+		insert_checkpoint_code['btw_outer_and_inner_loop'].append("	if( lenb_minus1< checkpoint_length )")
+		insert_checkpoint_code['btw_outer_and_inner_loop'].append("		checkpoint_length=lenb_minus1;")
+		insert_checkpoint_code['btw_outer_and_inner_loop'].append("curr_checkpoint_limit=curr_item_1_checkpoints[checkpoint_zone]+1;\n");
+		insert_checkpoint_code['btw_outer_and_inner_loop'].append("	error_inject_operators<int> max_in_zone;")
+		insert_checkpoint_code['btw_outer_and_inner_loop'].append("	max_in_zone=0;")
+		insert_checkpoint_code['btw_outer_and_inner_loop'].append("\n")
+		innerloop_variable_index=condn_params['indices'][ condn_params['num_dimensions']-1]
+		
+		dummy='\t for (;'+str(innerloop_variable_index)+'<checkpoint_limit;' +str(innerloop_variable_index)+'++ )' 
+		insert_checkpoint_code['btw_outer_and_inner_loop'].append(dummy)
+		num_statements=condn_params[condn_term_key]['num_statements']
+		if num_statements>1:
+			print "\n\t ERROR: The update equation for this application has more than one statement in the process of updating. The tool doesnt support this applicaiton. "
+			sys.exit()
+		statement_keywd='statement'+str(num_statements) # Assumption: num_statements=1 !! 			
+		condn_term_key='cond'+str( recreate_condn_params['update_condn']['condn_num'] +1)
+	 	dummy='if( max_in_zone < '+str(condn_params[condn_term_key][statement_keywd]['lhs_operand'])+' ) '
+	 	#print "\n\t DUMMY: "+str(dummy)
+	 	insert_checkpoint_code['max_check']=[]
+	 	insert_checkpoint_code['max_check'].append(dummy)
+		dummy1='max_in_zone='+str(dummy)
+		insert_checkpoint_code['max_check'].append(dummy1)
+
+			
+		insert_checkpoint_code['checkpoint']=[]
+	        insert_checkpoint_code['checkpoint'].append(' if( max_in_zone > curr_checkpoint_limit )')
+	        insert_checkpoint_code['checkpoint'].append(' {')
+ 		insert_checkpoint_code['checkpoint'].append(' 	if( yet_to_rollback_prev_item ==1 )')
+		insert_checkpoint_code['checkpoint'].append(' 	{')
+		insert_checkpoint_code['checkpoint'].append(' 		yet_to_rollback_prev_item=0;')
+		insert_checkpoint_code['checkpoint'].append(' 		checkpoint_zone--;')				
+		insert_checkpoint_code['checkpoint'].append(' 	}')
+		insert_checkpoint_code['checkpoint'].append(' 	else')
+		insert_checkpoint_code['checkpoint'].append(' 	{')
+		insert_checkpoint_code['checkpoint'].append(' 		yet_to_rollback_prev_item=1;')
+		insert_checkpoint_code['checkpoint'].append(' 		checkpoint_zone--;')
+		insert_checkpoint_code['checkpoint'].append(' 		i--;')
+		insert_checkpoint_code['checkpoint'].append(' 	}')
+ 	        insert_checkpoint_code['checkpoint'].append(' }')	
+ 	        
+		
+		print "\n\t --- Printing insert_checkpoint_code['btw_outer_and_inner_loop'] "
+		for i in range( len( insert_checkpoint_code['btw_outer_and_inner_loop'] ) ):
+			print insert_checkpoint_code['btw_outer_and_inner_loop'][i]	
+		
+		print "\n\t --- Printing insert_checkpoint_code['max_check'] "
+		for i in range( len(insert_checkpoint_code['max_check']) ):
+			print insert_checkpoint_code['max_check'][i] 	        
+	
+		print "\n\t -- Printing insert_checkpoint_code['checkpoint'] "
+		for i in range(len( insert_checkpoint_code['checkpoint']) ):
+			print insert_checkpoint_code['checkpoint'][i]
+				
+			
+			

@@ -48,7 +48,8 @@
 #	*rhs_idx_info={}
 # 	*lhs_operand_indices=[]
 #	*lhs_idx_info={}
-#	*index_translation=[]
+#	*index_translation_lhs2rhs=[]
+#	*index_translation_rhs2lhs=[]
 
 
 ############## Method: idx_breakdown

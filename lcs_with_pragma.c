@@ -17,7 +17,7 @@ char * lcs(const char *a,const char * b)
     int *la = calloc(lena*lenb, sizeof( int));
     int  **lengths = malloc( lena*sizeof( int*));
     for (i=0; i<lena; i++) lengths[i] = la + i*lenb;
- 
+
  #pragma dynamic_prog mat dimensions 2 i,j
  #pragma dynamic_prog mat size 100, 500
  #pragma dynamic_prog solve num_conditions 3
@@ -36,7 +36,7 @@ char * lcs(const char *a,const char * b)
       #pragma dynamic_prog solve cond 1
             if (a[i] == b[j])
             {
-               lengths[i+1][j+1] = lengths[i+2][j] +1 ;
+               lengths[i][j+1] = lengths[i+1][j] +1 ;
             }
       #pragma dynamic_prog solve cond 2            
             else if (  lengths[i+1][j] > lengths[i][j+1])  )
@@ -51,20 +51,35 @@ char * lcs(const char *a,const char * b)
         }
  #pragma dynamic_prog inner_loop_solve close
     }
-   #pragma dynamic_prog solve cond 4
+
+ #pragma dynamic_prog trace num_conditions 3
     result = bufr+bufrlen;
     *--result = '\0';
     i = lena-1; j = lenb-1;
-    while ( (i>0) && (j>0) ) {
-        if (lengths[i][j] == lengths[i-1][j])  i -= 1;
-        else if (lengths[i][j] == lengths[i][j-1]) j-= 1;
-        else {
-//			assert( a[i-1] == b[j-1]);
-            *--result = a[i-1];
+    #pragma dynamic_prog inner_loop_trace open
+    while ( (i>0) && (j>0) )
+    {
+       #pragma dynamic_prog trace cond 1 solve cond 1
+        if (lengths[i][j] == lengths[i-1][j]) 
+        {
+         	i= i-1;
+        }
+        #pragma dynamic_prog trace cond 2 solve cond 1
+        else if (lengths[i][j] == lengths[i][j-1])
+        {
+        	 j=j-1;
+        }
+         #pragma dynamic_prog trace cond 3 solve cond 1
+        else
+        {
+        #pragma dynamig prog trace accept choice
+             *--result = a[i-1];
             i-=1; j-=1;
         }
+	#pragma dynamic_prog inner_loop_trace close
     }
-    #pragma dynamic_prog solve cond 5
+
+
     free(la); free(lengths);
     return strdup(result);
 }

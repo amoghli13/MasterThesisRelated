@@ -10,6 +10,7 @@ import sys,re
 def idx_breakdown(idx,idx_to_match):
 	idx_plus_split=idx.split('+');idx_minus_split=idx.split('-'); # Neglect these for now! idx_mul_split=idx.split('*');idx_div_split=idx.split('/')
 	#idx_excess=0
+	print "\n\t Len-+ "+str(len(idx_plus_split) )+" len- '-' "+str( len(idx_minus_split) )
 	idx_breakdown=[]
 	idx_operations_breakdown=[]
 	if( len(idx_plus_split) > 1 ): # ASSUMPTION: There is only one operator possible between iterative variable i and rest.
@@ -29,15 +30,16 @@ def idx_breakdown(idx,idx_to_match):
 		#indexed_variable_notfound=1
 		for m in range( len(idx_minus_split) ):
 			# check_indexed_variable=idx_plus_split[m].split('[') # It should not matter whether the other term is indexed variable or not! :-o
-			check_plus_variable=idx_plus_split[m].split('-')			
+			print "\n\t m: "+str(m)+" term "+str(idx_minus_split[m])+"len--> "+str(len(idx_minus_split))
+			check_plus_variable=idx_minus_split[m].split('+')			
 			if( len(check_plus_variable)>1):
 				for n in range( len(check_plus_variable) ):
 					idx_breakdown.append(check_plus_variable[n])
 					idx_operations_breakdown.append('+')					
 				print "\n\t Index also has a plus term !! "				
 			else:
-				idx_breakdown.append(idx_plus_split[m])	
-				idx_operations_breakdown.append('+')							
+				idx_breakdown.append(idx_minus_split[m])	
+				idx_operations_breakdown.append('-')							
 	else:
 		idx_breakdown.append(idx_plus_split[0])
 	idx_info={}
@@ -54,10 +56,10 @@ def idx_breakdown(idx,idx_to_match):
 
 	if( idx_match_term==0):
 		print "\n\t CASE-1 "
-		for m in range(idx_terms_length-2):
+		for m in range(idx_terms_length-1):
 			rest_of_the_idx=rest_of_the_idx+str(idx_info['idx_breakdown_operations'][m])+str(idx_info['idx_breakdown'][m+1])
-		if( idx_terms_length-1 ):
-			rest_of_the_idx=rest_of_the_idx+str(idx_info['idx_breakdown'][idx_terms_length-1])
+		#if( idx_terms_length-1 ):
+		#	rest_of_the_idx=rest_of_the_idx+str(idx_info['idx_breakdown'][idx_terms_length-1])
 	elif( idx_match_term==(idx_terms_length-1) ):
 		print "\n\t CASE-2 "
 		for m in range(idx_terms_length-2):
@@ -93,7 +95,8 @@ def idx_breakdown(idx,idx_to_match):
 #	*rhs_idx_info={}
 # 	*lhs_operand_indices=[]
 #	*lhs_idx_info={}
-#	*index_translation=[]
+#	*index_translation_rhs2lhs=[]
+#	*index_translation_lhs2rhs=[]
 
 
 def recreate_condns(condn_params,src_file_contents):
@@ -223,7 +226,8 @@ def recreate_condns(condn_params,src_file_contents):
 					
 			recreate_condn_params[condn_term_key][statement_keywd]['rhs_operands_indices']=	[]
 			#recreate_condn_params[condn_term_key][statement_keywd]['rhs_operands_indices']= condn_params[condn_term_key][statement_keywd]['rhs_operands_indices'][k]
-			recreate_condn_params[condn_term_key][statement_keywd]['index_translation']=[]
+			recreate_condn_params[condn_term_key][statement_keywd]['index_translation_rhs2lhs']=[]
+			recreate_condn_params[condn_term_key][statement_keywd]['index_translation_lhs2rhs']=[]			
 			recreate_condn_params[condn_term_key][statement_keywd]['rhs_idx_info']=[]
 			recreate_condn_params[condn_term_key][statement_keywd]['lhs_idx_info']=[]					
 			for k in range(condn_params[condn_term_key][statement_keywd]['rhs_num_operands']):
@@ -257,9 +261,11 @@ def recreate_condns(condn_params,src_file_contents):
 						use_idx=0#( rhs_idx- lhs_idx)
 						print "\n\t LHS-idx has "+str(lhs_idx_terms_length)+" terms and RHS-idx "+str(rhs_idx)+" has "+str(rhs_idx_terms_length)+" terms!! "	
  						if( rhs_operand_split[0] == condn_params['fill_array'] ):
- 							difference_in_idx=str( rhs_idx_info['rest_of_the_idx'] )+' - '+str(lhs_idx_info['rest_of_the_idx'])
- 							recreate_condn_params[condn_term_key][statement_keywd]['index_translation'].append(difference_in_idx)
- 							print "\n\t Difference in idx: "+str(difference_in_idx)
+ 							difference_in_idx_rhs2lhs='('+str( rhs_idx_info['rest_of_the_idx'] )+') - ('+str(lhs_idx_info['rest_of_the_idx'])+')'
+ 							recreate_condn_params[condn_term_key][statement_keywd]['index_translation_rhs2lhs'].append(difference_in_idx_rhs2lhs)
+ 							difference_in_idx_lhs2rhs='('+str( lhs_idx_info['rest_of_the_idx'] )+') - ('+str(rhs_idx_info['rest_of_the_idx'])+')'
+ 							recreate_condn_params[condn_term_key][statement_keywd]['index_translation_lhs2rhs'].append(difference_in_idx_rhs2lhs) 							
+ 							print "\n\t Difference in idx- rhs2lhs: "+str(difference_in_idx_rhs2lhs)+" lhs2rhs: "+str(difference_in_idx_lhs2rhs)
 								
   			
 	return recreate_condn_params								
