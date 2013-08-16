@@ -142,24 +142,24 @@
 
 	 -- Did not find any operator:  and curr_operand is  lengths[i+2][j] Current idx is j
 
-	 Number-of-groups in curr_term is 1 ,  + 1;
+	 Number-of-groups in curr_term is 1 ,  +1 ;
 
-	 j: 0  + 1;
+	 j: 0  +1 ;
 
-	 -- FOUND a plus operator:   ,  1;
+	 -- FOUND a plus operator:   , 1 ;
 
-	 ++ Current idx: 	 and pass_new_operand is  1
+	 ++ Current idx: 	 and pass_new_operand is 1 
 
 	 Disassemble the following operator!! 
 
 
 	 K: 0  
 
-	 K: 1  1;
+	 K: 1 1 ;
 
-	 Yes an operator has been found! pass_new_operand:  1
+	 Yes an operator has been found! pass_new_operand: 1  pass_new_operator +
 
-	 And this is the last term!!!  + 1;
+	 And this is the last term!!!  +1 ;
 
 
 	 -- NOTICE return_params['res']['rhs_operands'][i] is  lengths[i+2][j] and the indices are
@@ -168,7 +168,7 @@
 
 		 index-no: 1 index --> j
 
-	 -- NOTICE return_params['res']['rhs_operands'][i] is  1 and the indices are
+	 -- NOTICE return_params['res']['rhs_operands'][i] is 1  and the indices are
 
 		 index-no: 0 index --> 0
 
@@ -447,9 +447,9 @@
 	 Condition :            if (a[i] == b[j])
 
 
-		 statement: lengths[i+1][j+1] = lengths[i+2][j] + 1;
+		 statement: lengths[i+1][j+1] = lengths[i+2][j] +1 ;
 
-			 LHS: lengths[i+1][j+1] 	 RHS:  lengths[i+2][j] + 1;
+			 LHS: lengths[i+1][j+1] 	 RHS:  lengths[i+2][j] +1 ;
 
 			 RHS-operator 0 -->  lengths[i+2][j] and the indices are
 
@@ -457,7 +457,7 @@
 
 				 index-no: 1 index --> j
 
-			 RHS-operator 1 -->  1 and the indices are
+			 RHS-operator 1 --> 1  and the indices are
 
 				 index-no: 0 index --> 0
 
@@ -523,7 +523,7 @@
 
 	 {
 
-	 	lengths[i+1][j+1] = lengths[i+2][j] + 1;
+	 	lengths[i+1][j+1] = lengths[i+2][j] +1 ;
 
 	 	 test_condn=1
 
@@ -589,7 +589,7 @@
 
 	 Difference in idx:  - 1
 
-	 The rhs_operand is NOT same as that of 'fill_array' 1
+	 The rhs_operand is NOT same as that of 'fill_array' 1 
 
 	 NEW CONDN ALERT 
 
@@ -665,7 +665,7 @@
 
 	 Difference in idx: 1 - 1
 
-	 [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[ 
+	 [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[ In Module [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[ 
 
 	 Number of dimensions in the given problem: 2
 
@@ -676,10 +676,7 @@
 	 Inner-loop open: 30 close: 51 
 
 
-	 Found a for loop in line no: 32          for (j=0; j < lenb ;y++ ) 
-
-
-	 Start inserting stuff until this line: 32
+	 Start inserting stuff until this line: 31
 
 	 Without bounding, the checkpoint length would be 25
 
@@ -710,14 +707,25 @@
 
 	 Index-num: 1 term-no: 0 term: j
 
-	 Currently considering the operand-num: 1 and the operand is  1 and it has 
+	 Currently considering the operand-num: 1 and the operand is 1  and it has 
 
 	 Cond: 0 statement: 0 operand-num: 1 rhs-index-num: 0 rhs-index: 0
 
-	 Operand-num 1 is NOT same as 'fill_array' 1
+	 Operand-num 1 is NOT same as 'fill_array' 1 
 
 	 Operand:  lengths[i+2][j] is searched for lengths
 
 	 This Operand:  lengths[i+2][j]
 
-	 Operand:  1 is searched for lengths
+	 Operand: 1  is searched for lengths
+
+	 Operator-num: 0 operator: +
+
+	 CASE-1 idx_terms_length: 2 idx_info_operations[0] +
+
+	 rest_of_the_rhs: +1  idx_link_operator +
+
+	 Rest_of_the_rhs: +1 
+
+	 Found a for loop in line no: 32          for (j=0; j < lenb ;y++ ) 
+
