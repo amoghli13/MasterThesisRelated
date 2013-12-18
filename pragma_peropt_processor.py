@@ -26,6 +26,10 @@ import sys,getopt,re
 #
 ############################################
 
+def CallThePolice(Msg):
+	print Msg
+	print "\n\t If running in Debug mode does not help, please report this to sure0043@umn.edu and provide as much detail as possible to reproduce the bug. "
+
 def main():
 	try: 
         	opts, args = getopt.getopt(sys.argv[1:],'i:h:v',['input',"help", 'verbose='])
@@ -47,24 +51,43 @@ def main():
            		if( re.match(r'\s*.*\.(cpp|cc)',src_file,re.I) ):
 	            		print "\n\t Source file: "+a+"\n";
 	    		else:
+	    			print "\n\t Source file is "+str(src_file)
 	    	 		print "\n\t Source file should be of type *.cpp or *.cc \n"
 	    	 		sys.exit()
         	else:
             		assert False, "unhandled option"
     # ...
     	src_file_handle=open(src_file)
-    	src_file_contents=src_file_handle.readlines()
+    	SrcFileContents=src_file_handle.readlines()
     	src_file_handle.close()
 	
-	pragma_params={}
-	pragma_params['size']=[]
+	PragmaParams={}
+	PragmaParams['NumDimensions']=0
+	PragmaParams['size']=[]
+	PragmaLines={}
+	PragmaLines['Size']=0
+	PragmaLines['CurrArray']=0
+	PragmaLines['PrevArray']=0
+	PragmaLines['DependencyLength']=0
+	PragmaLines['InsertLine']=0
+	PragmaLines['Datalayout']=0
 
-	line_count=0;
-    	for curr_line in src_file_contents:
+
+	SizeNotFound=1
+	CurrArrayNotFound=1
+	PrevArrayNotFound=1
+	DependencyLengthNotFound=1
+	InsertLineNotFound=1
+	DataLayoutNotFound=1
+	
+	
+	LineCount=-1; # To make line-count 0-indexed
+	for curr_line in SrcFileContents:
+    		LineCount+=1
     		matchObj=re.match(r'\s*\#pragma',curr_line)
     		if matchObj:
     			syntax_chk=re.match(r'\s*\#pragma\s+struct_grid',curr_line)
-	    		print "\n\t Found pragma with struct_grid in line: "+str(line_count)+" : "+curr_line    
+	    		print "\n\t Found pragma with struct_grid in line: "+str(LineCount)+" : "+curr_line    
 			if syntax_chk:
 				para_chk=re.match(r'\s*\#pragma\s+struct_grid\s+(\w+)+\s*(.*)',curr_line)  
 				if para_chk.group(1)=="size":
@@ -76,17 +99,73 @@ def main():
 					for curr_size in temp1:
 							print "\n\t Dim: "+str(dim_num)+" size "+str(curr_size)
 							dim_num+=1;
-							pragma_params['size'].append(curr_size)
+							PragmaParams['size'].append(curr_size)
+					print "\n\t Found "+str(dim_num)+" number of dimensions"
+					SizeNotFound=0
+					PragmaParams['NumDimensions']=dim_num
+					PragmaLines['Size']=LineCount
 				elif para_chk.group(1)=="curr_array":
 					print "\n\t Found curr_array --> "+str(para_chk.group(1))+" , "+str(para_chk.group(2))
-					pragma_params['curr_array']=para_chk.group(2)
+					PragmaParams['curr_array']=para_chk.group(2)
+					CurrArrayNotFound=0
+					PragmaLines['CurrArray']=LineCount
 				elif para_chk.group(1)=="prev_array":
 					print "\n\t Found prev_array --> "+str(para_chk.group(1))+" , "+str(para_chk.group(2))
-					pragma_params['prev_array']=para_chk.group(2)
+					PragmaParams['prev_array']=para_chk.group(2)
+					PrevArrayNotFound=0
+					PragmaLines['PrevArray']=LineCount
+				elif para_chk.group(1)=="dependency_length":
+					print "\n\t Found dependency_length --> "+str(para_chk.group(1))+" , "+str(para_chk.group(2))
+					PragmaParams['dependency_length']=int(para_chk.group(2))
+					DependencyLengthNotFound=0
+					PragmaLines['DependencyLength']=LineCount
+				elif para_chk.group(1)=="insert_here":
+					print "\n\t Found insert here --> "+str(para_chk.group(1))+" , "+str(para_chk.group(2))
+					#PragmaParams['insert_line']=LineCount
+					PragmaLines['InsertLine']=LineCount
+					InsertLineNotFound=0
+				elif para_chk.group(1)=="data_layout":
+					print "\n\t Found data-layout here --> "+str(para_chk.group(1))+" , "+str(para_chk.group(2))
+					PragmaParams['DataLayout']=int(para_chk.group(2))
+					PragmaLines['DataLayout']=LineCount
+					DataLayoutNotFound=0
+				
 					
-
-					#else 		
-						#print "\n\t -- Temp: "+str(temp1)
+	if( SizeNotFound or CurrArrayNotFound or PrevArrayNotFound or DependencyLengthNotFound or InsertLineNotFound or DataLayoutNotFound):
+		CallThePolice("\n\t One of the required preprocessor directive is missing. Rerun it with debug enabled.")
+	else:
+		DeleteLines=5
+		RobustFileContents=list(SrcFileContents)			
+		RobustFileContents.pop(PragmaLines['Size']) 
+		RobustFileContents.pop(PragmaLines['CurrArray']-1) 		
+		RobustFileContents.pop(PragmaLines['PrevArray']-2) 		
+		RobustFileContents.pop(PragmaLines['DependencyLength']-3) 		
+		RobustFileContents.pop(PragmaLines['DataLayout']-4) 	
+		SizeString=''
+		TabSpace='\t'
+		for CurrSizeIdx in range(len(PragmaParams['size'])):
+			SizeString+=PragmaParams['size'][CurrSizeIdx]+','
+			TabSpace+='\t'
+		#SizeString+=PragmaParams['size'][len(PragmaParams['size'])-1]
+		
+		FuncCall=TabSpace+'grid_analyze_per_quadrant('+str(PragmaParams['curr_array'])+','+str(PragmaParams['prev_array'])+','+str(SizeString)+str(PragmaParams['DataLayout'])+')'
+		print "\n\t FuncCall: "+str(FuncCall)
+		print "\n\t Before: "+str(RobustFileContents[PragmaLines['InsertLine']-DeleteLines])
+		RobustFileContents[PragmaLines['InsertLine']-DeleteLines]=FuncCall
+		print "\n\t After: "+str(RobustFileContents[PragmaLines['InsertLine']-DeleteLines])		
+		
+		RobustFileName='Robust_'+str(src_file)
+		RobustFile=open(RobustFileName,'w')
+		RobustFile.write("\n\t #include RobustIterativeSG.h \n")
+		for CurrLine in RobustFileContents:
+			RobustFile.write(CurrLine)
+		
+		print "\n\t Should have generated the RobustFile: "+str(RobustFileName)
+		RobustFile.close()
+			
+		
+		
+		
 if __name__ == "__main__":
     main()
 
