@@ -9,8 +9,8 @@ import sys,getopt,re
 #		b. Name of current and previous grid.
 #		c. Line at which the equation is present.
 #
-#
-#
+#PENDING:
+#1. Should have valid code for the library of "RobustIterativeSG.h"
 
 # Assumptions for now
 #
