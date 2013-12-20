@@ -45,13 +45,21 @@ def main():
 	PragmaParams={}
 	PragmaParams['NumDimensions']=0
 	PragmaParams['size']=[]
+	PragmaParams['CurrArray']=''
+	PragmaParams['PrevArray']=''
+	PragmaParams['Eqn']=''
+	PragmaParams['Iteration']=''
+	PragmaParams['DataLayout']=0
+	
 	PragmaLines={}
 	PragmaLines['Size']=0
 	PragmaLines['CurrArray']=0
 	PragmaLines['PrevArray']=0
 	PragmaLines['StencilLength']=0
 	PragmaLines['InsertLine']=0
-	PragmaLines['Datalayout']=0
+	PragmaLines['DataLayout']=0
+	PragmaLines['Eqn']=0
+	PragmaLines['Iteration']=0
 
 
 	SizeNotFound=1
@@ -61,6 +69,8 @@ def main():
 	InsertLineNotFound=1
 	DataLayoutNotFound=1
 	EqnNotFound=1
+	IterationNotFound=1
+	PragmasDeleteOrder=[]
 	
 	LineCount=-1; # To make line-count 0-indexed
 	for curr_line in SrcFileContents:
@@ -85,26 +95,31 @@ def main():
 					SizeNotFound=0
 					PragmaParams['NumDimensions']=dim_num
 					PragmaLines['Size']=LineCount
+					PragmasDeleteOrder.append(LineCount)
 				elif para_chk.group(1)=="curr_array":
 					print "\n\t Found curr_array --> "+str(para_chk.group(1))+" , "+str(para_chk.group(2))
 					PragmaParams['curr_array']=para_chk.group(2)
 					CurrArrayNotFound=0
 					PragmaLines['CurrArray']=LineCount
+					PragmasDeleteOrder.append(LineCount)
 				elif para_chk.group(1)=="prev_array":
 					print "\n\t Found prev_array --> "+str(para_chk.group(1))+" , "+str(para_chk.group(2))
 					PragmaParams['prev_array']=para_chk.group(2)
 					PrevArrayNotFound=0
 					PragmaLines['PrevArray']=LineCount
+					PragmasDeleteOrder.append(LineCount)
 				elif para_chk.group(1)=="stencil_length":
 					print "\n\t Found stencil_length --> "+str(para_chk.group(1))+" , "+str(para_chk.group(2))
 					PragmaParams['stencil_length']=int(para_chk.group(2))
 					StencilLengthNotFound=0
 					PragmaLines['StencilLength']=LineCount
+					PragmasDeleteOrder.append(LineCount)
 				elif para_chk.group(1)=="insert_here":
 					print "\n\t Found insert here --> "+str(para_chk.group(1))+" , "+str(para_chk.group(2))
 					#PragmaParams['insert_line']=LineCount
 					PragmaLines['InsertLine']=LineCount
 					InsertLineNotFound=0
+					#PragmasDeleteOrder.append(LineCount)
 				elif para_chk.group(1)=="data_layout":
 					print "\n\t Found data-layout here --> "+str(para_chk.group(1))+" , "+str(para_chk.group(2))
 					Dummy=re.sub('^\s*','',para_chk.group(2))
@@ -112,37 +127,48 @@ def main():
 					PragmaParams['DataLayout']=int(DataLayout)
 					PragmaLines['DataLayout']=LineCount
 					DataLayoutNotFound=0
+					PragmasDeleteOrder.append(LineCount)
 					if((PragmaParams['DataLayout']!=1)):
 						print "\n\t Currently only data-layout option 1 is supported and the code is: "+str(PragmaParams['DataLayout'])+"\n"
 						sys.exit()
 				elif para_chk.group(1)=="equation":
 					print "\n\t Found the equation: "+str(para_chk.group(2))
 					PragmaParams['Eqn']=str(para_chk.group(2))
+					PragmaLines['Eqn']=LineCount
 					EqnNotFound=0
+					#PragmasDeleteOrder.append(LineCount)
+				elif para_chk.group(1)=="iteration":
+					print "\n\t Found the iteration: "+str(para_chk.group(2))
+					PragmaParams['Iteration']=str(para_chk.group(2))
+					PragmaLines['Iteration']=LineCount
+					IterationNotFound=0
+					PragmasDeleteOrder.append(LineCount)
 				
 					
-	if( SizeNotFound or CurrArrayNotFound or PrevArrayNotFound or StencilLengthNotFound or InsertLineNotFound or DataLayoutNotFound or EqnNotFound):
+	if( SizeNotFound or CurrArrayNotFound or PrevArrayNotFound or StencilLengthNotFound or InsertLineNotFound or DataLayoutNotFound or EqnNotFound or IterationNotFound):
 		CallThePolice("\n\t One of the required preprocessor directive is missing. Rerun it with debug enabled.")
 	else:
-		DeleteLines=5
-		RobustFileContents=list(SrcFileContents)			
-		RobustFileContents.pop(PragmaLines['Size']) 
-		RobustFileContents.pop(PragmaLines['CurrArray']-1) 		
-		RobustFileContents.pop(PragmaLines['PrevArray']-2) 		
-		RobustFileContents.pop(PragmaLines['StencilLength']-3) 		
-		RobustFileContents.pop(PragmaLines['DataLayout']-4) 	
+
+		RobustFileContents=list(SrcFileContents)
+		AdjustLines=0
+		for LineNum in PragmasDeleteOrder:
+			RobustFileContents.pop(LineNum-AdjustLines)
+			AdjustLines+=1 
+ 
+		
 		SizeString=''
-		TabSpace='\t'
+		TabSpace='\t\t'
 		for CurrSizeIdx in range(len(PragmaParams['size'])):
 			SizeString+=PragmaParams['size'][CurrSizeIdx]+','
 			TabSpace+='\t'
 		#SizeString+=PragmaParams['size'][len(PragmaParams['size'])-1]
 		
-		FuncCall=TabSpace+'grid_analyze_per_quadrant('+str(PragmaParams['curr_array'])+','+str(PragmaParams['prev_array'])+','+str(SizeString)+str(PragmaParams['DataLayout'])+')'
+		FuncCall=TabSpace+'grid_analyze_per_quadrant('+str(PragmaParams['curr_array'])+','+str(PragmaParams['prev_array'])+','+str(SizeString)+str(PragmaParams['DataLayout'])+','+str(PragmaParams['Iteration'])+');'
 		print "\n\t FuncCall: "+str(FuncCall)
-		print "\n\t Before: "+str(RobustFileContents[PragmaLines['InsertLine']-DeleteLines])
-		RobustFileContents[PragmaLines['InsertLine']-DeleteLines]=FuncCall
-		print "\n\t After: "+str(RobustFileContents[PragmaLines['InsertLine']-DeleteLines])		
+		print "\n\t Before: "+str(RobustFileContents[PragmaLines['InsertLine']-AdjustLines])
+		RobustFileContents[PragmaLines['InsertLine']-AdjustLines]=FuncCall
+		print "\n\t After: "+str(RobustFileContents[PragmaLines['InsertLine']-AdjustLines])		
+		RobustFileContents[PragmaLines['Eqn']-AdjustLines]=TabSpace+PragmaParams['Eqn']
 		
 		RobustFileName='Robust_'+str(src_file)
 		RobustFile=open(RobustFileName,'w')

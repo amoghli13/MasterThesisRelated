@@ -134,13 +134,13 @@ void init(int num_rows, int num_cols, int dependency_length)
 	num_tiles_within_quad=num_tiles_within_row*num_tiles_within_col;
 
 	 
-	dt= ( (double) 1/total_iters );
-	dx= ( (double) (xmax-xmin) /num_cols );
-	dy= ( (double) (ymax-ymin) /num_rows );
+//	dt= ( (double) 1/total_iters );
+//	dx= ( (double) (xmax-xmin) /num_cols );
+//	dy= ( (double) (ymax-ymin) /num_rows );
 
-	aux11=( (c*dt) ); aux12=( (c*dt) );
-	aux1= ( dx * dx ); aux2= ( dy *dy );
-	aux1=aux11/aux1; aux2= aux12/aux2;
+//	aux11=( (c*dt) ); aux12=( (c*dt) );
+//	aux1= ( dx * dx ); aux2= ( dy *dy );
+//	aux1=aux11/aux1; aux2= aux12/aux2;
 
 	aux1=0.1; aux2=0.1;
 	

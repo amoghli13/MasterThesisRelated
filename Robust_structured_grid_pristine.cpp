@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
 			heat_mat2=A;
 		}
 		     
-		#pragma struct_grid data_layout 1 
+		//#pragma struct_grid start
 		//#pragma struct_grid data_layout 1. 1 dimensional, 2. 2 dimensional 3. 3-dimensional
 		
 		for (int row_idx = dependency_length ; row_idx < num_rows - dependency_length ; row_idx++) 
@@ -45,10 +45,9 @@ int main(int argc, char* argv[])
 			for (int col_idx = dependency_length ; col_idx < num_cols-dependency_length ; col_idx++) 
 			{
 		  		 int index= row_idx*num_cols + col_idx;
-				 #pragma struct_grid equation heat_mat1[index] =   0.125 * ( heat_mat2[index+num_cols]  - 2.0 * heat_mat2[index] + heat_mat2[index-num_cols] )+ 0.125 * (heat_mat2[index+1] - 2.0 * heat_mat2[index] + heat_mat2[index-1]) + heat_mat2[index];
-			}
-			grid_analyze_per_quadrant(heat_mat1,heat_mat2,100,150,1)		}
-		//#pragma struct_grid end		
+				heat_mat1[index] =   0.125 * ( heat_mat2[index+num_cols]  - 2.0 * heat_mat2[index] + heat_mat2[index-num_cols] )+ 0.125 * (heat_mat2[index+1] - 2.0 * heat_mat2[index] + heat_mat2[index-1]) + heat_mat2[index];			}
+		}
+				grid_analyze_per_quadrant(heat_mat1,heat_mat2,100,150,1,t);		//#pragma struct_grid end		
 	}
 
 	save_matrix(heat_mat1,num_rows,num_cols,"matA",filename);
