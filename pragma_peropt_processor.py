@@ -2,30 +2,6 @@ import sys,getopt,re
 
 #! /usr/bin/python
 
-##########################################
-# Implementation:
-#	1. Accept pragma for following options. Check for each option and throw error if one of them is not available.
-#		a. Size in each dimension (hence figure out which dimension) - should be CSV atleast. 
-#		b. Name of current and previous grid.
-#		c. Line at which the equation is present.
-#
-#PENDING:
-#1. Should have valid code for the library of "RobustIterativeSG.h"
-
-# Assumptions for now
-#
-#
-#
-#
-#
-#
-##########################################
-# Future to-do ?
-#	
-#
-#
-############################################
-
 def CallThePolice(Msg):
 	print Msg
 	print "\n\t If running in Debug mode does not help, please report this to sure0043@umn.edu and provide as much detail as possible to reproduce the bug. "
@@ -79,7 +55,7 @@ def main():
 	StencilLengthNotFound=1
 	InsertLineNotFound=1
 	DataLayoutNotFound=1
-	
+	EqnNotFound=1
 	
 	LineCount=-1; # To make line-count 0-indexed
 	for curr_line in SrcFileContents:
@@ -126,15 +102,21 @@ def main():
 					InsertLineNotFound=0
 				elif para_chk.group(1)=="data_layout":
 					print "\n\t Found data-layout here --> "+str(para_chk.group(1))+" , "+str(para_chk.group(2))
-					PragmaParams['DataLayout']=int(para_chk.group(2))
+					Dummy=re.sub('^\s*','',para_chk.group(2))
+					DataLayout=re.sub('\s*$','',Dummy)
+					PragmaParams['DataLayout']=int(DataLayout)
 					PragmaLines['DataLayout']=LineCount
 					DataLayoutNotFound=0
+					if((PragmaParams['DataLayout']!=1)):
+						print "\n\t Currently only data-layout option 1 is supported and the code is: "+str(PragmaParams['DataLayout'])+"\n"
+						sys.exit()
 				elif para_chk.group(1)=="equation":
 					print "\n\t Found the equation: "+str(para_chk.group(2))
 					PragmaParams['Eqn']=str(para_chk.group(2))
+					EqnNotFound=0
 				
 					
-	if( SizeNotFound or CurrArrayNotFound or PrevArrayNotFound or StencilLengthNotFound or InsertLineNotFound or DataLayoutNotFound):
+	if( SizeNotFound or CurrArrayNotFound or PrevArrayNotFound or StencilLengthNotFound or InsertLineNotFound or DataLayoutNotFound or EqnNotFound):
 		CallThePolice("\n\t One of the required preprocessor directive is missing. Rerun it with debug enabled.")
 	else:
 		DeleteLines=5
@@ -182,7 +164,7 @@ def main():
 				NumEqnFound+=1
 
 
-		if(EqnNotFound or (NumEqnFound!=2)):
+		if(EqnNotFound or (NumEqnFound!=1)):
 			CallThePolice("\n\t Equation insert loation not found or the number of equations found is "+str(NumEqnFound))
 		else:
 			IterativeLib=open("RobustIterativeSG.h","w")

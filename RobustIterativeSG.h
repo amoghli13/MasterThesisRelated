@@ -475,8 +475,7 @@ for(int quad_idx=0,num_times_quad_checked=0;quad_idx<grid_num_quad;quad_idx++)
 											{
 	 											index=row_offset+col_idx;
 												double temp=heat_mat2[index];
-
-	heat_mat1[index] =   0.125 * ( heat_mat2[index+num_cols]  - 2.0 * heat_mat2[index] + heat_mat2[index-num_cols] )+ 0.125 * (heat_mat2[index+1] - 2.0 * heat_mat2[index] + heat_mat2[index-1]) + heat_mat2[index];												//heat_mat1[index] =   aux1 * ( heat_mat2[index+num_cols]  - 2.0 * heat_mat2[index] + heat_mat2[index-num_cols] ) + aux2 * (heat_mat2[index+1] - 2.0 * heat_mat2[index] + heat_mat2[index-1] ) + heat_mat2[index];					   
+												//heat_mat1[index] =   aux1 * ( heat_mat2[index+num_cols]  - 2.0 * heat_mat2[index] + heat_mat2[index-num_cols] ) + aux2 * (heat_mat2[index+1] - 2.0 * heat_mat2[index] + heat_mat2[index-1] ) + heat_mat2[index];					   
 						
 												 error_quad+=( ( temp-heat_mat1[index] ) * ( temp-heat_mat1[index] )  ); //- heat_mat1[index-1]  );
  
