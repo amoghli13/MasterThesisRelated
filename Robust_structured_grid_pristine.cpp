@@ -45,9 +45,7 @@ int main(int argc, char* argv[])
 			for (int col_idx = dependency_length ; col_idx < num_cols-dependency_length ; col_idx++) 
 			{
 		  		 int index= row_idx*num_cols + col_idx;
-				 heat_mat1[index] =   0.125 * ( heat_mat2[index+num_cols]  - 2.0 * heat_mat2[index] + heat_mat2[index-num_cols] )
-						         + 0.125 * (heat_mat2[index+1] - 2.0 * heat_mat2[index] + heat_mat2[index-1])
-						        + heat_mat2[index];
+				 #pragma struct_grid equation heat_mat1[index] =   0.125 * ( heat_mat2[index+num_cols]  - 2.0 * heat_mat2[index] + heat_mat2[index-num_cols] )+ 0.125 * (heat_mat2[index+1] - 2.0 * heat_mat2[index] + heat_mat2[index-1]) + heat_mat2[index];
 			}
 			grid_analyze_per_quadrant(heat_mat1,heat_mat2,100,150,1)		}
 		//#pragma struct_grid end		

@@ -41,16 +41,14 @@ int main(int argc, char* argv[])
 		#pragma struct_grid prev_array heat_mat2
 		#pragma struct_grid data_layout 1 
 		//#pragma struct_grid data_layout 1. 1 dimensional, 2. 2 dimensional 3. 3-dimensional
-		#pragma struct_grid dependency_length 1
+		#pragma struct_grid stencil_length 1
 		
 		for (int row_idx = dependency_length ; row_idx < num_rows - dependency_length ; row_idx++) 
 		{
 			for (int col_idx = dependency_length ; col_idx < num_cols-dependency_length ; col_idx++) 
 			{
 		  		 int index= row_idx*num_cols + col_idx;
-				 heat_mat1[index] =   0.125 * ( heat_mat2[index+num_cols]  - 2.0 * heat_mat2[index] + heat_mat2[index-num_cols] )
-						         + 0.125 * (heat_mat2[index+1] - 2.0 * heat_mat2[index] + heat_mat2[index-1])
-						        + heat_mat2[index];
+				 #pragma struct_grid equation heat_mat1[index] =   0.125 * ( heat_mat2[index+num_cols]  - 2.0 * heat_mat2[index] + heat_mat2[index-num_cols] )+ 0.125 * (heat_mat2[index+1] - 2.0 * heat_mat2[index] + heat_mat2[index-1]) + heat_mat2[index];
 			}
 			#pragma struct_grid insert_here
 		}

@@ -68,7 +68,7 @@ def main():
 	PragmaLines['Size']=0
 	PragmaLines['CurrArray']=0
 	PragmaLines['PrevArray']=0
-	PragmaLines['DependencyLength']=0
+	PragmaLines['StencilLength']=0
 	PragmaLines['InsertLine']=0
 	PragmaLines['Datalayout']=0
 
@@ -76,7 +76,7 @@ def main():
 	SizeNotFound=1
 	CurrArrayNotFound=1
 	PrevArrayNotFound=1
-	DependencyLengthNotFound=1
+	StencilLengthNotFound=1
 	InsertLineNotFound=1
 	DataLayoutNotFound=1
 	
@@ -114,11 +114,11 @@ def main():
 					PragmaParams['prev_array']=para_chk.group(2)
 					PrevArrayNotFound=0
 					PragmaLines['PrevArray']=LineCount
-				elif para_chk.group(1)=="dependency_length":
-					print "\n\t Found dependency_length --> "+str(para_chk.group(1))+" , "+str(para_chk.group(2))
-					PragmaParams['dependency_length']=int(para_chk.group(2))
-					DependencyLengthNotFound=0
-					PragmaLines['DependencyLength']=LineCount
+				elif para_chk.group(1)=="stencil_length":
+					print "\n\t Found stencil_length --> "+str(para_chk.group(1))+" , "+str(para_chk.group(2))
+					PragmaParams['stencil_length']=int(para_chk.group(2))
+					StencilLengthNotFound=0
+					PragmaLines['StencilLength']=LineCount
 				elif para_chk.group(1)=="insert_here":
 					print "\n\t Found insert here --> "+str(para_chk.group(1))+" , "+str(para_chk.group(2))
 					#PragmaParams['insert_line']=LineCount
@@ -129,9 +129,12 @@ def main():
 					PragmaParams['DataLayout']=int(para_chk.group(2))
 					PragmaLines['DataLayout']=LineCount
 					DataLayoutNotFound=0
+				elif para_chk.group(1)=="equation":
+					print "\n\t Found the equation: "+str(para_chk.group(2))
+					PragmaParams['Eqn']=str(para_chk.group(2))
 				
 					
-	if( SizeNotFound or CurrArrayNotFound or PrevArrayNotFound or DependencyLengthNotFound or InsertLineNotFound or DataLayoutNotFound):
+	if( SizeNotFound or CurrArrayNotFound or PrevArrayNotFound or StencilLengthNotFound or InsertLineNotFound or DataLayoutNotFound):
 		CallThePolice("\n\t One of the required preprocessor directive is missing. Rerun it with debug enabled.")
 	else:
 		DeleteLines=5
@@ -139,7 +142,7 @@ def main():
 		RobustFileContents.pop(PragmaLines['Size']) 
 		RobustFileContents.pop(PragmaLines['CurrArray']-1) 		
 		RobustFileContents.pop(PragmaLines['PrevArray']-2) 		
-		RobustFileContents.pop(PragmaLines['DependencyLength']-3) 		
+		RobustFileContents.pop(PragmaLines['StencilLength']-3) 		
 		RobustFileContents.pop(PragmaLines['DataLayout']-4) 	
 		SizeString=''
 		TabSpace='\t'
@@ -162,9 +165,31 @@ def main():
 		
 		print "\n\t Should have generated the RobustFile: "+str(RobustFileName)
 		RobustFile.close()
-			
 		
-		
+		IterativeLib=open("RobustIterativeSGDefault.h","r")
+		ChangeLib=IterativeLib.readlines()
+		IterativeLib.close()
+		EqnNotFound=1
+		NumEqnFound=0
+		LineNum=-1
+		for CurrLine in ChangeLib:
+			LineNum+=1
+			ShouldInsertHere=re.match('^\s*insert\_equation\s*$',CurrLine)
+			if ShouldInsertHere:
+				print "\n\t Is this the line where I should insert?? "+str(CurrLine)
+				ChangeLib[LineNum]='\n\t'+PragmaParams['Eqn']	
+				EqnNotFound=0
+				NumEqnFound+=1
+
+
+		if(EqnNotFound or (NumEqnFound!=2)):
+			CallThePolice("\n\t Equation insert loation not found or the number of equations found is "+str(NumEqnFound))
+		else:
+			IterativeLib=open("RobustIterativeSG.h","w")
+			for CurrLine in ChangeLib:
+				IterativeLib.write(CurrLine)
+			IterativeLib.close()
+			print "\n\t Library is also updated! "
 		
 if __name__ == "__main__":
     main()
