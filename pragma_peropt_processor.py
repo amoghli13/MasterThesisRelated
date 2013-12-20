@@ -7,6 +7,7 @@ def CallThePolice(Msg):
 	print "\n\t If running in Debug mode does not help, please report this to sure0043@umn.edu and provide as much detail as possible to reproduce the bug. "
 
 def main():
+    
 	try: 
         	opts, args = getopt.getopt(sys.argv[1:],'i:h:v',['input',"help", 'verbose='])
     	except getopt.GetoptError as err:
@@ -15,6 +16,7 @@ def main():
 		usage()
 		sys.exit(2)
     	verbose = False
+    	src_file=''
     	for o, a in opts:
         	if o == "-v":
             		verbose = True
@@ -33,6 +35,9 @@ def main():
         	else:
             		assert False, "unhandled option"
     # ...
+        if(src_file==''): 
+        	print "\n\t The script requires an input -i/--input \n"
+        	sys.exit(0)
     	src_file_handle=open(src_file)
     	SrcFileContents=src_file_handle.readlines()
     	src_file_handle.close()
