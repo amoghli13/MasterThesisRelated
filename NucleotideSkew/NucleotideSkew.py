@@ -37,8 +37,8 @@ def FindGeneRanges(GeneFile,GeneType):
 		if CurrLine:
 			Range=[]
 			#print "\n\t LineNum: "+str(LineNum)+" CurrLine "+str(CurrLine.group(0))
-			Range.append(CurrLine.group(1))
-			Range.append(CurrLine.group(2))
+			Range.append(int(CurrLine.group(1)))
+			Range.append(int(CurrLine.group(2)))
 			GeneRanges.append(Range)
 			NumGene+=1
 		else:
@@ -109,7 +109,7 @@ def main(argv):
 	for CurrRangeNum in range(TotalGeneNum):
 		# Since Gene ranges are assumed to be non-overlapping, hence it must be sufficient to just compare start ranges! 
 		#print "\n\t MaxGeneNum "+str(MaxGeneNum)+" MinGeneNum "+str(MinGeneNum)
-		if ( (MaxGene[MaxGeneNum][0] > MinGene[MinGeneNum][0]) ): #and (MaxGene[MaxGeneNum][0] > MinGene[MinRangeNum][1]) ):
+		if ( (MaxGene[MaxGeneNum][0] > MinGene[MinGeneNum][0]) and (MaxGene[MaxGeneNum][0] > MinGene[MinGeneNum][1]) ):
 			TotalGeneRanges.append(MinGene[MinGeneNum])
 			MinGeneNum+=1
 			#print "\n\t MinGeneNum "+str(MinGeneNum)+" TotalMinGeneNum "+str(TotalMinGeneNum)
@@ -130,8 +130,8 @@ def main(argv):
 			
 	print "\n\t TotalGeneNum "+str(len(TotalGeneRanges))
 
-	#for CurrRange in TotalGeneRanges:
-	#	print "\n\t Gene-start "+str(TotalGeneRanges[CurrRange][0])+" end "+str(TotalGeneRanges[CurrRange][1])
+	for CurrRange in TotalGeneRanges:
+		print "\n\t Gene-start "+str(CurrRange[0])+" end "+str(CurrRange[1])
 	
 	
 	
