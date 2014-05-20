@@ -108,23 +108,73 @@ def main(argv):
 
 	for CurrRangeNum in range(TotalGeneNum):
 		# Since Gene ranges are assumed to be non-overlapping, hence it must be sufficient to just compare start ranges! 
-		#print "\n\t MaxGeneNum "+str(MaxGeneNum)+" MinGeneNum "+str(MinGeneNum)
-		if ( (MaxGene[MaxGeneNum][0] > MinGene[MinGeneNum][0]) and (MaxGene[MaxGeneNum][0] > MinGene[MinGeneNum][1]) ):
-			TotalGeneRanges.append(MinGene[MinGeneNum])
-			MinGeneNum+=1
-			#print "\n\t MinGeneNum "+str(MinGeneNum)+" TotalMinGeneNum "+str(TotalMinGeneNum)
-			if( MinGeneNum >= TotalMinGeneNum):
-				for RangeNum in range(MaxGeneNum,TotalGeneNum-MinGeneNum):
-					TotalGeneRanges.append(MaxGene[RangeNum])
-				break
+		print "\n\t MaxGeneNum "+str(MaxGeneNum)+" gene "+str(MaxGene[MaxGeneNum]) +" MinGeneNum "+str(MinGeneNum)+" gene "+str(MinGene[MinGeneNum])
+		if ( (MaxGene[MaxGeneNum][0] >= MinGene[MinGeneNum][0]) ):
+			if ((MaxGene[MaxGeneNum][0] >= MinGene[MinGeneNum][1]) ):
+				TotalGeneRanges.append(MinGene[MinGeneNum])
+				MinGeneNum+=1
+				#print "\n\t MinGeneNum "+str(MinGeneNum)+" TotalMinGeneNum "+str(TotalMinGeneNum)
+				if( MinGeneNum >= TotalMinGeneNum):
+					for RangeNum in range(MaxGeneNum,TotalGeneNum-MinGeneNum):
+						TotalGeneRanges.append(MaxGene[RangeNum])
+					break
+			else:
+				MergeGene=[]
+				MergeGene.append(MinGene[MinGeneNum][0])
+				if(MaxGene[MaxGeneNum][1] >= MinGene[MinGeneNum][1] ):
+					MergeGene.append(MaxGene[MaxGeneNum][1])
+				else:
+					MergeGene.append(MinGene[MinGeneNum][1])
+				TotalGeneRanges.append(MergeGene)
+				MinGeneNum+=1
+				MaxGeneNum+=1
+				#print "\n\t MinGeneNum "+str(MinGeneNum)+" TotalMinGeneNum "+str(TotalMinGeneNum)
+				if( MinGeneNum >= TotalMinGeneNum):
+					for RangeNum in range(MaxGeneNum,TotalGeneNum-MinGeneNum):
+						TotalGeneRanges.append(MaxGene[RangeNum])
+					break
+				if(MaxGeneNum >= TotalMaxGeneNum):
+					for RangeNum in range(MinGeneNum,TotalGeneNum-MaxGeneNum):
+						TotalGeneRanges.append(MinGene[RangeNum])
+					break					
+				
+		elif ((MaxGene[MaxGeneNum][1] >= MinGene[MinGeneNum][0]) ):
+		    if ((MaxGene[MaxGeneNum][1] >= MinGene[MinGeneNum][1]) ):
+				TotalGeneRanges.append(MaxGene[MaxGeneNum])
+				MaxGeneNum+=1
+				MinGeneNum+=1
+				#print "\n\t MaxGeneNum "+str(MaxGeneNum)+" TotalMaxGeneNum "+str(TotalMaxGeneNum)
+				if( MinGeneNum >= TotalMinGeneNum):
+					for RangeNum in range(MaxGeneNum,TotalGeneNum-MinGeneNum):
+						TotalGeneRanges.append(MaxGene[RangeNum])
+					break				
+				if( MaxGeneNum >= TotalMaxGeneNum):
+					for RangeNum in range(MinGeneNum,TotalGeneNum-MaxGeneNum):
+						TotalGeneRanges.append(MinGene[RangeNum])
+					break
+		    else:
+				MergeGene=[]
+				MergeGene.append(MaxGene[MaxGeneNum][0])
+				MergeGene.append(MinGene[MinGeneNum][1])
+				TotalGeneRanges.append(MergeGene)
+				MinGeneNum+=1
+				MaxGeneNum+=1
+				#print "\n\t MinGeneNum "+str(MinGeneNum)+" TotalMinGeneNum "+str(TotalMinGeneNum)
+				if( MinGeneNum >= TotalMinGeneNum):
+					for RangeNum in range(MaxGeneNum,TotalGeneNum-MinGeneNum):
+						TotalGeneRanges.append(MaxGene[RangeNum])
+					break
+				if(MaxGeneNum >= TotalMaxGeneNum):
+					for RangeNum in range(MinGeneNum,TotalGeneNum-MaxGeneNum):
+						TotalGeneRanges.append(MinGene[RangeNum])
+					break					
 		else:
-			TotalGeneRanges.append(MaxGene[MaxGeneNum])
-			MaxGeneNum+=1
-			#print "\n\t MaxGeneNum "+str(MaxGeneNum)+" TotalMaxGeneNum "+str(TotalMaxGeneNum)
-			if( MaxGeneNum >= TotalMaxGeneNum):
-				for RangeNum in range(MinGeneNum,TotalGeneNum-MaxGeneNum):
-					TotalGeneRanges.append(MinGene[RangeNum])
-				break
+				TotalGeneRanges.append(MaxGene[MaxGeneNum])
+				MaxGeneNum+=1
+				if( MaxGeneNum >= TotalMaxGeneNum):
+					for RangeNum in range(MinGeneNum,TotalGeneNum-MaxGeneNum):
+						TotalGeneRanges.append(MinGene[RangeNum])
+					break			
 
 
 			
