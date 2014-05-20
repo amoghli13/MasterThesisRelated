@@ -108,7 +108,7 @@ def main(argv):
 
 	for CurrRangeNum in range(TotalGeneNum):
 		# Since Gene ranges are assumed to be non-overlapping, hence it must be sufficient to just compare start ranges! 
-		print "\n\t MaxGeneNum "+str(MaxGeneNum)+" gene "+str(MaxGene[MaxGeneNum]) +" MinGeneNum "+str(MinGeneNum)+" gene "+str(MinGene[MinGeneNum])
+		#print "\n\t MaxGeneNum "+str(MaxGeneNum)+" gene "+str(MaxGene[MaxGeneNum]) +" MinGeneNum "+str(MinGeneNum)+" gene "+str(MinGene[MinGeneNum])
 		if ( (MaxGene[MaxGeneNum][0] >= MinGene[MinGeneNum][0]) ):
 			if ((MaxGene[MaxGeneNum][0] >= MinGene[MinGeneNum][1]) ):
 				TotalGeneRanges.append(MinGene[MinGeneNum])
@@ -178,10 +178,79 @@ def main(argv):
 
 
 			
-	print "\n\t TotalGeneNum "+str(len(TotalGeneRanges))
+	TotalGeneNum=len(TotalGeneRanges)
+	print "\n\t TotalGeneNum "+str(TotalGeneNum)
 
-	for CurrRange in TotalGeneRanges:
-		print "\n\t Gene-start "+str(CurrRange[0])+" end "+str(CurrRange[1])
+	#for CurrRange in TotalGeneRanges:
+	#	print "\n\t Gene-start "+str(CurrRange[0])+" end "+str(CurrRange[1])
+	
+	GenomeFileName=GenomeID+str('.fna')
+	File1=open(GenomeFileName)
+	GenomeFile=File1.readlines()
+	File1.close()
+
+	GenomeFileOffset=1	
+	GenomeFileNumLines=len(GenomeFile)
+	print "\n\t Num-lines genome: "+str(GenomeFileNumLines)+" and the genome file offset is: "+str(GenomeFileOffset)
+
+	Genome=""
+	for LineNum in range(GenomeFileOffset,GenomeFileNumLines):
+		CurrLine=GenomeFile[LineNum]
+		Genome+=CurrLine
+		#Nucleotides=CurrLine.split('G')
+		#print "\n\t CurrLine: "+str(CurrLine)+" length: "+str(len(Nucleotides))
+		#break
+
+	del GenomeFile	
+	GenomeLen=len(Genome)
+	print "\n\t Length of genome: "+str(GenomeLen)+" 8th Nucleotide "+str(Genome[1:5])
+	Genome+='-' # Just in case we access " TotalGeneRanges[CurrGene][1]+1
+	GeneNucleotides="" #[]
+	NonGeneNucleotides="" #[]
+
+	if(TotalGeneRanges[0][0]):
+		NonGeneStart=0
+		#NonGeneEnd=TotalGeneRanges[0][0]
+		for CurrGene in range(TotalGeneNum):
+			GeneNucleotides+=(Genome[(TotalGeneRanges[CurrGene][0]-1):(TotalGeneRanges[CurrGene][1])]) # Nucleotide count used in *.ptt etc is index-1.
+			NonGeneNucleotides+=(Genome[(NonGeneStart):(TotalGeneRanges[CurrGene][0])])		
+			NonGeneStart=TotalGeneRanges[CurrGene][1]	
+		NonGeneNucleotides+=(Genome[(NonGeneStart):(GenomeLen-1)])		
+		print "	\n\t Gene-length: "+str(len(GeneNucleotides))+" Non-Gene-length "+str(len(NonGeneNucleotides))
+	else:
+		print "\n\t This Genome seems to be fault since it has a gene which begins at nucleotide 0"
+	GeneSkew={}
+	NonGeneSkew={}
+	GeneSkew['1']={};GeneSkew['1']['G']=0;GeneSkew['1']['C']=0; NonGeneSkew['1']={};NonGeneSkew['1']['G']=0;NonGeneSkew['1']['C']=0; 
+	GeneSkew['2']={};GeneSkew['2']['G']=0;GeneSkew['2']['C']=0; NonGeneSkew['2']={};NonGeneSkew['2']['G']=0;NonGeneSkew['2']['C']=0;
+	GeneSkew['3']={};GeneSkew['3']['G']=0;GeneSkew['3']['C']=0; NonGeneSkew['3']={};NonGeneSkew['3']['G']=0;NonGeneSkew['3']['C']=0;
+	
+	GeneLen=len(GeneNucleotides)
+	NonGeneLen=len(NonGeneNucleotides)
+	
+	WindowLength=9999
+	StepSize=3
+	#WindowNum=0;NumWindows=GeneLen/3
+	WindowStart=0
+
+	WindowStart
+	WindowEnd=WindowStart+WindowLength
+	for CurrNucleotide in range(WindowStart,WindowEnd)
+		for
+	
+	
+		
+"""		GeneStart=0
+		NonGeneEnd=TotalGeneRanges[1][0] # Assuming that there is atleast 2 genes! 
+		#GeneEnd=TotalGeneRanges[0][0]
+		for CurrGene in range(TotalGeneNum-1):
+			GeneNucleotides+=(Genome[(GeneStart):(TotalGeneRanges[CurrGene][1])])
+			NonGeneNucleotides+=(Genome[(TotalGeneRanges[CurrGene][1]):(NonGeneEnd)]) # Nucleotide count used in *.ptt etc is index-1.
+		
+			GeneStart=TotalGeneRanges[CurrGene][1]
+			NonGeneEnd=	TotalGeneRanges[CurrGene+1][0]
+		NonGeneNucleotides+=(Genome[(GeneStart):(GenomeLen-1)])		# Abusing the variable "GeneStart" here! """
+
 	
 	
 	
