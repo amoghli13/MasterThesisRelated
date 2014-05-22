@@ -5,6 +5,7 @@ import sys,getopt,re
 
 def usage():
 	print "\n\t NucleotideSkew.py -g <GENOME-ID> \n\t Optional: -h<help>"
+	print "\n\t Defaults: Window-size: 9999 Step-size: 3, both of them SHOULD be multiple of 3. "
 	FileCheck()
 	sys.exit()
 	
@@ -219,26 +220,110 @@ def main(argv):
 		print "	\n\t Gene-length: "+str(len(GeneNucleotides))+" Non-Gene-length "+str(len(NonGeneNucleotides))
 	else:
 		print "\n\t This Genome seems to be fault since it has a gene which begins at nucleotide 0"
-	GeneSkew={}
-	NonGeneSkew={}
-	GeneSkew['1']={};GeneSkew['1']['G']=0;GeneSkew['1']['C']=0; NonGeneSkew['1']={};NonGeneSkew['1']['G']=0;NonGeneSkew['1']['C']=0; 
-	GeneSkew['2']={};GeneSkew['2']['G']=0;GeneSkew['2']['C']=0; NonGeneSkew['2']={};NonGeneSkew['2']['G']=0;NonGeneSkew['2']['C']=0;
-	GeneSkew['3']={};GeneSkew['3']['G']=0;GeneSkew['3']['C']=0; NonGeneSkew['3']={};NonGeneSkew['3']['G']=0;NonGeneSkew['3']['C']=0;
+	GeneSkew={};GeneSkew['1']=[];GeneSkew['2']=[];GeneSkew['3']=[]
+	NonGeneSkew={};NonGeneSkew['1']=[];NonGeneSkew['2']=[];NonGeneSkew['3']=[];
+	
+	GeneNucleotideCount={}
+	NonGeneNucleotideCount={}
+	
+	GeneNucleotideCount['1']={};GeneNucleotideCount['1']['G']=0;GeneNucleotideCount['1']['C']=0; NonGeneNucleotideCount['1']={};NonGeneNucleotideCount['1']['G']=0;NonGeneNucleotideCount['1']['C']=0; 
+	GeneNucleotideCount['2']={};GeneNucleotideCount['2']['G']=0;GeneNucleotideCount['2']['C']=0; NonGeneNucleotideCount['2']={};NonGeneNucleotideCount['2']['G']=0;NonGeneNucleotideCount['2']['C']=0;
+	GeneNucleotideCount['3']={};GeneNucleotideCount['3']['G']=0;GeneNucleotideCount['3']['C']=0; NonGeneNucleotideCount['3']={};NonGeneNucleotideCount['3']['G']=0;NonGeneNucleotideCount['3']['C']=0;
 	
 	GeneLen=len(GeneNucleotides)
 	NonGeneLen=len(NonGeneNucleotides)
 	
 	WindowLength=9999
+	WindowLengthDiv3=int((WindowLength-1)/3)+1.
 	StepSize=3
 	#WindowNum=0;NumWindows=GeneLen/3
 	WindowStart=0
 
 	WindowStart
 	WindowEnd=WindowStart+WindowLength
-	for CurrNucleotide in range(WindowStart,WindowEnd)
-		for
+
+	CirBufNuceotideCount={};
+	CirBufNuceotideCount['1']={};CirBufNuceotideCount['1']['G']=[];CirBufNuceotideCount['1']['C']=[];
+	CirBufNuceotideCount['2']={};CirBufNuceotideCount['2']['G']=[];CirBufNuceotideCount['2']['C']=[];
+	CirBufNuceotideCount['3']={};CirBufNuceotideCount['3']['G']=[];CirBufNuceotideCount['3']['C']=[];
+	for CurrNucleotide in range(WindowStart,WindowEnd):
+		if(CurrNucleotide%3==0):
+			#print "\n\t CurrentNucleotide: "+str(CurrNucleotide)
+			if(GeneNucleotides[CurrNucleotide]=='G'):
+				GeneNucleotideCount['1']['G']+=1
+			elif(GeneNucleotides[CurrNucleotide]=='C'):
+				GeneNucleotideCount['1']['C']+=1
+			if(GeneNucleotides[CurrNucleotide+1]=='G'):
+				GeneNucleotideCount['2']['G']+=1
+			elif(GeneNucleotides[CurrNucleotide+1]=='C'):
+				GeneNucleotideCount['2']['C']+=1
+			if(GeneNucleotides[CurrNucleotide+2]=='G'):
+				GeneNucleotideCount['3']['G']+=1
+			elif(GeneNucleotides[CurrNucleotide+2]=='C'):
+				GeneNucleotideCount['3']['C']+=1
+
+			CirBufNuceotideCount['1']['G'].append(GeneNucleotideCount['1']['G']); 
+			CirBufNuceotideCount['2']['G'].append(GeneNucleotideCount['2']['G']);
+			CirBufNuceotideCount['3']['G'].append(GeneNucleotideCount['3']['G'])
+			CirBufNuceotideCount['1']['C'].append(GeneNucleotideCount['1']['C']);
+			CirBufNuceotideCount['2']['C'].append(GeneNucleotideCount['2']['C']);
+			CirBufNuceotideCount['3']['C'].append(GeneNucleotideCount['3']['C'])
 	
-	
+	GeneSkew['1'].append( GeneNucleotideCount['1']['G']-GeneNucleotideCount['1']['C'] )
+	GeneSkew['2'].append( GeneNucleotideCount['2']['G']-GeneNucleotideCount['2']['C'] )
+	GeneSkew['3'].append( GeneNucleotideCount['3']['G']-GeneNucleotideCount['3']['C'] )
+			
+	WindowStart=WindowEnd
+	WindowEnd=GeneLen-3#100*WindowLength
+
+	SkewOp1=open('CumulativeGeneSkewPos1_Full.log','w');SkewOp2=open('CumulativeGeneSkewPos2_Full.log','w');SkewOp3=open('CumulativeGeneSkewPos3_Full.log','w');
+	# Future idea: Can perhaps make numeric '3' as a parameter?		
+	CirBufIdx=0
+	DummyIdx=0
+	for CurrNucleotide in range(WindowStart,WindowEnd):
+		CirBufIdx=int(CirBufIdx%WindowLengthDiv3)
+		#print "\n\t CurrNucleotide "+str(CurrNucleotide)+" CirBufIdx "+str(CirBufIdx)+" WindowLengthDiv3 "+str(WindowLengthDiv3)
+
+		if(CurrNucleotide%3==0):
+			if(GeneNucleotides[CurrNucleotide]=='G'):
+				GeneNucleotideCount['1']['G']+=1
+			elif(GeneNucleotides[CurrNucleotide]=='C'):
+				GeneNucleotideCount['1']['C']+=1
+			if(GeneNucleotides[CurrNucleotide+1]=='G'):
+				GeneNucleotideCount['2']['G']+=1
+			elif(GeneNucleotides[CurrNucleotide+1]=='C'):
+				GeneNucleotideCount['2']['C']+=1
+			if(GeneNucleotides[CurrNucleotide+2]=='G'):
+				GeneNucleotideCount['3']['G']+=1
+			elif(GeneNucleotides[CurrNucleotide+2]=='C'):
+				GeneNucleotideCount['3']['C']+=1
+			
+			#print "\n\t CurrNucleotide "+str(CurrNucleotide)+" WindowStart "+str(WindowStart)+" StepSize "+str(StepSize)
+			if((CurrNucleotide-WindowStart)%StepSize==0):
+				Tmp1=GeneNucleotideCount['1']['G']-GeneNucleotideCount['1']['C']#-CirBufNuceotideCount['1']['G'][CirBufIdx]+CirBufNuceotideCount['1']['C'][CirBufIdx]
+				#SkewOp1.write("\n\t DummyIdx "+str(DummyIdx)+" CirBufIdx "+str(CirBufIdx)+" GNC['G'] "+str(GeneNucleotideCount['1']['G'])+" GNC['C'] "+str(GeneNucleotideCount['1']['C'])+" CirBuf['G'] "+str(CirBufNuceotideCount['1']['G'][CirBufIdx])+" CirBuf['C'] "+str(CirBufNuceotideCount['1']['C'][CirBufIdx])+" Tmp1 "+str(Tmp1))
+				Tmp2=GeneNucleotideCount['2']['G']-GeneNucleotideCount['2']['C']#-CirBufNuceotideCount['2']['G'][CirBufIdx]+CirBufNuceotideCount['2']['C'][CirBufIdx]				
+				Tmp3=GeneNucleotideCount['3']['G']-GeneNucleotideCount['3']['C']#-CirBufNuceotideCount['3']['G'][CirBufIdx]+CirBufNuceotideCount['3']['C'][CirBufIdx]				
+				GeneSkew['1'].append(Tmp1);GeneSkew['2'].append(Tmp2);GeneSkew['3'].append(Tmp3)
+				#if(CurrNucleotide%100==0): print "\n\t Tmp1 "+str(Tmp1)#+" GS['1'] "+str(GeneSkew['1'])
+			CirBufNuceotideCount['1']['G'][CirBufIdx]=GeneNucleotideCount['1']['G']; 
+			CirBufNuceotideCount['2']['G'][CirBufIdx]=GeneNucleotideCount['2']['G'];
+			CirBufNuceotideCount['3']['G'][CirBufIdx]=GeneNucleotideCount['3']['G'];
+			CirBufNuceotideCount['1']['C'][CirBufIdx]=GeneNucleotideCount['1']['C'];
+			CirBufNuceotideCount['2']['C'][CirBufIdx]=GeneNucleotideCount['2']['C'];
+			CirBufNuceotideCount['3']['C'][CirBufIdx]=GeneNucleotideCount['3']['C'];				
+			CirBufIdx+=1
+			DummyIdx+=1
+	print"\n\t GeneNucleotideCount['1']: "+str(GeneNucleotideCount['1'])+" -- len CirBuf['1']['G'] "+str(len(CirBufNuceotideCount['1']['G']))
+	print"\n\t GeneNucleotideCount['2']: "+str(GeneNucleotideCount['2'])+" -- len GeneSkew['1'] "+str(len(GeneSkew['1']))
+	print"\n\t GeneNucleotideCount['3']: "+str(GeneNucleotideCount['3'])+" --\n"
+		
+	SkewLen=len(GeneSkew['1'])
+	for Idx in range(SkewLen):
+		#SkewOp1.write("\n\t i: "+str(i)+" Skew: "+str(CurrSkew))
+		SkewOp1.write("\n\t "+str(GeneSkew['1'][Idx]))
+		SkewOp2.write("\n\t "+str(GeneSkew['2'][Idx]))
+		SkewOp3.write("\n\t "+str(GeneSkew['3'][Idx]))
 		
 """		GeneStart=0
 		NonGeneEnd=TotalGeneRanges[1][0] # Assuming that there is atleast 2 genes! 
