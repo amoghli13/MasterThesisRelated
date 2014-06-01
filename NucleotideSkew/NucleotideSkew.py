@@ -34,12 +34,13 @@ def FindGeneRanges(GeneFile,GeneType):
 	GeneRanges=[]
 	NumGene=0
 	for LineNum in range(HeaderLineNum,NumLinesGenes):
-		CurrLine=re.match('(\d+)*\.\.(\d+)*',GeneFile[LineNum])
+		CurrLine=re.match('(\d+)*\.\.(\d+)*\s*([\+\-])*',GeneFile[LineNum])
 		if CurrLine:
 			Range=[]
 			#print "\n\t LineNum: "+str(LineNum)+" CurrLine "+str(CurrLine.group(0))
 			Range.append(int(CurrLine.group(1)))
 			Range.append(int(CurrLine.group(2)))
+			Range.append(CurrLine.group(3))
 			GeneRanges.append(Range)
 			NumGene+=1
 		else:
@@ -181,11 +182,23 @@ def main(argv):
 			
 	TotalGeneNum=len(TotalGeneRanges)
 	print "\n\t TotalGeneNum "+str(TotalGeneNum)
+	
+	Pstrand=[]
+	NStrand=[]
+	
+	for CurrStrand in TotalGeneRanges:
+		if(CurrStrand[2]=='+'):
+			Pstrand.append(CurrStrand)
+			#print "\n\t Positive: "+str(CurrStrand[2])
+		else:
+			Nstrand.append(CurrStrand)
+			#print "\n\t Negative: "+str(CurrStrand[2])			
+		break
 
 	#for CurrRange in TotalGeneRanges:
 	#	print "\n\t Gene-start "+str(CurrRange[0])+" end "+str(CurrRange[1])
 	
-	GenomeFileName=GenomeID+str('.fna')
+	"""GenomeFileName=GenomeID+str('.fna')
 	File1=open(GenomeFileName)
 	GenomeFile=File1.readlines()
 	File1.close()
@@ -230,6 +243,8 @@ def main(argv):
 	GeneNucleotideCount['2']={};GeneNucleotideCount['2']['G']=0;GeneNucleotideCount['2']['C']=0; NonGeneNucleotideCount['2']={};NonGeneNucleotideCount['2']['G']=0;NonGeneNucleotideCount['2']['C']=0;
 	GeneNucleotideCount['3']={};GeneNucleotideCount['3']['G']=0;GeneNucleotideCount['3']['C']=0; NonGeneNucleotideCount['3']={};NonGeneNucleotideCount['3']['G']=0;NonGeneNucleotideCount['3']['C']=0;
 	
+	GeneNucleotides=NonGeneNucleotides
+	print "\n\t WARNING: GeneNucleotides points to NonGeneNucleotides "
 	GeneLen=len(GeneNucleotides)
 	NonGeneLen=len(NonGeneNucleotides)
 	
@@ -276,7 +291,7 @@ def main(argv):
 	WindowStart=WindowEnd
 	WindowEnd=GeneLen-3#100*WindowLength
 
-	SkewOp1=open('CumulativeGeneSkewPos1_Full.log','w');SkewOp2=open('CumulativeGeneSkewPos2_Full.log','w');SkewOp3=open('CumulativeGeneSkewPos3_Full.log','w');
+	SkewOp1=open('CumulativeNonGeneSkewPos1_Full.log','w');SkewOp2=open('CumulativeNonGeneSkewPos2_Full.log','w');SkewOp3=open('CumulativeNonGeneSkewPos3_Full.log','w');
 	# Future idea: Can perhaps make numeric '3' as a parameter?		
 	CirBufIdx=0
 	DummyIdx=0
@@ -325,17 +340,7 @@ def main(argv):
 		SkewOp2.write("\n\t "+str(GeneSkew['2'][Idx]))
 		SkewOp3.write("\n\t "+str(GeneSkew['3'][Idx]))
 		
-"""		GeneStart=0
-		NonGeneEnd=TotalGeneRanges[1][0] # Assuming that there is atleast 2 genes! 
-		#GeneEnd=TotalGeneRanges[0][0]
-		for CurrGene in range(TotalGeneNum-1):
-			GeneNucleotides+=(Genome[(GeneStart):(TotalGeneRanges[CurrGene][1])])
-			NonGeneNucleotides+=(Genome[(TotalGeneRanges[CurrGene][1]):(NonGeneEnd)]) # Nucleotide count used in *.ptt etc is index-1.
-		
-			GeneStart=TotalGeneRanges[CurrGene][1]
-			NonGeneEnd=	TotalGeneRanges[CurrGene+1][0]
-		NonGeneNucleotides+=(Genome[(GeneStart):(GenomeLen-1)])		# Abusing the variable "GeneStart" here! """
-
+	"""
 	
 	
 	
