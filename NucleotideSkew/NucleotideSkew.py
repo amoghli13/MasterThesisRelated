@@ -257,37 +257,20 @@ def main(argv):
 	NonGeneNucleotides="" #[]
 
 	PositiveStrandGene='';NegativeStrandGene='';
-	CurrNonGeneRanges=[]
 	ArrayGeneRanges=[];	ArrayGeneNucleotides=[]
 	ArrayGeneRanges.append(PGeneRanges)
 	ArrayGeneRanges.append(NGeneRanges)
 
-	NonGeneRangesBeforeMerge=[]
 	for CurrGeneRanges in ArrayGeneRanges:
 		CurrStrandGeneNucleotides=''
-		NonGeneStart=0
 		CurrGeneNum=len(CurrGeneRanges)
-		CurrNonGeneRanges=[]
-		#NonGeneEnd=CurrGeneRanges[0][0]
 		print "\n\t Total Gene Num: "+str(CurrGeneNum)
 		for CurrGene in range(CurrGeneNum):
-			NonGeneStrand=[]
-			NonGeneStrand.append(CurrGeneRanges[CurrGene][0])
-			NonGeneStrand.append(CurrGeneRanges[CurrGene][1])				
-			CurrNonGeneRanges.append(NonGeneStrand)
 			CurrStrandGeneNucleotides+=(Genome[(CurrGeneRanges[CurrGene][0]-1):(CurrGeneRanges[CurrGene][1])]) # Nucleotide count used in *.ptt etc is index-1.
-			#NonGeneNucleotides+=(Genome[(NonGeneStart):(CurrGeneRanges[CurrGene][0])])		
-			NonGeneStart=CurrGeneRanges[CurrGene][1]	
-		
-		NonGeneRangesBeforeMerge.append(CurrNonGeneRanges)
 		ArrayGeneNucleotides.append(CurrStrandGeneNucleotides)
-		print "	\n\t Gene-length: "+str(len(CurrStrandGeneNucleotides))+" Non-Gene-length "+str(len(CurrNonGeneRanges))
+		print "	\n\t Gene-length: "+str(len(CurrStrandGeneNucleotides))
 	
 	NonGeneRanges=[]
-	MergeGenes(NonGeneRanges,NonGeneRangesBeforeMerge[1],NonGeneRangesBeforeMerge[0])
-	#else:
-	#	print "\n\t This Genome seems to be faulty since it has a gene which begins at nucleotide 0"
-
 	NonGeneRanges=sorted(NonGeneRanges,key=itemgetter(0))
 	NonGeneNucleotides=''
 	NumNonGeneRange=len(NonGeneRanges)
@@ -295,15 +278,22 @@ def main(argv):
 	
 	MergeGenes(TotalGeneRanges,ProteinGeneRanges,RnaGeneRanges)
 	print "\n\t --**-- TotalGeneRanges: "+str(len(TotalGeneRanges))
-	
+
+	TotalGeneNum=len(TotalGeneRanges)	
 	TotalGeneNumLessOne=len(TotalGeneRanges)-1
-	NonGeneNucleotides+=(Genome[0:TotalGeneRanges[0][0]])
-	for CurrRange in range(TotalGeneNumLessOne):
-		NonGeneNucleotides+=(Genome[(TotalGeneRanges[CurrGene][1]-1):(TotalGeneRanges[CurrGene+1][0])])
-	NonGeneNucleotides+=(Genome[TotalGeneRanges[TotalGeneNumLessOne][1]:GenomeLen-1])
+	#NonGeneNucleotides+=(Genome[0:TotalGeneRanges[0][0]])
+	RangeSum=0
+	NonGeneStart=0
+	for CurrGene in range(TotalGeneNum):
+		NonGeneNucleotides+=(Genome[(NonGeneStart):(TotalGeneRanges[CurrGene][0])])
+		RangeSum+=(TotalGeneRanges[CurrGene][0]-NonGeneStart+1)
+		NonGeneStart=TotalGeneRanges[CurrGene][1]
+	
+	NonGeneNucleotides+=(Genome[NonGeneStart:(GenomeLen-1)])
 	ArrayGeneNucleotides.append(NonGeneNucleotides)
 	NonGeneLen=len(NonGeneNucleotides)
-	print "\n\t NonGeneLen: "+str(NonGeneLen)+" TotalGeneNumLessOne: "+str(TotalGeneNumLessOne)
+	print "\n\t NonGeneLen: "+str(NonGeneLen)+" TotalGeneNumLessOne: "+str(TotalGeneNumLessOne)+" range-sum "+str(RangeSum)
+
 	TotalLen=0
 	for CurrSet in ArrayGeneNucleotides:
 		Temp=len(CurrSet)
