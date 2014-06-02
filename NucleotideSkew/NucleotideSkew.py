@@ -2,6 +2,7 @@
 #! /usr/bin/python
 
 import sys,getopt,re
+from operator import itemgetter, attrgetter
 
 def usage():
 	print "\n\t NucleotideSkew.py -g <GENOME-ID> \n\t Optional: -h<help>"
@@ -16,6 +17,108 @@ def WhiteSpace(arg):
 	tmp1=re.sub('\s*$','',tmp)
 	#print "\n\t Arg "+str(arg)+" tmp "+str(tmp)+" tmp1 "+str(tmp1)
 	return tmp1
+
+def SeperateStrand(Gene,PGene,NGene):
+	TotalGeneNum=len(Gene)
+	for CurrStrand in Gene: #TotalGeneNum:
+		if(CurrStrand[2]=='+'):
+			PGene.append(CurrStrand)
+			#print "\n\t Positive: "+str(CurrStrand[2])
+		else:
+			NGene.append(CurrStrand)
+			#print "\n\t Negative: "+str(CurrStrand[2])		
+
+def MergeGenes(TotalGeneRanges,ProteinGeneRanges,RnaGeneRanges):
+
+	TotalMaxGeneNum=0
+	TotalMinGeneNum=0
+	ProteinGeneNum=len(ProteinGeneRanges)
+	RnaGeneNum=len(RnaGeneRanges)
+	if(ProteinGeneNum > RnaGeneNum):
+		MaxGene=ProteinGeneRanges
+		MinGene=RnaGeneRanges
+		TotalMaxGeneNum=ProteinGeneNum
+		TotalMinGeneNum=RnaGeneNum
+	else:
+		MaxGene=ProteinGeneRanges
+		MinGene=RnaGeneRanges	
+		TotalMaxGeneNum=RnaGeneNum
+		TotalMinGeneNum=ProteinGeneNum		
+
+	TotalGeneNum=RnaGeneNum+ProteinGeneNum
+	MinGeneNum=0
+	MaxGeneNum=0
+		
+	for CurrRangeNum in range(TotalGeneNum):
+		# Since Gene ranges are assumed to be non-overlapping, hence it must be sufficient to just compare start ranges! 
+		#print "\n\t MaxGeneNum "+str(MaxGeneNum)+" gene "+str(MaxGene[MaxGeneNum]) +" MinGeneNum "+str(MinGeneNum)+" gene "+str(MinGene[MinGeneNum])
+		if ( (MaxGene[MaxGeneNum][0] >= MinGene[MinGeneNum][0]) ):
+			if ((MaxGene[MaxGeneNum][0] >= MinGene[MinGeneNum][1]) ):
+				TotalGeneRanges.append(MinGene[MinGeneNum])
+				MinGeneNum+=1
+				#print "\n\t MinGeneNum "+str(MinGeneNum)+" TotalMinGeneNum "+str(TotalMinGeneNum)
+				if( MinGeneNum >= TotalMinGeneNum):
+					for RangeNum in range(MaxGeneNum,TotalGeneNum-MinGeneNum):
+						TotalGeneRanges.append(MaxGene[RangeNum])
+					break
+			else:
+				MergeGene=[]
+				MergeGene.append(MinGene[MinGeneNum][0])
+				if(MaxGene[MaxGeneNum][1] >= MinGene[MinGeneNum][1] ):
+					MergeGene.append(MaxGene[MaxGeneNum][1])
+				else:
+					MergeGene.append(MinGene[MinGeneNum][1])
+				TotalGeneRanges.append(MergeGene)
+				MinGeneNum+=1
+				MaxGeneNum+=1
+				#print "\n\t MinGeneNum "+str(MinGeneNum)+" TotalMinGeneNum "+str(TotalMinGeneNum)
+				if( MinGeneNum >= TotalMinGeneNum):
+					for RangeNum in range(MaxGeneNum,TotalGeneNum-MinGeneNum):
+						TotalGeneRanges.append(MaxGene[RangeNum])
+					break
+				if(MaxGeneNum >= TotalMaxGeneNum):
+					for RangeNum in range(MinGeneNum,TotalGeneNum-MaxGeneNum):
+						TotalGeneRanges.append(MinGene[RangeNum])
+					break					
+				
+		elif ((MaxGene[MaxGeneNum][1] >= MinGene[MinGeneNum][0]) ):
+		    if ((MaxGene[MaxGeneNum][1] >= MinGene[MinGeneNum][1]) ):
+				TotalGeneRanges.append(MaxGene[MaxGeneNum])
+				MaxGeneNum+=1
+				MinGeneNum+=1
+				#print "\n\t MaxGeneNum "+str(MaxGeneNum)+" TotalMaxGeneNum "+str(TotalMaxGeneNum)
+				if( MinGeneNum >= TotalMinGeneNum):
+					for RangeNum in range(MaxGeneNum,TotalGeneNum-MinGeneNum):
+						TotalGeneRanges.append(MaxGene[RangeNum])
+					break				
+				if( MaxGeneNum >= TotalMaxGeneNum):
+					for RangeNum in range(MinGeneNum,TotalGeneNum-MaxGeneNum):
+						TotalGeneRanges.append(MinGene[RangeNum])
+					break
+		    else:
+				MergeGene=[]
+				MergeGene.append(MaxGene[MaxGeneNum][0])
+				MergeGene.append(MinGene[MinGeneNum][1])
+				TotalGeneRanges.append(MergeGene)
+				MinGeneNum+=1
+				MaxGeneNum+=1
+				#print "\n\t MinGeneNum "+str(MinGeneNum)+" TotalMinGeneNum "+str(TotalMinGeneNum)
+				if( MinGeneNum >= TotalMinGeneNum):
+					for RangeNum in range(MaxGeneNum,TotalGeneNum-MinGeneNum):
+						TotalGeneRanges.append(MaxGene[RangeNum])
+					break
+				if(MaxGeneNum >= TotalMaxGeneNum):
+					for RangeNum in range(MinGeneNum,TotalGeneNum-MaxGeneNum):
+						TotalGeneRanges.append(MinGene[RangeNum])
+					break					
+		else:
+				TotalGeneRanges.append(MaxGene[MaxGeneNum])
+				MaxGeneNum+=1
+				if( MaxGeneNum >= TotalMaxGeneNum):
+					for RangeNum in range(MinGeneNum,TotalGeneNum-MaxGeneNum):
+						TotalGeneRanges.append(MinGene[RangeNum])
+					break			
+	print "\n\t Inside MergeGene "+str(len(TotalGeneRanges))
 
 def FindGeneRanges(GeneFile,GeneType):
 	NumLinesGenes=len(GeneFile)
@@ -107,98 +210,30 @@ def main(argv):
 	MaxGeneNum=0	
 		
 	print "\n\t TotalGeneNum "+str(TotalGeneNum)+" ProteinGeneNum "+str(ProteinGeneNum)+" RnaGeneNum "+str(RnaGeneNum)
-
-	for CurrRangeNum in range(TotalGeneNum):
-		# Since Gene ranges are assumed to be non-overlapping, hence it must be sufficient to just compare start ranges! 
-		#print "\n\t MaxGeneNum "+str(MaxGeneNum)+" gene "+str(MaxGene[MaxGeneNum]) +" MinGeneNum "+str(MinGeneNum)+" gene "+str(MinGene[MinGeneNum])
-		if ( (MaxGene[MaxGeneNum][0] >= MinGene[MinGeneNum][0]) ):
-			if ((MaxGene[MaxGeneNum][0] >= MinGene[MinGeneNum][1]) ):
-				TotalGeneRanges.append(MinGene[MinGeneNum])
-				MinGeneNum+=1
-				#print "\n\t MinGeneNum "+str(MinGeneNum)+" TotalMinGeneNum "+str(TotalMinGeneNum)
-				if( MinGeneNum >= TotalMinGeneNum):
-					for RangeNum in range(MaxGeneNum,TotalGeneNum-MinGeneNum):
-						TotalGeneRanges.append(MaxGene[RangeNum])
-					break
-			else:
-				MergeGene=[]
-				MergeGene.append(MinGene[MinGeneNum][0])
-				if(MaxGene[MaxGeneNum][1] >= MinGene[MinGeneNum][1] ):
-					MergeGene.append(MaxGene[MaxGeneNum][1])
-				else:
-					MergeGene.append(MinGene[MinGeneNum][1])
-				TotalGeneRanges.append(MergeGene)
-				MinGeneNum+=1
-				MaxGeneNum+=1
-				#print "\n\t MinGeneNum "+str(MinGeneNum)+" TotalMinGeneNum "+str(TotalMinGeneNum)
-				if( MinGeneNum >= TotalMinGeneNum):
-					for RangeNum in range(MaxGeneNum,TotalGeneNum-MinGeneNum):
-						TotalGeneRanges.append(MaxGene[RangeNum])
-					break
-				if(MaxGeneNum >= TotalMaxGeneNum):
-					for RangeNum in range(MinGeneNum,TotalGeneNum-MaxGeneNum):
-						TotalGeneRanges.append(MinGene[RangeNum])
-					break					
-				
-		elif ((MaxGene[MaxGeneNum][1] >= MinGene[MinGeneNum][0]) ):
-		    if ((MaxGene[MaxGeneNum][1] >= MinGene[MinGeneNum][1]) ):
-				TotalGeneRanges.append(MaxGene[MaxGeneNum])
-				MaxGeneNum+=1
-				MinGeneNum+=1
-				#print "\n\t MaxGeneNum "+str(MaxGeneNum)+" TotalMaxGeneNum "+str(TotalMaxGeneNum)
-				if( MinGeneNum >= TotalMinGeneNum):
-					for RangeNum in range(MaxGeneNum,TotalGeneNum-MinGeneNum):
-						TotalGeneRanges.append(MaxGene[RangeNum])
-					break				
-				if( MaxGeneNum >= TotalMaxGeneNum):
-					for RangeNum in range(MinGeneNum,TotalGeneNum-MaxGeneNum):
-						TotalGeneRanges.append(MinGene[RangeNum])
-					break
-		    else:
-				MergeGene=[]
-				MergeGene.append(MaxGene[MaxGeneNum][0])
-				MergeGene.append(MinGene[MinGeneNum][1])
-				TotalGeneRanges.append(MergeGene)
-				MinGeneNum+=1
-				MaxGeneNum+=1
-				#print "\n\t MinGeneNum "+str(MinGeneNum)+" TotalMinGeneNum "+str(TotalMinGeneNum)
-				if( MinGeneNum >= TotalMinGeneNum):
-					for RangeNum in range(MaxGeneNum,TotalGeneNum-MinGeneNum):
-						TotalGeneRanges.append(MaxGene[RangeNum])
-					break
-				if(MaxGeneNum >= TotalMaxGeneNum):
-					for RangeNum in range(MinGeneNum,TotalGeneNum-MaxGeneNum):
-						TotalGeneRanges.append(MinGene[RangeNum])
-					break					
-		else:
-				TotalGeneRanges.append(MaxGene[MaxGeneNum])
-				MaxGeneNum+=1
-				if( MaxGeneNum >= TotalMaxGeneNum):
-					for RangeNum in range(MinGeneNum,TotalGeneNum-MaxGeneNum):
-						TotalGeneRanges.append(MinGene[RangeNum])
-					break			
-
-
+	
+	ProteinPGene=[]; RnaPGene=[];PStrand=[]
+	ProteinNGene=[]; RnaNGene=[];NStrand=[]
+	
+	SeperateStrand(ProteinGeneRanges,ProteinPGene,ProteinNGene)	
+	print "\n\t 1. PGene-len: "+str(len(ProteinPGene))+" NGene-len: "	+str(len(ProteinNGene))
+	SeperateStrand(RnaGeneRanges,RnaPGene,RnaNGene)			
+	print "\n\t 2. PGene-len: "+str(len(RnaPGene))+" NGene-len: "	+str(len(RnaNGene))
+		
+	PGeneRanges=[];NGeneRanges=[];
 			
 	TotalGeneNum=len(TotalGeneRanges)
 	print "\n\t TotalGeneNum "+str(TotalGeneNum)
 	
-	Pstrand=[]
-	NStrand=[]
-	
-	for CurrStrand in TotalGeneRanges:
-		if(CurrStrand[2]=='+'):
-			Pstrand.append(CurrStrand)
-			#print "\n\t Positive: "+str(CurrStrand[2])
-		else:
-			Nstrand.append(CurrStrand)
-			#print "\n\t Negative: "+str(CurrStrand[2])			
-		break
+	MergeGenes(PGeneRanges,ProteinPGene,RnaPGene)
+	print "\n\t PGeneNum "+str(len(PGeneRanges))
+
+	MergeGenes(NGeneRanges,ProteinNGene,RnaNGene)
+	print "\n\t NGeneNum "+str(len(NGeneRanges))	
 
 	#for CurrRange in TotalGeneRanges:
 	#	print "\n\t Gene-start "+str(CurrRange[0])+" end "+str(CurrRange[1])
 	
-	"""GenomeFileName=GenomeID+str('.fna')
+	GenomeFileName=GenomeID+str('.fna')
 	File1=open(GenomeFileName)
 	GenomeFile=File1.readlines()
 	File1.close()
@@ -222,29 +257,59 @@ def main(argv):
 	GeneNucleotides="" #[]
 	NonGeneNucleotides="" #[]
 
-	if(TotalGeneRanges[0][0]):
+	PositiveStrandGene='';NegativeStrandGene='';
+	NonGeneRanges=[]
+	ArrayGeneRanges=[];	ArrayGeneNucleotides=[]
+	ArrayGeneRanges.append(PGeneRanges)
+	ArrayGeneRanges.append(NGeneRanges)
+
+	for CurrGeneRanges in ArrayGeneRanges:
+		CurrStrandGeneNucleotides=''
 		NonGeneStart=0
-		#NonGeneEnd=TotalGeneRanges[0][0]
-		for CurrGene in range(TotalGeneNum):
-			GeneNucleotides+=(Genome[(TotalGeneRanges[CurrGene][0]-1):(TotalGeneRanges[CurrGene][1])]) # Nucleotide count used in *.ptt etc is index-1.
-			NonGeneNucleotides+=(Genome[(NonGeneStart):(TotalGeneRanges[CurrGene][0])])		
-			NonGeneStart=TotalGeneRanges[CurrGene][1]	
-		NonGeneNucleotides+=(Genome[(NonGeneStart):(GenomeLen-1)])		
-		print "	\n\t Gene-length: "+str(len(GeneNucleotides))+" Non-Gene-length "+str(len(NonGeneNucleotides))
-	else:
-		print "\n\t This Genome seems to be fault since it has a gene which begins at nucleotide 0"
+		CurrGeneNum=len(CurrGeneRanges)
+		#NonGeneEnd=CurrGeneRanges[0][0]
+		print "\n\t Total Gene Num: "+str(CurrGeneNum)
+		for CurrGene in range(CurrGeneNum):
+			NonGeneStrand=[]
+			NonGeneStrand.append(CurrGeneRanges[CurrGene][0])
+			NonGeneStrand.append(CurrGeneRanges[CurrGene][1])				
+			NonGeneRanges.append(NonGeneStrand)
+			CurrStrandGeneNucleotides+=(Genome[(CurrGeneRanges[CurrGene][0]-1):(CurrGeneRanges[CurrGene][1])]) # Nucleotide count used in *.ptt etc is index-1.
+			#NonGeneNucleotides+=(Genome[(NonGeneStart):(CurrGeneRanges[CurrGene][0])])		
+			NonGeneStart=CurrGeneRanges[CurrGene][1]	
+		
+		ArrayGeneNucleotides.append(CurrStrandGeneNucleotides)
+		print "	\n\t Gene-length: "+str(len(CurrStrandGeneNucleotides))+" Non-Gene-length "+str(len(NonGeneNucleotides))
+	
+	print "\n\t Num NonGeneRanges: "+str(len(NonGeneRanges))
+	#else:
+	#	print "\n\t This Genome seems to be faulty since it has a gene which begins at nucleotide 0"
+
+"""
+	T1=[];T2=[];T3=[]
+	T1.append(20);T1.append(2);T1.append(5);
+	T2.append(10);T2.append(6);T2.append(2);	
+	T3.append(15);T3.append(20);T3.append(5);	
+	
+#	T1=(20,2,5);T2=(10,6,2);T3=(15,20,5);
+	T=[]
+	T.append(T1);T.append(T2);T.append(T3);
+	print "\n\t Before sorting: "+str(T)
+	P=sorted(T,key=itemgetter(0))
+	print "\n\t After sorting: "+str(P)
+"""	
+	
+	sys.exit()
 	GeneSkew={};GeneSkew['1']=[];GeneSkew['2']=[];GeneSkew['3']=[]
-	NonGeneSkew={};NonGeneSkew['1']=[];NonGeneSkew['2']=[];NonGeneSkew['3']=[];
-	
+
 	GeneNucleotideCount={}
-	NonGeneNucleotideCount={}
 	
-	GeneNucleotideCount['1']={};GeneNucleotideCount['1']['G']=0;GeneNucleotideCount['1']['C']=0; NonGeneNucleotideCount['1']={};NonGeneNucleotideCount['1']['G']=0;NonGeneNucleotideCount['1']['C']=0; 
-	GeneNucleotideCount['2']={};GeneNucleotideCount['2']['G']=0;GeneNucleotideCount['2']['C']=0; NonGeneNucleotideCount['2']={};NonGeneNucleotideCount['2']['G']=0;NonGeneNucleotideCount['2']['C']=0;
-	GeneNucleotideCount['3']={};GeneNucleotideCount['3']['G']=0;GeneNucleotideCount['3']['C']=0; NonGeneNucleotideCount['3']={};NonGeneNucleotideCount['3']['G']=0;NonGeneNucleotideCount['3']['C']=0;
+	GeneNucleotideCount['1']={};GeneNucleotideCount['1']['G']=0;GeneNucleotideCount['1']['C']=0;
+	GeneNucleotideCount['2']={};GeneNucleotideCount['2']['G']=0;GeneNucleotideCount['2']['C']=0; 
+	GeneNucleotideCount['3']={};GeneNucleotideCount['3']['G']=0;GeneNucleotideCount['3']['C']=0; 
 	
-	GeneNucleotides=NonGeneNucleotides
-	print "\n\t WARNING: GeneNucleotides points to NonGeneNucleotides "
+	#GeneNucleotides=NonGeneNucleotides
+	#print "\n\t WARNING: GeneNucleotides points to NonGeneNucleotides "
 	GeneLen=len(GeneNucleotides)
 	NonGeneLen=len(NonGeneNucleotides)
 	
@@ -291,7 +356,10 @@ def main(argv):
 	WindowStart=WindowEnd
 	WindowEnd=GeneLen-3#100*WindowLength
 
-	SkewOp1=open('CumulativeNonGeneSkewPos1_Full.log','w');SkewOp2=open('CumulativeNonGeneSkewPos2_Full.log','w');SkewOp3=open('CumulativeNonGeneSkewPos3_Full.log','w');
+	SkewOp1=open('CumulativeNonGeneSkewPos1_Full.log','w');
+	SkewOp2=open('CumulativeNonGeneSkewPos2_Full.log','w');
+	SkewOp3=open('CumulativeNonGeneSkewPos3_Full.log','w');
+	
 	# Future idea: Can perhaps make numeric '3' as a parameter?		
 	CirBufIdx=0
 	DummyIdx=0
@@ -340,7 +408,7 @@ def main(argv):
 		SkewOp2.write("\n\t "+str(GeneSkew['2'][Idx]))
 		SkewOp3.write("\n\t "+str(GeneSkew['3'][Idx]))
 		
-	"""
+	
 	
 	
 	
