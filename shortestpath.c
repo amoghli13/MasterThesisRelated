@@ -1,5 +1,3 @@
-Implementation:
-
 // A C / C++ program for Bellman-Ford's single source shortest path algorithm.
  
 #include <stdio.h>

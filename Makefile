@@ -6,7 +6,7 @@ InitSRC=shortestpath.c
 InitOBJ=ShortestPath
 
 Init:
-	gcc -g $(InitSRC) -o $(InitOBJ)
+	gcc -g -std=c99 $(InitSRC) -o $(InitOBJ)
 
 InitClean:
 	rm -f *.o $(InitOBJ)
