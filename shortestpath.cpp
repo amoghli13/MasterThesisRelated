@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
+#include <sys/time.h>
  
 // a structure to represent a weighted edge in graph
 struct Edge
@@ -83,7 +84,7 @@ void BellmanFord(struct Graph* graph, int src)
  
     printArr(dist, V);
  
-    return;
+    return; 
 }
  
 // Driver program to test above functions
@@ -93,6 +94,35 @@ int main()
     int V = 5;  // Number of vertices in graph
     int E = 8;  // Number of edges in graph
     struct Graph* graph = createGraph(V, E);
+    
+    int NumVertices=5;int PerVertexEdges=3;
+    int NumEdges=( PerVertexEdges * NumVertices );
+    struct Graph* graphFlexi=createGraph(NumVertices,NumEdges);
+    
+    struct timeval time;
+    gettimeofday(&time,NULL);
+    double t1= (time.tv_sec)+(time.tv_usec/1000000.0);
+    srand(t1);
+    
+    int i=0;int currVertex=0; int temp=0;
+    for(i=0;i<NumEdges;i++)
+    {
+    	graphFlexi->edge[i].src = currVertex; 
+    	temp = ( rand() % NumVertices ) ;
+    	while( temp == currVertex) 
+    		temp= ( rand() % NumVertices ) ;
+    		
+    	graphFlexi->edge[i].dest = temp;
+    	graphFlexi->edge[i].weight = ( rand() % NumVertices );
+    
+    	if((i+1)%3==0)
+    		currVertex+=1;
+    	
+    }
+    
+    for(i=0;i<NumEdges;i++)
+    	printf("\n\t Edge: src: %d destination: %d weight: %d ",graphFlexi->edge[i].src,graphFlexi->edge[i].dest,graphFlexi->edge[i].weight);
+    printf("\n\n");
  
     // add edge 0-1 (or A-B in above figure)
     graph->edge[0].src = 0;

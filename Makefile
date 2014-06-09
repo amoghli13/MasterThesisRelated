@@ -2,11 +2,11 @@
 SRC=dp_shortestpathOO.cpp
 OBJ=(DP_ShortestPathOO)
 
-InitSRC=shortestpath.c 
+InitSRC=shortestpath.cpp 
 InitOBJ=ShortestPath
 
 Init:
-	gcc -g -std=c99 $(InitSRC) -o $(InitOBJ)
+	g++ -g $(InitSRC) -o $(InitOBJ)
 
 InitClean:
 	rm -f *.o $(InitOBJ)
