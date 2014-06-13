@@ -12,11 +12,13 @@ def usage():
 	
 def FileCheck():
 	print "\n\t Following files are expected: *.fna *.ptt *.rnt in this folder \n"
-def WhiteSpace(arg):
-	tmp=re.sub('^\s*','',arg)
-	tmp1=re.sub('\s*$','',tmp)
-	#print "\n\t Arg "+str(arg)+" tmp "+str(tmp)+" tmp1 "+str(tmp1)
-	return tmp1
+
+def RemoveWhiteSpace(Input):
+	temp=re.sub('^\s*','',Input)
+	Output=re.sub('\s*$','',temp)
+
+	return Output
+		
 
 def SeperateStrand(Gene,PGene,NGene):
 	TotalGeneNum=len(Gene)
@@ -164,7 +166,7 @@ def main(argv):
 		if opt == '-h':
 			usage()
 		elif opt in ("-g", "--genomeID"):
-			tmp=WhiteSpace(arg)
+			tmp=RemoveWhiteSpace(arg)
 			GenomeID=str(tmp)
 			print "\n\t GenomeID option is "+str(GenomeID);
 		else:
@@ -243,12 +245,12 @@ def main(argv):
 
 	Genome=""
 	for LineNum in range(GenomeFileOffset,GenomeFileNumLines):
-		CurrLine=GenomeFile[LineNum]
+		CurrLine=RemoveWhiteSpace(GenomeFile[LineNum])
 		Genome+=CurrLine
 		#Nucleotides=CurrLine.split('G')
 		#print "\n\t CurrLine: "+str(CurrLine)+" length: "+str(len(Nucleotides))
-		#break
-
+		#sys.exit() #break
+		
 	del GenomeFile	
 	GenomeLen=len(Genome)
 	print "\n\t Length of genome: "+str(GenomeLen)+" 8th Nucleotide "+str(Genome[1:5])
@@ -271,8 +273,8 @@ def main(argv):
 		CurrGeneNucleotides=''
 		for CurrGeneRanges in ObtainNucleotides[CurrGene][ObtnNuclEnum['GeneRanges']]:
 			CurrGeneNucleotides+=str(Genome[(CurrGeneRanges[0]-1):(CurrGeneRanges[1])])
-			#print "\n\t CurrGeneRanges: "+str(CurrGeneRanges)
-		print "\n\t CurrGene "+str(CurrGene)+" len: "+str(len(CurrGeneNucleotides))
+			#print "\n\t CurrGeneRanges: "+str(CurrGeneRanges)+" Genes: "+str(Genome[(CurrGeneRanges[0]-1):(CurrGeneRanges[1])])
+		print "\n\t CurrGeneR "+str(CurrGene)+" len: "+str(len(CurrGeneNucleotides))
 		ObtainNucleotides[CurrGene].append(CurrGeneNucleotides)
 		
 	
@@ -296,16 +298,38 @@ def main(argv):
 		CodonCount[CurrCodon]=0
 	
 	for CurrGene in ObtainNucleotides:
-		ObtainNucleotides[CurrGene].append(CodonCount[CurrCodon])
+		ObtainNucleotides[CurrGene].append(CodonCount)
+		#for CurrCodon in ObtainNucleotides[CurrGene][ObtnNuclEnum['CodonCount']]:
+			#print "\n\t CurrCodon: "+str(CurrCodon)+" Count: "+str(ObtainNucleotides[CurrGene][ObtnNuclEnum['CodonCount']][CurrCodon])
 		PGeneDirCheck=re.match('\s*.*PGene$',CurrGene)
 		if PGeneDirCheck:
 			print "\n\t PGeneDirCheck: "+str(PGeneDirCheck.group(0))
-			
+			NumNucleotides=(len(ObtainNucleotides[CurrGene][ObtnNuclEnum['NucleotidesString']]))
+			NumCodons=int(NumNucleotides/3)
+			print "\n\t len(Nucleotides): "+str(len(ObtainNucleotides[CurrGene][ObtnNuclEnum['NucleotidesString']]))+" NumCodons "+str(NumCodons)
+
+			for i in range(NumCodons):
+				CurrCodon=ObtainNucleotides[CurrGene][ObtnNuclEnum['NucleotidesString']][(i*3):((i*3)+3)]
+				#print "\n\t CurrCodon: "+str(CurrCodon)
+				ObtainNucleotides[CurrGene][ObtnNuclEnum['CodonCount']][CurrCodon]+=1
+				
 			
 		else:
 			NGeneDirCheck=re.match('\s*.*NGene$',CurrGene)
 			if NGeneDirCheck:
 				print "\n\t NGeneDirCheck: "+str(NGeneDirCheck.group(0))
+				NumNucleotides=(len(ObtainNucleotides[CurrGene][ObtnNuclEnum['NucleotidesString']]))
+				NumCodons=int((NumNucleotides)/3)
+				print "\n\t len(Nucleotides): "+str(len(ObtainNucleotides[CurrGene][ObtnNuclEnum['NucleotidesString']]))+" NumCodons "+str(NumCodons)
+				NumNucleotides-=1
+				for i in range(NumCodons):
+					End=NumNucleotides-(i*3)
+					Start=NumNucleotides-((i+1)*3)
+					CurrCodon=ObtainNucleotides[CurrGene][ObtnNuclEnum['NucleotidesString']][Start:End]
+					CurrCodon=CurrCodon[::-1]
+					ObtainNucleotides[CurrGene][ObtnNuclEnum['CodonCount']][CurrCodon]+=1
+					#sys.exit()
+					
 			else:
 				print "\n\t ERROR: Neither PGene or NGene "+str(CurrGene)+" \n"
 				sys.exit()
