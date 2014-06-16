@@ -219,7 +219,7 @@ def main(argv):
 	print "\n\t 2. PGene-len: "+str(len(RnaPGene))+" NGene-len: "	+str(len(RnaNGene))
 		
 	PGeneRanges=[];NGeneRanges=[];
-			
+	MergeGenes(TotalGeneRanges,ProteinGeneRanges,RnaGeneRanges)
 	TotalGeneNum=len(TotalGeneRanges)
 	print "\n\t TotalGeneNum "+str(TotalGeneNum)
 	
@@ -229,8 +229,6 @@ def main(argv):
 	MergeGenes(NGeneRanges,ProteinNGene,RnaNGene)
 	print "\n\t NGeneNum "+str(len(NGeneRanges))	
 
-
-		
 	#for CurrRange in TotalGeneRanges:
 	#	print "\n\t Gene-start "+str(CurrRange[0])+" end "+str(CurrRange[1])
 	
@@ -261,13 +259,15 @@ def main(argv):
 	ObtainNucleotidesEnum={}
 	
 	ObtnNuclEnum={}	
-	ObtnNuclEnum={'GeneRanges':0,'NucleotidesString':1,'CodonCount':2}
+	ObtnNuclEnum={'GeneRanges':0,'NucleotidesString':1,'CodonCount':2,'CodonCountCumulative':3}
 
-	
+    	
 	ObtainNucleotides['ProteinPGene']=[ProteinPGene]
 	ObtainNucleotides['ProteinNGene']=[ProteinNGene]
 	ObtainNucleotides['RnaPGene']=[RnaPGene]
 	ObtainNucleotides['RnaNGene']=[RnaNGene]
+	ObtainNucleotides['PGene']=[PGeneRanges]
+	ObtainNucleotides['NGene']=[NGeneRanges]
 
 	for CurrGene in ObtainNucleotides:
 		CurrGeneNucleotides=''
@@ -298,14 +298,15 @@ def main(argv):
 		CodonCount[CurrCodon]=0
 	
 	for CurrGene in ObtainNucleotides:
-		ObtainNucleotides[CurrGene].append(CodonCount)
+		Duh=copy.deepcopy(CodonCount)
+		ObtainNucleotides[CurrGene].append(Duh)
 		#for CurrCodon in ObtainNucleotides[CurrGene][ObtnNuclEnum['CodonCount']]:
 			#print "\n\t CurrCodon: "+str(CurrCodon)+" Count: "+str(ObtainNucleotides[CurrGene][ObtnNuclEnum['CodonCount']][CurrCodon])
 		PGeneDirCheck=re.match('\s*.*PGene$',CurrGene)
 		if PGeneDirCheck:
 			print "\n\t PGeneDirCheck: "+str(PGeneDirCheck.group(0))
 			NumNucleotides=(len(ObtainNucleotides[CurrGene][ObtnNuclEnum['NucleotidesString']]))
-			NumCodons=int(NumNucleotides/3)
+			NumCodons=int((NumNucleotides-3)/3)
 			print "\n\t len(Nucleotides): "+str(len(ObtainNucleotides[CurrGene][ObtnNuclEnum['NucleotidesString']]))+" NumCodons "+str(NumCodons)
 
 			for i in range(NumCodons):
@@ -319,7 +320,7 @@ def main(argv):
 			if NGeneDirCheck:
 				print "\n\t NGeneDirCheck: "+str(NGeneDirCheck.group(0))
 				NumNucleotides=(len(ObtainNucleotides[CurrGene][ObtnNuclEnum['NucleotidesString']]))
-				NumCodons=int((NumNucleotides)/3)
+				NumCodons=int((NumNucleotides-3)/3)
 				print "\n\t len(Nucleotides): "+str(len(ObtainNucleotides[CurrGene][ObtnNuclEnum['NucleotidesString']]))+" NumCodons "+str(NumCodons)
 				NumNucleotides-=1
 				for i in range(NumCodons):
@@ -335,5 +336,26 @@ def main(argv):
 				sys.exit()
 	
  
+ 		 	
+	CurrCodonFile=open('CodonDistribution.log','w')
+	CurrCodonFile.write("\n\t Format: Codon")
+	
+ 	for CurrGene in ObtainNucleotides: 
+ 		CurrCodonFile.write("\t "+str(CurrGene) )
+ 		CodonCountCumulative=0
+		ObtainNucleotides[CurrGene].append(CodonCountCumulative)
+	
+	for CurrCodon in CodonCombisSet:
+ 		CurrCodonFile.write("\n\t CurrCodon: "+str(CurrCodon))
+ 		for CurrGene in ObtainNucleotides:
+ 			CurrCodonFile.write("\t "+str(ObtainNucleotides[CurrGene][ObtnNuclEnum['CodonCount']][CurrCodon]))
+ 			ObtainNucleotides[CurrGene][ObtnNuclEnum['CodonCountCumulative']]+=ObtainNucleotides[CurrGene][ObtnNuclEnum['CodonCount']][CurrCodon]
+ 	
+	CurrCodonFile.write("\n\n\t Cumulative: ")
+	for CurrGene in ObtainNucleotides:
+ 		CurrCodonFile.write("\t "+str(ObtainNucleotides[CurrGene][ObtnNuclEnum['CodonCountCumulative']]))
+ 	
+ 	CurrCodonFile.write("\n\n") 
+    
 if __name__ == "__main__":
    main(sys.argv[1:])
