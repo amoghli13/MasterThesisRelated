@@ -1,14 +1,9 @@
+SRC=FindMinimum.cpp
+OBJ=MinOOInject
+CPPFLAGS= -g -w
 
-SRC=dp_shortestpathOO.cpp
-OBJ=(DP_ShortestPathOO)
+main:
+	g++ $(CPPFLAGS) $(SRC) -o $(OBJ)
 
-InitSRC=shortestpath.cpp 
-InitOBJ=ShortestPath
-
-Init:
-	g++ -g $(InitSRC) -o $(InitOBJ)
-
-InitClean:
-	rm -f *.o $(InitOBJ)
 clean:
-	rm -f *.o $(OBJ)
+	rm -f *.o $(OBJ)	
