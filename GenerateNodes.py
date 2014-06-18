@@ -14,7 +14,7 @@ def generateGraph(n=100, avgNeigbors=10):
             	dummy1=(dummy_plus1+1)%(n_plus1)
             #print str((randint(0,n)))+','+str(dummy)+','+str(dummy1)
             
-            duh=str(dummy_plus1)+' '+str(dummy1)+' '+str(randint(1,n))
+            duh=str(int(dummy_plus1)-1)+' '+str(int(dummy1)-1)+' '+str(randint(1,n))+' '+str(randint(0,1))
             edges_list.append(duh);
             edges_count+=1;
         
