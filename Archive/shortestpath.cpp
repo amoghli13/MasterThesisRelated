@@ -71,11 +71,11 @@ void BellmanFord(struct Graph* graph, int src)
             int u = graph->edge[j].src;
             int v = graph->edge[j].dest;
             int weight = graph->edge[j].weight;
-            printf("\n\t 1. Distance-- u: %d d[u]: %d v: %d d[v]: %d weight: %d ",u,dist[u],v,dist[v],weight);
+            //printf("\n\t 1. Distance-- u: %d d[u]: %d v: %d d[v]: %d weight: %d ",u,dist[u],v,dist[v],weight);
             if (dist[u] + weight < dist[v])
                 {
                 	dist[v] = dist[u] + weight;
-                	 printf("\n\t 2. Distance-- u: %d d[u]: %d v: %d d[v]: %d weight: %d ",u,dist[u],v,dist[v],weight);
+                	// printf("\n\t 2. Distance-- u: %d d[u]: %d v: %d d[v]: %d weight: %d ",u,dist[u],v,dist[v],weight);
                 } 
                 
         }
