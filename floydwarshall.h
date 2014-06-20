@@ -32,17 +32,7 @@ int NumRowsbySetSize= ( (int) ( (NumRows-1)/SetSize  ) + 1) ;
 int NumColsbySetSize= ( (int) ( (NumCols-1)/SetSize  ) + 1) ;
 
 
-MaxMinofMatRows.MinMat= new error_inject_operators<int>* [NumRowsbySetSize];
-MaxMinofMatRows.MaxMat= new error_inject_operators<int>* [NumRowsbySetSize];
 
-MaxMinofMatCols.MinMat= new error_inject_operators<int>* [NumRows];
-MaxMinofMatCols.MaxMat= new error_inject_operators<int>* [NumRows];
-cout<<"\n\t SetSize: "<<SetSize<<endl;
-for(int i=0;i<NumRowsbySetSize;i++)
-{
-	MaxMinofMatRows.MinMat[i]=new error_inject_operators<int> [NumCols];
-	MaxMinofMatRows.MaxMat[i]=new error_inject_operators<int> [NumCols];	
-}
 
 for(int i=0;i<NumRows;i++)
 {

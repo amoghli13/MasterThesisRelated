@@ -134,14 +134,61 @@ int main()
     
 	int SetSize=3;
 	// Ensure SetSize to be multiple of Rows and Cols.
-    FindMaxMin(UpdateMat,n,n,SetSize,MaxMinofMatRows,MaxMinofMatCols);
-    
     for(int i=0;i<n;i++)
     {
         cout<<"\n";
 		for(int j=0;j<n;j++)
 			cout<<"\t "<<(UpdateMat[i][j]); 
+    }
+
+    int NumRows=n;
+    int NumCols=n;
+
+    int NumRowsbySetSize= ( (int) ( (NumRows-1)/SetSize  ) + 1) ;
+    int NumColsbySetSize= ( (int) ( (NumCols-1)/SetSize  ) + 1) ;
+    
+	MaxMinofMatRows.MinMat= new error_inject_operators<int>* [NumRowsbySetSize];
+	MaxMinofMatRows.MaxMat= new error_inject_operators<int>* [NumRowsbySetSize];
+
+	MaxMinofMatCols.MinMat= new error_inject_operators<int>* [NumRows];
+	MaxMinofMatCols.MaxMat= new error_inject_operators<int>* [NumRows];
+	cout<<"\n\t SetSize: "<<SetSize<<endl;
+	
+	for(int i=0;i<NumRowsbySetSize;i++)
+	{
+		MaxMinofMatRows.MinMat[i]=new error_inject_operators<int> [NumCols];
+		MaxMinofMatRows.MaxMat[i]=new error_inject_operators<int> [NumCols];	
 	}
+    	
+    	for(int i=0;i<NumRows;i++)
+	{
+		MaxMinofMatCols.MinMat[i]=new error_inject_operators<int> [NumColsbySetSize];
+		MaxMinofMatCols.MaxMat[i]=new error_inject_operators<int> [NumColsbySetSize];
+	}	
+
+    FindMaxMin(UpdateMat,NumRows,NumCols,SetSize,MaxMinofMatRows,MaxMinofMatCols);
+    
+    for(int i=0;i<NumRowsbySetSize;i++)
+    {
+    	for(int j=0;j<NumCols;j++)
+    	{
+    	
+    		cout<<"\n\t Row: "<<i<<" Col: "<<j<<" Max[Row][Col]: "<<(MaxMinofMatRows.MaxMat[i][j])<<" Min[Row][Col]: "<<(MaxMinofMatRows.MinMat[i][j]);
+    	}
+    
+    }
+    cout<<"\n\n";
+    for(int i=0;i<NumRows;i++)
+    {
+    	for(int j=0;j<NumColsbySetSize;j++)
+    	{
+    	
+    		cout<<"\n\t Row: "<<i<<" Col: "<<j<<" Max[Row][Col]: "<<(MaxMinofMatCols.MaxMat[i][j])<<" Min[Row][Col]: "<<(MaxMinofMatCols.MinMat[i][j]);
+    	}
+    
+    }
+
+
     cout<<"\n\n";
     FloydWarshall(UpdateMat,0.001);
     cout<<"\n\n";exit(-1);
