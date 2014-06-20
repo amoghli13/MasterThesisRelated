@@ -43,6 +43,25 @@ void PrintMat(error_inject_operators<int>** UpdateMat)
 return;
 } 
 
+void CompareMat(error_inject_operators<int>** UpdateMat,error_inject_operators<int>** UpdateMatPristine,double ErrorPercent)
+{
+   error_inject_operators<int>::error_percent=ErrorPercent;
+   cout<<"\n\t ErrorPercent "<<(error_inject_operators<int>::error_percent)<<endl;
+   cout<<"\n\n\n";
+   cout<<"\n\n\n\t Following items were not equal to the pristine result ";
+   for(int i=0;i<NumRows;i++)
+   {
+ 		for(int j=0;j<NumCols;j++)
+		{
+			if( UpdateMat[i][j] !=UpdateMatPristine[i][j] )
+			cout<<"\n\t i "<<i<<" j "<<j<<" UpdateMat[i][j] "<<(UpdateMat[i][j])<<" UpdateMatPristine[i][j] "<<(UpdateMatPristine[i][j]);  
+		}
+    }
+
+return;
+
+}
+
 void FindMaxMin(error_inject_operators<int>** Mat,struct MaxMin& MaxMinofMatRows,struct MaxMin& MaxMinofMatCols)
 {
 
@@ -306,6 +325,37 @@ inline error_inject_operators<bool> tmr_equal( error_inject_operators<int> a1,er
  	return result;
 }
 
+inline error_inject_operators<bool> tmr_equal( error_inject_operators<int> a1,int a2)
+{
+ 	error_inject_operators<bool> res1,res2,res3;
+ 	res1= (a1.operand == a2);
+ 	res2= (a1.operand == a2);
+ 	res3= (a1.operand == a2);
+ 	error_inject_operators<bool> result;
+ 	if(  res1 == res2 )
+ 	{
+ 		result=res1;
+ 	}
+ 	else if (res2 == res3) 
+ 	{
+ 		result=res2; 	
+ 	}
+ 	else if (res1 == res3)
+ 	{
+ 		result=res3; 	
+ 	}
+ 	else
+ 	{
+ 		cout<<"\n\t FATAL tmr_equal op1 "<<a1<<" op2 "<<a2;
+	 	cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" are not equal and hence, exitting! \n ";
+	 	exit(-1);
+ 	}
+ 	
+ 	//cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" result "<<result<<endl;
+ 	//exit(-1);
+ 	return result;
+}
+
 inline error_inject_operators<int> tmr_lesser( error_inject_operators<int> a1,error_inject_operators<int> a2)
 {
  	error_inject_operators<int> res1,res2,res3;
@@ -345,16 +395,16 @@ inline error_inject_operators<int> tmr_lesser( error_inject_operators<int> a1,er
 	 	exit(-1);
  	}
  	
- 	//cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" result "<<result<<endl;
+ 	// cout<<"\n\t TMR_L: a1 "<<a1<<" a2 "<<a2<<" res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" result "<<result;
  	return result;
 }
 
-inline error_inject_operators<bool> tmr_lesser_bool( error_inject_operators<int> a1,error_inject_operators<int> a2)
+inline error_inject_operators<bool> tmr_lesser_equal_bool( error_inject_operators<int> a1,error_inject_operators<int> a2)
 {
  	error_inject_operators<bool> res1,res2,res3;
- 	res1= a1 < a2;
- 	res2= a1 < a2;
- 	res3= a1 < a2;
+ 	res1= a1 <= a2;
+ 	res2= a1 <= a2;
+ 	res3= a1 <= a2;
  	error_inject_operators<bool> result;
  	if(  res1 == res2 )
  	{
@@ -375,16 +425,16 @@ inline error_inject_operators<bool> tmr_lesser_bool( error_inject_operators<int>
 	 	exit(-1);
  	}
  	
- 	//cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" result "<<result<<endl;
+ 	// cout<<"\n\t TMR_LB: a1 "<<a1<<" a2 "<<a2<<" res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" result "<<result;
  	return result;
 }
 
-inline error_inject_operators<bool> tmr_greater_bool( error_inject_operators<int> a1,error_inject_operators<int> a2)
+inline error_inject_operators<bool> tmr_greater_equal_bool( error_inject_operators<int> a1,error_inject_operators<int> a2)
 {
  	error_inject_operators<bool> res1,res2,res3;
- 	res1= a1 > a2;
- 	res2= a1 > a2;
- 	res3= a1 > a2;
+ 	res1= a1 >= a2;
+ 	res2= a1 >= a2;
+ 	res3= a1 >= a2;
  	error_inject_operators<bool> result;
  	if(  res1 == res2 )
  	{
@@ -405,6 +455,6 @@ inline error_inject_operators<bool> tmr_greater_bool( error_inject_operators<int
 	 	exit(-1);
  	}
  	
- 	//cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" result "<<result<<endl;
+ 	// cout<<"\n\t TMR_GB: a1 "<<a1<<" a2 "<<a2<<" res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" result "<<result;
  	return result;
 }
