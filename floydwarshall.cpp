@@ -1,81 +1,4 @@
-#include <iostream>
-#include <set>
-#include <vector>
-#include<cstdio>
-#include<cstdlib>
-#include "error_inject_operator.h"
-using namespace std;
-  
-const int MAX = 1001;
-const int MAXINT = 1000000000;
-
-#define INTMAX 10000 
- 
-template <class M>
-double  error_inject_operators<M>::error_percent=0.0;
-int n;
-
-inline error_inject_operators<bool> tmr_equal( error_inject_operators<int> a1,error_inject_operators<int> a2)
- {
- 	error_inject_operators<bool> res1,res2,res3;
- 	res1= (a1.operand == a2.operand);
- 	res2= (a1.operand == a2.operand);
- 	res3= (a1.operand == a2.operand);
- 	error_inject_operators<bool> result;
- 	if(  res1 == res2 )
- 	{
- 		result=res1;
- 	}
- 	else if (res2 == res3) 
- 	{
- 		result=res2; 	
- 	}
- 	else if (res1 == res3)
- 	{
- 		result=res3; 	
- 	}
- 	else
- 	{
- 		cout<<"\n\t FATAL tmr_equal op1 "<<a1<<" op2 "<<a2;
-	 	cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" are not equal and hence, exitting! \n ";
-	 	exit(-1);
- 	}
- 	
- 	//cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" result "<<result<<endl;
- 	//exit(-1);
- 	return result;
- }
-
- inline error_inject_operators<int> tmr_lesser( error_inject_operators<int> a1,error_inject_operators<int> a2)
- {
- 	error_inject_operators<int> res1,res2,res3;
- 	res1= a1 < a2;
- 	res2= a1 < a2;
- 	res3= a1 < a2;
- 	error_inject_operators<int> result;
- 	if(  res1 == res2 )
- 	{
- 		result=res1;
- 	}
- 	else if (res2 == res3) 
- 	{
- 		result=res2; 	
- 	}
- 	else if (res1 == res3)
- 	{
- 		result=res3; 	
- 	}
- 	else
- 	{
- 		cout<<"\n\t FATAL tmr_greater op1 "<<a1<<" op2 "<<a2;
-	 	cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" are not equal and hence, exitting! \n ";
-	 	exit(-1);
- 	}
- 	
- 	//cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" result "<<result<<endl;
- 	return result;
- }
-
+#include "floydwarshall.h"
 
 void FloydWarshall(error_inject_operators<int>** UpdateMat,double ErrorPercent)
 {
@@ -83,7 +6,7 @@ void FloydWarshall(error_inject_operators<int>** UpdateMat,double ErrorPercent)
 	
     for(int i=0;i<n;i++)
     {
-     	cout<<"\n\n"   ;
+     	// cout<<"\n\n"   ;
 		for(int j=0;j<n;j++)
 		{
 			//cout<<"\t "<<(UpdateMat[i][j]); 
@@ -104,7 +27,7 @@ void FloydWarshall(error_inject_operators<int>** UpdateMat,double ErrorPercent)
 				for(int k=0;k<j;k++)
 				{
 					temp[k]=(UpdateMat[i][k]+UpdateMat[k][j]);
-					cout<<"\n\t k: "<<k<<" temp[k] "<<temp[k];
+					// cout<<"\n\t k: "<<k<<" temp[k] "<<temp[k];
 				}
 				
 				Counter1=0; Counter2=j;MinK=INTMAX;
@@ -139,7 +62,7 @@ void FloydWarshall(error_inject_operators<int>** UpdateMat,double ErrorPercent)
 
 			}
 			diff=tmr_lesser(MinK,UpdateMat[i][j]);
-			cout<<"\n\t -- i "<<i<<" j "<<j<<" UpdateMat[i][j] "<<UpdateMat[i][j]<<" MinK "<<MinK<<" TMR_Lesser "<<diff;
+			// cout<<"\n\t -- i "<<i<<" j "<<j<<" UpdateMat[i][j] "<<UpdateMat[i][j]<<" MinK "<<MinK<<" TMR_Lesser "<<diff;
 			if(diff.operand)
 				UpdateMat[i][j]= MinK;
 			
@@ -196,7 +119,7 @@ int main()
         int a, b, w , d= 0;
         //scanf("%d %d %d", &a, &b, &w);
         fscanf( ip_file_handle,"%d %d %d %d", &a, &b, &w,&d);
-        printf("\n %d %d %d %d\n", a, b, w,d);
+        // printf("\n %d %d %d %d\n", a, b, w,d);
  
 		if(d)		      
 			UpdateMat[a][b]=w;
@@ -204,6 +127,14 @@ int main()
 			UpdateMat[b][a]=w;
       
     }
+    
+    
+    struct MaxMin MaxMinofMatRows;
+    struct MaxMin MaxMinofMatCols;
+    
+	int SetSize=3;
+	// Ensure SetSize to be multiple of Rows and Cols.
+    FindMaxMin(UpdateMat,n,n,SetSize,MaxMinofMatRows,MaxMinofMatCols);
     
     for(int i=0;i<n;i++)
     {
