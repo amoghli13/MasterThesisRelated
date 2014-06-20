@@ -1,97 +1,160 @@
 #include "floydwarshall.h"
 
-void FloydWarshall(error_inject_operators<int>** UpdateMat,double ErrorPercent)
+void FloydWarshall(error_inject_operators<int>** UpdateMat,double ErrorPercent,struct MaxMin& MaxMinofMatRows,struct MaxMin& MaxMinofMatCols)
 {
 	error_inject_operators<int>::error_percent=ErrorPercent;
-	
+
+
+    error_inject_operators<int>* temp;
+    error_inject_operators<int>	Counter1;
+    error_inject_operators<int>	Counter2;
+    error_inject_operators<int>	MinK;
+    error_inject_operators<int>	MaxK;
+    error_inject_operators<int> diff;
+    error_inject_operators<int> diff1;
+    
+    error_inject_operators<int> MinRowCol;
+    error_inject_operators<int> MaxRowCol;
+    
+    error_inject_operators<bool> Compare;
+    error_inject_operators<bool> Compare1;
+    error_inject_operators<bool> NeedToRepeat;
+    error_inject_operators<bool> NeedToRepeat1;
+    
+    int RowbySetSize;
+    int ColbySetSize;		
+    
+    	
     for(int i=0;i<n;i++)
     {
      	// cout<<"\n\n"   ;
-		for(int j=0;j<n;j++)
-		{
+	RowbySetSize=(int) (i/SetSize);
+    	for(int j=0;j<n;j++)
+	{
 			//cout<<"\t "<<(UpdateMat[i][j]); 
 			//cout<<"\n\t i "<<i<<" j "<<j;
-			error_inject_operators<int>* temp;
-			error_inject_operators<int>	Counter1;
-			error_inject_operators<int>	Counter2;
-			error_inject_operators<int>	MinK;
-			error_inject_operators<int> diff;
-			error_inject_operators<int> diff1;
-			temp=new error_inject_operators<int> [j];
-			error_inject_operators<bool> NeedToRepeat;
-			NeedToRepeat=true;
-			
-			while(NeedToRepeat.operand)
-			{
-			
-				for(int k=0;k<j;k++)
-				{
-					temp[k]=(UpdateMat[i][k]+UpdateMat[k][j]);
-					// cout<<"\n\t k: "<<k<<" temp[k] "<<temp[k];
-				}
-				
-				Counter1=0; Counter2=j;MinK=INTMAX;
-				for(int k=0;k<j;k++)
-				{
-					diff=( MinK - temp[k]);
-					if( temp[k] < MinK )
-					{
-						MinK=temp[k];
-						Counter1=Counter1+1;
-					}	
-				
-					if((diff > 0) ) //|| (temp[k] < MinK))
-					{
-						Counter2=Counter2-1;				
-					}
-			
-				}
-				diff= Counter1 + Counter2;
-				diff1=j;
-				error_inject_operators<bool> EqualCompare;
-				EqualCompare= tmr_equal(diff,diff1);
-				if( EqualCompare.operand )
-					NeedToRepeat=false;
-				else
-				{
-					NeedToRepeat=true;			
-					cout<<"\n\t i "<<i<<" j "<<j;
-					cout<<"\n\t Counter1: "<<Counter1<<" Counter2: "<<Counter2;
-					cout<<"\n\t c1+c2 != CheckpointLength "<<(diff)<<" CheckpointLength: "<<(diff1)<<"\n";
-				}
+		ColbySetSize=(int) (j/SetSize);
+    		temp=new error_inject_operators<int> [j];
 
+    		NeedToRepeat1=true;
+    		while(NeedToRepeat1.operand)
+    		{
+	    		NeedToRepeat=true;
+	    		
+	    		while(NeedToRepeat.operand)
+	    		{
+	    		
+	    			for(int k=0;k<j;k++)
+	    			{
+	    				temp[k]=(UpdateMat[i][k]+UpdateMat[k][j]);
+	    				// cout<<"\n\t k: "<<k<<" temp[k] "<<temp[k];
+	    			}
+	    			
+	    			Counter1=0; Counter2=j;MinK=INTMAX;
+	    			for(int k=0;k<j;k++)
+	    			{
+	    				diff=( MinK - temp[k]);
+	    				if( temp[k] < MinK )
+	    				{
+	    					MinK=temp[k];
+	    					Counter1=Counter1+1;
+	    				}	
+	    			
+	    				if((diff > 0) ) //|| (temp[k] < MinK))
+	    				{
+	    		    			Counter2=Counter2-1;    			
+	    				}
+	    		
+	    			}
+	    			diff= Counter1 + Counter2;
+	    			diff1=j;
+	    			
+	    			Compare= tmr_equal(diff,diff1);
+	    			if( Compare.operand )
+	    				NeedToRepeat=false;
+	    			else
+	    			{
+	    				NeedToRepeat=true;    		
+	    				cout<<"\n\t i "<<i<<" j "<<j;
+	    				cout<<"\n\t Counter1: "<<Counter1<<" Counter2: "<<Counter2;
+	    				cout<<"\n\t c1+c2 != CheckpointLength "<<(diff)<<" CheckpointLength: "<<(diff1)<<"\n";
+	    			}
+
+	    		}
+	    		NeedToRepeat=true;
+	    		while(NeedToRepeat.operand)
+	    		{
+	    		
+	    			for(int k=0;k<j;k++)
+	    			{
+	    				temp[k]=(UpdateMat[i][k]+UpdateMat[k][j]);
+	    				//cout<<"\n\t k: "<<k<<" temp[k] "<<temp[k];
+	    			}
+	    			
+	    			Counter1=0; Counter2=j;MaxK=0;
+	    			
+	    			for(int k=0;k<j;k++)
+	    			{
+	    				//cout<<"\n\t k "<<k<<" temp[k] "<<(temp[k])<<" MaxK "<<MaxK;
+	    				diff=( MaxK - temp[k]);
+	    				if( temp[k] > MaxK )
+	    				{
+				    		MaxK=temp[k];
+				    		Counter1=Counter1+1;
+	    				}	
+	    			
+	    				if((diff < 0) ) //|| (temp[k] < MinK))
+	    				{
+	    					Counter2=Counter2-1;				
+	    				}
+	    		
+	    			}
+	    			diff= Counter1 + Counter2;
+	    			diff1=j;
+	    			Compare= tmr_equal(diff,diff1);
+	    			if( Compare.operand )
+	    				NeedToRepeat=false;
+	    			else
+	    			{
+	    				NeedToRepeat=true;			
+	    				cout<<"\n\t i "<<i<<" j "<<j;
+	    				cout<<"\n\t Counter1: "<<Counter1<<" Counter2: "<<Counter2;
+	    				cout<<"\n\t c1+c2 != CheckpointLength "<<(diff)<<" CheckpointLength: "<<(diff1)<<"\n";
+	    				exit(-1);
+	    			}
+
+	    		}    		
+	    		cout<<"\n\t -- i "<<i<<" j "<<j<<" MinK "<<MinK<<" MaxK "<<MaxK;
+			MinRowCol=(MaxMinofMatRows.MinMat[RowbySetSize][j]+MaxMinofMatCols.MinMat[i][ColbySetSize]);
+			MaxRowCol=(MaxMinofMatRows.MaxMat[RowbySetSize][j]+MaxMinofMatCols.MaxMat[i][ColbySetSize]);
+			Compare= tmr_lesser_bool(MinK,MinRowCol);
+			Compare1= tmr_greater_bool(MaxK,MaxRowCol);
+		
+			if( (Compare.operand) || (Compare1.operand) )
+			{
+				NeedToRepeat1=(true);
+				break;
 			}
-			diff=tmr_lesser(MinK,UpdateMat[i][j]);
-			// cout<<"\n\t -- i "<<i<<" j "<<j<<" UpdateMat[i][j] "<<UpdateMat[i][j]<<" MinK "<<MinK<<" TMR_Lesser "<<diff;
-			if(diff.operand)
-				UpdateMat[i][j]= MinK;
-			
+			else
+				NeedToRepeat1=false;
 				
+			cout<<"\n\t -- i "<<i<<" j "<<j<<" MinK "<<MinK<<" MaxK "<<MaxK<<" UpdateMat[i][j] "<<UpdateMat[i][j];
 			
-			//	if( (UpdateMat[i][j]) > (UpdateMat[i][k]+UpdateMat[k][j]) )
-			//	{
-					//cout<<"\n\n\t *** i "<<i<<" j "<<j<<" k "<<k<<" LHS: "<<(UpdateMat[i][j])<<" is greater than RHS: "<<(UpdateMat[i][k])<<" , "<<(UpdateMat[k][j]);
-			//		UpdateMat[i][j]= (UpdateMat[i][k]+UpdateMat[k][j]); 
-			//	}				
-				
-		}
-	}
-	cout<<"\n\n";
-    for(int i=0;i<n;i++)
-    {
-        cout<<"\n";
-		for(int j=0;j<n;j++)
-			cout<<"\t "<<(UpdateMat[i][j]); 
-	}
+	    		diff=tmr_lesser(MinK,UpdateMat[i][j]);
+    			UpdateMat[i][j]= diff;
+	    		
+		}    			
+    	}
+    }
 
 }
 
- 
+
 int main()
 {
 
     int m, s, t = 0;
-    printf("\n\t Enter: \n\t\t 1. number of nodes \n\t\t 2. Number of edges \n\t\t 3. Source node \n\t\t 4. Destination node \n\t\t ");
+    //printf("\n\t Enter: \n\t\t 1. number of nodes \n\t\t 2. Number of edges \n\t\t 3. Source node \n\t\t 4. Destination node \n\t\t ");
     //scanf("%d %d %d %d", &n, &m, &s, &t);
 		
    FILE* ip_file_handle;
@@ -131,21 +194,15 @@ int main()
     
     struct MaxMin MaxMinofMatRows;
     struct MaxMin MaxMinofMatCols;
-    
-	int SetSize=3;
-	// Ensure SetSize to be multiple of Rows and Cols.
-    for(int i=0;i<n;i++)
-    {
-        cout<<"\n";
-		for(int j=0;j<n;j++)
-			cout<<"\t "<<(UpdateMat[i][j]); 
-    }
+ 
+    NumRows=n;
+    NumCols=n;
+    SetSize=3; // Ensure SetSize to be multiple of Rows and Cols.
 
-    int NumRows=n;
-    int NumCols=n;
 
-    int NumRowsbySetSize= ( (int) ( (NumRows-1)/SetSize  ) + 1) ;
-    int NumColsbySetSize= ( (int) ( (NumCols-1)/SetSize  ) + 1) ;
+    PrintMat(UpdateMat);	
+    NumRowsbySetSize= ( (int) ( (NumRows-1)/SetSize  ) + 1) ;
+    NumColsbySetSize= ( (int) ( (NumCols-1)/SetSize  ) + 1) ;
     
 	MaxMinofMatRows.MinMat= new error_inject_operators<int>* [NumRowsbySetSize];
 	MaxMinofMatRows.MaxMat= new error_inject_operators<int>* [NumRowsbySetSize];
@@ -166,7 +223,7 @@ int main()
 		MaxMinofMatCols.MaxMat[i]=new error_inject_operators<int> [NumColsbySetSize];
 	}	
 
-    FindMaxMin(UpdateMat,NumRows,NumCols,SetSize,MaxMinofMatRows,MaxMinofMatCols);
+    FindMaxMin(UpdateMat,MaxMinofMatRows,MaxMinofMatCols);
     
     for(int i=0;i<NumRowsbySetSize;i++)
     {
@@ -190,8 +247,9 @@ int main()
 
 
     cout<<"\n\n";
-    FloydWarshall(UpdateMat,0.001);
-    cout<<"\n\n";exit(-1);
+    FloydWarshall(UpdateMat,0.001,MaxMinofMatRows,MaxMinofMatCols);
+    PrintMat(UpdateMat);	
+    cout<<"\n\n";
  
     return 0;
 }
