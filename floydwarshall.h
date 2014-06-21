@@ -62,10 +62,10 @@ return;
 
 }
 
-void FindMaxMin(error_inject_operators<int>** Mat,struct MaxMin& MaxMinofMatRows,struct MaxMin& MaxMinofMatCols)
+void FindMaxMin(error_inject_operators<int>** Mat,struct MaxMin& MaxMinofMatRows,struct MaxMin& MaxMinofMatCols,double ErrorPercent)
 {
 
-
+		error_inject_operators<int>::error_percent=ErrorPercent;
 		error_inject_operators<int> MaxCounter1;error_inject_operators<int> MaxCounter2;	
 		error_inject_operators<int> MinCounter1;error_inject_operators<int> MinCounter2;	
 		error_inject_operators<int> MinVal;error_inject_operators<int> MaxVal;

@@ -156,7 +156,10 @@ void FloydWarshall(error_inject_operators<int>** UpdateMat,double ErrorPercent,s
 				
 			}
 
-				 cout<<"\n\t -- i "<<i<<" j "<<j<<" MinK "<<MinK<<" MaxK "<<MaxK<<" UpdateMat[i][j] "<<UpdateMat[i][j];
+				 if(j%50==0)
+				 {
+				 	cout<<"\n\t -- i "<<i<<" j "<<j<<" MinK "<<MinK<<" MaxK "<<MaxK<<" UpdateMat[i][j] "<<UpdateMat[i][j];
+				 }
 				 diff=tmr_lesser(MinK,UpdateMat[i][j]);
 				 UpdateMat[i][j]= diff;
 				
@@ -265,7 +268,7 @@ int main(int argc, char* argv[])
 		MaxMinofMatCols.MaxMat[i]=new error_inject_operators<int> [NumColsbySetSize];
 	}	
 
-    FindMaxMin(UpdateMat,MaxMinofMatRows,MaxMinofMatCols);
+    FindMaxMin(UpdateMat,MaxMinofMatRows,MaxMinofMatCols,ErrorPercent);
     
  /*   for(int i=0;i<NumRowsbySetSize;i++)
     {
