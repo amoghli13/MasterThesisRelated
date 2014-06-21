@@ -29,7 +29,7 @@ public:
 
 inline error_inject_operators<bool> tmr_equal( error_inject_operators<int> a1,error_inject_operators<int> a2);
 inline error_inject_operators<int> tmr_lesser( error_inject_operators<int> a1,error_inject_operators<int> a2);
-
+inline error_inject_operators<int> tmr_greater( error_inject_operators<int> a1,error_inject_operators<int> a2);
 
 void PrintMat(error_inject_operators<int>** UpdateMat)
 {
@@ -93,49 +93,6 @@ void FindMaxMin(error_inject_operators<int>** Mat,struct MaxMin& MaxMinofMatRows
 			while(NeedToRepeat)
 			{
 			
-				MinCounter1=0;MinCounter2=SetSize;
-				MinVal=INTMAX;
-			
-			
-				for(int k=start;(k < bound);k++)
-				{
-				    diff= MinVal-Mat[k][j];
-				    // cout<<"\n\t i: "<<i<<" k "<<k<<" Mat[k][j]: "<<Mat[k][j]<<" MinVal "<<MinVal;
-					if(MinVal>Mat[k][j])
-					{
-						// cout<<"\n\t MinVal: "<<MinVal<<" Mat[i][k] "<<Mat[i][k];
-						MinVal=Mat[k][j];
-						MinCounter1=MinCounter1+1;
-					
-					}
-				
-					if(diff>0)
-					{
-						MinCounter2=MinCounter2-1;
-					}
-				
-			
-				}
-				diff= MinCounter1 + MinCounter2;
-				diff1=SetSize;
-				error_inject_operators<bool> EqualCompare;
-				EqualCompare= tmr_equal(diff,diff1);
-				if( EqualCompare.operand )
-						NeedToRepeat=false;
-				else
-				{
-						NeedToRepeat=true;			
-						cout<<"\n\t i "<<i<<" j "<<j;
-						cout<<"\n\t Counter1: "<<MinCounter1<<" Counter2: "<<MinCounter2;
-						cout<<"\n\t c1+c2 != CheckpointLength "<<(diff)<<" CheckpointLength: "<<(diff1)<<"\n";
-				}
-	
-			}
-
-			NeedToRepeat=true;
-			while(NeedToRepeat)
-			{
-			
 				MaxCounter1=0;MaxCounter2=SetSize;
 				MaxVal=0;
 			
@@ -143,7 +100,7 @@ void FindMaxMin(error_inject_operators<int>** Mat,struct MaxMin& MaxMinofMatRows
 				for(int k=start;(k < bound);k++)
 				{
 				    diff= MaxVal-Mat[k][j];
-				    // cout<<"\n\t i: "<<i<<" k "<<k<<" Mat[k][j]: "<<Mat[k][j]<<" MaxVal "<<MaxVal;
+				    // cout<<"\n\t 1. i: "<<i<<" k "<<k<<" Mat[k][j]: "<<Mat[k][j]<<" MaxVal "<<MaxVal;
 					if(MaxVal < Mat[k][j])
 					{
 						// cout<<"\n\t MaxVal: "<<MaxVal<<" Mat[i][k] "<<Mat[i][k];
@@ -175,8 +132,11 @@ void FindMaxMin(error_inject_operators<int>** Mat,struct MaxMin& MaxMinofMatRows
 	
 			}
 
-			MaxMinofMatRows.MaxMat[i][j]=MaxVal;	
-			MaxMinofMatRows.MinMat[i][j]=MinVal;		
+			if(j)
+				MaxMinofMatRows.MaxMat[i][j]=tmr_greater(MaxVal,MaxMinofMatRows.MaxMat[i][j-1]);
+			else
+				MaxMinofMatRows.MaxMat[i][j]=MaxVal;	
+				
 			//cout<<"\n\t Row "<<i<<" Col "<<j<<" MinVal "<<MinVal<<" MaxMinofMatRows.MinMat[i][j] "<<(MaxMinofMatRows.MinMat[i][j])<<endl;
 			//cout<<"\n\t Row "<<i<<" Col "<<j<<" MaxVal "<<MaxVal<<" MaxMinofMatRows.MaxMat[i][j] "<<(MaxMinofMatRows.MaxMat[i][j])<<endl;
 		
@@ -198,49 +158,7 @@ void FindMaxMin(error_inject_operators<int>** Mat,struct MaxMin& MaxMinofMatRows
 			MaxCounter1=0;MaxCounter2=SetSize;
 			// cout<<"\n\t i: "<<i<<" j "<<j<<" start "<<start<<" bound "<<bound<<" SetSize "<<SetSize<<endl;
 			NeedToRepeat=true;
-			while(NeedToRepeat)
-			{
-			
-				MinCounter1=0;MinCounter2=SetSize;
-				MinVal=INTMAX;
-			
-			
-				for(int k=start;(k < bound);k++)
-				{
-				    diff= MinVal-Mat[i][k];
-				    // cout<<"\n\t i: "<<i<<" k "<<k<<" Mat[k][j]: "<<Mat[k][j]<<" MinVal "<<MinVal;
-					if(MinVal>Mat[i][k])
-					{
-						// cout<<"\n\t MinVal: "<<MinVal<<" Mat[i][k] "<<Mat[i][k];
-						MinVal=Mat[i][k];
-						MinCounter1=MinCounter1+1;
-					
-					}
-				
-					if(diff>0)
-					{
-						MinCounter2=MinCounter2-1;
-					}
-			
-				}
-				diff= MinCounter1 + MinCounter2;
-				diff1=SetSize;
-				error_inject_operators<bool> EqualCompare;
-				EqualCompare= tmr_equal(diff,diff1);
-				if( EqualCompare.operand )
-						NeedToRepeat=false;
-				else
-				{
-						NeedToRepeat=true;			
-						cout<<"\n\t i "<<i<<" j "<<j;
-						cout<<"\n\t Counter1: "<<MinCounter1<<" Counter2: "<<MinCounter2;
-						cout<<"\n\t c1+c2 != CheckpointLength "<<(diff)<<" CheckpointLength: "<<(diff1)<<"\n";
-				}
-	
-			}
-
-			NeedToRepeat=true;
-			while(NeedToRepeat)
+ 			while(NeedToRepeat)
 			{
 			
 				MaxCounter1=0;MaxCounter2=SetSize;
@@ -250,7 +168,7 @@ void FindMaxMin(error_inject_operators<int>** Mat,struct MaxMin& MaxMinofMatRows
 				for(int k=start;(k < bound);k++)
 				{
 				    diff= MaxVal-Mat[i][k];
-				    // cout<<"\n\t i: "<<i<<" k "<<k<<" Mat[k][j]: "<<Mat[k][j]<<" MaxVal "<<MaxVal;
+				    //cout<<"\n\t 2. i: "<<i<<" k "<<k<<" Mat[i][k]: "<<Mat[i][k]<<" MaxVal "<<MaxVal;
 					if(MaxVal < Mat[i][k])
 					{
 						// cout<<"\n\t MaxVal: "<<MaxVal<<" Mat[i][k] "<<Mat[i][k];
@@ -282,8 +200,10 @@ void FindMaxMin(error_inject_operators<int>** Mat,struct MaxMin& MaxMinofMatRows
 	
 			}
 
-			MaxMinofMatCols.MaxMat[i][j]=MaxVal;	
-			MaxMinofMatCols.MinMat[i][j]=MinVal;		
+			if(j)
+				MaxMinofMatCols.MaxMat[i][j]=tmr_greater(MaxVal,MaxMinofMatCols.MaxMat[i][j-1]);
+			else
+				MaxMinofMatCols.MaxMat[i][j]=MaxVal;	
 			//cout<<"\n\t Row "<<i<<" Col "<<j<<" MinVal "<<MinVal<<" MaxMinofMatCols.MinMat[i][j] "<<(MaxMinofMatCols.MinMat[i][j])<<endl;
 			//cout<<"\n\t Row "<<i<<" Col "<<j<<" MaxVal "<<MaxVal<<" MaxMinofMatCols.MaxMat[i][j] "<<(MaxMinofMatCols.MaxMat[i][j])<<endl;
 		
@@ -371,6 +291,49 @@ inline error_inject_operators<int> tmr_lesser( error_inject_operators<int> a1,er
  		res2=a2;
 
  	if(a1 < a2)
+ 		res3=a1;
+ 	else
+ 		res3=a2;
+
+ 	error_inject_operators<int> result;
+ 	if(  res1 == res2 )
+ 	{
+ 		result=res1;
+ 	}
+ 	else if (res2 == res3) 
+ 	{
+ 		result=res2; 	
+ 	}
+ 	else if (res1 == res3)
+ 	{
+ 		result=res3; 	
+ 	}
+ 	else
+ 	{
+ 		cout<<"\n\t FATAL tmr_greater op1 "<<a1<<" op2 "<<a2;
+	 	cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" are not equal and hence, exitting! \n ";
+	 	exit(-1);
+ 	}
+ 	
+ 	// cout<<"\n\t TMR_L: a1 "<<a1<<" a2 "<<a2<<" res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" result "<<result;
+ 	return result;
+}
+
+inline error_inject_operators<int> tmr_greater( error_inject_operators<int> a1,error_inject_operators<int> a2)
+{
+ 	error_inject_operators<int> res1,res2,res3;
+ 
+ 	if(a1 > a2)
+ 		res1=a1;
+ 	else
+ 		res1=a2;
+ 
+ 	if(a1 > a2)
+ 		res2=a1;
+ 	else
+ 		res2=a2;
+
+ 	if(a1 > a2)
  		res3=a1;
  	else
  		res3=a2;
