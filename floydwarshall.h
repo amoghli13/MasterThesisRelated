@@ -125,9 +125,9 @@ void FindMaxMin(error_inject_operators<int>** Mat,struct MaxMin& MaxMinofMatRows
 				else
 				{
 						NeedToRepeat=true;			
-						cout<<"\n\t i "<<i<<" j "<<j;
-						cout<<"\n\t Counter1: "<<MaxCounter1<<" Counter2: "<<MaxCounter2;
-						cout<<"\n\t c1+c2 != CheckpointLength "<<(diff)<<" CheckpointLength: "<<(diff1)<<"\n";
+					//	cout<<"\n\t i "<<i<<" j "<<j;
+					//	cout<<"\n\t Counter1: "<<MaxCounter1<<" Counter2: "<<MaxCounter2;
+					//	cout<<"\n\t c1+c2 != CheckpointLength "<<(diff)<<" CheckpointLength: "<<(diff1)<<"\n";
 				}
 	
 			}
@@ -193,9 +193,9 @@ void FindMaxMin(error_inject_operators<int>** Mat,struct MaxMin& MaxMinofMatRows
 				else
 				{
 						NeedToRepeat=true;			
-						cout<<"\n\t i "<<i<<" j "<<j;
-						cout<<"\n\t Counter1: "<<MaxCounter1<<" Counter2: "<<MaxCounter2;
-						cout<<"\n\t c1+c2 != CheckpointLength "<<(diff)<<" CheckpointLength: "<<(diff1)<<"\n";
+						//cout<<"\n\t i "<<i<<" j "<<j;
+						//cout<<"\n\t Counter1: "<<MaxCounter1<<" Counter2: "<<MaxCounter2;
+						//cout<<"\n\t c1+c2 != CheckpointLength "<<(diff)<<" CheckpointLength: "<<(diff1)<<"\n";
 				}
 	
 			}
@@ -237,13 +237,45 @@ inline error_inject_operators<bool> tmr_equal( error_inject_operators<int> a1,er
  	{
  		cout<<"\n\t FATAL tmr_equal op1 "<<a1<<" op2 "<<a2;
 	 	cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" are not equal and hence, exitting! \n ";
-	 	exit(-1);
+	 	//exit(-1);
  	}
  	
  	//cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" result "<<result<<endl;
  	//exit(-1);
  	return result;
 }
+
+inline error_inject_operators<int> tmr_add( error_inject_operators<int> a1,error_inject_operators<int> a2)
+{
+ 	error_inject_operators<int> res1,res2,res3;
+ 	res1= (a1 + a2);
+ 	res2= (a1 + a2);
+ 	res3= (a1 + a2);
+ 	error_inject_operators<int> result;
+ 	if(  res1 == res2 )
+ 	{
+ 		result=res1;
+ 	}
+ 	else if (res2 == res3) 
+ 	{
+ 		result=res2; 	
+ 	}
+ 	else if (res1 == res3)
+ 	{
+ 		result=res3; 	
+ 	}
+ 	else
+ 	{
+ 		cout<<"\n\t FATAL tmr_equal op1 "<<a1<<" op2 "<<a2;
+	 	cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" are not equal and hence, exitting! \n ";
+	 	//exit(-1);
+ 	}
+ 	
+ 	//cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" result "<<result<<endl;
+ 	//exit(-1);
+ 	return result;
+}
+
 
 inline error_inject_operators<bool> tmr_equal( error_inject_operators<int> a1,int a2)
 {
@@ -268,7 +300,7 @@ inline error_inject_operators<bool> tmr_equal( error_inject_operators<int> a1,in
  	{
  		cout<<"\n\t FATAL tmr_equal op1 "<<a1<<" op2 "<<a2;
 	 	cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" are not equal and hence, exitting! \n ";
-	 	exit(-1);
+	 	//exit(-1);
  	}
  	
  	//cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" result "<<result<<endl;
@@ -312,7 +344,7 @@ inline error_inject_operators<int> tmr_lesser( error_inject_operators<int> a1,er
  	{
  		cout<<"\n\t FATAL tmr_greater op1 "<<a1<<" op2 "<<a2;
 	 	cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" are not equal and hence, exitting! \n ";
-	 	exit(-1);
+	 	//exit(-1);
  	}
  	
  	// cout<<"\n\t TMR_L: a1 "<<a1<<" a2 "<<a2<<" res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" result "<<result;
@@ -355,7 +387,7 @@ inline error_inject_operators<int> tmr_greater( error_inject_operators<int> a1,e
  	{
  		cout<<"\n\t FATAL tmr_greater op1 "<<a1<<" op2 "<<a2;
 	 	cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" are not equal and hence, exitting! \n ";
-	 	exit(-1);
+	 	//exit(-1);
  	}
  	
  	// cout<<"\n\t TMR_L: a1 "<<a1<<" a2 "<<a2<<" res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" result "<<result;
@@ -385,7 +417,7 @@ inline error_inject_operators<bool> tmr_lesser_equal_bool( error_inject_operator
  	{
  		cout<<"\n\t FATAL tmr_greater op1 "<<a1<<" op2 "<<a2;
 	 	cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" are not equal and hence, exitting! \n ";
-	 	exit(-1);
+	 	//exit(-1);
  	}
  	
  	// cout<<"\n\t TMR_LB: a1 "<<a1<<" a2 "<<a2<<" res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" result "<<result;
@@ -415,7 +447,7 @@ inline error_inject_operators<bool> tmr_greater_equal_bool( error_inject_operato
  	{
  		cout<<"\n\t FATAL tmr_greater op1 "<<a1<<" op2 "<<a2;
 	 	cout<<"\n\t res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" are not equal and hence, exitting! \n ";
-	 	exit(-1);
+	 	//exit(-1);
  	}
  	
  	// cout<<"\n\t TMR_GB: a1 "<<a1<<" a2 "<<a2<<" res1: "<<res1<<" res2: "<<res2<<" res3: "<<res3<<" result "<<result;

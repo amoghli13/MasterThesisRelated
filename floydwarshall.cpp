@@ -1,5 +1,38 @@
 #include "floydwarshall.h"
 
+void TMRFloydWarshall(error_inject_operators<int>** UpdateMat,double ErrorPercent)
+{
+
+	error_inject_operators<int>::error_percent=ErrorPercent;
+	error_inject_operators<int>* temp;
+	error_inject_operators<int>	MinK;
+	
+    for(int i=0;i<NumRows;i++)
+    {
+     	cout<<"\n i "<<i    ;
+		//RowbySetSize=(int) (i/SetSize);
+    	for(int j=0;j<NumCols;j++)
+		{
+		
+			temp=new error_inject_operators<int> [j];
+			for(int k=0;k<j;k++)
+			{
+				temp[k]=tmr_add(UpdateMat[i][k],UpdateMat[k][j]);
+			}
+			MinK=INTMAX;
+			
+			for(int k=0;k<j;k++)
+			{
+				MinK=tmr_lesser(MinK,temp[k]);
+			}
+			UpdateMat[i][j]=MinK;
+			delete[] temp;
+		}
+	}
+
+return;
+}
+
 void FloydWarshall(error_inject_operators<int>** UpdateMat,double ErrorPercent,struct MaxMin& MaxMinofMatRows,struct MaxMin& MaxMinofMatCols)
 {
 	error_inject_operators<int>::error_percent=ErrorPercent;
@@ -62,7 +95,7 @@ void FloydWarshall(error_inject_operators<int>** UpdateMat,double ErrorPercent,s
 							}
 						
 							Counter1=0; Counter2=j;MinK=INTMAX;
-							for(int k=0;k<j;k++)
+							for(int k=JStart;k<JBound;k++)
 							{
 								diff=( MinK - temp[k]);
 								if( temp[k] < MinK )
@@ -86,9 +119,9 @@ void FloydWarshall(error_inject_operators<int>** UpdateMat,double ErrorPercent,s
 							else
 							{
 								NeedToRepeatMin=true;    		
-								cout<<"\n\t i "<<i<<" j "<<j;
-								cout<<"\n\t Counter1: "<<Counter1<<" Counter2: "<<Counter2;
-								cout<<"\n\t c1+c2 != CheckpointLength "<<(diff)<<" CheckpointLength: "<<(diff1)<<"\n";
+								//cout<<"\n\t i "<<i<<" j "<<j;
+								//cout<<"\n\t Counter1: "<<Counter1<<" Counter2: "<<Counter2;
+								//cout<<"\n\t c1+c2 != CheckpointLength "<<(diff)<<" CheckpointLength: "<<(diff1)<<"\n";
 							}
 
 						}
@@ -101,6 +134,7 @@ void FloydWarshall(error_inject_operators<int>** UpdateMat,double ErrorPercent,s
 						Counter1=0; Counter2=j;MaxK=0;
 						
 						for(int k=JStart;k<JBound;k++)
+						
 						{
 							//cout<<"\n\t k "<<k<<" temp[k] "<<(temp[k])<<" MaxK "<<MaxK;
 							diff=( MaxK - temp[k]);
@@ -124,9 +158,9 @@ void FloydWarshall(error_inject_operators<int>** UpdateMat,double ErrorPercent,s
 						else
 						{
 							NeedToRepeatMax=true;			
-							cout<<"\n\t i "<<i<<" j "<<j;
-							cout<<"\n\t MaxCounter1: "<<Counter1<<" MaxCounter2: "<<Counter2;
-							cout<<"\n\t c1+c2 != CheckpointLength "<<(diff)<<" CheckpointLength: "<<(diff1)<<"\n";
+							//cout<<"\n\t i "<<i<<" j "<<j;
+							//cout<<"\n\t MaxCounter1: "<<Counter1<<" MaxCounter2: "<<Counter2;
+							//cout<<"\n\t c1+c2 != CheckpointLength "<<(diff)<<" CheckpointLength: "<<(diff1)<<"\n";
 							//exit(-1);
 						}
 
@@ -145,9 +179,9 @@ void FloydWarshall(error_inject_operators<int>** UpdateMat,double ErrorPercent,s
 					else
 					{
 						NeedToRepeatforSet=true;
-						cout<<"\n\t MaxRowCol: "<<(MaxRowCol)<<" MaxK: "<<MaxK;
-						cout<<"\n\t MaxMinofMatRows.MaxMat[RowbySetSize][j]: "<<(MaxMinofMatRows.MaxMat[RowbySetSize][j])<<" MaxMinofMatCols.MaxMat[i][ColbySetSize] "<<(MaxMinofMatCols.MaxMat[i][ColbySetSize]);
-						cout<<"\n\t T: Compare.operand "<<(Compare.operand)<<" Compare1.operand "<<Compare1.operand;
+						//cout<<"\n\t MaxRowCol: "<<(MaxRowCol)<<" MaxK: "<<MaxK;
+						//cout<<"\n\t MaxMinofMatRows.MaxMat[RowbySetSize][j]: "<<(MaxMinofMatRows.MaxMat[RowbySetSize][j])<<" MaxMinofMatCols.MaxMat[i][ColbySetSize] "<<(MaxMinofMatCols.MaxMat[i][ColbySetSize]);
+						//cout<<"\n\t T: Compare.operand "<<(Compare.operand)<<" Compare1.operand "<<Compare1.operand;
 						//exit(-1);
 					}
 
@@ -156,10 +190,10 @@ void FloydWarshall(error_inject_operators<int>** UpdateMat,double ErrorPercent,s
 				
 			}
 
-				 if(j%50==0)
-				 {
-				 	cout<<"\n\t -- i "<<i<<" j "<<j<<" MinK "<<MinK<<" MaxK "<<MaxK<<" UpdateMat[i][j] "<<UpdateMat[i][j];
-				 }
+				 //if(j%50==0)
+				 //{
+				 //	cout<<"\n\t -- i "<<i<<" j "<<j<<" MinK "<<MinK<<" MaxK "<<MaxK<<" UpdateMat[i][j] "<<UpdateMat[i][j];
+				 //}
 				 diff=tmr_lesser(MinK,UpdateMat[i][j]);
 				 UpdateMat[i][j]= diff;
 				
@@ -184,9 +218,7 @@ int main(int argc, char* argv[])
     ErrorPercent=atof(argv[2]);
     	
     int m, s, t = 0;
-    //printf("\n\t Enter: \n\t\t 1. number of nodes \n\t\t 2. Number of edges \n\t\t 3. Source node \n\t\t 4. Destination node \n\t\t ");
-    //scanf("%d %d %d %d", &n, &m, &s, &t);
-		
+  		
    FILE* ip_file_handle;
    string ip_file="inputs.txt";
    ip_file_handle=fopen(ip_file.c_str(),"r");
@@ -270,32 +302,12 @@ int main(int argc, char* argv[])
 
     FindMaxMin(UpdateMat,MaxMinofMatRows,MaxMinofMatCols,ErrorPercent);
     
- /*   for(int i=0;i<NumRowsbySetSize;i++)
-    {
-    	for(int j=0;j<NumCols;j++)
-    	{
-    	
-    		cout<<"\n\t Row: "<<i<<" Col: "<<j<<" Max[Row][Col]: "<<(MaxMinofMatRows.MaxMat[i][j])<<" Min[Row][Col]: "<<(MaxMinofMatRows.MinMat[i][j]);
-    	}
-    
-    }
-    cout<<"\n\n";
-    for(int i=0;i<NumRows;i++)
-    {
-    	for(int j=0;j<NumColsbySetSize;j++)
-    	{
-    	
-    		cout<<"\n\t Row: "<<i<<" Col: "<<j<<" Max[Row][Col]: "<<(MaxMinofMatCols.MaxMat[i][j])<<" Min[Row][Col]: "<<(MaxMinofMatCols.MinMat[i][j]);
-    	}
-    
-    }
-*/
-
-    cout<<"\n\n";
-    FloydWarshall(UpdateMatPristine,0.00,MaxMinofMatRows,MaxMinofMatCols);
+     cout<<"\n\n";
+    //FloydWarshall(UpdateMatPristine,0.00,MaxMinofMatRows,MaxMinofMatCols);
+  //  TMRFloydWarshall(UpdateMat,ErrorPercent);
     FloydWarshall(UpdateMat,ErrorPercent,MaxMinofMatRows,MaxMinofMatCols);
    // PrintMat(UpdateMat);	
-    CompareMat(UpdateMat,UpdateMatPristine,0.0);
+    //CompareMat(UpdateMat,UpdateMatPristine,0.0);
     cout<<"\n\n";
  
     return 0;
