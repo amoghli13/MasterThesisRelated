@@ -129,7 +129,6 @@ void FloydWarshall(error_inject_operators<int>** UpdateMat,double ErrorPercent,s
 
 						}
 
-					//cout<<"\n\t -- i "<<i<<" j "<<j<<" MinK "<<MinK<<" UpdateMat[i][j] "<<UpdateMat[i][j];
 					NeedToRepeatMax=true;
 					while(NeedToRepeatMax.operand)
 					{
@@ -143,18 +142,14 @@ void FloydWarshall(error_inject_operators<int>** UpdateMat,double ErrorPercent,s
 							diff=( MaxK - temp[k]);
 							if( temp[k].ABSG(MaxK) )
 							{
-								if(temp[k]!=INTMAX)
-								{
-									MaxK=temp[k];
-									Counter1=Counter1+1;
-								}
+								MaxK=temp[k];
+								Counter1=Counter1+1;
 							}	
 						
 							//if( diff.ABSL(0) ) //|| (temp[k] < MinK))
 							if( diff < 0 )
 							{
-								if(temp[k]!=INTMAX)
-									Counter2=Counter2-1;				
+								Counter2=Counter2-1;				
 							}
 					
 						}
@@ -186,45 +181,28 @@ void FloydWarshall(error_inject_operators<int>** UpdateMat,double ErrorPercent,s
 						//cout<<"\n\t F: Compare.operand "<<(Compare.operand)<<" Compare1.operand "<<Compare1.operand;
 					}
 					else
-					 if(( (MaxK>=INTMAX) && (MaxK<=(2*INTMAX)) ) )
 					{
-						NeedToRepeatforSet=false;
-						//cout<<"\n\t MaxRowCol: "<<(MaxRowCol)<<" MaxK: "<<MaxK;
-					}
-					else
-					{
-						
-						if(SetMaxFoundPrevIter==MaxK)
-						{
-							NeedToRepeatforSet=false;
-							//cout<<"\n\t MaxRowCol: "<<(MaxRowCol)<<" MaxK: "<<MaxK<<" SetMaxFoundPrevIter "<<SetMaxFoundPrevIter<<" hence not going to repeat! ";
-							
-						}
-						else
-						{
-							NeedToRepeatforSet=true;
-							SetMaxFoundPrevIter=MaxK;
-							cout<<"\n\t MaxRowCol: "<<(MaxRowCol)<<" MaxK: "<<MaxK<<" SetMaxFoundPrevIter "<<SetMaxFoundPrevIter;
-							cout<<"\n\t MaxMinofMatRows.MaxMat[RowbySetSize][j]: "<<(MaxMinofMatRows.MaxMat[RowbySetSize][j])<<" MaxMinofMatCols.MaxMat[i][ColbySetSize] "<<(MaxMinofMatCols.MaxMat[i][ColbySetSize]);
-							cout<<"\n\t l: "<<l<<" RowbySetSize "<<RowbySetSize<<" ColbySetSize "<<(ColbySetSize);
-							cout<<"\n\t MaxMinofMatRows.MaxMat[l][j]: "<<(MaxMinofMatRows.MaxMat[l][j])<<" MaxMinofMatCols.MaxMat[i][l] "<<(MaxMinofMatCols.MaxMat[i][l]);
-							cout<<"\n\t T: Compare.operand "<<(Compare.operand)<<" Compare1.operand "<<Compare1.operand;
-						}
-						//exit(-1);
+						NeedToRepeatforSet=true;
+						SetMaxFoundPrevIter=MaxK;
+						//cout<<"\n\t MaxRowCol: "<<(MaxRowCol)<<" MaxK: "<<MaxK<<" SetMaxFoundPrevIter "<<SetMaxFoundPrevIter;
+						//cout<<"\n\t MaxMinofMatRows.MaxMat[RowbySetSize][j]: "<<(MaxMinofMatRows.MaxMat[RowbySetSize][j])<<" MaxMinofMatCols.MaxMat[i][ColbySetSize] "<<(MaxMinofMatCols.MaxMat[i][ColbySetSize]);
+						//cout<<"\n\t l: "<<l<<" RowbySetSize "<<RowbySetSize<<" ColbySetSize "<<(ColbySetSize);
+						//cout<<"\n\t MaxMinofMatRows.MaxMat[l][j]: "<<(MaxMinofMatRows.MaxMat[l][j])<<" MaxMinofMatCols.MaxMat[i][l] "<<(MaxMinofMatCols.MaxMat[i][l]);
+						//cout<<"\n\t T: Compare.operand "<<(Compare.operand)<<" Compare1.operand "<<Compare1.operand;
 					}
 
-					//cout<<"\n\t -- i "<<i<<" j "<<j<<" MinK "<<MinK<<" diff "<<diff<<" UpdateMat[i][j] "<<UpdateMat[i][j];// <<endl;
+					
 				}
 				
 			}
 
 				 //if(j%50==0)
 				 //{
-				 	cout<<"\n\t -- i "<<i<<" j "<<j<<" MinK "<<MinK<<" MaxK "<<MaxK<<" UpdateMat[i][j] "<<UpdateMat[i][j];
+				 //	cout<<"\n\t -- i "<<i<<" j "<<j<<" MinK "<<MinK<<" MaxK "<<MaxK<<" UpdateMat[i][j] "<<UpdateMat[i][j];
 				 //}
 				 diff=tmr_lesser(MinK,UpdateMat[i][j]);
 				 UpdateMat[i][j]= diff;
-				 cout<<"\n\t -- i "<<i<<" j "<<j<<" MinK "<<MinK<<" MaxK "<<MaxK<<" UpdateMat[i][j] "<<UpdateMat[i][j];
+				 //cout<<"\n\t -- i "<<i<<" j "<<j<<" MinK "<<MinK<<" MaxK "<<MaxK<<" UpdateMat[i][j] "<<UpdateMat[i][j];
 				
 			delete[] temp;
     	}
@@ -334,11 +312,11 @@ int main(int argc, char* argv[])
      FindMaxMin(UpdateMat,MaxMinofMatRows,MaxMinofMatCols,ErrorPercent);
     
      cout<<"\n\n";
-    FloydWarshall(UpdateMatPristine,0.00,MaxMinofMatRows,MaxMinofMatCols);
+    //FloydWarshall(UpdateMatPristine,0.00,MaxMinofMatRows,MaxMinofMatCols);
     // TMRFloydWarshall(UpdateMat,ErrorPercent);
      FloydWarshall(UpdateMat,ErrorPercent,MaxMinofMatRows,MaxMinofMatCols);
    // PrintMat(UpdateMat);	
-    CompareMat(UpdateMat,UpdateMatPristine,0.0);
+   // CompareMat(UpdateMat,UpdateMatPristine,0.0);
     cout<<"\n\n";
  
     return 0;

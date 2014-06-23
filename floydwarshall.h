@@ -106,18 +106,13 @@ void FindMaxMin(error_inject_operators<int>** Mat,struct MaxMin& MaxMinofMatRows
 				   //  cout<<"\n\t 1. i: "<<i<<" j: "<<j<<" k: "<<k<<" Mat[k][j]: "<<Mat[k][j]<<" MaxVal "<<MaxVal;
 					if(MaxVal < Mat[k][j])
 					{
-						// cout<<"\n\t MaxVal: "<<MaxVal<<" Mat[i][k] "<<Mat[i][k];
-						if(Mat[k][j]!=INTMAX)
-						{
-							MaxVal=Mat[k][j];
-							MaxCounter1=MaxCounter1+1;
-						}
+						MaxVal=Mat[k][j];
+						MaxCounter1=MaxCounter1+1;
 					}
 				
 					if(diff < 0)
 					{
-						if(Mat[k][j]!=INTMAX)
-							MaxCounter2=MaxCounter2-1;
+						MaxCounter2=MaxCounter2-1;
 					}
 				
 			
@@ -169,22 +164,16 @@ void FindMaxMin(error_inject_operators<int>** Mat,struct MaxMin& MaxMinofMatRows
 				for(int k=start;(k < bound);k++)
 				{
 				    diff= MaxVal-Mat[i][k];
-				    cout<<"\n\t 2. i: "<<i<<" j: "<<j<<" k: "<<k<<" Mat[i][k]: "<<Mat[i][k]<<" MaxVal "<<MaxVal;
+				   // cout<<"\n\t 2. i: "<<i<<" j: "<<j<<" k: "<<k<<" Mat[i][k]: "<<Mat[i][k]<<" MaxVal "<<MaxVal;
 					if(MaxVal < Mat[i][k])
 					{
-						// cout<<"\n\t MaxVal: "<<MaxVal<<" Mat[i][k] "<<Mat[i][k];
-						if(Mat[i][k]!=INTMAX)
-						{
-							MaxVal=Mat[i][k];
-							MaxCounter1=MaxCounter1+1;
-						}
-					
+						MaxVal=Mat[i][k];
+						MaxCounter1=MaxCounter1+1;
 					}
 				
 					if(diff < 0)
 					{
-						if(Mat[i][k]!=INTMAX)
-							MaxCounter2=MaxCounter2-1;
+						MaxCounter2=MaxCounter2-1;
 					}
 				
 			
