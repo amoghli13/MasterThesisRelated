@@ -38,7 +38,7 @@ void PrintMat(error_inject_operators<int>** UpdateMat)
 {
     for(int i=0;i<NumRows;i++)
     {
-        cout<<"\n";
+        cout<<"\n\n";
 		for(int j=0;j<NumCols;j++)
 			cout<<"\t "<<(UpdateMat[i][j]); 
     }
@@ -103,7 +103,7 @@ void FindMaxMin(error_inject_operators<int>** Mat,struct MaxMin& MaxMinofMatRows
 				for(int k=start;(k < bound);k++)
 				{
 				    diff= MaxVal-Mat[k][j];
-				    // cout<<"\n\t 1. i: "<<i<<" k "<<k<<" Mat[k][j]: "<<Mat[k][j]<<" MaxVal "<<MaxVal;
+				   //  cout<<"\n\t 1. i: "<<i<<" j: "<<j<<" k: "<<k<<" Mat[k][j]: "<<Mat[k][j]<<" MaxVal "<<MaxVal;
 					if(MaxVal < Mat[k][j])
 					{
 						// cout<<"\n\t MaxVal: "<<MaxVal<<" Mat[i][k] "<<Mat[i][k];
@@ -135,11 +135,7 @@ void FindMaxMin(error_inject_operators<int>** Mat,struct MaxMin& MaxMinofMatRows
 	
 			}
 
-			if(j)
-				MaxMinofMatRows.MaxMat[i][j]=tmr_greater(MaxVal,MaxMinofMatRows.MaxMat[i][j-1]);
-			else
-				MaxMinofMatRows.MaxMat[i][j]=MaxVal;	
-				
+			MaxMinofMatRows.MaxMat[i][j]=MaxVal;				
 			//cout<<"\n\t Row "<<i<<" Col "<<j<<" MinVal "<<MinVal<<" MaxMinofMatRows.MinMat[i][j] "<<(MaxMinofMatRows.MinMat[i][j])<<endl;
 			//cout<<"\n\t Row "<<i<<" Col "<<j<<" MaxVal "<<MaxVal<<" MaxMinofMatRows.MaxMat[i][j] "<<(MaxMinofMatRows.MaxMat[i][j])<<endl;
 		
@@ -171,7 +167,7 @@ void FindMaxMin(error_inject_operators<int>** Mat,struct MaxMin& MaxMinofMatRows
 				for(int k=start;(k < bound);k++)
 				{
 				    diff= MaxVal-Mat[i][k];
-				    //cout<<"\n\t 2. i: "<<i<<" k "<<k<<" Mat[i][k]: "<<Mat[i][k]<<" MaxVal "<<MaxVal;
+				    //cout<<"\n\t 2. i: "<<i<<" j: "<<j<<" k: "<<k<<" Mat[i][k]: "<<Mat[i][k]<<" MaxVal "<<MaxVal;
 					if(MaxVal < Mat[i][k])
 					{
 						// cout<<"\n\t MaxVal: "<<MaxVal<<" Mat[i][k] "<<Mat[i][k];
@@ -203,10 +199,7 @@ void FindMaxMin(error_inject_operators<int>** Mat,struct MaxMin& MaxMinofMatRows
 	
 			}
 
-			if(j)
-				MaxMinofMatCols.MaxMat[i][j]=tmr_greater(MaxVal,MaxMinofMatCols.MaxMat[i][j-1]);
-			else
-				MaxMinofMatCols.MaxMat[i][j]=MaxVal;	
+			MaxMinofMatCols.MaxMat[i][j]=MaxVal;
 			//cout<<"\n\t Row "<<i<<" Col "<<j<<" MinVal "<<MinVal<<" MaxMinofMatCols.MinMat[i][j] "<<(MaxMinofMatCols.MinMat[i][j])<<endl;
 			//cout<<"\n\t Row "<<i<<" Col "<<j<<" MaxVal "<<MaxVal<<" MaxMinofMatCols.MaxMat[i][j] "<<(MaxMinofMatCols.MaxMat[i][j])<<endl;
 		
@@ -220,9 +213,11 @@ return;
 inline error_inject_operators<bool> tmr_equal( error_inject_operators<int> a1,error_inject_operators<int> a2)
 {
  	error_inject_operators<bool> res1,res2,res3;
+
  	res1= (a1.operand == a2.operand);
  	res2= (a1.operand == a2.operand);
  	res3= (a1.operand == a2.operand);
+
  	error_inject_operators<bool> result;
  	if(  res1 == res2 )
  	{
@@ -314,7 +309,7 @@ inline error_inject_operators<bool> tmr_equal( error_inject_operators<int> a1,in
 inline error_inject_operators<int> tmr_lesser( error_inject_operators<int> a1,error_inject_operators<int> a2)
 {
  	error_inject_operators<int> res1,res2,res3;
- 
+
  	if(a1 < a2)
  		res1=a1;
  	else
@@ -328,7 +323,7 @@ inline error_inject_operators<int> tmr_lesser( error_inject_operators<int> a1,er
  	if(a1 < a2)
  		res3=a1;
  	else
- 		res3=a2;
+ 		res3=a2;		
 
  	error_inject_operators<int> result;
  	if(  res1 == res2 )
@@ -358,7 +353,7 @@ inline error_inject_operators<int> tmr_greater( error_inject_operators<int> a1,e
 {
  	error_inject_operators<int> res1,res2,res3;
  
- 	if(a1 > a2)
+	if(a1 > a2)
  		res1=a1;
  	else
  		res1=a2;
@@ -372,6 +367,7 @@ inline error_inject_operators<int> tmr_greater( error_inject_operators<int> a1,e
  		res3=a1;
  	else
  		res3=a2;
+	
 
  	error_inject_operators<int> result;
  	if(  res1 == res2 )

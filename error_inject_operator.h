@@ -185,6 +185,11 @@ class error_inject_operators
  			return return_value;
 		}                
 
+				int ABS ()
+				{
+					return abs(operand);
+				}
+				
                 M operator + (error_inject_operators arg)
                 {
                       	//cout<<"\n\t At addition overload with another arg of class M \n ";
@@ -385,6 +390,21 @@ class error_inject_operators
                         }
                };
 
+                int ABSL (error_inject_operators arg)
+                {
+
+                        if( !rand_percent(error_percent) )
+                        {
+                       	 	return abs(operand) < abs(arg.operand);
+                        }
+                        else
+                        {
+                   	   // cout<<"\n\t Introducing error-at lesser than overload!! \t op_1: "<< operand << "\t op_2: "<<arg.operand;
+                                //return operand < (arg.operand+ ( (M) rand() %RAND_MAX ) );
+                                return abs(operand) < abs(error_inject(arg.operand));
+
+                        }
+               };
                 int operator > (error_inject_operators arg)
                 {
 

@@ -27,4 +27,4 @@ def generateGraph(n=100, avgNeigbors=10):
       	print "\n "+str(edges_list[i])
     print ' Edges count is : '+str(edges_count)       	
 if __name__ == "__main__":
-    generateGraph(500,250)           
+    generateGraph(50,25)           
