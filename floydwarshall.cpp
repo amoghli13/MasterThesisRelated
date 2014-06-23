@@ -33,6 +33,42 @@ void TMRFloydWarshall(error_inject_operators<int>** UpdateMat,double ErrorPercen
 return;
 }
 
+void PristineFloydWarshall(error_inject_operators<int>** UpdateMat,double ErrorPercent)
+{
+
+	error_inject_operators<int>::error_percent=0.0;
+	error_inject_operators<int>* temp;
+	error_inject_operators<int>	MinK;
+
+    for(int i=0;i<NumRows;i++)
+    {
+     	cout<<"\n i "<<i    ;
+		
+    	for(int j=0;j<NumCols;j++)
+		{
+
+			temp=new error_inject_operators<int> [j];
+			for(int k=0;k<j;k++)
+			{
+				temp[k]=UpdateMat[i][k]+UpdateMat[k][j];
+			}
+			MinK=INTMAX;
+
+			for(int k=0;k<j;k++)
+			{
+				if(MinK>temp[k])
+					MinK=temp[k];
+			}
+			UpdateMat[i][j]=MinK;
+			delete[] temp;
+		}
+	}
+
+return;
+}	 
+
+
+
 void FloydWarshall(error_inject_operators<int>** UpdateMat,double ErrorPercent,struct MaxMin& MaxMinofMatRows,struct MaxMin& MaxMinofMatCols)
 {
 	error_inject_operators<int>::error_percent=ErrorPercent;
@@ -309,12 +345,13 @@ int main(int argc, char* argv[])
 		MaxMinofMatCols.MaxMat[i]=new error_inject_operators<int> [NumColsbySetSize];
 	}	
 
-     FindMaxMin(UpdateMat,MaxMinofMatRows,MaxMinofMatCols,ErrorPercent);
+    // FindMaxMin(UpdateMat,MaxMinofMatRows,MaxMinofMatCols,ErrorPercent);
     
      cout<<"\n\n";
     //FloydWarshall(UpdateMatPristine,0.00,MaxMinofMatRows,MaxMinofMatCols);
-    // TMRFloydWarshall(UpdateMat,ErrorPercent);
-     FloydWarshall(UpdateMat,ErrorPercent,MaxMinofMatRows,MaxMinofMatCols);
+     //TMRFloydWarshall(UpdateMat,ErrorPercent);
+     PristineFloydWarshall(UpdateMat,ErrorPercent);
+   //  FloydWarshall(UpdateMat,ErrorPercent,MaxMinofMatRows,MaxMinofMatCols);
    // PrintMat(UpdateMat);	
    // CompareMat(UpdateMat,UpdateMatPristine,0.0);
     cout<<"\n\n";
