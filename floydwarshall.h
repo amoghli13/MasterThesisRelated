@@ -13,12 +13,15 @@ const int MAXINT = 1000000000;
  
 template <class M>
 double  error_inject_operators<M>::error_percent=0.0;
+template <class N>
+int error_inject_operators<N>::fault_model=0;
 int n;
 int NumRows;
 int NumCols;
 int SetSize;
 int NumRowsbySetSize;
 int NumColsbySetSize;
+int FaultModel;
 
 struct MaxMin
 {

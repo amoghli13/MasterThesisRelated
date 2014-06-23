@@ -119,9 +119,9 @@ void FloydWarshall(error_inject_operators<int>** UpdateMat,double ErrorPercent,s
 							else
 							{
 								NeedToRepeatMin=true;    		
-								//cout<<"\n\t i "<<i<<" j "<<j;
-								//cout<<"\n\t Counter1: "<<Counter1<<" Counter2: "<<Counter2;
-								//cout<<"\n\t c1+c2 != CheckpointLength "<<(diff)<<" CheckpointLength: "<<(diff1)<<"\n";
+								cout<<"\n\t i "<<i<<" j "<<j;
+								cout<<"\n\t Counter1: "<<Counter1<<" Counter2: "<<Counter2;
+								cout<<"\n\t c1+c2 != CheckpointLength "<<(diff)<<" CheckpointLength: "<<(diff1)<<"\n";
 							}
 
 						}
@@ -158,9 +158,9 @@ void FloydWarshall(error_inject_operators<int>** UpdateMat,double ErrorPercent,s
 						else
 						{
 							NeedToRepeatMax=true;			
-							//cout<<"\n\t i "<<i<<" j "<<j;
-							//cout<<"\n\t MaxCounter1: "<<Counter1<<" MaxCounter2: "<<Counter2;
-							//cout<<"\n\t c1+c2 != CheckpointLength "<<(diff)<<" CheckpointLength: "<<(diff1)<<"\n";
+							cout<<"\n\t i "<<i<<" j "<<j;
+							cout<<"\n\t MaxCounter1: "<<Counter1<<" MaxCounter2: "<<Counter2;
+							cout<<"\n\t c1+c2 != CheckpointLength "<<(diff)<<" CheckpointLength: "<<(diff1)<<"\n";
 							//exit(-1);
 						}
 
@@ -179,9 +179,9 @@ void FloydWarshall(error_inject_operators<int>** UpdateMat,double ErrorPercent,s
 					else
 					{
 						NeedToRepeatforSet=true;
-						//cout<<"\n\t MaxRowCol: "<<(MaxRowCol)<<" MaxK: "<<MaxK;
-						//cout<<"\n\t MaxMinofMatRows.MaxMat[RowbySetSize][j]: "<<(MaxMinofMatRows.MaxMat[RowbySetSize][j])<<" MaxMinofMatCols.MaxMat[i][ColbySetSize] "<<(MaxMinofMatCols.MaxMat[i][ColbySetSize]);
-						//cout<<"\n\t T: Compare.operand "<<(Compare.operand)<<" Compare1.operand "<<Compare1.operand;
+						cout<<"\n\t MaxRowCol: "<<(MaxRowCol)<<" MaxK: "<<MaxK;
+						cout<<"\n\t MaxMinofMatRows.MaxMat[RowbySetSize][j]: "<<(MaxMinofMatRows.MaxMat[RowbySetSize][j])<<" MaxMinofMatCols.MaxMat[i][ColbySetSize] "<<(MaxMinofMatCols.MaxMat[i][ColbySetSize]);
+						cout<<"\n\t T: Compare.operand "<<(Compare.operand)<<" Compare1.operand "<<Compare1.operand;
 						//exit(-1);
 					}
 
@@ -192,7 +192,7 @@ void FloydWarshall(error_inject_operators<int>** UpdateMat,double ErrorPercent,s
 
 				 //if(j%50==0)
 				 //{
-				 //	cout<<"\n\t -- i "<<i<<" j "<<j<<" MinK "<<MinK<<" MaxK "<<MaxK<<" UpdateMat[i][j] "<<UpdateMat[i][j];
+				 	cout<<"\n\t -- i "<<i<<" j "<<j<<" MinK "<<MinK<<" MaxK "<<MaxK<<" UpdateMat[i][j] "<<UpdateMat[i][j];
 				 //}
 				 diff=tmr_lesser(MinK,UpdateMat[i][j]);
 				 UpdateMat[i][j]= diff;
@@ -208,15 +208,16 @@ int main(int argc, char* argv[])
 {
 
    double ErrorPercent=0.0;
-   if(argc < 3)
+   if(argc < 4)
    {
-   	cout<<"\n\t ERROR: Required input arguments set-size(int) and error-percent(double) \n\n";
+   	cout<<"\n\t ERROR: Required input arguments set-size(int) , error-percent(double) and fault model(int) \n\n";
    	exit(-1);
    }
 
     SetSize=atoi(argv[1]);
     ErrorPercent=atof(argv[2]);
-    	
+    FaultModel=atoi(argv[3]);
+	
     int m, s, t = 0;
   		
    FILE* ip_file_handle;
@@ -227,7 +228,8 @@ int main(int argc, char* argv[])
     printf("\n\t N: %d M: %d S: %d T: %d ",n,m,s,t);
 
 	error_inject_operators<int>::error_percent=0.0; 
-	
+	error_inject_operators<int>::fault_model=FaultModel;
+
 	error_inject_operators<int>** UpdateMat;
 	error_inject_operators<int>** UpdateMatPristine;
 	UpdateMat=new error_inject_operators<int>*[n];
@@ -303,11 +305,11 @@ int main(int argc, char* argv[])
     FindMaxMin(UpdateMat,MaxMinofMatRows,MaxMinofMatCols,ErrorPercent);
     
      cout<<"\n\n";
-    //FloydWarshall(UpdateMatPristine,0.00,MaxMinofMatRows,MaxMinofMatCols);
+    FloydWarshall(UpdateMatPristine,0.00,MaxMinofMatRows,MaxMinofMatCols);
   //  TMRFloydWarshall(UpdateMat,ErrorPercent);
-    FloydWarshall(UpdateMat,ErrorPercent,MaxMinofMatRows,MaxMinofMatCols);
+     FloydWarshall(UpdateMat,ErrorPercent,MaxMinofMatRows,MaxMinofMatCols);
    // PrintMat(UpdateMat);	
-    //CompareMat(UpdateMat,UpdateMatPristine,0.0);
+    CompareMat(UpdateMat,UpdateMatPristine,0.0);
     cout<<"\n\n";
  
     return 0;

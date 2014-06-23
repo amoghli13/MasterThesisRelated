@@ -13,8 +13,12 @@
 
 #define type_of_errors 2
 
-#define asymmetric_error 0
-#define symmetric_error 1
+#define unsymmetric 0
+#define bimodal 1
+#define trimodal 2
+#define unimodal 3
+#define bitflip 4
+
 
 #define symmetric_error_max 100000
 #define seed_reset 10000
@@ -35,6 +39,38 @@ inline static void seed_count_track()
      }
     seed_count++;
 }
+
+inline double rand_normal(double mean, double stddev)
+{
+    static double n2 = 0.0;
+    static int n2_cached = 0;
+    if (!n2_cached) {
+        double x, y, r;
+        do {
+            x = 2.0*rand()/RAND_MAX - 1;
+            y = 2.0*rand()/RAND_MAX - 1;
+
+            r = x*x + y*y;
+        } while (r == 0.0 || r > 1.0);
+
+        {
+        double d = sqrt(-2.0*log(r)/r);
+        double n1 = x*d;
+        n2 = y*d;
+
+        double result = n1*stddev + mean;
+
+        n2_cached = 1;
+        return result;
+        }
+    } else {
+        n2_cached = 0;
+        return n2*stddev + mean;
+    }
+}
+
+
+
 int seed_count=0;
 
 inline int rand_percent(double error_percent) 
@@ -44,7 +80,7 @@ inline int rand_percent(double error_percent)
 	return ( ( ( (double)rand()/RAND_MAX)< error_percent ) ? 1 : 0 ) ; 
 }
 
-inline int error_inject(double error_percent)
+/* inline int error_inject(double error_percent)
 {
 	// cout<<"\n\t Error_percent: "<<error_percent<<"\n";
 	seed_count_track();
@@ -63,14 +99,14 @@ inline int error_inject(double error_percent)
 					factor=-1;
 				error_value= rand()% symmetric_error_max ;
 				error_value=factor * error_value;
-				return error_value;
+				//return error_value;
 			
 				break;
 			case asymmetric_error:
 				int error_value= rand()% symmetric_error_max ;
 				
 				error_value=error_value;
-				return error_value;
+				//return error_value;
 				
 				break;
 				
@@ -78,9 +114,9 @@ inline int error_inject(double error_percent)
 		}
 	}
 		
-	else return 0;
-	return 0; // Just to remove the warning!
-}
+	//else return 0;
+	//return 0; // Just to remove the warning!
+} */
 
 
 // using namespace std;
@@ -92,6 +128,62 @@ class error_inject_operators
         public:
                 M operand;
                 static double error_percent;
+                static int fault_model;
+                
+		M error_inject(M arg)
+		{
+			// cout<<"\n\t Error_percent: "<<error_percent<<"\n";
+			seed_count_track();
+			M return_value=(M) 0;
+
+			//int error_choice=rand()%type_of_errors;
+		
+			int factor=1;
+			int error_value;
+			switch(fault_model)
+			{
+
+				case unsymmetric:
+					error_value= rand_normal(1e5,100);//rand()% symmetric_error_max ;
+ 					error_value=error_value;
+					return_value= ( arg  + (M) error_value ); 					
+  					break;
+  					
+				case bimodal: 
+			
+					if( rand()% 100 > 50 )
+						factor=-1;
+					error_value= rand_normal(1e5,100);//rand()% symmetric_error_max ;
+					error_value=factor * error_value;
+					return_value= ( arg  + (M) error_value );					
+  					break;
+  				case trimodal: 
+					if( rand()% 100 > 50 )
+						factor=-1;
+					if( (rand()% 100) > 50) 
+						error_value= factor* rand_normal(1e5,100);	
+					else
+						error_value= factor*rand_normal(0,100);
+					return_value= ( arg  + (M) error_value );						
+					break;
+				case unimodal:
+					error_value= rand_normal(0,100);//rand()% symmetric_error_max ;
+ 					error_value=error_value;	
+					return_value= ( arg  + (M) error_value ); 									
+					break;  	
+				case bitflip:
+					M dummy=1;
+					error_value=( dummy << ( rand() % ( sizeof(M) * 8) ) );
+					return_value=( arg ^ error_value );
+					break;
+				
+			
+			}
+			//cout<<"\n\t Injecting "<<error_value<<" into "<<arg;
+			//return_value= ( arg  + (M) error_value );
+			//cout<<"\n\t Return_value: "<<return_value;
+ 			return return_value;
+		}                
 
                 M operator + (error_inject_operators arg)
                 {
@@ -102,8 +194,9 @@ class error_inject_operators
                         }
                         else
                         {
-                             	 cout<<"\n\t Introudcing error-at addition overload with another arg of class M";
-                                return operand + ( arg.operand + ( (M)rand()%RAND_MAX ) );
+                             	// cout<<"\n\t Introudcing error-at addition overload with another arg of class M";
+                                //return operand + ( arg.operand + ( (M)rand()%RAND_MAX ) );
+                                return operand + ( error_inject(arg.operand) );
                         }
                 };
                 
@@ -116,8 +209,9 @@ class error_inject_operators
                 	}
                 	else
                 	{
-                		cout<<"\n\t Introducing error-at addition overload with value ";
-                		return operand + ( value + ( (M) rand() %RAND_MAX ) );
+                		// cout<<"\n\t Introducing error-at addition overload with value ";
+                		//return operand + ( value + ( (M) rand() %RAND_MAX ) );
+                                return operand + ( error_inject(value) );                		
                 	}
                 }
                 
@@ -130,8 +224,9 @@ class error_inject_operators
                         }
                         else
                         {
-                             	 cout<<"\n\t Introudcing error-at subtraction overload with another arg of class M";
-                                return operand - ( arg.operand + ( (M)rand()%RAND_MAX ) );
+                             	 // cout<<"\n\t Introudcing error-at subtraction overload with another arg of class M";
+                             //   return operand - ( arg.operand + ( (M)rand()%RAND_MAX ) );
+                                return operand - ( error_inject(arg.operand) );                             
                         }
                 };
                 
@@ -144,8 +239,9 @@ class error_inject_operators
                 	}
                 	else
                 	{
-                		cout<<"\n\t Introducing error-at subtraction overload with value ";
-                		return operand - ( value + ( (M) rand() %RAND_MAX ) );
+                		// cout<<"\n\t Introducing error-at subtraction overload with value ";
+                		// return operand - ( value + ( (M) rand() %RAND_MAX ) );
+                                return operand - ( error_inject(value) );                		
                 	}
                 }                
 
@@ -172,13 +268,13 @@ class error_inject_operators
                          }
                          else
                          {
-                         	cout<<"\n\t Introducing error at op==(M value) ";
-		                if( operand == (value + ( (M) rand() %RAND_MAX ) ) )
+                         	// cout<<"\n\t Introducing error at op==(M value) ";
+		                //if( operand == (value + ( (M) rand() %RAND_MAX ) ) )
+		                if( operand == error_inject(value) )
 		                        return 1;
 		                else
 		                        return 0;                         
-                         
-                         }
+                          }
                 };
 
                 int operator == (error_inject_operators arg)
@@ -192,8 +288,9 @@ class error_inject_operators
                          }
                          else
                          {
-                         	cout<<"\n\t Introducing error at op==(arg) ";                         
-		                if( operand == (arg.operand + ( (M) rand() %RAND_MAX ) ) )
+                         	// cout<<"\n\t Introducing error at op==(arg) ";                         
+		                //if( operand == (arg.operand + ( (M) rand() %RAND_MAX ) ) )
+		                if(operand==error_inject(arg.operand))
 		                        return 1;
 		                else
 		                        return 0;                         
@@ -213,8 +310,9 @@ class error_inject_operators
                          }
                          else
                          {
-                         	cout<<"\n\t Introducing error at op!=(M value) ";                         
-		                if( operand != (value + ( (M) rand() %RAND_MAX ) ) )
+                         	// cout<<"\n\t Introducing error at op!=(M value) ";                         
+		               // if( operand != (value + ( (M) rand() %RAND_MAX ) ) )
+		               if( operand != error_inject(value) )
 		                        return 1;
 		                else
 		                        return 0;                         
@@ -233,8 +331,9 @@ class error_inject_operators
                          }
                          else
                          {
-                         	cout<<"\n\t Introducing error at op!=(arg) ";                         
-		                if( operand != (arg.operand + ( (M) rand() %RAND_MAX ) ) )
+                         	// cout<<"\n\t Introducing error at op!=(arg) ";                         
+		               // if( operand != (arg.operand + ( (M) rand() %RAND_MAX ) ) )
+		               if(operand!=error_inject(arg.operand))
 		                        return 1;
 		                else
 		                        return 0;                         
@@ -246,25 +345,25 @@ class error_inject_operators
 
                 M operator * (error_inject_operators arg)
                 {
-                        return operand * ( arg.operand + error_inject(error_percent) );
+                        return operand * ( error_inject(arg.operand) );
                 };
 
                 M operator * (M value)
                 {
-                        return operand * ( value  + error_inject(error_percent) );
+                        return operand * error_inject(value) ;
                 };       
                 
                 
                 M operator / (error_inject_operators arg)
                 {
 
-                        return (double) operand/arg.operand;
+                        return (double) operand/error_inject(arg.operand);
                 };
 
                 
                 M operator / (M value)
                 {
-                        return (double) operand/value;
+                        return (double) operand/error_inject(value);
 
                 };
                 
@@ -279,8 +378,9 @@ class error_inject_operators
                         }
                         else
                         {
-                   	   cout<<"\n\t Introducing error-at lesser than overload!! \t op_1: "<< operand << "\t op_2: "<<arg.operand;
-                                return operand < (arg.operand+ ( (M) rand() %RAND_MAX ) );
+                   	   // cout<<"\n\t Introducing error-at lesser than overload!! \t op_1: "<< operand << "\t op_2: "<<arg.operand;
+                                //return operand < (arg.operand+ ( (M) rand() %RAND_MAX ) );
+                                return operand < error_inject(arg.operand);
 
                         }
                };
@@ -295,8 +395,9 @@ class error_inject_operators
                         }
                         else
                         {
-                    		  cout<<"\n\t Introducing error-at greater than overload!! \t op_1: "<< operand << "\t op_2: "<<arg.operand;
-                                return operand > ( arg.operand + ( (M) rand() %RAND_MAX ) );
+                    		  // cout<<"\n\t Introducing error-at greater than overload!! \t op_1: "<< operand << "\t op_2: "<<arg.operand;
+                                //return operand > ( arg.operand + ( (M) rand() %RAND_MAX ) );
+                                  return operand > error_inject(arg.operand);
 
                         }
                 };
@@ -309,10 +410,41 @@ class error_inject_operators
 					}
 					else
 					{
-					      cout<<"\n\t Introducing error-at greater than or equal to overload!! \t op_1: "<< operand << "\t op_2: "<<arg.operand;				
-						return (operand >= ( arg.operand + ( (M) rand() %RAND_MAX ) ));								
+					      // cout<<"\n\t Introducing error-at greater than or equal to overload!! \t op_1: "<< operand << "\t op_2: "<<arg.operand;				
+						//return (operand >= ( arg.operand + ( (M) rand() %RAND_MAX ) ));								
+						  return operand >= error_inject(arg.operand);
 					}
-				}
+				};
+				
+				int operator >= (M value )
+				{
+					if( !rand_percent(error_percent) )
+		                        {
+						return (operand >= value);
+					}
+					else
+					{
+					      // cout<<"\n\t Introducing error-at greater than or equal to overload!! \t op_1: "<< operand << "\t op_2: "<<value;
+						//return (operand >= ( arg + ( (M) rand() %RAND_MAX ) ));								
+						return operand >= error_inject(value);
+					}
+				};				
+		
+		
+				int operator <= (M value )
+				{
+					if( !rand_percent(error_percent) )
+		                        {
+						return (operand <= value);
+					}
+					else
+					{
+					      // cout<<"\n\t Introducing error-at greater than or equal to overload!! \t op_1: "<< operand << "\t op_2: "<<value;
+						//return (operand <= ( arg + ( (M) rand() %RAND_MAX ) ));								
+						  return operand <= error_inject(value);
+					}
+				}	
+		
 		
 				int operator <= (error_inject_operators arg)
 				{
@@ -322,8 +454,9 @@ class error_inject_operators
 					}
 					else
 					{
-					      cout<<"\n\t Introducing error-at lesser than or equal to overload!! \t op_1: "<< operand << "\t op_2: "<<arg.operand;				
-						return (operand <= ( arg.operand + ( (M) rand() %RAND_MAX ) ) );								
+					      // cout<<"\n\t Introducing error-at lesser than or equal to overload!! \t op_1: "<< operand << "\t op_2: "<<arg.operand;				
+						//return (operand <= ( arg.operand + ( (M) rand() %RAND_MAX ) ) );								
+						  return operand <= error_inject(arg.operand);
 					}
 				}
 		
@@ -333,15 +466,23 @@ class error_inject_operators
                         	return operand < value;
                         else
                         {
-                         	cout<<"\n\t Introducing error at op < (M value) ";                        	
-                        	return operand < ( value + (M)  ( rand() % RAND_MAX) ) ;
+                         	// cout<<"\n\t Introducing error at op < (M value) ";                        	
+                        	//return operand < ( value + (M)  ( rand() % RAND_MAX) ) ;
+                        	return operand < error_inject(value);
                         }
 
                 };
 
                 int operator > (M value) // Should I also make int or float versions?
                 {
-                        return operand > value;
+                        if(!rand_percent(error_percent))
+                        	return operand > value;
+                        else
+                        {
+                         	// cout<<"\n\t Introducing error at op < (M value) ";                        	
+                        	//return operand < ( value + (M)  ( rand() % RAND_MAX) ) ;
+                        	return operand > error_inject(value);
+                        }
 
                 };
 
