@@ -173,7 +173,7 @@ void FindMaxMin(error_inject_operators<int>** Mat,struct MaxMin& MaxMinofMatRows
 					if(MaxVal < Mat[i][k])
 					{
 						// cout<<"\n\t MaxVal: "<<MaxVal<<" Mat[i][k] "<<Mat[i][k];
-						if(Mat[i][k]!=INTMAX)
+						//if(Mat[i][k]!=INTMAX)
 						{
 							MaxVal=Mat[i][k];
 							MaxCounter1=MaxCounter1+1;
@@ -183,7 +183,7 @@ void FindMaxMin(error_inject_operators<int>** Mat,struct MaxMin& MaxMinofMatRows
 				
 					if(diff < 0)
 					{
-						if(Mat[i][k]!=INTMAX)
+						//if(Mat[i][k]!=INTMAX)
 							MaxCounter2=MaxCounter2-1;
 					}
 				

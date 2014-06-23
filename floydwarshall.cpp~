@@ -153,7 +153,7 @@ void FloydWarshall(error_inject_operators<int>** UpdateMat,double ErrorPercent,s
 							//if( diff.ABSL(0) ) //|| (temp[k] < MinK))
 							if( diff < 0 )
 							{
-								if(temp[k]!=INTMAX)
+								//if(temp[k]!=INTMAX)
 									Counter2=Counter2-1;				
 							}
 					
