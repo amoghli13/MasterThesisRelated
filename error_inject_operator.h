@@ -405,6 +405,23 @@ class error_inject_operators
 
                         }
                };
+               
+                int ABSL (M value)
+                {
+
+                        if( !rand_percent(error_percent) )
+                        {
+                       	 	return abs(operand) < abs(value);
+                        }
+                        else
+                        {
+                   	   // cout<<"\n\t Introducing error-at lesser than overload!! \t op_1: "<< operand << "\t op_2: "<<arg.operand;
+                                //return operand < (arg.operand+ ( (M) rand() %RAND_MAX ) );
+                                return abs(operand) < abs(error_inject(value));
+
+                        }
+               };
+                               
                 int operator > (error_inject_operators arg)
                 {
 
@@ -421,7 +438,40 @@ class error_inject_operators
 
                         }
                 };
-		
+
+                int ABSG (error_inject_operators arg)
+                {
+
+                        // cout<<"\n\t At greater-than overload!! ";
+                        if( !rand_percent(error_percent) )
+                        {
+	                        return abs(operand) > abs(arg.operand);
+                        }
+                        else
+                        {
+                    		  // cout<<"\n\t Introducing error-at greater than overload!! \t op_1: "<< operand << "\t op_2: "<<arg.operand;
+                                //return operand > ( arg.operand + ( (M) rand() %RAND_MAX ) );
+                                  return abs(operand) > abs(error_inject(arg.operand));
+
+                        }
+                };
+                
+                int ABSG (M value)
+                {
+
+                        // cout<<"\n\t At greater-than overload!! ";
+                        if( !rand_percent(error_percent) )
+                        {
+	                        return abs(operand) > abs(value);
+                        }
+                        else
+                        {
+                    		  // cout<<"\n\t Introducing error-at greater than overload!! \t op_1: "<< operand << "\t op_2: "<<arg.operand;
+                                //return operand > ( arg.operand + ( (M) rand() %RAND_MAX ) );
+                                  return abs(operand) > abs(error_inject(value));
+
+                        }
+                };                
 				int operator >= (error_inject_operators arg)
 				{
 					if( !rand_percent(error_percent) )
@@ -435,6 +485,20 @@ class error_inject_operators
 						  return operand >= error_inject(arg.operand);
 					}
 				};
+				int ABSGE (error_inject_operators arg)
+				{
+					if( !rand_percent(error_percent) )
+		                        {
+						return (abs(operand) >= abs(arg.operand) );
+					}
+					else
+					{
+					      // cout<<"\n\t Introducing error-at greater than or equal to overload!! \t op_1: "<< operand << "\t op_2: "<<arg.operand;				
+						//return (operand >= ( arg.operand + ( (M) rand() %RAND_MAX ) ));								
+						  return abs(operand) >= abs(error_inject(arg.operand));
+					}
+				};
+
 				
 				int operator >= (M value )
 				{
@@ -447,6 +511,19 @@ class error_inject_operators
 					      // cout<<"\n\t Introducing error-at greater than or equal to overload!! \t op_1: "<< operand << "\t op_2: "<<value;
 						//return (operand >= ( arg + ( (M) rand() %RAND_MAX ) ));								
 						return operand >= error_inject(value);
+					}
+				};				
+			int ABSGE (M value )
+				{
+					if( !rand_percent(error_percent) )
+		                        {
+						return (abs(operand) >= abs(value));
+					}
+					else
+					{
+					      // cout<<"\n\t Introducing error-at greater than or equal to overload!! \t op_1: "<< operand << "\t op_2: "<<value;
+						//return (operand >= ( arg + ( (M) rand() %RAND_MAX ) ));								
+						return abs(operand) >= abs(error_inject(value));
 					}
 				};				
 		
@@ -465,6 +542,19 @@ class error_inject_operators
 					}
 				}	
 		
+				int ABSLE (M value )
+				{
+					if( !rand_percent(error_percent) )
+		                        {
+						return (abs(operand) <= abs(value) );
+					}
+					else
+					{
+					      // cout<<"\n\t Introducing error-at greater than or equal to overload!! \t op_1: "<< operand << "\t op_2: "<<value;
+						//return (operand <= ( arg + ( (M) rand() %RAND_MAX ) ));								
+						  return abs(operand) <= abs(error_inject(value) );
+					}
+				}	
 		
 				int operator <= (error_inject_operators arg)
 				{
@@ -477,6 +567,19 @@ class error_inject_operators
 					      // cout<<"\n\t Introducing error-at lesser than or equal to overload!! \t op_1: "<< operand << "\t op_2: "<<arg.operand;				
 						//return (operand <= ( arg.operand + ( (M) rand() %RAND_MAX ) ) );								
 						  return operand <= error_inject(arg.operand);
+					}
+				}
+				int ABSLE (error_inject_operators arg)
+				{
+					if(!rand_percent(error_percent) )
+		                        {
+						return (abs(operand) <= abs(arg.operand) );
+					}
+					else
+					{
+					      // cout<<"\n\t Introducing error-at lesser than or equal to overload!! \t op_1: "<< operand << "\t op_2: "<<arg.operand;				
+						//return (operand <= ( arg.operand + ( (M) rand() %RAND_MAX ) ) );								
+						  return abs(operand) <= abs(error_inject(arg.operand) );
 					}
 				}
 		

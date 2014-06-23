@@ -310,17 +310,17 @@ inline error_inject_operators<int> tmr_lesser( error_inject_operators<int> a1,er
 {
  	error_inject_operators<int> res1,res2,res3;
 
- 	if(a1 < a2)
+ 	if(a1.ABSL(a2) )
  		res1=a1;
  	else
  		res1=a2;
  
- 	if(a1 < a2)
+ 	if(a1.ABSL(a2) )
  		res2=a1;
  	else
  		res2=a2;
 
- 	if(a1 < a2)
+ 	if(a1.ABSL(a2) )
  		res3=a1;
  	else
  		res3=a2;		
@@ -353,17 +353,17 @@ inline error_inject_operators<int> tmr_greater( error_inject_operators<int> a1,e
 {
  	error_inject_operators<int> res1,res2,res3;
  
-	if(a1 > a2)
+	if(a1.ABSG(a2) )
  		res1=a1;
  	else
  		res1=a2;
  
- 	if(a1 > a2)
+ 	if(a1.ABSG(a2) )
  		res2=a1;
  	else
  		res2=a2;
 
- 	if(a1 > a2)
+ 	if(a1.ABSG(a2) )
  		res3=a1;
  	else
  		res3=a2;
@@ -396,9 +396,9 @@ inline error_inject_operators<int> tmr_greater( error_inject_operators<int> a1,e
 inline error_inject_operators<bool> tmr_lesser_equal_bool( error_inject_operators<int> a1,error_inject_operators<int> a2)
 {
  	error_inject_operators<bool> res1,res2,res3;
- 	res1= a1 <= a2;
- 	res2= a1 <= a2;
- 	res3= a1 <= a2;
+ 	res1= a1.ABSLE(a2);
+ 	res2= a1.ABSLE(a2);
+ 	res3= a1.ABSLE(a2);
  	error_inject_operators<bool> result;
  	if(  res1 == res2 )
  	{
@@ -426,9 +426,9 @@ inline error_inject_operators<bool> tmr_lesser_equal_bool( error_inject_operator
 inline error_inject_operators<bool> tmr_greater_equal_bool( error_inject_operators<int> a1,error_inject_operators<int> a2)
 {
  	error_inject_operators<bool> res1,res2,res3;
- 	res1= a1 >= a2;
- 	res2= a1 >= a2;
- 	res3= a1 >= a2;
+ 	res1= a1.ABSGE(a2);
+ 	res2= a1.ABSGE(a2);
+ 	res3= a1.ABSGE(a2);
  	error_inject_operators<bool> result;
  	if(  res1 == res2 )
  	{
