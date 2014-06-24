@@ -65,6 +65,37 @@ return;
 
 }
 
+
+void CompareMatDegradation(error_inject_operators<int>** UpdateMat,error_inject_operators<int>** UpdateMatPristine,double ErrorPercent)
+{
+   error_inject_operators<int>::error_percent=ErrorPercent;
+   cout<<"\n\t ErrorPercent "<<(error_inject_operators<int>::error_percent)<<endl;
+   cout<<"\n\n\n";
+   cout<<"\n\n\n\t Following items were not equal to the pristine result ";
+   int Degradation=0;
+   int Count=0;
+   int temp;
+   for(int i=0;i<NumRows;i++)
+   {   
+                for(int j=0;j<NumCols;j++)
+                {  
+			//cout<<"\n\t i "<<i<<" j "<<j<<" UpdateMat "<<(UpdateMat[i][j])<<" UpdateMatPristine "<<(UpdateMatPristine[i][j]); 
+                        if( UpdateMat[i][j].operand !=UpdateMatPristine[i][j].operand )
+                        {
+			        Count++;
+                                temp= abs(abs(UpdateMat[i][j].operand)-abs(UpdateMatPristine[i][j].operand) );
+                                Degradation+=temp;
+				cout<<"\n\t i "<<i<<" j "<<j<<" UpdateMat[i][j] "<<(UpdateMat[i][j])<<" UpdateMatPristine[i][j] "<<(UpdateMatPristine[i][j])<<" abs(abs(Mat)-abs(MatPristine)) "<<temp;  
+			}
+                }   
+    }   
+cout<<"\n\n";
+return;
+
+}
+
+
+
 void FindMaxMin(error_inject_operators<int>** Mat,struct MaxMin& MaxMinofMatRows,struct MaxMin& MaxMinofMatCols,double ErrorPercent)
 {
 
