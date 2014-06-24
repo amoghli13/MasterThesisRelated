@@ -72,7 +72,10 @@ void CompareMatDegradation(error_inject_operators<int>** UpdateMat,error_inject_
    cout<<"\n\t ErrorPercent "<<(error_inject_operators<int>::error_percent)<<endl;
    cout<<"\n\n\n";
    cout<<"\n\n\n\t Following items were not equal to the pristine result ";
-   int Degradation=0;
+   long int AccumVal=0;
+   long int AccumPristineVal=0;
+   long int AllAccum=0;
+   long int AllAccumPristine=0;
    int Count=0;
    int temp;
    for(int i=0;i<NumRows;i++)
@@ -80,16 +83,27 @@ void CompareMatDegradation(error_inject_operators<int>** UpdateMat,error_inject_
                 for(int j=0;j<NumCols;j++)
                 {  
 			//cout<<"\n\t i "<<i<<" j "<<j<<" UpdateMat "<<(UpdateMat[i][j])<<" UpdateMatPristine "<<(UpdateMatPristine[i][j]); 
-                        if( UpdateMat[i][j].operand !=UpdateMatPristine[i][j].operand )
+			AllAccumPristine+=(UpdateMatPristine[i][j].operand);
+			AllAccum+=abs(UpdateMat[i][j].operand);
+			
+                        if( UpdateMat[i][j] !=UpdateMatPristine[i][j] )
                         {
 			        Count++;
                                 temp= abs(abs(UpdateMat[i][j].operand)-abs(UpdateMatPristine[i][j].operand) );
-                                Degradation+=temp;
-				cout<<"\n\t i "<<i<<" j "<<j<<" UpdateMat[i][j] "<<(UpdateMat[i][j])<<" UpdateMatPristine[i][j] "<<(UpdateMatPristine[i][j])<<" abs(abs(Mat)-abs(MatPristine)) "<<temp;  
+                                AccumVal+=abs(UpdateMat[i][j].operand);
+                                AccumPristineVal+=(UpdateMatPristine[i][j].operand);
+				cout<<"\n\t i "<<i<<" j "<<j<<" UpdateMat[i][j] "<<(UpdateMat[i][j])<<" UpdateMatPristine[i][j] "<<(UpdateMatPristine[i][j])<<" abs(abs(Mat)-abs(MatPristine)) "<<temp<<" AcumMatPristine: "<<(AccumPristineVal)<<" AcumMat: "<<(AccumVal)<<endl;  
 			}
                 }   
-    }   
-cout<<"\n\n";
+    } 
+double DiffAccum,PercentDiffAccum;
+DiffAccum=abs(AccumVal)-abs(AccumPristineVal);
+PercentDiffAccum=(double) ( DiffAccum/AccumPristineVal);
+double AllDiffAccum,AllPercentDiffAccum;
+AllDiffAccum=abs(AllAccum)-abs(AllAccumPristine);
+AllPercentDiffAccum=(double) ( AllDiffAccum / AllAccumPristine);
+cout<<"\n\n DiffAccum "<<DiffAccum<<" PercentDiffAccum "<<PercentDiffAccum;
+cout<<"\n\n AllDiffAccum "<<AllDiffAccum<<" AllPercentDiffAccum "<<AllPercentDiffAccum;
 return;
 
 }

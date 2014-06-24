@@ -40,7 +40,7 @@ void PristineFloydWarshall(error_inject_operators<int>** UpdateMat,double ErrorP
 	error_inject_operators<int>* temp;
 	error_inject_operators<int>	MinK;
 
-    for(int i=0;i<NumRows;i++)
+     for(int i=0;i<NumRows;i++)
     {
      	cout<<"\n i "<<i    ;
 		
@@ -48,22 +48,22 @@ void PristineFloydWarshall(error_inject_operators<int>** UpdateMat,double ErrorP
 		{
 
 			temp=new error_inject_operators<int> [j];
-			for(int k=0;k<j;k++)
+ 			for(int k=0;k<j;k++)
 			{
 				temp[k]=UpdateMat[i][k]+UpdateMat[k][j];
-			}
+ 			}
 			MinK=(INTMAX*INTMAX);
 
 			for(int k=0;k<j;k++)
 			{
-				//cout<<"\n\t MinK "<<MinK<<" temp[k] "<<temp[k];
-				if(MinK>temp[k])
+ 				if( temp[k] < MinK)
 					MinK=temp[k];
 			}
-			UpdateMat[i][j]=MinK;
+			if(MinK<UpdateMat[i][j])
+				UpdateMat[i][j]=MinK;
 			delete[] temp;
 		}
-		//exit(-1);
+		
 	}
 
 return;
@@ -77,32 +77,32 @@ void NonPristineFloydWarshall(error_inject_operators<int>** UpdateMat,double Err
         error_inject_operators<int>* temp;
         error_inject_operators<int>     MinK;
     cout<<"\n\t ErrorPercent "<<ErrorPercent;
-    for(int i=0;i<NumRows;i++)
-    {   
-        cout<<"\n i "<<i    ;   
     
-        for(int j=0;j<NumCols;j++)
-                {   
+    for(int i=0;i<NumRows;i++)
+    {
+     	cout<<"\n i "<<i    ;
+		
+    	for(int j=0;j<NumCols;j++)
+		{
 
-                        temp=new error_inject_operators<int> [j];
-                        for(int k=0;k<j;k++)
-                        {   
-				
-                                temp[k]=UpdateMat[i][k]+UpdateMat[k][j];
-				//cout<<"\n\t i "<<i<<" j "<<" k "<<" Mat[i][k] "<<(UpdateMat[i][k])<<" Mat[k][j] "<<(UpdateMat[k][j]);
-                        }   
-                        MinK=(INTMAX*INTMAX);
+			temp=new error_inject_operators<int> [j];
+ 			for(int k=0;k<j;k++)
+			{
+				temp[k]=UpdateMat[i][k]+UpdateMat[k][j];
+ 			}
+			MinK=(INTMAX*INTMAX);
 
-                        for(int k=0;k<j;k++)
-                        {   
-				//cout<<"\n\t MinK "<<MinK<<" temp[k] "<<temp[k];
-                                if(MinK>temp[k])
-                                        MinK=temp[k];
-                        }   
-                        UpdateMat[i][j]=MinK;
-                        delete[] temp;
-                }   
-        }   
+			for(int k=0;k<j;k++)
+			{
+ 				if( temp[k] < MinK)
+					MinK=temp[k];
+			}
+			if(MinK<UpdateMat[i][j])
+				UpdateMat[i][j]=MinK;
+			delete[] temp;
+		}
+		
+   }
   cout<<"\n\t ErrorPercent "<<ErrorPercent<<" ErrorPercent  "<<(error_inject_operators<int>::error_percent);
 return;
 }
@@ -360,7 +360,8 @@ int main(int argc, char* argv[])
    // SetSize=10; // Ensure SetSize to be multiple of Rows and Cols.
 
 
- //   PrintMat(UpdateMat);	
+   // PrintMat(UpdateMat);//	cout<<"\n\n\n ";  PrintMat(UpdateMatPristine);
+    
     NumRowsbySetSize= ( (int) ( (NumRows-1)/SetSize  ) + 1) ;
     NumColsbySetSize= ( (int) ( (NumCols-1)/SetSize  ) + 1) ;
     
@@ -383,7 +384,7 @@ int main(int argc, char* argv[])
 		MaxMinofMatCols.MaxMat[i]=new error_inject_operators<int> [NumColsbySetSize];
 	}	
 
-     FindMaxMin(UpdateMat,MaxMinofMatRows,MaxMinofMatCols,ErrorPercent);
+     //FindMaxMin(UpdateMat,MaxMinofMatRows,MaxMinofMatCols,ErrorPercent);
     
      cout<<"\n\n --";
    //FloydWarshall(UpdateMatPristine,0.00,MaxMinofMatRows,MaxMinofMatCols);
@@ -391,8 +392,9 @@ int main(int argc, char* argv[])
    //FloydWarshall(UpdateMat,ErrorPercent,MaxMinofMatRows,MaxMinofMatCols);
    // PrintMat(UpdateMat);	
    //CompareMat(UpdateMat,UpdateMatPristine,0.0);
-   PristineFloydWarshall(UpdateMatPristine,0.0); 
-    NonPristineFloydWarshall(UpdateMat,ErrorPercent);
+     NonPristineFloydWarshall(UpdateMat,ErrorPercent);
+     PristineFloydWarshall(UpdateMatPristine,0.0); 
+   
   //PrintMat(UpdateMat);
     CompareMatDegradation(UpdateMat,UpdateMatPristine,0.0);
     cout<<"\n\n";
