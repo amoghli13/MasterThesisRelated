@@ -383,8 +383,9 @@ def main(argv):
 	
  
  		 	
-	CurrCodonFile=open('CodonDistributionPerGene.log','w')
+	CurrCodonFile=open('CodonDistributionPerGenePerStrand.log','w')
 	CurrCodonFile.write("\n\t Format: Codon")
+	CodonCountAcrossGenes={}
 	
  	for CurrGene in GeneRangesIdxBase:
 		MaxLen= GeneRangesIdxBase[CurrGene][GeneRangesIdxBaseEnum['Base']] + GeneRangesIdxBase[CurrGene][GeneRangesIdxBaseEnum['Len']] 
@@ -393,21 +394,32 @@ def main(argv):
 	 		#CurrCodonFile.write("\t "+str(CurrGene) )
 	 		CodonCountCumulative=0
 			ObtainNucleotides[CurrGeneTag].append(CodonCountCumulative)
-	
+		CodonCountAcrossGenes[CurrGene]={}
+		for CurrCodon in CodonCombisSet:
+			CodonCountAcrossGenes[CurrGene][CurrCodon]=0
 
 
  	for CurrGene in GeneRangesIdxBase:
 		MaxLen= GeneRangesIdxBase[CurrGene][GeneRangesIdxBaseEnum['Base']] + GeneRangesIdxBase[CurrGene][GeneRangesIdxBaseEnum['Len']] 
 		Base= GeneRangesIdxBase[CurrGene][GeneRangesIdxBaseEnum['Base']]
 		CurrCodonFile.write("\n\n\t CurrGene: "+str(CurrGene)+"\n\n")
+
+		CurrCodonFile.write("\t\t Start\t End")
 		for CurrCodon in CodonCombisSet:
-	 		CurrCodonFile.write("\n\t CurrCodon: "+str(CurrCodon))
-			for CurrGeneTag in range(Base,MaxLen):
+			CurrCodonFile.write("\t "+str(CurrCodon))
+		CurrCodonFile.write("\t Cumulative")	
+		GeneNum=0
+		for CurrGeneTag in range(Base,MaxLen):
+			GeneNum+=1
+	 		CurrCodonFile.write("\n\t GeneNum: "+str(GeneNum)+"\t "+str(ObtainNucleotides[CurrGeneTag][ObtnNuclEnum['GeneRanges']][0])+"\t "+str(ObtainNucleotides[CurrGeneTag][ObtnNuclEnum['GeneRanges']][1]) )
+			for CurrCodon in CodonCombisSet:
 	 			CurrCodonFile.write("\t "+str(ObtainNucleotides[CurrGeneTag][ObtnNuclEnum['CodonCount']][CurrCodon]))
 	 			ObtainNucleotides[CurrGeneTag][ObtnNuclEnum['CodonCountCumulative']]+=ObtainNucleotides[CurrGeneTag][ObtnNuclEnum['CodonCount']][CurrCodon]
+	 			CodonCountAcrossGenes[CurrGene][CurrCodon]+=ObtainNucleotides[CurrGeneTag][ObtnNuclEnum['CodonCount']][CurrCodon]
+	 		CurrCodonFile.write("\t "+str(ObtainNucleotides[CurrGeneTag][ObtnNuclEnum['CodonCountCumulative']]) )	
 	 	CurrCodonFile.write("\n\n\t Cumulative: ")
-	 	for CurrGeneTag in range(Base,MaxLen):
-		 	CurrCodonFile.write("\t "+str(ObtainNucleotides[CurrGeneTag][ObtnNuclEnum['CodonCountCumulative']]))
+	 	for CurrCodon in CodonCombisSet:
+		 	CurrCodonFile.write("\t "+str(CodonCountAcrossGenes[CurrGene][CurrCodon]))
  	
  	CurrCodonFile.write("\n\n") 
     
