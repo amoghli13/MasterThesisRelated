@@ -259,7 +259,7 @@ def main(argv):
 	ObtainNucleotidesEnum={}
 	
 	ObtnNuclEnum={}	
-	ObtnNuclEnum={'GeneRanges':0,'NucleotidesString':1,'CodonCount':2,'CodonCountCumulative':3}
+	ObtnNuclEnum={'GeneRanges':0,'NucleotidesString':1,'SegmentLookup':2,'CodonCount':3,'CodonCountCumulative':4}
 
     	
 	ObtainNucleotides['ProteinPGene']=[ProteinPGene]
@@ -269,23 +269,28 @@ def main(argv):
 	ObtainNucleotides['PGene']=[PGeneRanges]
 	ObtainNucleotides['NGene']=[NGeneRanges]
 
-	CodonSegmentLength=500000
+	NucleotideSegmentLength=1000000
 	for CurrGene in ObtainNucleotides:
 		CurrGeneNucleotides=''
-		ObtainNucleotides[CurrGene].append([])
 		CodonRangeIdx=0
+		SegmentLookup=[]
 		for CurrGeneRanges in ObtainNucleotides[CurrGene][ObtnNuclEnum['GeneRanges']]:
-			if( float( CurrGeneRanges[0]/ CodonSegmentLength) > CodonRangeIdx):
+			if( float( CurrGeneRanges[0]/ NucleotideSegmentLength) > CodonRangeIdx):
 				CodonRangeIdx+=1
-				print "\n\t CurrGeneRange start: "+str(CurrGeneRanges[0])+" CodonRangeIdx: "+str(CodonRangeIdx)
-				if(CurrGeneNucleotides!=''):
-					ObtainNucleotides[CurrGene][ObtnNuclEnum['NucleotidesString']].append(CurrGeneNucleotides)
-					print "\n\t Length nucleotide string: "+str(len(CurrGeneNucleotides))
-				CurrGeneNucleotides=''
+				NucleotidestringLength=len(CurrGeneNucleotides)
+				NumCodons=int((NucleotidestringLength-3)/3)
+				if(NumCodons<0):
+					NumCodons=0
+				SegmentLookup.append(NumCodons)
+				print "\n\t CurrGeneRange start: "+str(CurrGeneRanges[0])+" CodonRangeIdx: "+str(CodonRangeIdx)+" LenNucleotidesString: "+str(NucleotidestringLength)+" NumCodons: "+str(NumCodons)
 			CurrGeneNucleotides+=str(Genome[(CurrGeneRanges[0]-1):(CurrGeneRanges[1])])
 			#print "\n\t CurrGeneRanges: "+str(CurrGeneRanges)+" Genes: "+str(Genome[(CurrGeneRanges[0]-1):(CurrGeneRanges[1])])
-		print "\n\t CurrGeneR "+str(CurrGene)+" len: "+str(len(CurrGeneNucleotides))
-		ObtainNucleotides[CurrGene][ObtnNuclEnum['NucleotidesString']].append(CurrGeneNucleotides)
+		NucleotidestringLength=len(CurrGeneNucleotides)
+		NumCodons=int((NucleotidestringLength-3)/3)
+		SegmentLookup.append(NumCodons)
+		print "\n\t CurrGeneRange start: "+str(CurrGeneRanges[0])+" CodonRangeIdx: "+str(CodonRangeIdx)+" LenNucleotidesString: "+str(NucleotidestringLength)+" NumCodons: "+str(NumCodons)
+		ObtainNucleotides[CurrGene].append(CurrGeneNucleotides)
+		ObtainNucleotides[CurrGene].append(SegmentLookup)
 		print "\n\t Length nucleotide string: "+str(len(CurrGeneNucleotides))
 		
 	#sys.exit()
@@ -305,7 +310,7 @@ def main(argv):
 		
 	
 	
-	CurrCodonFile=open('CodonDistributionPerSegment2.log','w')
+	CurrCodonFile=open('CodonDistributionPerSegment.log','w')
 	CurrCodonFile.write("\n\t Format: Codon")
 
 	CodonCount={}
@@ -321,18 +326,27 @@ def main(argv):
 		if PGeneDirCheck:
 			print "\n\t PGeneDirCheck: "+str(PGeneDirCheck.group(0))
 			CurrCodonFile.write("\n\n\t Gene: "+str(CurrGene))
-			for Idx,CurrNucleotideSet in enumerate(ObtainNucleotides[CurrGene][ObtnNuclEnum['NucleotidesString']]):
-				NumNucleotides=len(CurrNucleotideSet)
-				NumCodons=int((NumNucleotides-3)/3)
-				print "\n\t len(Nucleotides): "+str(NumNucleotides)+" NumCodons "+str(NumCodons)
+			#for Idx,CurrNucleotideSet in enumerate():
+			CurrNucleotideSet=ObtainNucleotides[CurrGene][ObtnNuclEnum['NucleotidesString']]
+			NumNucleotides=len(CurrNucleotideSet)
+			NumNucleotidesSet=len(CurrNucleotideSet)
+			NumSegments=int(NumNucleotides/NucleotideSegmentLength) 
+			print "\n\t NumNucleotides: "+str(NumNucleotides)+" NumNucleotidesSet: "+str(NumNucleotidesSet)+" NumSegments: "+str(NumSegments)
+			#sys.exit()
+			NumCodons=int((NumNucleotides-3)/3)
+			print "\n\t len(Nucleotides): "+str(NumNucleotides)+" NumCodons "+str(NumCodons)
+			
+			StartCodon=0	
+			for Idx,CurrStopCodon in enumerate(ObtainNucleotides[CurrGene][ObtnNuclEnum['SegmentLookup']]):	
+				print "\n\t SegmentLookup: "+str(CurrStopCodon)
 
-				
-				for i in range(NumCodons):
+				EndCodon=CurrStopCodon
+				for i in range(StartCodon,EndCodon):
 					CurrCodon=CurrNucleotideSet[(i*3):((i*3)+3)]
 					#print "\n\t CurrCodon: "+str(CurrCodon)
 					ObtainNucleotides[CurrGene][ObtnNuclEnum['CodonCount']][CurrCodon]+=1
-				
-				CodonLength=(Idx+1)*CodonSegmentLength
+				StartCodon=CurrStopCodon
+				CodonLength=(Idx+1)*NucleotideSegmentLength
 				CurrCodonFile.write("\n\t Codon-length "+str(CodonLength))
 				for CurrCodon in CodonCombisSet:
 					CurrCodonFile.write("\t "+str(ObtainNucleotides[CurrGene][ObtnNuclEnum['CodonCount']][CurrCodon]))
@@ -344,21 +358,31 @@ def main(argv):
 			if NGeneDirCheck:
 				print "\n\t NGeneDirCheck: "+str(NGeneDirCheck.group(0))
 				CurrCodonFile.write("\n\n\t Gene: "+str(CurrGene))
-				for Idx,CurrNucleotideSet in enumerate(ObtainNucleotides[CurrGene][ObtnNuclEnum['NucleotidesString']]):
-					NumNucleotides=len(CurrNucleotideSet)
-					NumCodons=int((NumNucleotides-3)/3)
-					print "\n\t len(Nucleotides): "+str(NumNucleotides)+" NumCodons "+str(NumCodons)
+##
+				CurrNucleotideSet=ObtainNucleotides[CurrGene][ObtnNuclEnum['NucleotidesString']]
+				NumNucleotides=len(CurrNucleotideSet)
+				NumNucleotidesSet=len(CurrNucleotideSet)
+				NumSegments=int(NumNucleotides/NucleotideSegmentLength) 
+				print "\n\t NumNucleotides: "+str(NumNucleotides)+" NumNucleotidesSet: "+str(NumNucleotidesSet)+" NumSegments: "+str(NumSegments)
+				#sys.exit()
+				NumCodons=int((NumNucleotides-3)/3)
+				print "\n\t len(Nucleotides): "+str(NumNucleotides)+" NumCodons "+str(NumCodons)
+			
+				StartCodon=0	
+				for Idx,CurrStopCodon in enumerate(ObtainNucleotides[CurrGene][ObtnNuclEnum['SegmentLookup']]):	
+					print "\n\t SegmentLookup: "+str(CurrStopCodon)
 
-					NumNucleotides-=1
-					for i in range(NumCodons):
+					EndCodon=CurrStopCodon
+##
+					for i in range(StartCodon,EndCodon):
 						End=NumNucleotides-(i*3)
 						Start=NumNucleotides-((i+1)*3)
 						CurrCodon=CurrNucleotideSet[Start:End]
 						CurrCodon=CurrCodon[::-1]
 						ObtainNucleotides[CurrGene][ObtnNuclEnum['CodonCount']][CurrCodon]+=1
-						#sys.exit()
 
-					CodonLength=(Idx+1)*CodonSegmentLength
+					StartCodon=CurrStopCodon
+					CodonLength=(Idx+1)*NucleotideSegmentLength
 					CurrCodonFile.write("\n\t Codon-length "+str(CodonLength))
 					for CurrCodon in CodonCombisSet:
 						CurrCodonFile.write("\t "+str(ObtainNucleotides[CurrGene][ObtnNuclEnum['CodonCount']][CurrCodon]))
