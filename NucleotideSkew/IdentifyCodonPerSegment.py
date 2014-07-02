@@ -285,7 +285,8 @@ def main(argv):
 			CurrGeneNucleotides+=str(Genome[(CurrGeneRanges[0]-1):(CurrGeneRanges[1])])
 			#print "\n\t CurrGeneRanges: "+str(CurrGeneRanges)+" Genes: "+str(Genome[(CurrGeneRanges[0]-1):(CurrGeneRanges[1])])
 		print "\n\t CurrGeneR "+str(CurrGene)+" len: "+str(len(CurrGeneNucleotides))
-		#ObtainNucleotides[CurrGene].append(CurrGeneNucleotides)
+		ObtainNucleotides[CurrGene][ObtnNuclEnum['NucleotidesString']].append(CurrGeneNucleotides)
+		print "\n\t Length nucleotide string: "+str(len(CurrGeneNucleotides))
 		
 	#sys.exit()
 	Nucleotides=['A','T','G','C']
@@ -332,7 +333,7 @@ def main(argv):
 					ObtainNucleotides[CurrGene][ObtnNuclEnum['CodonCount']][CurrCodon]+=1
 				
 				CodonLength=(Idx+1)*CodonSegmentLength
-				CurrCodonFile.write("\n\n\t Codon-length "+str(CodonLength)+"\n")
+				CurrCodonFile.write("\n\t Codon-length "+str(CodonLength))
 				for CurrCodon in CodonCombisSet:
 					CurrCodonFile.write("\t "+str(ObtainNucleotides[CurrGene][ObtnNuclEnum['CodonCount']][CurrCodon]))
 					ObtainNucleotides[CurrGene][ObtnNuclEnum['CodonCount']][CurrCodon]=0
@@ -358,7 +359,7 @@ def main(argv):
 						#sys.exit()
 
 					CodonLength=(Idx+1)*CodonSegmentLength
-					CurrCodonFile.write("\n\t Codon-length "+str(CodonLength)+"\n")
+					CurrCodonFile.write("\n\t Codon-length "+str(CodonLength))
 					for CurrCodon in CodonCombisSet:
 						CurrCodonFile.write("\t "+str(ObtainNucleotides[CurrGene][ObtnNuclEnum['CodonCount']][CurrCodon]))
 						ObtainNucleotides[CurrGene][ObtnNuclEnum['CodonCount']][CurrCodon]=0
