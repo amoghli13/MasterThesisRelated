@@ -269,7 +269,7 @@ def main(argv):
 	ObtainNucleotides['PGene']=[PGeneRanges]
 	ObtainNucleotides['NGene']=[NGeneRanges]
 
-	CodonSegmentLength=1000000
+	CodonSegmentLength=500000
 	for CurrGene in ObtainNucleotides:
 		CurrGeneNucleotides=''
 		ObtainNucleotides[CurrGene].append([])
@@ -305,7 +305,7 @@ def main(argv):
 		
 	
 	
-	CurrCodonFile=open('CodonDistributionPerSegment.log','w')
+	CurrCodonFile=open('CodonDistributionPerSegment2.log','w')
 	CurrCodonFile.write("\n\t Format: Codon")
 
 	CodonCount={}
