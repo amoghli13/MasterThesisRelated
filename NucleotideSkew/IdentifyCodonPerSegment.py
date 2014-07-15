@@ -122,9 +122,11 @@ def MergeGenes(TotalGeneRanges,ProteinGeneRanges,RnaGeneRanges):
 					break			
 	print "\n\t Inside MergeGene "+str(len(TotalGeneRanges))
 
-def FindGeneRanges(GeneFile,GeneType):
+def FindGeneRanges(GeneFile,GeneType,OriCPosition,GeneLength):
 	NumLinesGenes=len(GeneFile)
+	OriCComplement=GeneLength-OriCPosition
 	print "\n\t Number of lines in gene report file is "+str(NumLinesGenes)+" the genes are supposed to code "+str(GeneType)
+	print "\n\t GeneLen: "+str(GeneLength)+" and OriC is located at "+str(OriCPosition)+" so OriCComplement is "+str(OriCComplement)
 	HeaderLineNum=0
 
 	for CurrLine in GeneFile:
@@ -142,7 +144,13 @@ def FindGeneRanges(GeneFile,GeneType):
 		CurrLine=re.match('(\d+)*\.\.(\d+)*\s*([\+\-])*',GeneFile[LineNum])
 		if CurrLine:
 			#print "\n\t LineNum: "+str(LineNum)+" CurrLine "+str(CurrLine.group(0))
-			Range=((int(CurrLine.group(1))),(int(CurrLine.group(2))),(CurrLine.group(3)))
+			CurrentStart=int(CurrLine.group(1))
+			CurrentEnd=int(CurrLine.group(2))
+			RelativeStart=((CurrentStart+OriCComplement)%GeneLength)
+			RelativeEnd=((CurrentEnd+OriCComplement)%GeneLength)
+			#print "\n\t Current start: "+str(CurrentStart)+" CurrentEnd: "+str(CurrentEnd)+" RelativeStart: "+str(RelativeStart)+" RelativeEnd: "+str(RelativeEnd)
+			#Range=((int(CurrLine.group(1))),(int(CurrLine.group(2))),(CurrLine.group(3)))
+			Range=(RelativeStart,RelativeEnd,( CurrLine.group(3) ) )
 			GeneRanges.append(Range)
 			NumGene+=1
 		else:
@@ -150,7 +158,12 @@ def FindGeneRanges(GeneFile,GeneType):
 			
 		
 	print "\n\t Found "+str(NumGene)+" genes. \n"
-	return GeneRanges
+	SortedGeneRanges=sorted(GeneRanges, key=itemgetter(0) )
+	
+	#for Idx,CurrRange in enumerate(SortedGeneRanges):
+	#	print "\n\t Idx: "+str(Idx)+" CurrRange-start: "+str(CurrRange[1])
+		
+	return SortedGeneRanges
 	
 
 def main(argv):
@@ -178,7 +191,38 @@ def main(argv):
 	ProteinGene=File1.readlines()
 	File1.close()
 	
-	ProteinGeneRanges=FindGeneRanges(ProteinGene,"Protein") # Assumed that each member will have an array with 1st and 2nd member indicating start and end nucleotide respectively.
+
+	Genome=''
+	ActualGenome=''
+	GenomeFileName=GenomeID+str('.fna')
+	File1=open(GenomeFileName)
+	GenomeFile=File1.readlines()
+	File1.close()
+
+	GenomeFileOffset=1	
+	GenomeFileNumLines=len(GenomeFile)
+	print "\n\t Num-lines genome: "+str(GenomeFileNumLines)+" and the genome file offset is: "+str(GenomeFileOffset)
+	
+	for LineNum in range(GenomeFileOffset,GenomeFileNumLines):
+		CurrLine=RemoveWhiteSpace(GenomeFile[LineNum])
+		ActualGenome+=CurrLine
+		#Nucleotides=CurrLine.split('G')
+		#print "\n\t CurrLine: "+str(CurrLine)+" length: "+str(len(Nucleotides))
+		#sys.exit() #break
+		
+	del GenomeFile	
+	ActualGenomeLen=len(ActualGenome)
+	OriCPosition=3916950
+	OriCComplement=ActualGenomeLen-OriCPosition
+	
+	print "\n\t GenomeLen "+str(ActualGenomeLen)+", so will move bases relative to "+str(OriCPosition)+" i.e, by "+str(OriCComplement)
+	Genome=str(ActualGenome[(OriCPosition-1):(ActualGenomeLen-1)])+str(ActualGenome[0:(OriCPosition-1)])
+	GenomeLen=len(Genome)
+	print "\n\t Length of genome: "+str(GenomeLen)
+	
+	
+	
+	ProteinGeneRanges=FindGeneRanges(ProteinGene,"Protein",OriCPosition,GenomeLen) # Assumed that each member will have an array with 1st and 2nd member indicating start and end nucleotide respectively.
 	
 	ProteinGeneNum=len(ProteinGeneRanges)
 	
@@ -187,8 +231,9 @@ def main(argv):
 	RnaGene=File1.readlines()
 	File1.close()
 	
-	RnaGeneRanges=FindGeneRanges(RnaGene,"Rna")	
+	RnaGeneRanges=FindGeneRanges(RnaGene,"Rna",OriCPosition,GenomeLen)	
 	RnaGeneNum=len(RnaGeneRanges)
+	#sys.exit()
 
 	TotalMaxGeneNum=0
 	TotalMinGeneNum=0
@@ -231,27 +276,6 @@ def main(argv):
 
 	#for CurrRange in TotalGeneRanges:
 	#	print "\n\t Gene-start "+str(CurrRange[0])+" end "+str(CurrRange[1])
-	
-	GenomeFileName=GenomeID+str('.fna')
-	File1=open(GenomeFileName)
-	GenomeFile=File1.readlines()
-	File1.close()
-
-	GenomeFileOffset=1	
-	GenomeFileNumLines=len(GenomeFile)
-	print "\n\t Num-lines genome: "+str(GenomeFileNumLines)+" and the genome file offset is: "+str(GenomeFileOffset)
-
-	Genome=""
-	for LineNum in range(GenomeFileOffset,GenomeFileNumLines):
-		CurrLine=RemoveWhiteSpace(GenomeFile[LineNum])
-		Genome+=CurrLine
-		#Nucleotides=CurrLine.split('G')
-		#print "\n\t CurrLine: "+str(CurrLine)+" length: "+str(len(Nucleotides))
-		#sys.exit() #break
-		
-	del GenomeFile	
-	GenomeLen=len(Genome)
-	print "\n\t Length of genome: "+str(GenomeLen)+" 8th Nucleotide "+str(Genome[1:5])
 
 	ProteinPGeneNucleotides=''
 	
@@ -259,7 +283,7 @@ def main(argv):
 	ObtainNucleotidesEnum={}
 	
 	ObtnNuclEnum={}	
-	ObtnNuclEnum={'GeneRanges':0,'NucleotidesString':1,'SegmentLookup':2,'CodonCount':3,'CodonCountCumulative':4}
+	ObtnNuclEnum={'GeneRanges':0,'NucleotidesString':1,'SegmentLookup':2,'NumGenesSegment':3,'CodonCount':4,'CodonCountCumulative':5}
 
     	
 	ObtainNucleotides['ProteinPGene']=[ProteinPGene]
@@ -273,26 +297,35 @@ def main(argv):
 	for CurrGene in ObtainNucleotides:
 		CurrGeneNucleotides=''
 		CodonRangeIdx=0
+		NumGenes=0
 		SegmentLookup=[]
+		NumGenesSegment=[]
 		for CurrGeneRanges in ObtainNucleotides[CurrGene][ObtnNuclEnum['GeneRanges']]:
 			if( float( CurrGeneRanges[0]/ NucleotideSegmentLength) > CodonRangeIdx):
 				CodonRangeIdx+=1
 				NucleotidestringLength=len(CurrGeneNucleotides)
 				NumCodons=int((NucleotidestringLength-3)/3)
+				SegmentNumGenes=NumGenes
 				if(NumCodons<0):
 					NumCodons=0
+				NumGenes=0
 				SegmentLookup.append(NumCodons)
-				print "\n\t CurrGeneRange start: "+str(CurrGeneRanges[0])+" CodonRangeIdx: "+str(CodonRangeIdx)+" LenNucleotidesString: "+str(NucleotidestringLength)+" NumCodons: "+str(NumCodons)
+				NumGenesSegment.append(SegmentNumGenes)
+				#print "\n\t CurrGeneRange start: "+str(CurrGeneRanges[0])+" CodonRangeIdx: "+str(CodonRangeIdx)+" LenNucleotidesString: "+str(NucleotidestringLength)+" NumCodons: "+str(NumCodons)+" NumGenes "+str(SegmentNumGenes)
+				
 			CurrGeneNucleotides+=str(Genome[(CurrGeneRanges[0]-1):(CurrGeneRanges[1])])
+			NumGenes+=1
 			#print "\n\t CurrGeneRanges: "+str(CurrGeneRanges)+" Genes: "+str(Genome[(CurrGeneRanges[0]-1):(CurrGeneRanges[1])])
 		NucleotidestringLength=len(CurrGeneNucleotides)
 		NumCodons=int((NucleotidestringLength-3)/3)
 		SegmentLookup.append(NumCodons)
-		print "\n\t CurrGeneRange start: "+str(CurrGeneRanges[0])+" CodonRangeIdx: "+str(CodonRangeIdx)+" LenNucleotidesString: "+str(NucleotidestringLength)+" NumCodons: "+str(NumCodons)
+		NumGenesSegment.append(NumGenes)
+		#print "\n\t CurrGeneRange start: "+str(CurrGeneRanges[0])+" CodonRangeIdx: "+str(CodonRangeIdx)+" LenNucleotidesString: "+str(NucleotidestringLength)+" NumCodons: "+str(NumCodons)
 		ObtainNucleotides[CurrGene].append(CurrGeneNucleotides)
 		ObtainNucleotides[CurrGene].append(SegmentLookup)
+		ObtainNucleotides[CurrGene].append(NumGenesSegment)
 		print "\n\t Length nucleotide string: "+str(len(CurrGeneNucleotides))
-		
+
 	#sys.exit()
 	Nucleotides=['A','T','G','C']
 	CodonCombisSet=[]
@@ -343,16 +376,19 @@ def main(argv):
 				EndCodon=CurrStopCodon
 				for i in range(StartCodon,EndCodon):
 					CurrCodon=CurrNucleotideSet[(i*3):((i*3)+3)]
-					#print "\n\t CurrCodon: "+str(CurrCodon)
+					temp=ObtainNucleotides[CurrGene][ObtnNuclEnum['CodonCount']][CurrCodon]
 					ObtainNucleotides[CurrGene][ObtnNuclEnum['CodonCount']][CurrCodon]+=1
+					#print "\n\t CurrCodon: "+str(CurrCodon)+"  CodonCountBef: "+str(temp)+" CodonCountAft: "+str(ObtainNucleotides[CurrGene][ObtnNuclEnum['CodonCount']][CurrCodon])
+				#sys.exit()	
 				StartCodon=CurrStopCodon
 				CodonLength=(Idx+1)*NucleotideSegmentLength
 				CurrCodonFile.write("\n\t Codon-length "+str(CodonLength))
+				#print "\n\t NumGenes: "+str(ObtainNucleotides[CurrGene][ObtnNuclEnum['NumGenesSegment']][Idx])
 				for CurrCodon in CodonCombisSet:
 					CurrCodonFile.write("\t "+str(ObtainNucleotides[CurrGene][ObtnNuclEnum['CodonCount']][CurrCodon]))
 					ObtainNucleotides[CurrGene][ObtnNuclEnum['CodonCount']][CurrCodon]=0
 				
-			
+				CurrCodonFile.write("\t "+str((ObtainNucleotides[CurrGene][ObtnNuclEnum['NumGenesSegment']][Idx])))
 		else:
 			NGeneDirCheck=re.match('\s*.*NGene$',CurrGene)
 			if NGeneDirCheck:
@@ -363,7 +399,7 @@ def main(argv):
 				NumNucleotides=len(CurrNucleotideSet)
 				NumNucleotidesSet=len(CurrNucleotideSet)
 				NumSegments=int(NumNucleotides/NucleotideSegmentLength) 
-				print "\n\t NumNucleotides: "+str(NumNucleotides)+" NumNucleotidesSet: "+str(NumNucleotidesSet)+" NumSegments: "+str(NumSegments)
+				#print "\n\t NumNucleotides: "+str(NumNucleotides)+" NumNucleotidesSet: "+str(NumNucleotidesSet)+" NumSegments: "+str(NumSegments)
 				#sys.exit()
 				NumCodons=int((NumNucleotides-3)/3)
 				print "\n\t len(Nucleotides): "+str(NumNucleotides)+" NumCodons "+str(NumCodons)
@@ -387,6 +423,7 @@ def main(argv):
 					for CurrCodon in CodonCombisSet:
 						CurrCodonFile.write("\t "+str(ObtainNucleotides[CurrGene][ObtnNuclEnum['CodonCount']][CurrCodon]))
 						ObtainNucleotides[CurrGene][ObtnNuclEnum['CodonCount']][CurrCodon]=0
+					CurrCodonFile.write("\t "+str((ObtainNucleotides[CurrGene][ObtnNuclEnum['NumGenesSegment']][Idx])))
 
 					
 			else:

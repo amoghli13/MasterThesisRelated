@@ -12,13 +12,18 @@ def usage():
 	
 def FileCheck():
 	print "\n\t Following files are expected: *.fna *.ptt *.rnt in this folder \n"
-	
-def RemoveWhiteSpace(arg):
+def WhiteSpace(arg):
 	tmp=re.sub('^\s*','',arg)
 	tmp1=re.sub('\s*$','',tmp)
 	#print "\n\t Arg "+str(arg)+" tmp "+str(tmp)+" tmp1 "+str(tmp1)
 	return tmp1
+	
+def RemoveWhiteSpace(Input):
+	temp=re.sub('^\s*','',Input)
+	Output=re.sub('\s*$','',temp)
 
+	return Output
+	
 def SeperateStrand(Gene,PGene,NGene):
 	TotalGeneNum=len(Gene)
 	for CurrStrand in Gene: #TotalGeneNum:
@@ -165,7 +170,7 @@ def main(argv):
 		if opt == '-h':
 			usage()
 		elif opt in ("-g", "--genomeID"):
-			tmp=RemoveWhiteSpace(arg)
+			tmp=WhiteSpace(arg)
 			GenomeID=str(tmp)
 			print "\n\t GenomeID option is "+str(GenomeID);
 		else:
@@ -244,12 +249,12 @@ def main(argv):
 
 	Genome=""
 	for LineNum in range(GenomeFileOffset,GenomeFileNumLines):
-		CurrLine=RemoveWhiteSpace(GenomeFile[LineNum])
-		Genome+=CurrLine
+		CurrLine=GenomeFile[LineNum]
+		Genome+=RemoveWhiteSpace(CurrLine)
 		#Nucleotides=CurrLine.split('G')
-		#print "\n\t CurrLine: "+str(CurrLine)+" length: "+str(len(Nucleotides))
+		#print "\n\t CurrLine: "+str(Temp)+" length: "+str(len(CurrLine))
 		#break
-
+	
 	del GenomeFile	
 	GenomeLen=len(Genome)
 	print "\n\t Length of genome: "+str(GenomeLen)+" 8th Nucleotide "+str(Genome[1:5])
@@ -263,12 +268,11 @@ def main(argv):
 	ArrayGeneRanges.append(NGeneRanges)
 	ArrayGeneKeys=('PGene','NGene','ReverseGene')
 
-	for Idx,CurrGeneRanges in enumerate(ArrayGeneRanges):
+	for CurrGeneRanges in ArrayGeneRanges:
 		CurrStrandGeneNucleotides=''
 		CurrGeneNum=len(CurrGeneRanges)
-		print "\n\t Total Gene Num: "+str(CurrGeneNum)+" and the gene is "+str(ArrayGeneKeys[Idx])
+		print "\n\t Total Gene Num: "+str(CurrGeneNum)
 		for CurrGene in range(CurrGeneNum):
-			#print "\n\t GeneNum: "+str(CurrGene)+" Start: "+str(CurrGeneRanges[CurrGene][0])+" End: "+str(CurrGeneRanges[CurrGene][1])
 			CurrStrandGeneNucleotides+=(Genome[(CurrGeneRanges[CurrGene][0]-1):(CurrGeneRanges[CurrGene][1])]) # Nucleotide count used in *.ptt etc is index-1.
 		ArrayGeneNucleotides.append(CurrStrandGeneNucleotides)
 		print "	\n\t Gene-length: "+str(len(CurrStrandGeneNucleotides))
@@ -284,12 +288,12 @@ def main(argv):
 
 	TotalGeneNum=len(TotalGeneRanges)	
 	TotalGeneNumLessOne=len(TotalGeneRanges)-1
-	TotalGeneNucleotides=''
 	#NonGeneNucleotides+=(Genome[0:TotalGeneRanges[0][0]])
 	RangeSum=0
 	NonGeneStart=0
+	TotalGeneNucleotides=''
 	for CurrGene in range(TotalGeneNum):
-		TotalGeneNucleotides+=(Genome[(TotalGeneRanges[CurrGene][0]-1):(TotalGeneRanges[CurrGene][0])])
+		TotalGeneNucleotides+=(Genome[(TotalGeneRanges[CurrGene][0]-1):(TotalGeneRanges[CurrGene][1])])
 		NonGeneNucleotides+=(Genome[(NonGeneStart):(TotalGeneRanges[CurrGene][0])])
 		RangeSum+=(TotalGeneRanges[CurrGene][0]-NonGeneStart+1)
 		NonGeneStart=TotalGeneRanges[CurrGene][1]
@@ -317,36 +321,34 @@ def main(argv):
 	GeneNucleotideCount['2']={};GeneNucleotideCount['2']['G']=0;GeneNucleotideCount['2']['C']=0; 
 	GeneNucleotideCount['3']={};GeneNucleotideCount['3']['G']=0;GeneNucleotideCount['3']['C']=0; 
 	
-	GeneIdx=1
-	print "\n\t GeneNucleotides is pointing to "+str(ArrayGeneKeys[GeneIdx])
-	GeneNucleotides=ArrayGeneNucleotides[GeneIdx]
-	
+	print "\n\t GeneNucleotides is pointing to PositiveStrand "
+	GeneNucleotides=Genome  #ArrayGeneNucleotides[2] #TotalGeneNucleotides #ArrayGeneNucleotides[2]
 	#print "\n\t WARNING: GeneNucleotides points to NonGeneNucleotides "
 	GeneLen=len(GeneNucleotides)
-	NonGeneLen=len(NonGeneNucleotides)
+	#NonGeneLen=len(NonGeneNucleotides)
+	print "\n\t Analyse-GeneLen: "+str(GeneLen)+" -- "+str(len(TotalGeneNucleotides))
 	
 	WindowLength=9999
 	WindowLengthDiv3=int((WindowLength-1)/3)+1.
-	StepSize=3
+	StepSize=1
 	#WindowNum=0;NumWindows=GeneLen/3
 	WindowStart=0
 
+	WindowStart
 	WindowEnd=WindowStart+WindowLength
 
 	CirBufNuceotideCount={};
 	CirBufNuceotideCount['1']={};CirBufNuceotideCount['1']['G']=[];CirBufNuceotideCount['1']['C']=[];
 	CirBufNuceotideCount['2']={};CirBufNuceotideCount['2']['G']=[];CirBufNuceotideCount['2']['C']=[];
 	CirBufNuceotideCount['3']={};CirBufNuceotideCount['3']['G']=[];CirBufNuceotideCount['3']['C']=[];
- 	
- 	print "\n\t First 50 nucleotides: "+str(GeneNucleotides[0:50])+" \n"	
 	for CurrNucleotide in range(WindowStart,WindowEnd):
-		if(CurrNucleotide%3==0):
+		#if(CurrNucleotide%3==0):
 			#print "\n\t CurrentNucleotide: "+str(CurrNucleotide)
 			if(GeneNucleotides[CurrNucleotide]=='G'):
 				GeneNucleotideCount['1']['G']+=1
 			elif(GeneNucleotides[CurrNucleotide]=='C'):
 				GeneNucleotideCount['1']['C']+=1
-			if(GeneNucleotides[CurrNucleotide+1]=='G'):
+			"""if(GeneNucleotides[CurrNucleotide+1]=='G'):
 				GeneNucleotideCount['2']['G']+=1
 			elif(GeneNucleotides[CurrNucleotide+1]=='C'):
 				GeneNucleotideCount['2']['C']+=1
@@ -354,35 +356,28 @@ def main(argv):
 				GeneNucleotideCount['3']['G']+=1
 			elif(GeneNucleotides[CurrNucleotide+2]=='C'):
 				GeneNucleotideCount['3']['C']+=1
-
-			#print "\n\t String: "+str(GeneNucleotides[CurrNucleotide:(CurrNucleotide+3)])+" CurrNucleotide: "+str(CurrNucleotide)+" CurrNucleotide+3: "+str(CurrNucleotide+3)
-			#print "\n\t 1: G: "+str(GeneNucleotideCount['1']['G'])+" C: "+str(GeneNucleotideCount['1']['C'])+ "\n\t 2: G: "+str(GeneNucleotideCount['2']['G'])+" C: "+str(GeneNucleotideCount['2']['C'])+ "\n\t 3: G: "+str(GeneNucleotideCount['3']['G'])+" C: "+str(GeneNucleotideCount['3']['C'])
-			#sys.exit()
-			"""CirBufNuceotideCount['1']['G'].append(GeneNucleotideCount['1']['G']); 
-			CirBufNuceotideCount['2']['G'].append(GeneNucleotideCount['2']['G']);
-			CirBufNuceotideCount['3']['G'].append(GeneNucleotideCount['3']['G'])
+			"""
+			CirBufNuceotideCount['1']['G'].append(GeneNucleotideCount['1']['G']); 
+			#CirBufNuceotideCount['2']['G'].append(GeneNucleotideCount['2']['G']);
+			#CirBufNuceotideCount['3']['G'].append(GeneNucleotideCount['3']['G'])
 			CirBufNuceotideCount['1']['C'].append(GeneNucleotideCount['1']['C']);
-			CirBufNuceotideCount['2']['C'].append(GeneNucleotideCount['2']['C']);
-			CirBufNuceotideCount['3']['C'].append(GeneNucleotideCount['3']['C'])"""
+			#CirBufNuceotideCount['2']['C'].append(GeneNucleotideCount['2']['C']);
+			#CirBufNuceotideCount['3']['C'].append(GeneNucleotideCount['3']['C'])
 	
 	GeneSkew['1'].append( GeneNucleotideCount['1']['G']-GeneNucleotideCount['1']['C'] )
-	GeneSkew['2'].append( GeneNucleotideCount['2']['G']-GeneNucleotideCount['2']['C'] )
-	GeneSkew['3'].append( GeneNucleotideCount['3']['G']-GeneNucleotideCount['3']['C'] )
-	#sys.exit()
+	#GeneSkew['2'].append( GeneNucleotideCount['2']['G']-GeneNucleotideCount['2']['C'] )
+	#GeneSkew['3'].append( GeneNucleotideCount['3']['G']-GeneNucleotideCount['3']['C'] )
 			
 	WindowStart=WindowEnd
 	WindowEnd=GeneLen-3#100*WindowLength
-	FileOutputs=[]
-	"""FileOutputs.append('PositiveGeneSkewPos1_Full.log')
-	FileOutputs.append('PositiveGeneSkewPos2_Full.log')
-	FileOutputs.append('PositiveGeneSkewPos3_Full.log')"""
-	FileOutputs.append('NegativeReversedGeneSkewPos1_Full.log')
-	FileOutputs.append('NegativeReversedGeneSkewPos2_Full.log')
-	FileOutputs.append('NegativeReversedGeneSkewPos3_Full.log')
 
+	FileOutputs=[]
+	FileOutputs.append('TotalGeneSkewPos1_Full.log')
+	#FileOutputs.append('NegativeReversedGeneSkewPos2_Full.log')
+	#FileOutputs.append('NegativeReversedGeneSkewPos3_Full.log')
 	SkewOp1=open(FileOutputs[0],'w');
-	SkewOp2=open(FileOutputs[1],'w');
-	SkewOp3=open(FileOutputs[2],'w');
+	#SkewOp2=open(FileOutputs[1],'w');
+	#SkewOp3=open(FileOutputs[2],'w');
 	
 	# Future idea: Can perhaps make numeric '3' as a parameter?		
 	CirBufIdx=0
@@ -391,36 +386,36 @@ def main(argv):
 		CirBufIdx=int(CirBufIdx%WindowLengthDiv3)
 		#print "\n\t CurrNucleotide "+str(CurrNucleotide)+" CirBufIdx "+str(CirBufIdx)+" WindowLengthDiv3 "+str(WindowLengthDiv3)
 
-		if(CurrNucleotide%3==0):
+		if(CurrNucleotide%1==0):
 			if(GeneNucleotides[CurrNucleotide]=='G'):
 				GeneNucleotideCount['1']['G']+=1
 			elif(GeneNucleotides[CurrNucleotide]=='C'):
 				GeneNucleotideCount['1']['C']+=1
-			if(GeneNucleotides[CurrNucleotide+1]=='G'):
+			"""if(GeneNucleotides[CurrNucleotide+1]=='G'):
 				GeneNucleotideCount['2']['G']+=1
 			elif(GeneNucleotides[CurrNucleotide+1]=='C'):
 				GeneNucleotideCount['2']['C']+=1
 			if(GeneNucleotides[CurrNucleotide+2]=='G'):
 				GeneNucleotideCount['3']['G']+=1
 			elif(GeneNucleotides[CurrNucleotide+2]=='C'):
-				GeneNucleotideCount['3']['C']+=1
+				GeneNucleotideCount['3']['C']+=1"""
 			
 			#print "\n\t CurrNucleotide "+str(CurrNucleotide)+" WindowStart "+str(WindowStart)+" StepSize "+str(StepSize)
 			if((CurrNucleotide-WindowStart)%StepSize==0):
-				Tmp1=GeneNucleotideCount['1']['G']-GeneNucleotideCount['1']['C']
-				Tmp2=GeneNucleotideCount['2']['G']-GeneNucleotideCount['2']['C']
-				Tmp3=GeneNucleotideCount['3']['G']-GeneNucleotideCount['3']['C']
-				
-				GeneSkew['1'].append(Tmp1);GeneSkew['2'].append(Tmp2);GeneSkew['3'].append(Tmp3)
-				
-			"""CirBufNuceotideCount['1']['G'][CirBufIdx]=GeneNucleotideCount['1']['G']; 
-			CirBufNuceotideCount['2']['G'][CirBufIdx]=GeneNucleotideCount['2']['G'];
-			CirBufNuceotideCount['3']['G'][CirBufIdx]=GeneNucleotideCount['3']['G'];
+				Tmp1=GeneNucleotideCount['1']['G']-GeneNucleotideCount['1']['C']#-CirBufNuceotideCount['1']['G'][CirBufIdx]+CirBufNuceotideCount['1']['C'][CirBufIdx]
+				#SkewOp1.write("\n\t DummyIdx "+str(DummyIdx)+" CirBufIdx "+str(CirBufIdx)+" GNC['G'] "+str(GeneNucleotideCount['1']['G'])+" GNC['C'] "+str(GeneNucleotideCount['1']['C'])+" CirBuf['G'] "+str(CirBufNuceotideCount['1']['G'][CirBufIdx])+" CirBuf['C'] "+str(CirBufNuceotideCount['1']['C'][CirBufIdx])+" Tmp1 "+str(Tmp1))
+				#Tmp2=GeneNucleotideCount['2']['G']-GeneNucleotideCount['2']['C']#-CirBufNuceotideCount['2']['G'][CirBufIdx]+CirBufNuceotideCount['2']['C'][CirBufIdx]				
+				#Tmp3=GeneNucleotideCount['3']['G']-GeneNucleotideCount['3']['C']#-CirBufNuceotideCount['3']['G'][CirBufIdx]+CirBufNuceotideCount['3']['C'][CirBufIdx]				
+				GeneSkew['1'].append(Tmp1);#GeneSkew['2'].append(Tmp2);GeneSkew['3'].append(Tmp3)
+				#if(CurrNucleotide%100==0): print "\n\t Tmp1 "+str(Tmp1)#+" GS['1'] "+str(GeneSkew['1'])
+			CirBufNuceotideCount['1']['G'][CirBufIdx]=GeneNucleotideCount['1']['G']; 
+			#CirBufNuceotideCount['2']['G'][CirBufIdx]=GeneNucleotideCount['2']['G'];
+			#CirBufNuceotideCount['3']['G'][CirBufIdx]=GeneNucleotideCount['3']['G'];
 			CirBufNuceotideCount['1']['C'][CirBufIdx]=GeneNucleotideCount['1']['C'];
-			CirBufNuceotideCount['2']['C'][CirBufIdx]=GeneNucleotideCount['2']['C'];
-			CirBufNuceotideCount['3']['C'][CirBufIdx]=GeneNucleotideCount['3']['C'];				
+			#CirBufNuceotideCount['2']['C'][CirBufIdx]=GeneNucleotideCount['2']['C'];
+			#CirBufNuceotideCount['3']['C'][CirBufIdx]=GeneNucleotideCount['3']['C'];				
 			CirBufIdx+=1
-			DummyIdx+=1"""
+			DummyIdx+=1
 	print"\n\t GeneNucleotideCount['1']: "+str(GeneNucleotideCount['1'])+" -- len CirBuf['1']['G'] "+str(len(CirBufNuceotideCount['1']['G']))
 	print"\n\t GeneNucleotideCount['2']: "+str(GeneNucleotideCount['2'])+" -- len GeneSkew['1'] "+str(len(GeneSkew['1']))
 	print"\n\t GeneNucleotideCount['3']: "+str(GeneNucleotideCount['3'])+" --\n"
@@ -429,13 +424,12 @@ def main(argv):
 	for Idx in range(SkewLen):
 		#SkewOp1.write("\n\t i: "+str(i)+" Skew: "+str(CurrSkew))
 		SkewOp1.write("\n\t "+str(GeneSkew['1'][Idx]))
-		SkewOp2.write("\n\t "+str(GeneSkew['2'][Idx]))
-		SkewOp3.write("\n\t "+str(GeneSkew['3'][Idx]))
-	
+		#SkewOp2.write("\n\t "+str(GeneSkew['2'][Idx]))
+		#SkewOp3.write("\n\t "+str(GeneSkew['3'][Idx]))
+		
 	print "\n\t Output written to: "
 	for CurrFile in FileOutputs:
-		print "\n\t "+str(CurrFile)
-	
+		print "\n\t "+str(CurrFile)	
 	
 	
 	
