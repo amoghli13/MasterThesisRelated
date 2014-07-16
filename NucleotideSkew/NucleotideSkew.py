@@ -121,9 +121,11 @@ def MergeGenes(TotalGeneRanges,ProteinGeneRanges,RnaGeneRanges):
 					break			
 	print "\n\t Inside MergeGene "+str(len(TotalGeneRanges))
 
-def FindGeneRanges(GeneFile,GeneType):
+def FindGeneRanges(GeneFile,GeneType,OriCPosition,GeneLength):
 	NumLinesGenes=len(GeneFile)
+	OriCComplement=GeneLength-OriCPosition
 	print "\n\t Number of lines in gene report file is "+str(NumLinesGenes)+" the genes are supposed to code "+str(GeneType)
+	print "\n\t GeneLen: "+str(GeneLength)+" and OriC is located at "+str(OriCPosition)+" so OriCComplement is "+str(OriCComplement)
 	HeaderLineNum=0
 
 	for CurrLine in GeneFile:
@@ -141,7 +143,13 @@ def FindGeneRanges(GeneFile,GeneType):
 		CurrLine=re.match('(\d+)*\.\.(\d+)*\s*([\+\-])*',GeneFile[LineNum])
 		if CurrLine:
 			#print "\n\t LineNum: "+str(LineNum)+" CurrLine "+str(CurrLine.group(0))
-			Range=((int(CurrLine.group(1))),(int(CurrLine.group(2))),(CurrLine.group(3)))
+			CurrentStart=int(CurrLine.group(1))
+			CurrentEnd=int(CurrLine.group(2))
+			RelativeStart=((CurrentStart+OriCComplement)%GeneLength)
+			RelativeEnd=((CurrentEnd+OriCComplement)%GeneLength)
+			#print "\n\t Current start: "+str(CurrentStart)+" CurrentEnd: "+str(CurrentEnd)+" RelativeStart: "+str(RelativeStart)+" RelativeEnd: "+str(RelativeEnd)
+			#Range=((int(CurrLine.group(1))),(int(CurrLine.group(2))),(CurrLine.group(3)))
+			Range=(RelativeStart,RelativeEnd,( CurrLine.group(3) ) )
 			GeneRanges.append(Range)
 			NumGene+=1
 		else:
@@ -149,7 +157,12 @@ def FindGeneRanges(GeneFile,GeneType):
 			
 		
 	print "\n\t Found "+str(NumGene)+" genes. \n"
-	return GeneRanges
+	SortedGeneRanges=sorted(GeneRanges, key=itemgetter(0) )
+	
+	#for Idx,CurrRange in enumerate(SortedGeneRanges):
+	#	print "\n\t Idx: "+str(Idx)+" CurrRange-start: "+str(CurrRange[1])
+		
+	return SortedGeneRanges
 	
 
 def main(argv):
@@ -176,8 +189,41 @@ def main(argv):
 	File1=open(ProteinGeneFileName)
 	ProteinGene=File1.readlines()
 	File1.close()
+
+###
+
+	Genome=''
+	ActualGenome=''
+	GenomeFileName=GenomeID+str('.fna')
+	File1=open(GenomeFileName)
+	GenomeFile=File1.readlines()
+	File1.close()
+
+	GenomeFileOffset=1	
+	GenomeFileNumLines=len(GenomeFile)
+	print "\n\t Num-lines genome: "+str(GenomeFileNumLines)+" and the genome file offset is: "+str(GenomeFileOffset)
 	
-	ProteinGeneRanges=FindGeneRanges(ProteinGene,"Protein") # Assumed that each member will have an array with 1st and 2nd member indicating start and end nucleotide respectively.
+	for LineNum in range(GenomeFileOffset,GenomeFileNumLines):
+		CurrLine=RemoveWhiteSpace(GenomeFile[LineNum])
+		ActualGenome+=CurrLine
+		#Nucleotides=CurrLine.split('G')
+		#print "\n\t CurrLine: "+str(CurrLine)+" length: "+str(len(Nucleotides))
+		#sys.exit() #break
+		
+	del GenomeFile	
+	ActualGenomeLen=len(ActualGenome)
+	OriCPosition=3916950
+	OriCComplement=ActualGenomeLen-OriCPosition
+	
+	print "\n\t GenomeLen "+str(ActualGenomeLen)+", so will move bases relative to "+str(OriCPosition)+" i.e, by "+str(OriCComplement)
+	Genome=str(ActualGenome[(OriCPosition-1):(ActualGenomeLen-1)])+str(ActualGenome[0:(OriCPosition-1)])
+	GenomeLen=len(Genome)
+	print "\n\t Length of genome: "+str(GenomeLen)
+
+###
+
+	
+	ProteinGeneRanges=FindGeneRanges(ProteinGene,"Protein",OriCPosition,GenomeLen) # Assumed that each member will have an array with 1st and 2nd member indicating start and end nucleotide respectively.
 	
 	ProteinGeneNum=len(ProteinGeneRanges)
 	
@@ -186,7 +232,7 @@ def main(argv):
 	RnaGene=File1.readlines()
 	File1.close()
 	
-	RnaGeneRanges=FindGeneRanges(RnaGene,"Rna")	
+	RnaGeneRanges=FindGeneRanges(RnaGene,"Rna",OriCPosition,GenomeLen)	
 	RnaGeneNum=len(RnaGeneRanges)
 
 	TotalMaxGeneNum=0
@@ -233,26 +279,7 @@ def main(argv):
 	#for CurrRange in TotalGeneRanges:
 	#	print "\n\t Gene-start "+str(CurrRange[0])+" end "+str(CurrRange[1])
 	
-	GenomeFileName=GenomeID+str('.fna')
-	File1=open(GenomeFileName)
-	GenomeFile=File1.readlines()
-	File1.close()
 
-	GenomeFileOffset=1	
-	GenomeFileNumLines=len(GenomeFile)
-	print "\n\t Num-lines genome: "+str(GenomeFileNumLines)+" and the genome file offset is: "+str(GenomeFileOffset)
-
-	Genome=""
-	for LineNum in range(GenomeFileOffset,GenomeFileNumLines):
-		CurrLine=RemoveWhiteSpace(GenomeFile[LineNum])
-		Genome+=CurrLine
-		#Nucleotides=CurrLine.split('G')
-		#print "\n\t CurrLine: "+str(CurrLine)+" length: "+str(len(Nucleotides))
-		#break
-
-	del GenomeFile	
-	GenomeLen=len(Genome)
-	print "\n\t Length of genome: "+str(GenomeLen)+" 8th Nucleotide "+str(Genome[1:5])
 	Genome+='-' # Just in case we access " TotalGeneRanges[CurrGene][1]+1
 	GeneNucleotides="" #[]
 	NonGeneNucleotides="" #[]
@@ -373,12 +400,14 @@ def main(argv):
 	WindowStart=WindowEnd
 	WindowEnd=GeneLen-3#100*WindowLength
 	FileOutputs=[]
-	"""FileOutputs.append('PositiveGeneSkewPos1_Full.log')
-	FileOutputs.append('PositiveGeneSkewPos2_Full.log')
-	FileOutputs.append('PositiveGeneSkewPos3_Full.log')"""
-	FileOutputs.append('NegativeReversedGeneSkewPos1_Full.log')
-	FileOutputs.append('NegativeReversedGeneSkewPos2_Full.log')
-	FileOutputs.append('NegativeReversedGeneSkewPos3_Full.log')
+	if GeneIdx==0:
+		FileOutputs.append('PositiveGeneSkewPos1_Full.log')
+		FileOutputs.append('PositiveGeneSkewPos2_Full.log')
+		FileOutputs.append('PositiveGeneSkewPos3_Full.log')
+	elif GeneIdx==1:
+		FileOutputs.append('NegativeReversedGeneSkewPos1_Full.log')
+		FileOutputs.append('NegativeReversedGeneSkewPos2_Full.log')
+		FileOutputs.append('NegativeReversedGeneSkewPos3_Full.log')
 
 	SkewOp1=open(FileOutputs[0],'w');
 	SkewOp2=open(FileOutputs[1],'w');

@@ -220,8 +220,6 @@ def main(argv):
 	GenomeLen=len(Genome)
 	print "\n\t Length of genome: "+str(GenomeLen)
 	
-	
-	
 	ProteinGeneRanges=FindGeneRanges(ProteinGene,"Protein",OriCPosition,GenomeLen) # Assumed that each member will have an array with 1st and 2nd member indicating start and end nucleotide respectively.
 	
 	ProteinGeneNum=len(ProteinGeneRanges)
