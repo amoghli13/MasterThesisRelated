@@ -345,8 +345,29 @@ def main(argv):
 	GeneNucleotideCount['3']={};GeneNucleotideCount['3']['G']=0;GeneNucleotideCount['3']['C']=0; 
 	
 	GeneIdx=1
+	
 	print "\n\t GeneNucleotides is pointing to "+str(ArrayGeneKeys[GeneIdx])
 	GeneNucleotides=ArrayGeneNucleotides[GeneIdx]
+	
+	if(GeneIdx==1):
+		print "\n\t Since reverse gene has been chosen, the nucleotides are replaced by their compliment "
+		TmpNucleotideString=''
+		for CurrBase in GeneNucleotides:
+			if(CurrBase=='A'):
+				TmpNucleotideString+='T'
+			elif(CurrBase=='T'):
+				TmpNucleotideString+='A'
+			elif(CurrBase=='G'):
+				TmpNucleotideString+='C'
+			elif(CurrBase=='C'):
+				TmpNucleotideString+='G'
+			else:
+				print "\n\t ERROR: Invalid character found to represent a nucleotide base. "
+				sys.exit()
+		print "\n\t Length actual string: "+str(len(GeneNucleotides))+" reverse string "+str(len(TmpNucleotideString))
+		GeneNucleotides=TmpNucleotideString
+			
+	
 	
 	#print "\n\t WARNING: GeneNucleotides points to NonGeneNucleotides "
 	GeneLen=len(GeneNucleotides)

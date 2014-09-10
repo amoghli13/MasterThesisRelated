@@ -310,8 +310,27 @@ def main(argv):
 				SegmentLookup.append(NumCodons)
 				NumGenesSegment.append(SegmentNumGenes)
 				#print "\n\t CurrGeneRange start: "+str(CurrGeneRanges[0])+" CodonRangeIdx: "+str(CodonRangeIdx)+" LenNucleotidesString: "+str(NucleotidestringLength)+" NumCodons: "+str(NumCodons)+" NumGenes "+str(SegmentNumGenes)
-				
-			CurrGeneNucleotides+=str(Genome[(CurrGeneRanges[0]-1):(CurrGeneRanges[1])])
+			CurrGeneSegmentNucleotideString=str(Genome[(CurrGeneRanges[0]-1):(CurrGeneRanges[1])])
+			NGeneDirCheck=re.match('\s*.*NGene$',CurrGene)
+			if(NGeneDirCheck):	
+				TempBaseString=''
+				for CurrBase in CurrGeneSegmentNucleotideString:
+					if(CurrBase=='A'):
+						TempBaseString+='T'
+					elif(CurrBase=='T'):
+						TempBaseString+='A'
+					elif(CurrBase=='G'):
+						TempBaseString+='C'
+					elif(CurrBase=='C'):
+						TempBaseString+='G'
+					else:
+						print "\n\t ERROR illegal bases: "+str(CurrBase)
+						sys.exit()
+				#print "\n\t Length comparison: len(CurrGeneSegmentNucleotideString): "+str(len(CurrGeneSegmentNucleotideString))+" len(TempBaseString) "+str(len(TempBaseString))
+				CurrGeneSegmentNucleotideString=TempBaseString
+					
+					
+			CurrGeneNucleotides+=CurrGeneSegmentNucleotideString #str(Genome[(CurrGeneRanges[0]-1):(CurrGeneRanges[1])])
 			NumGenes+=1
 			#print "\n\t CurrGeneRanges: "+str(CurrGeneRanges)+" Genes: "+str(Genome[(CurrGeneRanges[0]-1):(CurrGeneRanges[1])])
 		NucleotidestringLength=len(CurrGeneNucleotides)
@@ -323,6 +342,7 @@ def main(argv):
 		ObtainNucleotides[CurrGene].append(SegmentLookup)
 		ObtainNucleotides[CurrGene].append(NumGenesSegment)
 		print "\n\t Length nucleotide string: "+str(len(CurrGeneNucleotides))
+		
 
 	#sys.exit()
 	Nucleotides=['A','T','G','C']
@@ -338,10 +358,9 @@ def main(argv):
 				#print "\n\t Temp: "+str(Temp)
 		CodonCombisSet=copy.deepcopy(TempCodonCombisSet)
 		print "\n\t CurrVar: "+str(CurrVar)+" len(CurrCodonCombiSet): "+str(len(CodonCombisSet))
-		
 	
-	
-	CurrCodonFile=open('CodonDistributionPerSegment.log','w')
+	ResultFileName='CodonDistributionPerSegment_'+str(NucleotideSegmentLength)+'.log'
+	CurrCodonFile=open(ResultFileName,'w')
 	CurrCodonFile.write("\n\t Format: Codon")
 
 	CodonCount={}
@@ -428,7 +447,7 @@ def main(argv):
 				print "\n\t ERROR: Neither PGene or NGene "+str(CurrGene)+" \n"
 				sys.exit()
 
-	
+	print "\n\t Result is available in "+str(ResultFileName)
  	"""for CurrGene in ObtainNucleotides: 
  		CurrCodonFile.write("\t "+str(CurrGene) )
  		CodonCountCumulative=0
