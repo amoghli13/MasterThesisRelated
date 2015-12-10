@@ -1,0 +1,1201 @@
+
+	 C3 i: 750 j: 742 a[i-1]: , b[j-1]: , and ij_considered: 1 lengths[i][j]: 438 result_length: 1 lengths[i][j-1]: 437 top_of_stack: 0
+	 C3 i: 749 j: 741 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 437 result_length: 2 lengths[i][j-1]: 436 top_of_stack: 1
+	 C3 i: 748 j: 740 a[i-1]: o b[j-1]: o and ij_considered: 1 lengths[i][j]: 436 result_length: 3 lengths[i][j-1]: 435 top_of_stack: 2
+	 C3 i: 747 j: 739 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 435 result_length: 4 lengths[i][j-1]: 434 top_of_stack: 3
+	 C3 i: 746 j: 738 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 434 result_length: 5 lengths[i][j-1]: 433 top_of_stack: 4
+	 C3 i: 745 j: 737 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 433 result_length: 6 lengths[i][j-1]: 432 top_of_stack: 5
+	 C3 i: 744 j: 736 a[i-1]: c b[j-1]: c and ij_considered: 1 lengths[i][j]: 432 result_length: 7 lengths[i][j-1]: 431 top_of_stack: 6
+	 C3 i: 743 j: 735 a[i-1]: u b[j-1]: u and ij_considered: 1 lengths[i][j]: 431 result_length: 8 lengths[i][j-1]: 430 top_of_stack: 7
+	 C3 i: 742 j: 734 a[i-1]: d b[j-1]: d and ij_considered: 1 lengths[i][j]: 430 result_length: 9 lengths[i][j-1]: 429 top_of_stack: 8
+	 C3 i: 741 j: 733 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 429 result_length: 10 lengths[i][j-1]: 428 top_of_stack: 9
+	 C3 i: 740 j: 732 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 428 result_length: 11 lengths[i][j-1]: 427 top_of_stack: 10
+	 C3 i: 739 j: 731 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 427 result_length: 12 lengths[i][j-1]: 426 top_of_stack: 11
+	 C3 i: 738 j: 730 a[i-1]: c b[j-1]: c and ij_considered: 1 lengths[i][j]: 426 result_length: 13 lengths[i][j-1]: 425 top_of_stack: 12
+	 C3 i: 737 j: 729 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 425 result_length: 14 lengths[i][j-1]: 424 top_of_stack: 13
+	 C3 i: 736 j: 728 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 424 result_length: 15 lengths[i][j-1]: 423 top_of_stack: 14
+	 C3 i: 735 j: 727 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 423 result_length: 16 lengths[i][j-1]: 422 top_of_stack: 15
+	 C3 i: 734 j: 726 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 422 result_length: 17 lengths[i][j-1]: 421 top_of_stack: 16
+	 C3 i: 733 j: 725 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 421 result_length: 18 lengths[i][j-1]: 420 top_of_stack: 17
+	 C3 i: 732 j: 724 a[i-1]: d b[j-1]: d and ij_considered: 1 lengths[i][j]: 420 result_length: 19 lengths[i][j-1]: 419 top_of_stack: 18
+	 C3 i: 731 j: 723 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 419 result_length: 20 lengths[i][j-1]: 418 top_of_stack: 19
+	 C3 i: 730 j: 722 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 418 result_length: 21 lengths[i][j-1]: 417 top_of_stack: 20
+	 C3 i: 729 j: 721 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 417 result_length: 22 lengths[i][j-1]: 416 top_of_stack: 21
+	 C3 i: 728 j: 720 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 416 result_length: 23 lengths[i][j-1]: 415 top_of_stack: 22
+	 C3 i: 727 j: 719 a[i-1]: d b[j-1]: d and ij_considered: 1 lengths[i][j]: 415 result_length: 24 lengths[i][j-1]: 414 top_of_stack: 23
+	 C3 i: 726 j: 718 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 414 result_length: 25 lengths[i][j-1]: 413 top_of_stack: 24
+	 C3 i: 725 j: 717 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 413 result_length: 26 lengths[i][j-1]: 412 top_of_stack: 25
+	 C3 i: 724 j: 716 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 412 result_length: 27 lengths[i][j-1]: 411 top_of_stack: 26
+	 C3 i: 723 j: 715 a[i-1]: , b[j-1]: , and ij_considered: 1 lengths[i][j]: 411 result_length: 28 lengths[i][j-1]: 410 top_of_stack: 27
+	 C3 i: 722 j: 714 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 410 result_length: 29 lengths[i][j-1]: 409 top_of_stack: 28
+	 C3 i: 721 j: 713 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 409 result_length: 30 lengths[i][j-1]: 408 top_of_stack: 29
+	 C3 i: 720 j: 712 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 408 result_length: 31 lengths[i][j-1]: 407 top_of_stack: 30
+	 C3 i: 719 j: 711 a[i-1]: r b[j-1]: r and ij_considered: 1 lengths[i][j]: 407 result_length: 32 lengths[i][j-1]: 406 top_of_stack: 31
+	 C3 i: 718 j: 710 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 406 result_length: 33 lengths[i][j-1]: 405 top_of_stack: 32
+	 C3 i: 717 j: 709 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 405 result_length: 34 lengths[i][j-1]: 404 top_of_stack: 33
+	 C3 i: 716 j: 708 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 404 result_length: 35 lengths[i][j-1]: 403 top_of_stack: 34
+	 C3 i: 715 j: 707 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 403 result_length: 36 lengths[i][j-1]: 402 top_of_stack: 35
+	 C3 i: 714 j: 706 a[i-1]: o b[j-1]: o and ij_considered: 1 lengths[i][j]: 402 result_length: 37 lengths[i][j-1]: 401 top_of_stack: 36
+	 C3 i: 713 j: 705 a[i-1]: m b[j-1]: m and ij_considered: 1 lengths[i][j]: 401 result_length: 38 lengths[i][j-1]: 400 top_of_stack: 37
+	 C3 i: 712 j: 704 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 400 result_length: 39 lengths[i][j-1]: 399 top_of_stack: 38
+	 C3 i: 711 j: 703 a[i-1]: r b[j-1]: r and ij_considered: 1 lengths[i][j]: 399 result_length: 40 lengths[i][j-1]: 398 top_of_stack: 39
+	 C3 i: 710 j: 702 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 398 result_length: 41 lengths[i][j-1]: 397 top_of_stack: 0
+	 C3 i: 709 j: 701 a[i-1]: o b[j-1]: o and ij_considered: 1 lengths[i][j]: 397 result_length: 42 lengths[i][j-1]: 396 top_of_stack: 1
+	 C3 i: 708 j: 700 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 396 result_length: 43 lengths[i][j-1]: 395 top_of_stack: 2
+	 C3 i: 707 j: 699 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 395 result_length: 44 lengths[i][j-1]: 394 top_of_stack: 3
+	 C3 i: 706 j: 698 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 394 result_length: 45 lengths[i][j-1]: 393 top_of_stack: 4
+	 C3 i: 705 j: 697 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 393 result_length: 46 lengths[i][j-1]: 392 top_of_stack: 5
+	 C3 i: 704 j: 696 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 392 result_length: 47 lengths[i][j-1]: 391 top_of_stack: 6
+	 C3 i: 703 j: 695 a[i-1]: m b[j-1]: m and ij_considered: 1 lengths[i][j]: 391 result_length: 48 lengths[i][j-1]: 390 top_of_stack: 7
+	 C3 i: 702 j: 694 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 390 result_length: 49 lengths[i][j-1]: 389 top_of_stack: 8
+	 C3 i: 701 j: 693 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 389 result_length: 50 lengths[i][j-1]: 388 top_of_stack: 9
+	 C3 i: 700 j: 692 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 388 result_length: 51 lengths[i][j-1]: 387 top_of_stack: 10
+	 C3 i: 699 j: 691 a[i-1]: r b[j-1]: r and ij_considered: 1 lengths[i][j]: 387 result_length: 52 lengths[i][j-1]: 386 top_of_stack: 11
+	 C3 i: 698 j: 690 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 386 result_length: 53 lengths[i][j-1]: 385 top_of_stack: 12
+	 C3 i: 697 j: 689 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 385 result_length: 54 lengths[i][j-1]: 384 top_of_stack: 13
+	 C3 i: 696 j: 688 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 384 result_length: 55 lengths[i][j-1]: 383 top_of_stack: 14
+	 C3 i: 695 j: 687 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 383 result_length: 56 lengths[i][j-1]: 382 top_of_stack: 15
+	 C3 i: 694 j: 686 a[i-1]: c b[j-1]: c and ij_considered: 1 lengths[i][j]: 382 result_length: 57 lengths[i][j-1]: 381 top_of_stack: 16
+	 C3 i: 693 j: 685 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 381 result_length: 58 lengths[i][j-1]: 380 top_of_stack: 17
+	 C3 i: 692 j: 684 a[i-1]: d b[j-1]: d and ij_considered: 1 lengths[i][j]: 380 result_length: 59 lengths[i][j-1]: 379 top_of_stack: 18
+	 C3 i: 691 j: 683 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 379 result_length: 60 lengths[i][j-1]: 378 top_of_stack: 19
+	 C3 i: 690 j: 682 a[i-1]: m b[j-1]: m and ij_considered: 1 lengths[i][j]: 378 result_length: 61 lengths[i][j-1]: 377 top_of_stack: 20
+	 C3 i: 689 j: 681 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 377 result_length: 62 lengths[i][j-1]: 376 top_of_stack: 21
+	 C3 i: 688 j: 680 a[i-1]: y b[j-1]: y and ij_considered: 1 lengths[i][j]: 376 result_length: 63 lengths[i][j-1]: 375 top_of_stack: 22
+	 C3 i: 687 j: 679 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 375 result_length: 64 lengths[i][j-1]: 374 top_of_stack: 23
+	 C3 i: 686 j: 678 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 374 result_length: 65 lengths[i][j-1]: 373 top_of_stack: 24
+	 C3 i: 685 j: 677 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 373 result_length: 66 lengths[i][j-1]: 372 top_of_stack: 25
+	 C3 i: 684 j: 676 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 372 result_length: 67 lengths[i][j-1]: 371 top_of_stack: 26
+	 C3 i: 683 j: 675 a[i-1]: u b[j-1]: u and ij_considered: 1 lengths[i][j]: 371 result_length: 68 lengths[i][j-1]: 370 top_of_stack: 27
+	 C3 i: 682 j: 674 a[i-1]: q b[j-1]: q and ij_considered: 1 lengths[i][j]: 370 result_length: 69 lengths[i][j-1]: 369 top_of_stack: 28
+	 C3 i: 681 j: 673 a[i-1]: - b[j-1]: - and ij_considered: 1 lengths[i][j]: 369 result_length: 70 lengths[i][j-1]: 368 top_of_stack: 29
+	 C3 i: 680 j: 672 a[i-1]: h b[j-1]: h and ij_considered: 1 lengths[i][j]: 368 result_length: 71 lengths[i][j-1]: 367 top_of_stack: 30
+	 C3 i: 679 j: 671 a[i-1]: g b[j-1]: g and ij_considered: 1 lengths[i][j]: 367 result_length: 72 lengths[i][j-1]: 366 top_of_stack: 31
+	 C3 i: 678 j: 670 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 366 result_length: 73 lengths[i][j-1]: 365 top_of_stack: 32
+	 C3 i: 677 j: 669 a[i-1]: h b[j-1]: h and ij_considered: 1 lengths[i][j]: 365 result_length: 74 lengths[i][j-1]: 364 top_of_stack: 33
+	 C3 i: 676 j: 668 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 364 result_length: 75 lengths[i][j-1]: 363 top_of_stack: 34
+	 C3 i: 675 j: 667 a[i-1]: g b[j-1]: g and ij_considered: 1 lengths[i][j]: 363 result_length: 76 lengths[i][j-1]: 362 top_of_stack: 35
+	 C3 i: 674 j: 666 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 362 result_length: 77 lengths[i][j-1]: 361 top_of_stack: 36
+	 C3 i: 673 j: 665 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 361 result_length: 78 lengths[i][j-1]: 360 top_of_stack: 37
+	 C3 i: 672 j: 664 a[i-1]: r b[j-1]: r and ij_considered: 1 lengths[i][j]: 360 result_length: 79 lengths[i][j-1]: 359 top_of_stack: 38
+	 C3 i: 671 j: 663 a[i-1]: b b[j-1]: b and ij_considered: 1 lengths[i][j]: 359 result_length: 80 lengths[i][j-1]: 358 top_of_stack: 39
+	 C3 i: 670 j: 662 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 358 result_length: 81 lengths[i][j-1]: 357 top_of_stack: 0
+	 C3 i: 669 j: 661 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 357 result_length: 82 lengths[i][j-1]: 356 top_of_stack: 1
+	 C3 i: 668 j: 660 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 356 result_length: 83 lengths[i][j-1]: 355 top_of_stack: 2
+	 C3 i: 667 j: 659 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 355 result_length: 84 lengths[i][j-1]: 354 top_of_stack: 3
+	 C3 i: 666 j: 658 a[i-1]: w b[j-1]: w and ij_considered: 1 lengths[i][j]: 354 result_length: 85 lengths[i][j-1]: 353 top_of_stack: 4
+	 C3 i: 665 j: 657 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 353 result_length: 86 lengths[i][j-1]: 352 top_of_stack: 5
+	 C3 i: 664 j: 656 a[i-1]: h b[j-1]: h and ij_considered: 1 lengths[i][j]: 352 result_length: 87 lengths[i][j-1]: 351 top_of_stack: 6
+	 C3 i: 663 j: 655 a[i-1]: c b[j-1]: c and ij_considered: 1 lengths[i][j]: 351 result_length: 88 lengths[i][j-1]: 350 top_of_stack: 7
+	 C3 i: 662 j: 654 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 350 result_length: 89 lengths[i][j-1]: 349 top_of_stack: 8
+	 C3 i: 661 j: 653 a[i-1]: h b[j-1]: h and ij_considered: 1 lengths[i][j]: 349 result_length: 90 lengths[i][j-1]: 348 top_of_stack: 9
+	 C3 i: 660 j: 652 a[i-1]: w b[j-1]: w and ij_considered: 1 lengths[i][j]: 348 result_length: 91 lengths[i][j-1]: 347 top_of_stack: 10
+	 C3 i: 659 j: 651 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 347 result_length: 92 lengths[i][j-1]: 346 top_of_stack: 11
+	 C3 i: 658 j: 650 a[i-1]: , b[j-1]: , and ij_considered: 1 lengths[i][j]: 346 result_length: 93 lengths[i][j-1]: 345 top_of_stack: 12
+	 C3 i: 657 j: 649 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 345 result_length: 94 lengths[i][j-1]: 344 top_of_stack: 13
+	 C3 i: 656 j: 648 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 344 result_length: 95 lengths[i][j-1]: 343 top_of_stack: 14
+	 C3 i: 655 j: 647 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 343 result_length: 96 lengths[i][j-1]: 342 top_of_stack: 15
+	 C3 i: 654 j: 646 a[i-1]: c b[j-1]: c and ij_considered: 1 lengths[i][j]: 342 result_length: 97 lengths[i][j-1]: 341 top_of_stack: 16
+	 C3 i: 653 j: 645 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 341 result_length: 98 lengths[i][j-1]: 340 top_of_stack: 17
+	 C3 i: 652 j: 644 a[i-1]: d b[j-1]: d and ij_considered: 1 lengths[i][j]: 340 result_length: 99 lengths[i][j-1]: 339 top_of_stack: 18
+	 C3 i: 651 j: 643 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 339 result_length: 100 lengths[i][j-1]: 338 top_of_stack: 19
+	 C3 i: 650 j: 642 a[i-1]: m b[j-1]: m and ij_considered: 1 lengths[i][j]: 338 result_length: 101 lengths[i][j-1]: 337 top_of_stack: 20
+	 C3 i: 649 j: 641 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 337 result_length: 102 lengths[i][j-1]: 336 top_of_stack: 21
+	 C3 i: 648 j: 640 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 336 result_length: 103 lengths[i][j-1]: 335 top_of_stack: 22
+	 C3 i: 647 j: 639 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 335 result_length: 104 lengths[i][j-1]: 334 top_of_stack: 23
+	 C3 i: 646 j: 638 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 334 result_length: 105 lengths[i][j-1]: 333 top_of_stack: 24
+	 C3 i: 645 j: 637 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 333 result_length: 106 lengths[i][j-1]: 332 top_of_stack: 25
+	 C3 i: 644 j: 636 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 332 result_length: 107 lengths[i][j-1]: 331 top_of_stack: 26
+	 C3 i: 643 j: 635 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 331 result_length: 108 lengths[i][j-1]: 330 top_of_stack: 27
+	 C3 i: 642 j: 634 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 330 result_length: 109 lengths[i][j-1]: 329 top_of_stack: 28
+	 C3 i: 641 j: 633 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 329 result_length: 110 lengths[i][j-1]: 329 top_of_stack: 29
+	 C3 i: 640 j: 632 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 329 result_length: 111 lengths[i][j-1]: 328 top_of_stack: 30
+	 C3 i: 639 j: 631 a[i-1]: c b[j-1]: c and ij_considered: 1 lengths[i][j]: 328 result_length: 112 lengths[i][j-1]: 327 top_of_stack: 31
+	 C3 i: 638 j: 630 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 327 result_length: 113 lengths[i][j-1]: 326 top_of_stack: 32
+	 C3 i: 637 j: 629 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 326 result_length: 114 lengths[i][j-1]: 325 top_of_stack: 33
+	 C3 i: 636 j: 628 a[i-1]: v b[j-1]: v and ij_considered: 1 lengths[i][j]: 325 result_length: 115 lengths[i][j-1]: 324 top_of_stack: 34
+	 C3 i: 635 j: 627 a[i-1]: d b[j-1]: d and ij_considered: 1 lengths[i][j]: 324 result_length: 116 lengths[i][j-1]: 323 top_of_stack: 35
+	 C3 i: 634 j: 626 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 323 result_length: 117 lengths[i][j-1]: 322 top_of_stack: 36
+	 C3 i: 633 j: 625 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 322 result_length: 118 lengths[i][j-1]: 321 top_of_stack: 37
+	 C3 i: 632 j: 624 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 321 result_length: 119 lengths[i][j-1]: 320 top_of_stack: 38
+	 C3 i: 631 j: 623 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 320 result_length: 120 lengths[i][j-1]: 319 top_of_stack: 39
+	 C3 i: 630 j: 622 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 319 result_length: 121 lengths[i][j-1]: 318 top_of_stack: 0
+	 C3 i: 629 j: 621 a[i-1]: r b[j-1]: r and ij_considered: 1 lengths[i][j]: 318 result_length: 122 lengths[i][j-1]: 317 top_of_stack: 1
+	 C3 i: 628 j: 620 a[i-1]: g b[j-1]: g and ij_considered: 1 lengths[i][j]: 317 result_length: 123 lengths[i][j-1]: 316 top_of_stack: 2
+	 C3 i: 627 j: 619 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 316 result_length: 124 lengths[i][j-1]: 315 top_of_stack: 3
+	 C3 i: 626 j: 618 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 315 result_length: 125 lengths[i][j-1]: 314 top_of_stack: 4
+	 C3 i: 625 j: 617 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 314 result_length: 126 lengths[i][j-1]: 313 top_of_stack: 5
+	 C3 i: 624 j: 616 a[i-1]: b b[j-1]: b and ij_considered: 1 lengths[i][j]: 313 result_length: 127 lengths[i][j-1]: 312 top_of_stack: 6
+	 C3 i: 623 j: 615 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 312 result_length: 128 lengths[i][j-1]: 311 top_of_stack: 7
+	 C3 i: 622 j: 614 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 311 result_length: 129 lengths[i][j-1]: 310 top_of_stack: 8
+	 C3 i: 621 j: 613 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 310 result_length: 130 lengths[i][j-1]: 309 top_of_stack: 9
+	 C3 i: 620 j: 612 a[i-1]: o b[j-1]: o and ij_considered: 1 lengths[i][j]: 309 result_length: 131 lengths[i][j-1]: 308 top_of_stack: 10
+	 C3 i: 619 j: 611 a[i-1]: p b[j-1]: p and ij_considered: 1 lengths[i][j]: 308 result_length: 132 lengths[i][j-1]: 307 top_of_stack: 11
+	 C3 i: 618 j: 610 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 307 result_length: 133 lengths[i][j-1]: 306 top_of_stack: 12
+	 C3 i: 617 j: 609 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 306 result_length: 134 lengths[i][j-1]: 305 top_of_stack: 13
+	 C3 i: 616 j: 608 a[i-1]: k b[j-1]: k and ij_considered: 1 lengths[i][j]: 305 result_length: 135 lengths[i][j-1]: 304 top_of_stack: 14
+	 C3 i: 615 j: 607 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 304 result_length: 136 lengths[i][j-1]: 303 top_of_stack: 15
+	 C3 i: 614 j: 606 a[i-1]: m b[j-1]: m and ij_considered: 1 lengths[i][j]: 303 result_length: 137 lengths[i][j-1]: 302 top_of_stack: 16
+	 C3 i: 613 j: 605 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 302 result_length: 138 lengths[i][j-1]: 301 top_of_stack: 17
+	 C3 i: 612 j: 604 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 301 result_length: 139 lengths[i][j-1]: 300 top_of_stack: 18
+	 C3 i: 611 j: 603 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 300 result_length: 140 lengths[i][j-1]: 299 top_of_stack: 19
+	 C3 i: 610 j: 602 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 299 result_length: 141 lengths[i][j-1]: 298 top_of_stack: 20
+	 C3 i: 609 j: 601 a[i-1]: w b[j-1]: w and ij_considered: 1 lengths[i][j]: 298 result_length: 142 lengths[i][j-1]: 298 top_of_stack: 21
+	 C3 i: 597 j: 599 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 297 result_length: 143 lengths[i][j-1]: 296 top_of_stack: 22
+	 Start_i: 594 Start_j: 597 Stop_i: 597 Stop_j: 599 
+	 ALERT: Top-of-stack: 22 and looking to rollback around i: 605 j: 600 and result_pos: 142 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 21 x: 609 y: 601 char: - result_position_adjust: 1
+	 After rollover top-of-stack: 21 end-of-stack: 22 result_pos: 141 
+	 i: 608 j: 600 
+	 Start_i: 597 Start_j: 600 Stop_i: 597 Stop_j: 599 
+	 ALERT: Top-of-stack: 21 and looking to rollback around i: 606 j: 607 and result_pos: 141 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 15 x: 615 y: 607 char: - result_position_adjust: 6
+	 After rollover top-of-stack: 15 end-of-stack: 16 result_pos: 135 
+	 i: 614 j: 606 
+	 C3 i: 614 j: 606 a[i-1]: m b[j-1]: m and ij_considered: 1 lengths[i][j]: 303 result_length: 144 lengths[i][j-1]: 302 top_of_stack: 16
+	 C3 i: 613 j: 605 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 302 result_length: 145 lengths[i][j-1]: 301 top_of_stack: 17
+	 C3 i: 612 j: 604 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 301 result_length: 146 lengths[i][j-1]: 300 top_of_stack: 18
+	 C3 i: 611 j: 603 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 300 result_length: 147 lengths[i][j-1]: 299 top_of_stack: 19
+	 C3 i: 610 j: 602 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 299 result_length: 148 lengths[i][j-1]: 298 top_of_stack: 20
+	 C3 i: 609 j: 601 a[i-1]: w b[j-1]: w and ij_considered: 1 lengths[i][j]: 298 result_length: 149 lengths[i][j-1]: 298 top_of_stack: 21
+	 Start_i: 606 Start_j: 599 Stop_i: 609 Stop_j: 601 
+	 ALERT: Top-of-stack: 21 and looking to rollback around i: 608 j: 605 and result_pos: 141 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 17 x: 613 y: 605 char: - result_position_adjust: 4
+	 After rollover top-of-stack: 17 end-of-stack: 18 result_pos: 137 
+	 i: 612 j: 604 
+	 C3 i: 612 j: 604 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 301 result_length: 150 lengths[i][j-1]: 300 top_of_stack: 18
+	 C3 i: 611 j: 603 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 300 result_length: 151 lengths[i][j-1]: 299 top_of_stack: 19
+	 C3 i: 610 j: 602 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 299 result_length: 152 lengths[i][j-1]: 298 top_of_stack: 20
+	 C3 i: 609 j: 601 a[i-1]: w b[j-1]: w and ij_considered: 1 lengths[i][j]: 298 result_length: 153 lengths[i][j-1]: 298 top_of_stack: 21
+	 C3 i: 608 j: 599 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 297 result_length: 154 lengths[i][j-1]: 297 top_of_stack: 22
+	 C3 i: 605 j: 592 a[i-1]: h b[j-1]: h and ij_considered: 1 lengths[i][j]: 296 result_length: 155 lengths[i][j-1]: 295 top_of_stack: 23
+	 Start_i: 597 Start_j: 591 Stop_i: 605 Stop_j: 592 
+	 ALERT: Top-of-stack: 23 and looking to rollback around i: 604 j: 596 and result_pos: 143 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 22 x: 608 y: 599 char: - result_position_adjust: 1
+	 After rollover top-of-stack: 22 end-of-stack: 23 result_pos: 142 
+	 i: 607 j: 598 
+	 C3 i: 605 j: 592 a[i-1]: h b[j-1]: h and ij_considered: 1 lengths[i][j]: 296 result_length: 156 lengths[i][j-1]: 295 top_of_stack: 23
+	 C3 i: 604 j: 589 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 295 result_length: 157 lengths[i][j-1]: 294 top_of_stack: 24
+	 C3 i: 603 j: 588 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 294 result_length: 158 lengths[i][j-1]: 293 top_of_stack: 25
+	 C3 i: 600 j: 586 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 293 result_length: 159 lengths[i][j-1]: 292 top_of_stack: 26
+	 C3 i: 597 j: 584 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 292 result_length: 160 lengths[i][j-1]: 291 top_of_stack: 27
+	 C3 i: 595 j: 583 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 291 result_length: 161 lengths[i][j-1]: 290 top_of_stack: 28
+	 C3 i: 594 j: 582 a[i-1]: h b[j-1]: h and ij_considered: 1 lengths[i][j]: 290 result_length: 162 lengths[i][j-1]: 290 top_of_stack: 29
+	 C3 i: 593 j: 581 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 289 result_length: 163 lengths[i][j-1]: 289 top_of_stack: 30
+	 C3 i: 591 j: 580 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 288 result_length: 164 lengths[i][j-1]: 288 top_of_stack: 31
+	 C3 i: 580 j: 579 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 287 result_length: 165 lengths[i][j-1]: 287 top_of_stack: 32
+	 C3 i: 570 j: 575 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 286 result_length: 166 lengths[i][j-1]: 285 top_of_stack: 33
+	 C3 i: 568 j: 573 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 285 result_length: 167 lengths[i][j-1]: 284 top_of_stack: 34
+	 C3 i: 567 j: 572 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 284 result_length: 168 lengths[i][j-1]: 283 top_of_stack: 35
+	 C3 i: 566 j: 571 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 283 result_length: 169 lengths[i][j-1]: 282 top_of_stack: 36
+	 C3 i: 564 j: 566 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 282 result_length: 170 lengths[i][j-1]: 281 top_of_stack: 37
+	 C3 i: 561 j: 565 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 281 result_length: 171 lengths[i][j-1]: 280 top_of_stack: 38
+	 C3 i: 559 j: 564 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 280 result_length: 172 lengths[i][j-1]: 280 top_of_stack: 39
+	 C3 i: 558 j: 558 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 279 result_length: 173 lengths[i][j-1]: 278 top_of_stack: 0
+	 C3 i: 557 j: 557 a[i-1]: h b[j-1]: h and ij_considered: 1 lengths[i][j]: 278 result_length: 174 lengths[i][j-1]: 277 top_of_stack: 1
+	 C3 i: 555 j: 555 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 277 result_length: 175 lengths[i][j-1]: 276 top_of_stack: 2
+	 C3 i: 551 j: 550 a[i-1]: o b[j-1]: o and ij_considered: 1 lengths[i][j]: 276 result_length: 176 lengths[i][j-1]: 275 top_of_stack: 3
+	 C3 i: 545 j: 548 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 275 result_length: 177 lengths[i][j-1]: 274 top_of_stack: 4
+	 C3 i: 543 j: 545 a[i-1]: r b[j-1]: r and ij_considered: 1 lengths[i][j]: 274 result_length: 178 lengths[i][j-1]: 273 top_of_stack: 5
+	 C3 i: 542 j: 544 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 273 result_length: 179 lengths[i][j-1]: 272 top_of_stack: 6
+	 C3 i: 538 j: 542 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 272 result_length: 180 lengths[i][j-1]: 271 top_of_stack: 7
+	 C3 i: 537 j: 540 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 271 result_length: 181 lengths[i][j-1]: 270 top_of_stack: 8
+	 C3 i: 535 j: 539 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 270 result_length: 182 lengths[i][j-1]: 269 top_of_stack: 9
+	 Start_i: 532 Start_j: 538 Stop_i: 535 Stop_j: 539 
+	 ALERT: Top-of-stack: 9 and looking to rollback around i: 534 j: 539 and result_pos: 169 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 9 x: 535 y: 539 char: - result_position_adjust: 0
+	 After rollover top-of-stack: 9 end-of-stack: 10 result_pos: 169 
+	 i: 534 j: 538 
+	 C3 i: 534 j: 532 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 269 result_length: 183 lengths[i][j-1]: 269 top_of_stack: 10
+	 C3 i: 531 j: 528 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 268 result_length: 184 lengths[i][j-1]: 267 top_of_stack: 11
+	 C3 i: 525 j: 526 a[i-1]: o b[j-1]: o and ij_considered: 1 lengths[i][j]: 267 result_length: 185 lengths[i][j-1]: 266 top_of_stack: 12
+	 C3 i: 523 j: 525 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 266 result_length: 186 lengths[i][j-1]: 265 top_of_stack: 13
+	 Start_i: 517 Start_j: 524 Stop_i: 523 Stop_j: 525 
+	 ALERT: Top-of-stack: 13 and looking to rollback around i: 519 j: 526 and result_pos: 173 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 12 x: 525 y: 526 char: - result_position_adjust: 1
+	 After rollover top-of-stack: 12 end-of-stack: 13 result_pos: 172 
+	 i: 524 j: 525 
+	 C3 i: 523 j: 525 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 266 result_length: 187 lengths[i][j-1]: 265 top_of_stack: 13
+	 C3 i: 519 j: 520 a[i-1]: o b[j-1]: o and ij_considered: 1 lengths[i][j]: 265 result_length: 188 lengths[i][j-1]: 264 top_of_stack: 14
+	 C3 i: 514 j: 518 a[i-1]: p b[j-1]: p and ij_considered: 1 lengths[i][j]: 264 result_length: 189 lengths[i][j-1]: 263 top_of_stack: 15
+	 C3 i: 513 j: 516 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 263 result_length: 190 lengths[i][j-1]: 262 top_of_stack: 16
+	 C3 i: 511 j: 515 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 262 result_length: 191 lengths[i][j-1]: 261 top_of_stack: 17
+	 C3 i: 509 j: 513 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 261 result_length: 192 lengths[i][j-1]: 261 top_of_stack: 18
+	 C3 i: 502 j: 510 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 260 result_length: 193 lengths[i][j-1]: 259 top_of_stack: 19
+	 C3 i: 501 j: 509 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 259 result_length: 194 lengths[i][j-1]: 258 top_of_stack: 20
+	 C3 i: 500 j: 508 a[i-1]: o b[j-1]: o and ij_considered: 1 lengths[i][j]: 258 result_length: 195 lengths[i][j-1]: 257 top_of_stack: 21
+	 C3 i: 499 j: 507 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 257 result_length: 196 lengths[i][j-1]: 256 top_of_stack: 22
+	 C3 i: 498 j: 506 a[i-1]: g b[j-1]: g and ij_considered: 1 lengths[i][j]: 256 result_length: 197 lengths[i][j-1]: 255 top_of_stack: 23
+	 C3 i: 497 j: 505 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 255 result_length: 198 lengths[i][j-1]: 254 top_of_stack: 24
+	 C3 i: 496 j: 504 a[i-1]: r b[j-1]: r and ij_considered: 1 lengths[i][j]: 254 result_length: 199 lengths[i][j-1]: 253 top_of_stack: 25
+	 C3 i: 495 j: 503 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 253 result_length: 200 lengths[i][j-1]: 252 top_of_stack: 26
+	 C3 i: 486 j: 501 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 252 result_length: 201 lengths[i][j-1]: 251 top_of_stack: 27
+	 C3 i: 485 j: 500 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 251 result_length: 202 lengths[i][j-1]: 250 top_of_stack: 28
+	 C3 i: 484 j: 499 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 250 result_length: 203 lengths[i][j-1]: 249 top_of_stack: 29
+	 C3 i: 483 j: 498 a[i-1]: A b[j-1]: A and ij_considered: 1 lengths[i][j]: 249 result_length: 204 lengths[i][j-1]: 249 top_of_stack: 30
+	 C3 i: 482 j: 497 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 249 result_length: 205 lengths[i][j-1]: 248 top_of_stack: 31
+	 C3 i: 481 j: 496 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 248 result_length: 206 lengths[i][j-1]: 247 top_of_stack: 32
+	 C3 i: 480 j: 495 a[i-1]: h b[j-1]: h and ij_considered: 1 lengths[i][j]: 247 result_length: 207 lengths[i][j-1]: 246 top_of_stack: 33
+	 C3 i: 479 j: 494 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 246 result_length: 208 lengths[i][j-1]: 245 top_of_stack: 34
+	 C3 i: 478 j: 493 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 245 result_length: 209 lengths[i][j-1]: 244 top_of_stack: 35
+	 C3 i: 477 j: 492 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 244 result_length: 210 lengths[i][j-1]: 243 top_of_stack: 36
+	 C3 i: 476 j: 491 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 243 result_length: 211 lengths[i][j-1]: 242 top_of_stack: 37
+	 C3 i: 475 j: 490 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 242 result_length: 212 lengths[i][j-1]: 241 top_of_stack: 38
+	 C3 i: 474 j: 489 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 241 result_length: 213 lengths[i][j-1]: 240 top_of_stack: 39
+	 C3 i: 470 j: 486 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 240 result_length: 214 lengths[i][j-1]: 239 top_of_stack: 0
+	 C3 i: 460 j: 485 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 239 result_length: 215 lengths[i][j-1]: 238 top_of_stack: 1
+	 C3 i: 457 j: 478 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 238 result_length: 216 lengths[i][j-1]: 237 top_of_stack: 2
+	 Start_i: 455 Start_j: 477 Stop_i: 457 Stop_j: 478 
+	 ALERT: Top-of-stack: 2 and looking to rollback around i: 460 j: 484 and result_pos: 202 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 1 x: 460 y: 485 char: - result_position_adjust: 1
+	 After rollover top-of-stack: 1 end-of-stack: 2 result_pos: 201 
+	 i: 459 j: 484 
+	 Start_i: 457 Start_j: 484 Stop_i: 457 Stop_j: 478 
+	 ALERT: Top-of-stack: 1 and looking to rollback around i: 461 j: 491 and result_pos: 201 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 37 x: 476 y: 491 char: - result_position_adjust: 4
+	 After rollover top-of-stack: 37 end-of-stack: 38 result_pos: 197 
+	 i: 475 j: 490 
+	 C3 i: 475 j: 490 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 242 result_length: 217 lengths[i][j-1]: 241 top_of_stack: 38
+	 C3 i: 474 j: 489 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 241 result_length: 218 lengths[i][j-1]: 240 top_of_stack: 39
+	 C3 i: 470 j: 486 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 240 result_length: 219 lengths[i][j-1]: 239 top_of_stack: 0
+	 Start_i: 462 Start_j: 485 Stop_i: 470 Stop_j: 486 
+	 ALERT: Top-of-stack: 0 and looking to rollback around i: 463 j: 492 and result_pos: 200 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 36 x: 477 y: 492 char: - result_position_adjust: 4
+	 After rollover top-of-stack: 36 end-of-stack: 37 result_pos: 196 
+	 i: 476 j: 491 
+	 C3 i: 476 j: 491 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 243 result_length: 220 lengths[i][j-1]: 242 top_of_stack: 37
+	 C3 i: 475 j: 490 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 242 result_length: 221 lengths[i][j-1]: 241 top_of_stack: 38
+	 C3 i: 474 j: 489 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 241 result_length: 222 lengths[i][j-1]: 240 top_of_stack: 39
+	 C3 i: 470 j: 486 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 240 result_length: 223 lengths[i][j-1]: 239 top_of_stack: 0
+	 Start_i: 463 Start_j: 482 Stop_i: 470 Stop_j: 486 
+	 ALERT: Top-of-stack: 0 and looking to rollback around i: 471 j: 494 and result_pos: 200 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 34 x: 479 y: 494 char: - result_position_adjust: 6
+	 After rollover top-of-stack: 34 end-of-stack: 35 result_pos: 194 
+	 i: 478 j: 493 
+	 C3 i: 478 j: 493 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 245 result_length: 224 lengths[i][j-1]: 244 top_of_stack: 35
+	 C3 i: 477 j: 492 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 244 result_length: 225 lengths[i][j-1]: 243 top_of_stack: 36
+	 C3 i: 476 j: 491 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 243 result_length: 226 lengths[i][j-1]: 242 top_of_stack: 37
+	 C3 i: 475 j: 490 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 242 result_length: 227 lengths[i][j-1]: 241 top_of_stack: 38
+	 C3 i: 474 j: 489 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 241 result_length: 228 lengths[i][j-1]: 240 top_of_stack: 39
+	 Start_i: 472 Start_j: 486 Stop_i: 474 Stop_j: 489 
+	 ALERT: Top-of-stack: 39 and looking to rollback around i: 473 j: 489 and result_pos: 199 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 39 x: 474 y: 489 char: - result_position_adjust: 0
+	 After rollover top-of-stack: 39 end-of-stack: 0 result_pos: 199 
+	 i: 473 j: 488 
+	 C3 i: 473 j: 483 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 240 result_length: 229 lengths[i][j-1]: 239 top_of_stack: 0
+	 Start_i: 471 Start_j: 480 Stop_i: 473 Stop_j: 483 
+	 ALERT: Top-of-stack: 0 and looking to rollback around i: 475 j: 487 and result_pos: 200 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 38 x: 475 y: 490 char: - result_position_adjust: 2
+	 After rollover top-of-stack: 38 end-of-stack: 39 result_pos: 198 
+	 i: 474 j: 489 
+	 C3 i: 474 j: 489 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 241 result_length: 230 lengths[i][j-1]: 240 top_of_stack: 39
+	 Start_i: 473 Start_j: 487 Stop_i: 474 Stop_j: 489 
+	 ALERT: Top-of-stack: 39 and looking to rollback around i: 476 j: 491 and result_pos: 199 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 37 x: 476 y: 491 char: - result_position_adjust: 2
+	 After rollover top-of-stack: 37 end-of-stack: 38 result_pos: 197 
+	 i: 475 j: 490 
+	 C3 i: 475 j: 490 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 241 result_length: 231 lengths[i][j-1]: 240 top_of_stack: 38
+	 C3 i: 474 j: 489 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 240 result_length: 232 lengths[i][j-1]: 240 top_of_stack: 39
+	 C3 i: 470 j: 486 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 239 result_length: 233 lengths[i][j-1]: 238 top_of_stack: 0
+	 C3 i: 460 j: 485 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 238 result_length: 234 lengths[i][j-1]: 237 top_of_stack: 1
+	 C3 i: 454 j: 483 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 237 result_length: 235 lengths[i][j-1]: 236 top_of_stack: 2
+	 C3 i: 450 j: 479 a[i-1]: c b[j-1]: c and ij_considered: 1 lengths[i][j]: 236 result_length: 236 lengths[i][j-1]: 235 top_of_stack: 3
+	 C3 i: 445 j: 478 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 235 result_length: 237 lengths[i][j-1]: 234 top_of_stack: 4
+	 C3 i: 438 j: 477 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 234 result_length: 238 lengths[i][j-1]: 234 top_of_stack: 5
+	 C3 i: 436 j: 475 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 233 result_length: 239 lengths[i][j-1]: 233 top_of_stack: 6
+	 C3 i: 435 j: 470 a[i-1]: I b[j-1]: I and ij_considered: 1 lengths[i][j]: 232 result_length: 240 lengths[i][j-1]: 231 top_of_stack: 7
+	 C3 i: 434 j: 469 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 231 result_length: 241 lengths[i][j-1]: 230 top_of_stack: 8
+	 Start_i: 431 Start_j: 467 Stop_i: 434 Stop_j: 469 
+	 ALERT: Top-of-stack: 8 and looking to rollback around i: 432 j: 474 and result_pos: 208 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 6 x: 436 y: 475 char: - result_position_adjust: 2
+	 After rollover top-of-stack: 6 end-of-stack: 7 result_pos: 206 
+	 i: 435 j: 474 
+	 C3 i: 435 j: 470 a[i-1]: I b[j-1]: I and ij_considered: 1 lengths[i][j]: 232 result_length: 242 lengths[i][j-1]: 231 top_of_stack: 7
+	 C3 i: 434 j: 469 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 231 result_length: 243 lengths[i][j-1]: 230 top_of_stack: 8
+	 Start_i: 432 Start_j: 466 Stop_i: 434 Stop_j: 469 
+	 ALERT: Top-of-stack: 8 and looking to rollback around i: 436 j: 479 and result_pos: 208 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 3 x: 450 y: 479 char: - result_position_adjust: 5
+	 After rollover top-of-stack: 3 end-of-stack: 4 result_pos: 203 
+	 i: 449 j: 478 
+	 C3 i: 445 j: 478 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 235 result_length: 244 lengths[i][j-1]: 234 top_of_stack: 4
+	 Start_i: 440 Start_j: 472 Stop_i: 445 Stop_j: 478 
+	 ALERT: Top-of-stack: 4 and looking to rollback around i: 454 j: 483 and result_pos: 204 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 2 x: 454 y: 483 char: - result_position_adjust: 2
+	 After rollover top-of-stack: 2 end-of-stack: 3 result_pos: 202 
+	 i: 453 j: 482 
+	 Start_i: 450 Start_j: 481 Stop_i: 445 Stop_j: 478 
+	 ALERT: Top-of-stack: 2 and looking to rollback around i: 451 j: 484 and result_pos: 202 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 1 x: 460 y: 485 char: - result_position_adjust: 1
+	 After rollover top-of-stack: 1 end-of-stack: 2 result_pos: 201 
+	 i: 459 j: 484 
+	 C3 i: 454 j: 483 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 237 result_length: 245 lengths[i][j-1]: 236 top_of_stack: 2
+	 C3 i: 450 j: 479 a[i-1]: c b[j-1]: c and ij_considered: 1 lengths[i][j]: 236 result_length: 246 lengths[i][j-1]: 235 top_of_stack: 3
+	 C3 i: 445 j: 478 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 235 result_length: 247 lengths[i][j-1]: 234 top_of_stack: 4
+	 Start_i: 444 Start_j: 472 Stop_i: 445 Stop_j: 478 
+	 ALERT: Top-of-stack: 4 and looking to rollback around i: 454 j: 482 and result_pos: 204 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 2 x: 454 y: 483 char: - result_position_adjust: 2
+	 After rollover top-of-stack: 2 end-of-stack: 3 result_pos: 202 
+	 i: 453 j: 482 
+	 Start_i: 451 Start_j: 482 Stop_i: 445 Stop_j: 478 
+	 ALERT: Top-of-stack: 2 and looking to rollback around i: 456 j: 485 and result_pos: 202 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 1 x: 460 y: 485 char: - result_position_adjust: 1
+	 After rollover top-of-stack: 1 end-of-stack: 2 result_pos: 201 
+	 i: 459 j: 484 
+	 Start_i: 457 Start_j: 482 Stop_i: 445 Stop_j: 478 
+	 ALERT: Top-of-stack: 1 and looking to rollback around i: 458 j: 485 and result_pos: 201 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 1 x: 460 y: 485 char: - result_position_adjust: 0
+	 After rollover top-of-stack: 1 end-of-stack: 2 result_pos: 201 
+	 i: 459 j: 484 
+	 C3 i: 457 j: 478 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 237 result_length: 248 lengths[i][j-1]: 236 top_of_stack: 2
+	 Start_i: 456 Start_j: 474 Stop_i: 457 Stop_j: 478 
+	 ALERT: Top-of-stack: 2 and looking to rollback around i: 460 j: 484 and result_pos: 202 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 1 x: 460 y: 485 char: - result_position_adjust: 1
+	 After rollover top-of-stack: 1 end-of-stack: 2 result_pos: 201 
+	 i: 459 j: 484 
+	 Start_i: 458 Start_j: 484 Stop_i: 457 Stop_j: 478 
+	 ALERT: Top-of-stack: 1 and looking to rollback around i: 459 j: 485 and result_pos: 201 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 1 x: 460 y: 485 char: - result_position_adjust: 0
+	 After rollover top-of-stack: 1 end-of-stack: 2 result_pos: 201 
+	 i: 459 j: 484 
+	 Start_i: 458 Start_j: 479 Stop_i: 457 Stop_j: 478 
+	 ALERT: Top-of-stack: 1 and looking to rollback around i: 461 j: 485 and result_pos: 201 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 0 x: 470 y: 486 char: - result_position_adjust: 1
+	 After rollover top-of-stack: 0 end-of-stack: 1 result_pos: 200 
+	 i: 469 j: 485 
+	 C3 i: 460 j: 485 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 238 result_length: 249 lengths[i][j-1]: 236 top_of_stack: 1
+	 C3 i: 450 j: 484 a[i-1]: c b[j-1]: c and ij_considered: 1 lengths[i][j]: 236 result_length: 250 lengths[i][j-1]: 235 top_of_stack: 2
+	 Start_i: 444 Start_j: 482 Stop_i: 450 Stop_j: 484 
+	 ALERT: Top-of-stack: 2 and looking to rollback around i: 445 j: 486 and result_pos: 202 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 0 x: 470 y: 486 char: - result_position_adjust: 2
+	 After rollover top-of-stack: 0 end-of-stack: 1 result_pos: 200 
+	 i: 469 j: 485 
+	 C3 i: 460 j: 485 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 238 result_length: 251 lengths[i][j-1]: 236 top_of_stack: 1
+	 C3 i: 450 j: 484 a[i-1]: c b[j-1]: c and ij_considered: 1 lengths[i][j]: 236 result_length: 252 lengths[i][j-1]: 235 top_of_stack: 2
+	 Start_i: 445 Start_j: 480 Stop_i: 450 Stop_j: 484 
+	 ALERT: Top-of-stack: 2 and looking to rollback around i: 450 j: 489 and result_pos: 202 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 39 x: 474 y: 489 char: - result_position_adjust: 3
+	 After rollover top-of-stack: 39 end-of-stack: 0 result_pos: 199 
+	 i: 473 j: 488 
+	 C3 i: 470 j: 486 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 239 result_length: 253 lengths[i][j-1]: 238 top_of_stack: 0
+	 C3 i: 460 j: 485 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 238 result_length: 254 lengths[i][j-1]: 236 top_of_stack: 1
+	 C3 i: 450 j: 484 a[i-1]: c b[j-1]: c and ij_considered: 1 lengths[i][j]: 236 result_length: 255 lengths[i][j-1]: 235 top_of_stack: 2
+	 Start_i: 447 Start_j: 482 Stop_i: 450 Stop_j: 484 
+	 ALERT: Top-of-stack: 2 and looking to rollback around i: 448 j: 486 and result_pos: 202 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 0 x: 470 y: 486 char: - result_position_adjust: 2
+	 After rollover top-of-stack: 0 end-of-stack: 1 result_pos: 200 
+	 i: 469 j: 485 
+	 C3 i: 460 j: 485 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 238 result_length: 256 lengths[i][j-1]: 236 top_of_stack: 1
+	 C3 i: 450 j: 484 a[i-1]: c b[j-1]: c and ij_considered: 1 lengths[i][j]: 236 result_length: 257 lengths[i][j-1]: 235 top_of_stack: 2
+	 Start_i: 448 Start_j: 480 Stop_i: 450 Stop_j: 484 
+	 ALERT: Top-of-stack: 2 and looking to rollback around i: 450 j: 486 and result_pos: 202 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 0 x: 470 y: 486 char: - result_position_adjust: 2
+	 After rollover top-of-stack: 0 end-of-stack: 1 result_pos: 200 
+	 i: 469 j: 485 
+	 C3 i: 460 j: 485 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 238 result_length: 258 lengths[i][j-1]: 236 top_of_stack: 1
+	 Start_i: 451 Start_j: 484 Stop_i: 460 Stop_j: 485 
+	 ALERT: Top-of-stack: 1 and looking to rollback around i: 454 j: 488 and result_pos: 201 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 39 x: 474 y: 489 char: - result_position_adjust: 2
+	 After rollover top-of-stack: 39 end-of-stack: 0 result_pos: 199 
+	 i: 473 j: 488 
+	 C3 i: 470 j: 486 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 239 result_length: 259 lengths[i][j-1]: 238 top_of_stack: 0
+	 C3 i: 460 j: 485 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 238 result_length: 260 lengths[i][j-1]: 236 top_of_stack: 1
+	 Start_i: 452 Start_j: 484 Stop_i: 460 Stop_j: 485 
+	 ALERT: Top-of-stack: 1 and looking to rollback around i: 454 j: 487 and result_pos: 201 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 39 x: 474 y: 489 char: - result_position_adjust: 2
+	 After rollover top-of-stack: 39 end-of-stack: 0 result_pos: 199 
+	 i: 473 j: 488 
+	 C3 i: 470 j: 486 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 239 result_length: 261 lengths[i][j-1]: 238 top_of_stack: 0
+	 C3 i: 460 j: 485 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 238 result_length: 262 lengths[i][j-1]: 236 top_of_stack: 1
+	 C3 i: 454 j: 483 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 236 result_length: 263 lengths[i][j-1]: 235 top_of_stack: 2
+	 C3 i: 450 j: 479 a[i-1]: c b[j-1]: c and ij_considered: 1 lengths[i][j]: 235 result_length: 264 lengths[i][j-1]: 234 top_of_stack: 3
+	 C3 i: 445 j: 478 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 234 result_length: 265 lengths[i][j-1]: 233 top_of_stack: 4
+	 C3 i: 438 j: 477 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 233 result_length: 266 lengths[i][j-1]: 233 top_of_stack: 5
+	 C3 i: 436 j: 475 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 232 result_length: 267 lengths[i][j-1]: 232 top_of_stack: 6
+	 C3 i: 435 j: 470 a[i-1]: I b[j-1]: I and ij_considered: 1 lengths[i][j]: 231 result_length: 268 lengths[i][j-1]: 230 top_of_stack: 7
+	 C3 i: 434 j: 469 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 230 result_length: 269 lengths[i][j-1]: 229 top_of_stack: 8
+	 C3 i: 428 j: 461 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 229 result_length: 270 lengths[i][j-1]: 228 top_of_stack: 9
+	 C3 i: 426 j: 457 a[i-1]: o b[j-1]: o and ij_considered: 1 lengths[i][j]: 228 result_length: 271 lengths[i][j-1]: 227 top_of_stack: 10
+	 C3 i: 423 j: 455 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 227 result_length: 272 lengths[i][j-1]: 226 top_of_stack: 11
+	 C3 i: 421 j: 449 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 226 result_length: 273 lengths[i][j-1]: 225 top_of_stack: 12
+	 C3 i: 418 j: 446 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 225 result_length: 274 lengths[i][j-1]: 224 top_of_stack: 13
+	 C3 i: 417 j: 445 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 224 result_length: 275 lengths[i][j-1]: 223 top_of_stack: 14
+	 C3 i: 413 j: 444 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 223 result_length: 276 lengths[i][j-1]: 223 top_of_stack: 15
+	 C3 i: 411 j: 440 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 222 result_length: 277 lengths[i][j-1]: 222 top_of_stack: 16
+	 C3 i: 410 j: 433 a[i-1]: d b[j-1]: d and ij_considered: 1 lengths[i][j]: 221 result_length: 278 lengths[i][j-1]: 220 top_of_stack: 17
+	 C3 i: 409 j: 432 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 220 result_length: 279 lengths[i][j-1]: 219 top_of_stack: 18
+	 C3 i: 408 j: 431 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 219 result_length: 280 lengths[i][j-1]: 218 top_of_stack: 19
+	 C3 i: 407 j: 430 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 218 result_length: 281 lengths[i][j-1]: 217 top_of_stack: 20
+	 C3 i: 406 j: 429 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 217 result_length: 282 lengths[i][j-1]: 217 top_of_stack: 21
+	 C3 i: 403 j: 424 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 216 result_length: 283 lengths[i][j-1]: 215 top_of_stack: 22
+	 C3 i: 402 j: 422 a[i-1]: r b[j-1]: r and ij_considered: 1 lengths[i][j]: 215 result_length: 284 lengths[i][j-1]: 214 top_of_stack: 23
+	 C3 i: 400 j: 419 a[i-1]: w b[j-1]: w and ij_considered: 1 lengths[i][j]: 214 result_length: 285 lengths[i][j-1]: 213 top_of_stack: 24
+	 C3 i: 399 j: 416 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 213 result_length: 286 lengths[i][j-1]: 213 top_of_stack: 25
+	 C3 i: 398 j: 406 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 212 result_length: 287 lengths[i][j-1]: 211 top_of_stack: 26
+	 C3 i: 397 j: 403 a[i-1]: h b[j-1]: h and ij_considered: 1 lengths[i][j]: 211 result_length: 288 lengths[i][j-1]: 210 top_of_stack: 27
+	 C3 i: 395 j: 402 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 210 result_length: 289 lengths[i][j-1]: 209 top_of_stack: 28
+	 C3 i: 394 j: 401 a[i-1]: d b[j-1]: d and ij_considered: 1 lengths[i][j]: 209 result_length: 290 lengths[i][j-1]: 208 top_of_stack: 29
+	 C3 i: 393 j: 400 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 208 result_length: 291 lengths[i][j-1]: 208 top_of_stack: 30
+	 C3 i: 392 j: 389 a[i-1]: u b[j-1]: u and ij_considered: 1 lengths[i][j]: 207 result_length: 292 lengths[i][j-1]: 206 top_of_stack: 31
+	 C3 i: 391 j: 386 a[i-1]: o b[j-1]: o and ij_considered: 1 lengths[i][j]: 206 result_length: 293 lengths[i][j-1]: 205 top_of_stack: 32
+	 C3 i: 388 j: 384 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 205 result_length: 294 lengths[i][j-1]: 204 top_of_stack: 33
+	 C3 i: 387 j: 383 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 204 result_length: 295 lengths[i][j-1]: 203 top_of_stack: 34
+	 C3 i: 386 j: 382 a[i-1]: c b[j-1]: c and ij_considered: 1 lengths[i][j]: 203 result_length: 296 lengths[i][j-1]: 202 top_of_stack: 35
+	 C3 i: 385 j: 381 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 202 result_length: 297 lengths[i][j-1]: 201 top_of_stack: 36
+	 C3 i: 384 j: 380 a[i-1]: v b[j-1]: v and ij_considered: 1 lengths[i][j]: 201 result_length: 298 lengths[i][j-1]: 200 top_of_stack: 37
+	 C3 i: 383 j: 379 a[i-1]: r b[j-1]: r and ij_considered: 1 lengths[i][j]: 200 result_length: 299 lengths[i][j-1]: 199 top_of_stack: 38
+	 C3 i: 382 j: 378 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 199 result_length: 300 lengths[i][j-1]: 198 top_of_stack: 39
+	 C3 i: 381 j: 377 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 198 result_length: 301 lengths[i][j-1]: 197 top_of_stack: 0
+	 C3 i: 380 j: 376 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 197 result_length: 302 lengths[i][j-1]: 197 top_of_stack: 1
+	 C3 i: 378 j: 373 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 196 result_length: 303 lengths[i][j-1]: 195 top_of_stack: 2
+	 C3 i: 377 j: 371 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 195 result_length: 304 lengths[i][j-1]: 194 top_of_stack: 3
+	 Start_i: 376 Start_j: 361 Stop_i: 377 Stop_j: 371 
+	 ALERT: Top-of-stack: 3 and looking to rollback around i: 377 j: 380 and result_pos: 243 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 37 x: 384 y: 380 char: - result_position_adjust: 6
+	 After rollover top-of-stack: 37 end-of-stack: 38 result_pos: 237 
+	 i: 383 j: 379 
+	 C3 i: 383 j: 379 a[i-1]: r b[j-1]: r and ij_considered: 1 lengths[i][j]: 200 result_length: 305 lengths[i][j-1]: 199 top_of_stack: 38
+	 C3 i: 382 j: 378 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 199 result_length: 306 lengths[i][j-1]: 198 top_of_stack: 39
+	 C3 i: 381 j: 377 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 198 result_length: 307 lengths[i][j-1]: 197 top_of_stack: 0
+	 C3 i: 380 j: 376 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 197 result_length: 308 lengths[i][j-1]: 197 top_of_stack: 1
+	 Start_i: 379 Start_j: 370 Stop_i: 380 Stop_j: 376 
+	 ALERT: Top-of-stack: 1 and looking to rollback around i: 380 j: 388 and result_pos: 241 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 31 x: 392 y: 389 char: - result_position_adjust: 10
+	 After rollover top-of-stack: 31 end-of-stack: 32 result_pos: 231 
+	 i: 391 j: 388 
+	 C3 i: 391 j: 386 a[i-1]: o b[j-1]: o and ij_considered: 1 lengths[i][j]: 206 result_length: 309 lengths[i][j-1]: 205 top_of_stack: 32
+	 Start_i: 389 Start_j: 384 Stop_i: 391 Stop_j: 386 
+	 ALERT: Top-of-stack: 32 and looking to rollback around i: 395 j: 390 and result_pos: 232 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 28 x: 395 y: 402 char: - result_position_adjust: 4
+	 After rollover top-of-stack: 28 end-of-stack: 29 result_pos: 228 
+	 i: 394 j: 401 
+	 C3 i: 394 j: 401 a[i-1]: d b[j-1]: d and ij_considered: 1 lengths[i][j]: 209 result_length: 310 lengths[i][j-1]: 208 top_of_stack: 29
+	 C3 i: 393 j: 400 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 208 result_length: 311 lengths[i][j-1]: 208 top_of_stack: 30
+	 Start_i: 392 Start_j: 390 Stop_i: 393 Stop_j: 400 
+	 ALERT: Top-of-stack: 30 and looking to rollback around i: 396 j: 410 and result_pos: 230 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 25 x: 399 y: 416 char: - result_position_adjust: 5
+	 After rollover top-of-stack: 25 end-of-stack: 26 result_pos: 225 
+	 i: 398 j: 415 
+	 Start_i: 398 Start_j: 409 Stop_i: 393 Stop_j: 400 
+	 ALERT: Top-of-stack: 25 and looking to rollback around i: 399 j: 422 and result_pos: 225 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 23 x: 402 y: 422 char: - result_position_adjust: 2
+	 After rollover top-of-stack: 23 end-of-stack: 24 result_pos: 223 
+	 i: 401 j: 421 
+	 C3 i: 400 j: 419 a[i-1]: w b[j-1]: w and ij_considered: 1 lengths[i][j]: 214 result_length: 312 lengths[i][j-1]: 213 top_of_stack: 24
+	 C3 i: 399 j: 416 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 213 result_length: 313 lengths[i][j-1]: 213 top_of_stack: 25
+	 Start_i: 397 Start_j: 408 Stop_i: 399 Stop_j: 416 
+	 ALERT: Top-of-stack: 25 and looking to rollback around i: 398 j: 441 and result_pos: 225 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 15 x: 413 y: 444 char: - result_position_adjust: 10
+	 After rollover top-of-stack: 15 end-of-stack: 16 result_pos: 215 
+	 i: 412 j: 443 
+	 C3 i: 411 j: 440 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 222 result_length: 314 lengths[i][j-1]: 222 top_of_stack: 16
+	 C3 i: 410 j: 433 a[i-1]: d b[j-1]: d and ij_considered: 1 lengths[i][j]: 221 result_length: 315 lengths[i][j-1]: 220 top_of_stack: 17
+	 C3 i: 409 j: 432 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 220 result_length: 316 lengths[i][j-1]: 219 top_of_stack: 18
+	 C3 i: 408 j: 431 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 219 result_length: 317 lengths[i][j-1]: 218 top_of_stack: 19
+	 C3 i: 407 j: 430 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 218 result_length: 318 lengths[i][j-1]: 217 top_of_stack: 20
+	 C3 i: 406 j: 429 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 217 result_length: 319 lengths[i][j-1]: 217 top_of_stack: 21
+	 C3 i: 403 j: 424 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 216 result_length: 320 lengths[i][j-1]: 215 top_of_stack: 22
+	 C3 i: 402 j: 422 a[i-1]: r b[j-1]: r and ij_considered: 1 lengths[i][j]: 215 result_length: 321 lengths[i][j-1]: 214 top_of_stack: 23
+	 C3 i: 400 j: 419 a[i-1]: w b[j-1]: w and ij_considered: 1 lengths[i][j]: 214 result_length: 322 lengths[i][j-1]: 213 top_of_stack: 24
+	 C3 i: 399 j: 416 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 213 result_length: 323 lengths[i][j-1]: 213 top_of_stack: 25
+	 C3 i: 398 j: 406 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 211 result_length: 324 lengths[i][j-1]: 210 top_of_stack: 26
+	 C3 i: 397 j: 403 a[i-1]: h b[j-1]: h and ij_considered: 1 lengths[i][j]: 210 result_length: 325 lengths[i][j-1]: 209 top_of_stack: 27
+	 C3 i: 395 j: 402 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 209 result_length: 326 lengths[i][j-1]: 209 top_of_stack: 28
+	 C3 i: 394 j: 401 a[i-1]: d b[j-1]: d and ij_considered: 1 lengths[i][j]: 208 result_length: 327 lengths[i][j-1]: 208 top_of_stack: 29
+	 C3 i: 393 j: 400 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 207 result_length: 328 lengths[i][j-1]: 207 top_of_stack: 30
+	 C3 i: 389 j: 399 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 206 result_length: 329 lengths[i][j-1]: 205 top_of_stack: 31
+	 C3 i: 388 j: 398 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 205 result_length: 330 lengths[i][j-1]: 205 top_of_stack: 32
+	 C3 i: 387 j: 396 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 204 result_length: 331 lengths[i][j-1]: 204 top_of_stack: 33
+	 Start_i: 386 Start_j: 387 Stop_i: 387 Stop_j: 396 
+	 ALERT: Top-of-stack: 33 and looking to rollback around i: 387 j: 429 and result_pos: 233 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 21 x: 406 y: 429 char: - result_position_adjust: 12
+	 After rollover top-of-stack: 21 end-of-stack: 22 result_pos: 221 
+	 i: 405 j: 428 
+	 C3 i: 403 j: 424 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 216 result_length: 332 lengths[i][j-1]: 215 top_of_stack: 22
+	 C3 i: 402 j: 422 a[i-1]: r b[j-1]: r and ij_considered: 1 lengths[i][j]: 215 result_length: 333 lengths[i][j-1]: 214 top_of_stack: 23
+	 C3 i: 400 j: 419 a[i-1]: w b[j-1]: w and ij_considered: 1 lengths[i][j]: 214 result_length: 334 lengths[i][j-1]: 213 top_of_stack: 24
+	 C3 i: 399 j: 416 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 213 result_length: 335 lengths[i][j-1]: 213 top_of_stack: 25
+	 C3 i: 398 j: 406 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 211 result_length: 336 lengths[i][j-1]: 210 top_of_stack: 26
+	 C3 i: 397 j: 403 a[i-1]: h b[j-1]: h and ij_considered: 1 lengths[i][j]: 210 result_length: 337 lengths[i][j-1]: 209 top_of_stack: 27
+	 C3 i: 395 j: 402 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 209 result_length: 338 lengths[i][j-1]: 209 top_of_stack: 28
+	 C3 i: 394 j: 401 a[i-1]: d b[j-1]: d and ij_considered: 1 lengths[i][j]: 208 result_length: 339 lengths[i][j-1]: 208 top_of_stack: 29
+	 C3 i: 393 j: 400 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 207 result_length: 340 lengths[i][j-1]: 207 top_of_stack: 30
+	 C3 i: 389 j: 399 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 206 result_length: 341 lengths[i][j-1]: 205 top_of_stack: 31
+	 C3 i: 388 j: 398 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 205 result_length: 342 lengths[i][j-1]: 205 top_of_stack: 32
+	 C3 i: 387 j: 396 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 204 result_length: 343 lengths[i][j-1]: 204 top_of_stack: 33
+	 C3 i: 385 j: 391 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 202 result_length: 344 lengths[i][j-1]: 202 top_of_stack: 34
+	 Start_i: 384 Start_j: 385 Stop_i: 385 Stop_j: 391 
+	 ALERT: Top-of-stack: 34 and looking to rollback around i: 385 j: 422 and result_pos: 234 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 23 x: 402 y: 422 char: - result_position_adjust: 11
+	 After rollover top-of-stack: 23 end-of-stack: 24 result_pos: 223 
+	 i: 401 j: 421 
+	 C3 i: 400 j: 419 a[i-1]: w b[j-1]: w and ij_considered: 1 lengths[i][j]: 214 result_length: 345 lengths[i][j-1]: 213 top_of_stack: 24
+	 C3 i: 399 j: 416 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 213 result_length: 346 lengths[i][j-1]: 213 top_of_stack: 25
+	 C3 i: 398 j: 406 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 211 result_length: 347 lengths[i][j-1]: 210 top_of_stack: 26
+	 C3 i: 397 j: 403 a[i-1]: h b[j-1]: h and ij_considered: 1 lengths[i][j]: 210 result_length: 348 lengths[i][j-1]: 209 top_of_stack: 27
+	 C3 i: 395 j: 402 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 209 result_length: 349 lengths[i][j-1]: 209 top_of_stack: 28
+	 C3 i: 394 j: 401 a[i-1]: d b[j-1]: d and ij_considered: 1 lengths[i][j]: 208 result_length: 350 lengths[i][j-1]: 208 top_of_stack: 29
+	 C3 i: 393 j: 400 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 207 result_length: 351 lengths[i][j-1]: 207 top_of_stack: 30
+	 C3 i: 389 j: 399 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 206 result_length: 352 lengths[i][j-1]: 205 top_of_stack: 31
+	 C3 i: 388 j: 398 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 205 result_length: 353 lengths[i][j-1]: 205 top_of_stack: 32
+	 C3 i: 387 j: 396 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 204 result_length: 354 lengths[i][j-1]: 204 top_of_stack: 33
+	 C3 i: 385 j: 391 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 202 result_length: 355 lengths[i][j-1]: 202 top_of_stack: 34
+	 Start_i: 383 Start_j: 384 Stop_i: 385 Stop_j: 391 
+	 ALERT: Top-of-stack: 34 and looking to rollback around i: 384 j: 416 and result_pos: 234 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 25 x: 399 y: 416 char: - result_position_adjust: 9
+	 After rollover top-of-stack: 25 end-of-stack: 26 result_pos: 225 
+	 i: 398 j: 415 
+	 C3 i: 398 j: 406 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 211 result_length: 356 lengths[i][j-1]: 210 top_of_stack: 26
+	 C3 i: 397 j: 403 a[i-1]: h b[j-1]: h and ij_considered: 1 lengths[i][j]: 210 result_length: 357 lengths[i][j-1]: 209 top_of_stack: 27
+	 C3 i: 395 j: 402 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 209 result_length: 358 lengths[i][j-1]: 209 top_of_stack: 28
+	 C3 i: 394 j: 401 a[i-1]: d b[j-1]: d and ij_considered: 1 lengths[i][j]: 208 result_length: 359 lengths[i][j-1]: 208 top_of_stack: 29
+	 C3 i: 393 j: 400 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 207 result_length: 360 lengths[i][j-1]: 207 top_of_stack: 30
+	 C3 i: 389 j: 399 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 206 result_length: 361 lengths[i][j-1]: 205 top_of_stack: 31
+	 C3 i: 388 j: 398 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 205 result_length: 362 lengths[i][j-1]: 205 top_of_stack: 32
+	 C3 i: 387 j: 396 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 204 result_length: 363 lengths[i][j-1]: 204 top_of_stack: 33
+	 C3 i: 385 j: 391 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 202 result_length: 364 lengths[i][j-1]: 202 top_of_stack: 34
+	 C3 i: 384 j: 380 a[i-1]: v b[j-1]: v and ij_considered: 1 lengths[i][j]: 200 result_length: 365 lengths[i][j-1]: 200 top_of_stack: 35
+	 C3 i: 383 j: 379 a[i-1]: r b[j-1]: r and ij_considered: 1 lengths[i][j]: 199 result_length: 366 lengths[i][j-1]: 199 top_of_stack: 36
+	 C3 i: 382 j: 378 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 198 result_length: 367 lengths[i][j-1]: 198 top_of_stack: 37
+	 C3 i: 381 j: 377 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 197 result_length: 368 lengths[i][j-1]: 197 top_of_stack: 38
+	 C3 i: 380 j: 376 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 196 result_length: 369 lengths[i][j-1]: 196 top_of_stack: 39
+	 C3 i: 378 j: 373 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 195 result_length: 370 lengths[i][j-1]: 195 top_of_stack: 0
+	 C3 i: 377 j: 371 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 194 result_length: 371 lengths[i][j-1]: 194 top_of_stack: 1
+	 C3 i: 375 j: 366 a[i-1]: r b[j-1]: r and ij_considered: 1 lengths[i][j]: 193 result_length: 372 lengths[i][j-1]: 193 top_of_stack: 2
+	 C3 i: 374 j: 358 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 192 result_length: 373 lengths[i][j-1]: 192 top_of_stack: 3
+	 C3 i: 373 j: 354 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 191 result_length: 374 lengths[i][j-1]: 191 top_of_stack: 4
+	 C3 i: 370 j: 353 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 190 result_length: 375 lengths[i][j-1]: 189 top_of_stack: 5
+	 C3 i: 369 j: 352 a[i-1]: d b[j-1]: d and ij_considered: 1 lengths[i][j]: 189 result_length: 376 lengths[i][j-1]: 188 top_of_stack: 6
+	 C3 i: 367 j: 347 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 188 result_length: 377 lengths[i][j-1]: 187 top_of_stack: 7
+	 C3 i: 365 j: 343 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 187 result_length: 378 lengths[i][j-1]: 186 top_of_stack: 8
+	 Start_i: 361 Start_j: 340 Stop_i: 365 Stop_j: 343 
+	 ALERT: Top-of-stack: 8 and looking to rollback around i: 365 j: 348 and result_pos: 248 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 6 x: 369 y: 352 char: - result_position_adjust: 2
+	 After rollover top-of-stack: 6 end-of-stack: 7 result_pos: 246 
+	 i: 368 j: 351 
+	 C3 i: 367 j: 347 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 188 result_length: 379 lengths[i][j-1]: 187 top_of_stack: 7
+	 Start_i: 366 Start_j: 334 Stop_i: 367 Stop_j: 347 
+	 ALERT: Top-of-stack: 7 and looking to rollback around i: 367 j: 348 and result_pos: 247 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 6 x: 369 y: 352 char: - result_position_adjust: 1
+	 After rollover top-of-stack: 6 end-of-stack: 7 result_pos: 246 
+	 i: 368 j: 351 
+	 Start_i: 367 Start_j: 348 Stop_i: 367 Stop_j: 347 
+	 ALERT: Top-of-stack: 6 and looking to rollback around i: 369 j: 363 and result_pos: 246 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 2 x: 375 y: 366 char: - result_position_adjust: 4
+	 After rollover top-of-stack: 2 end-of-stack: 3 result_pos: 242 
+	 i: 374 j: 365 
+	 C3 i: 374 j: 358 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 192 result_length: 380 lengths[i][j-1]: 192 top_of_stack: 3
+	 C3 i: 373 j: 354 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 191 result_length: 381 lengths[i][j-1]: 191 top_of_stack: 4
+	 Start_i: 371 Start_j: 353 Stop_i: 373 Stop_j: 354 
+	 ALERT: Top-of-stack: 4 and looking to rollback around i: 372 j: 362 and result_pos: 244 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 2 x: 375 y: 366 char: - result_position_adjust: 2
+	 After rollover top-of-stack: 2 end-of-stack: 3 result_pos: 242 
+	 i: 374 j: 365 
+	 C3 i: 374 j: 358 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 192 result_length: 382 lengths[i][j-1]: 192 top_of_stack: 3
+	 C3 i: 373 j: 354 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 191 result_length: 383 lengths[i][j-1]: 191 top_of_stack: 4
+	 C3 i: 372 j: 351 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 190 result_length: 384 lengths[i][j-1]: 190 top_of_stack: 5
+	 C3 i: 370 j: 349 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 189 result_length: 385 lengths[i][j-1]: 188 top_of_stack: 6
+	 C3 i: 369 j: 341 a[i-1]: d b[j-1]: d and ij_considered: 1 lengths[i][j]: 188 result_length: 386 lengths[i][j-1]: 187 top_of_stack: 7
+	 C3 i: 367 j: 334 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 187 result_length: 387 lengths[i][j-1]: 186 top_of_stack: 8
+	 Start_i: 365 Start_j: 331 Stop_i: 367 Stop_j: 334 
+	 ALERT: Top-of-stack: 8 and looking to rollback around i: 369 j: 350 and result_pos: 248 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 5 x: 372 y: 351 char: - result_position_adjust: 3
+	 After rollover top-of-stack: 5 end-of-stack: 6 result_pos: 245 
+	 i: 371 j: 350 
+	 C3 i: 370 j: 349 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 189 result_length: 388 lengths[i][j-1]: 188 top_of_stack: 6
+	 Start_i: 369 Start_j: 347 Stop_i: 370 Stop_j: 349 
+	 ALERT: Top-of-stack: 6 and looking to rollback around i: 371 j: 353 and result_pos: 246 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 4 x: 373 y: 354 char: - result_position_adjust: 2
+	 After rollover top-of-stack: 4 end-of-stack: 5 result_pos: 244 
+	 i: 372 j: 353 
+	 C3 i: 372 j: 351 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 190 result_length: 389 lengths[i][j-1]: 190 top_of_stack: 5
+	 Start_i: 371 Start_j: 348 Stop_i: 372 Stop_j: 351 
+	 ALERT: Top-of-stack: 5 and looking to rollback around i: 372 j: 353 and result_pos: 245 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 4 x: 373 y: 354 char: - result_position_adjust: 1
+	 After rollover top-of-stack: 4 end-of-stack: 5 result_pos: 244 
+	 i: 372 j: 353 
+	 C3 i: 372 j: 351 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 190 result_length: 390 lengths[i][j-1]: 190 top_of_stack: 5
+	 C3 i: 371 j: 339 a[i-1]: I b[j-1]: I and ij_considered: 1 lengths[i][j]: 188 result_length: 391 lengths[i][j-1]: 188 top_of_stack: 6
+	 C3 i: 370 j: 338 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 187 result_length: 392 lengths[i][j-1]: 187 top_of_stack: 7
+	 C3 i: 367 j: 334 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 186 result_length: 393 lengths[i][j-1]: 185 top_of_stack: 8
+	 C3 i: 361 j: 331 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 185 result_length: 394 lengths[i][j-1]: 184 top_of_stack: 9
+	 C3 i: 360 j: 330 a[i-1]: h b[j-1]: h and ij_considered: 1 lengths[i][j]: 184 result_length: 395 lengths[i][j-1]: 183 top_of_stack: 10
+	 C3 i: 355 j: 326 a[i-1]: u b[j-1]: u and ij_considered: 1 lengths[i][j]: 183 result_length: 396 lengths[i][j-1]: 182 top_of_stack: 11
+	 C3 i: 354 j: 325 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 182 result_length: 397 lengths[i][j-1]: 181 top_of_stack: 12
+	 Start_i: 353 Start_j: 319 Stop_i: 354 Stop_j: 325 
+	 ALERT: Top-of-stack: 12 and looking to rollback around i: 356 j: 341 and result_pos: 252 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 5 x: 372 y: 351 char: - result_position_adjust: 7
+	 After rollover top-of-stack: 5 end-of-stack: 6 result_pos: 245 
+	 i: 371 j: 350 
+	 C3 i: 371 j: 339 a[i-1]: I b[j-1]: I and ij_considered: 1 lengths[i][j]: 188 result_length: 398 lengths[i][j-1]: 188 top_of_stack: 6
+	 C3 i: 370 j: 338 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 187 result_length: 399 lengths[i][j-1]: 187 top_of_stack: 7
+	 C3 i: 367 j: 334 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 186 result_length: 400 lengths[i][j-1]: 185 top_of_stack: 8
+	 C3 i: 361 j: 331 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 185 result_length: 401 lengths[i][j-1]: 184 top_of_stack: 9
+	 C3 i: 360 j: 330 a[i-1]: h b[j-1]: h and ij_considered: 1 lengths[i][j]: 184 result_length: 402 lengths[i][j-1]: 183 top_of_stack: 10
+	 Start_i: 358 Start_j: 326 Stop_i: 360 Stop_j: 330 
+	 ALERT: Top-of-stack: 10 and looking to rollback around i: 361 j: 336 and result_pos: 250 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 7 x: 370 y: 338 char: - result_position_adjust: 3
+	 After rollover top-of-stack: 7 end-of-stack: 8 result_pos: 247 
+	 i: 369 j: 337 
+	 C3 i: 367 j: 334 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 186 result_length: 403 lengths[i][j-1]: 185 top_of_stack: 8
+	 C3 i: 363 j: 330 a[i-1]: h b[j-1]: h and ij_considered: 1 lengths[i][j]: 185 result_length: 404 lengths[i][j-1]: 184 top_of_stack: 9
+	 Start_i: 362 Start_j: 328 Stop_i: 363 Stop_j: 330 
+	 ALERT: Top-of-stack: 9 and looking to rollback around i: 363 j: 331 and result_pos: 249 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 8 x: 367 y: 334 char: - result_position_adjust: 1
+	 After rollover top-of-stack: 8 end-of-stack: 9 result_pos: 248 
+	 i: 366 j: 333 
+	 Start_i: 363 Start_j: 331 Stop_i: 363 Stop_j: 330 
+	 ALERT: Top-of-stack: 8 and looking to rollback around i: 364 j: 336 and result_pos: 248 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 7 x: 370 y: 338 char: - result_position_adjust: 1
+	 After rollover top-of-stack: 7 end-of-stack: 8 result_pos: 247 
+	 i: 369 j: 337 
+	 C3 i: 367 j: 334 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 186 result_length: 405 lengths[i][j-1]: 185 top_of_stack: 8
+	 Start_i: 364 Start_j: 330 Stop_i: 367 Stop_j: 334 
+	 ALERT: Top-of-stack: 8 and looking to rollback around i: 365 j: 336 and result_pos: 248 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 7 x: 370 y: 338 char: - result_position_adjust: 1
+	 After rollover top-of-stack: 7 end-of-stack: 8 result_pos: 247 
+	 i: 369 j: 337 
+	 C3 i: 367 j: 334 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 186 result_length: 406 lengths[i][j-1]: 185 top_of_stack: 8
+	 C3 i: 365 j: 329 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 185 result_length: 407 lengths[i][j-1]: 185 top_of_stack: 9
+	 C3 i: 363 j: 320 a[i-1]: h b[j-1]: h and ij_considered: 1 lengths[i][j]: 184 result_length: 408 lengths[i][j-1]: 183 top_of_stack: 10
+	 C3 i: 361 j: 318 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 183 result_length: 409 lengths[i][j-1]: 182 top_of_stack: 11
+	 C3 i: 359 j: 316 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 182 result_length: 410 lengths[i][j-1]: 181 top_of_stack: 12
+	 C3 i: 356 j: 315 a[i-1]: p b[j-1]: p and ij_considered: 1 lengths[i][j]: 181 result_length: 411 lengths[i][j-1]: 180 top_of_stack: 13
+	 C3 i: 355 j: 314 a[i-1]: u b[j-1]: u and ij_considered: 1 lengths[i][j]: 180 result_length: 412 lengths[i][j-1]: 179 top_of_stack: 14
+	 C3 i: 350 j: 312 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 179 result_length: 413 lengths[i][j-1]: 178 top_of_stack: 15
+	 C3 i: 348 j: 311 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 178 result_length: 414 lengths[i][j-1]: 177 top_of_stack: 16
+	 C3 i: 347 j: 308 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 177 result_length: 415 lengths[i][j-1]: 176 top_of_stack: 17
+	 C3 i: 346 j: 303 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 176 result_length: 416 lengths[i][j-1]: 175 top_of_stack: 18
+	 C3 i: 344 j: 298 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 175 result_length: 417 lengths[i][j-1]: 174 top_of_stack: 19
+	 C3 i: 341 j: 296 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 174 result_length: 418 lengths[i][j-1]: 173 top_of_stack: 20
+	 C3 i: 340 j: 295 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 173 result_length: 419 lengths[i][j-1]: 172 top_of_stack: 21
+	 C3 i: 338 j: 294 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 172 result_length: 420 lengths[i][j-1]: 171 top_of_stack: 22
+	 C3 i: 336 j: 293 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 171 result_length: 421 lengths[i][j-1]: 170 top_of_stack: 23
+	 C3 i: 335 j: 292 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 170 result_length: 422 lengths[i][j-1]: 169 top_of_stack: 24
+	 C3 i: 323 j: 291 a[i-1]: c b[j-1]: c and ij_considered: 1 lengths[i][j]: 169 result_length: 423 lengths[i][j-1]: 168 top_of_stack: 25
+	 C3 i: 322 j: 290 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 168 result_length: 424 lengths[i][j-1]: 167 top_of_stack: 26
+	 C3 i: 320 j: 285 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 167 result_length: 425 lengths[i][j-1]: 166 top_of_stack: 27
+	 C3 i: 318 j: 283 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 166 result_length: 426 lengths[i][j-1]: 166 top_of_stack: 28
+	 C3 i: 317 j: 282 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 165 result_length: 427 lengths[i][j-1]: 165 top_of_stack: 29
+	 C3 i: 316 j: 276 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 164 result_length: 428 lengths[i][j-1]: 163 top_of_stack: 30
+	 C3 i: 315 j: 275 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 163 result_length: 429 lengths[i][j-1]: 162 top_of_stack: 31
+	 C3 i: 314 j: 274 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 162 result_length: 430 lengths[i][j-1]: 161 top_of_stack: 32
+	 C3 i: 311 j: 271 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 161 result_length: 431 lengths[i][j-1]: 160 top_of_stack: 33
+	 Start_i: 309 Start_j: 270 Stop_i: 311 Stop_j: 271 
+	 ALERT: Top-of-stack: 33 and looking to rollback around i: 313 j: 299 and result_pos: 273 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 18 x: 346 y: 303 char: - result_position_adjust: 15
+	 After rollover top-of-stack: 18 end-of-stack: 19 result_pos: 258 
+	 i: 345 j: 302 
+	 C3 i: 344 j: 298 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 175 result_length: 432 lengths[i][j-1]: 174 top_of_stack: 19
+	 C3 i: 341 j: 296 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 174 result_length: 433 lengths[i][j-1]: 173 top_of_stack: 20
+	 C3 i: 340 j: 295 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 173 result_length: 434 lengths[i][j-1]: 172 top_of_stack: 21
+	 C3 i: 338 j: 294 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 172 result_length: 435 lengths[i][j-1]: 171 top_of_stack: 22
+	 C3 i: 336 j: 293 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 171 result_length: 436 lengths[i][j-1]: 170 top_of_stack: 23
+	 C3 i: 335 j: 292 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 170 result_length: 437 lengths[i][j-1]: 169 top_of_stack: 24
+	 C3 i: 323 j: 291 a[i-1]: c b[j-1]: c and ij_considered: 1 lengths[i][j]: 169 result_length: 438 lengths[i][j-1]: 168 top_of_stack: 25
+	 C3 i: 322 j: 290 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 168 result_length: 439 lengths[i][j-1]: 167 top_of_stack: 26
+	 C3 i: 320 j: 285 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 167 result_length: 440 lengths[i][j-1]: 166 top_of_stack: 27
+	 Start_i: 319 Start_j: 280 Stop_i: 320 Stop_j: 285 
+	 ALERT: Top-of-stack: 27 and looking to rollback around i: 321 j: 301 and result_pos: 267 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 18 x: 346 y: 303 char: - result_position_adjust: 9
+	 After rollover top-of-stack: 18 end-of-stack: 19 result_pos: 258 
+	 i: 345 j: 302 
+	 C3 i: 344 j: 298 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 175 result_length: 441 lengths[i][j-1]: 174 top_of_stack: 19
+	 C3 i: 341 j: 296 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 174 result_length: 442 lengths[i][j-1]: 173 top_of_stack: 20
+	 C3 i: 340 j: 295 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 173 result_length: 443 lengths[i][j-1]: 172 top_of_stack: 21
+	 C3 i: 338 j: 294 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 172 result_length: 444 lengths[i][j-1]: 171 top_of_stack: 22
+	 C3 i: 336 j: 293 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 171 result_length: 445 lengths[i][j-1]: 170 top_of_stack: 23
+	 C3 i: 335 j: 292 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 170 result_length: 446 lengths[i][j-1]: 169 top_of_stack: 24
+	 Start_i: 324 Start_j: 291 Stop_i: 335 Stop_j: 292 
+	 ALERT: Top-of-stack: 24 and looking to rollback around i: 326 j: 301 and result_pos: 264 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 18 x: 346 y: 303 char: - result_position_adjust: 6
+	 After rollover top-of-stack: 18 end-of-stack: 19 result_pos: 258 
+	 i: 345 j: 302 
+	 C3 i: 344 j: 298 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 175 result_length: 447 lengths[i][j-1]: 174 top_of_stack: 19
+	 C3 i: 341 j: 296 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 174 result_length: 448 lengths[i][j-1]: 173 top_of_stack: 20
+	 C3 i: 340 j: 295 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 173 result_length: 449 lengths[i][j-1]: 172 top_of_stack: 21
+	 C3 i: 338 j: 294 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 172 result_length: 450 lengths[i][j-1]: 171 top_of_stack: 22
+	 C3 i: 336 j: 293 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 171 result_length: 451 lengths[i][j-1]: 170 top_of_stack: 23
+	 C3 i: 335 j: 292 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 170 result_length: 452 lengths[i][j-1]: 169 top_of_stack: 24
+	 C3 i: 326 j: 288 a[i-1]: o b[j-1]: o and ij_considered: 1 lengths[i][j]: 169 result_length: 453 lengths[i][j-1]: 168 top_of_stack: 25
+	 C3 i: 325 j: 282 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 168 result_length: 454 lengths[i][j-1]: 167 top_of_stack: 26
+	 C3 i: 322 j: 280 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 167 result_length: 455 lengths[i][j-1]: 166 top_of_stack: 27
+	 C3 i: 321 j: 279 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 166 result_length: 456 lengths[i][j-1]: 165 top_of_stack: 28
+	 Start_i: 318 Start_j: 278 Stop_i: 321 Stop_j: 279 
+	 ALERT: Top-of-stack: 28 and looking to rollback around i: 325 j: 285 and result_pos: 268 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 25 x: 326 y: 288 char: - result_position_adjust: 3
+	 After rollover top-of-stack: 25 end-of-stack: 26 result_pos: 265 
+	 i: 325 j: 287 
+	 Start_i: 325 Start_j: 285 Stop_i: 321 Stop_j: 279 
+	 ALERT: Top-of-stack: 25 and looking to rollback around i: 328 j: 291 and result_pos: 265 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 24 x: 335 y: 292 char: - result_position_adjust: 1
+	 After rollover top-of-stack: 24 end-of-stack: 25 result_pos: 264 
+	 i: 334 j: 291 
+	 Start_i: 326 Start_j: 291 Stop_i: 321 Stop_j: 279 
+	 ALERT: Top-of-stack: 24 and looking to rollback around i: 329 j: 301 and result_pos: 264 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 18 x: 346 y: 303 char: - result_position_adjust: 6
+	 After rollover top-of-stack: 18 end-of-stack: 19 result_pos: 258 
+	 i: 345 j: 302 
+	 C3 i: 344 j: 298 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 175 result_length: 457 lengths[i][j-1]: 174 top_of_stack: 19
+	 C3 i: 341 j: 296 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 174 result_length: 458 lengths[i][j-1]: 173 top_of_stack: 20
+	 C3 i: 340 j: 295 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 173 result_length: 459 lengths[i][j-1]: 172 top_of_stack: 21
+	 C3 i: 338 j: 294 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 172 result_length: 460 lengths[i][j-1]: 171 top_of_stack: 22
+	 C3 i: 336 j: 293 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 171 result_length: 461 lengths[i][j-1]: 170 top_of_stack: 23
+	 C3 i: 335 j: 292 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 170 result_length: 462 lengths[i][j-1]: 169 top_of_stack: 24
+	 Start_i: 329 Start_j: 288 Stop_i: 335 Stop_j: 292 
+	 ALERT: Top-of-stack: 24 and looking to rollback around i: 331 j: 301 and result_pos: 264 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 18 x: 346 y: 303 char: - result_position_adjust: 6
+	 After rollover top-of-stack: 18 end-of-stack: 19 result_pos: 258 
+	 i: 345 j: 302 
+	 C3 i: 344 j: 298 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 175 result_length: 463 lengths[i][j-1]: 174 top_of_stack: 19
+	 C3 i: 341 j: 296 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 174 result_length: 464 lengths[i][j-1]: 173 top_of_stack: 20
+	 C3 i: 340 j: 295 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 173 result_length: 465 lengths[i][j-1]: 172 top_of_stack: 21
+	 C3 i: 338 j: 294 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 172 result_length: 466 lengths[i][j-1]: 171 top_of_stack: 22
+	 C3 i: 336 j: 293 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 171 result_length: 467 lengths[i][j-1]: 170 top_of_stack: 23
+	 C3 i: 335 j: 292 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 170 result_length: 468 lengths[i][j-1]: 169 top_of_stack: 24
+	 C3 i: 331 j: 285 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 169 result_length: 469 lengths[i][j-1]: 168 top_of_stack: 25
+	 Start_i: 328 Start_j: 282 Stop_i: 331 Stop_j: 285 
+	 ALERT: Top-of-stack: 25 and looking to rollback around i: 346 j: 296 and result_pos: 265 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 18 x: 346 y: 303 char: - result_position_adjust: 7
+	 After rollover top-of-stack: 18 end-of-stack: 19 result_pos: 258 
+	 i: 345 j: 302 
+	 C3 i: 344 j: 298 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 175 result_length: 470 lengths[i][j-1]: 174 top_of_stack: 19
+	 C3 i: 341 j: 296 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 174 result_length: 471 lengths[i][j-1]: 173 top_of_stack: 20
+	 C3 i: 340 j: 295 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 173 result_length: 472 lengths[i][j-1]: 172 top_of_stack: 21
+	 C3 i: 338 j: 294 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 172 result_length: 473 lengths[i][j-1]: 171 top_of_stack: 22
+	 C3 i: 336 j: 293 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 171 result_length: 474 lengths[i][j-1]: 170 top_of_stack: 23
+	 C3 i: 335 j: 292 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 170 result_length: 475 lengths[i][j-1]: 169 top_of_stack: 24
+	 Start_i: 331 Start_j: 290 Stop_i: 335 Stop_j: 292 
+	 ALERT: Top-of-stack: 24 and looking to rollback around i: 336 j: 296 and result_pos: 264 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 20 x: 341 y: 296 char: - result_position_adjust: 4
+	 After rollover top-of-stack: 20 end-of-stack: 21 result_pos: 260 
+	 i: 340 j: 295 
+	 C3 i: 340 j: 295 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 173 result_length: 476 lengths[i][j-1]: 172 top_of_stack: 21
+	 C3 i: 338 j: 294 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 172 result_length: 477 lengths[i][j-1]: 171 top_of_stack: 22
+	 Start_i: 337 Start_j: 293 Stop_i: 338 Stop_j: 294 
+	 ALERT: Top-of-stack: 22 and looking to rollback around i: 341 j: 300 and result_pos: 262 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 18 x: 346 y: 303 char: - result_position_adjust: 4
+	 After rollover top-of-stack: 18 end-of-stack: 19 result_pos: 258 
+	 i: 345 j: 302 
+	 Start_i: 344 Start_j: 300 Stop_i: 338 Stop_j: 294 
+	 ALERT: Top-of-stack: 18 and looking to rollback around i: 347 j: 314 and result_pos: 258 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 14 x: 355 y: 314 char: - result_position_adjust: 4
+	 After rollover top-of-stack: 14 end-of-stack: 15 result_pos: 254 
+	 i: 354 j: 313 
+	 Start_i: 351 Start_j: 312 Stop_i: 338 Stop_j: 294 
+	 ALERT: Top-of-stack: 14 and looking to rollback around i: 355 j: 314 and result_pos: 254 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 14 x: 355 y: 314 char: - result_position_adjust: 0
+	 After rollover top-of-stack: 14 end-of-stack: 15 result_pos: 254 
+	 i: 354 j: 313 
+	 C3 i: 350 j: 312 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 178 result_length: 478 lengths[i][j-1]: 178 top_of_stack: 15
+	 C3 i: 348 j: 311 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 177 result_length: 479 lengths[i][j-1]: 176 top_of_stack: 16
+	 C3 i: 342 j: 310 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 176 result_length: 480 lengths[i][j-1]: 175 top_of_stack: 17
+	 C3 i: 341 j: 309 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 175 result_length: 481 lengths[i][j-1]: 174 top_of_stack: 18
+	 C3 i: 340 j: 305 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 174 result_length: 482 lengths[i][j-1]: 174 top_of_stack: 19
+	 C3 i: 337 j: 297 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 173 result_length: 483 lengths[i][j-1]: 172 top_of_stack: 20
+	 C3 i: 336 j: 296 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 172 result_length: 484 lengths[i][j-1]: 170 top_of_stack: 21
+	 Start_i: 332 Start_j: 295 Stop_i: 336 Stop_j: 296 
+	 ALERT: Top-of-stack: 21 and looking to rollback around i: 336 j: 303 and result_pos: 261 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 19 x: 340 y: 305 char: - result_position_adjust: 2
+	 After rollover top-of-stack: 19 end-of-stack: 20 result_pos: 259 
+	 i: 339 j: 304 
+	 Start_i: 337 Start_j: 303 Stop_i: 336 Stop_j: 296 
+	 ALERT: Top-of-stack: 19 and looking to rollback around i: 338 j: 316 and result_pos: 259 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 12 x: 359 y: 316 char: - result_position_adjust: 7
+	 After rollover top-of-stack: 12 end-of-stack: 13 result_pos: 252 
+	 i: 358 j: 315 
+	 C3 i: 356 j: 315 a[i-1]: p b[j-1]: p and ij_considered: 1 lengths[i][j]: 181 result_length: 485 lengths[i][j-1]: 180 top_of_stack: 13
+	 C3 i: 355 j: 314 a[i-1]: u b[j-1]: u and ij_considered: 1 lengths[i][j]: 180 result_length: 486 lengths[i][j-1]: 179 top_of_stack: 14
+	 C3 i: 350 j: 312 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 178 result_length: 487 lengths[i][j-1]: 178 top_of_stack: 15
+	 C3 i: 348 j: 311 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 177 result_length: 488 lengths[i][j-1]: 176 top_of_stack: 16
+	 C3 i: 342 j: 310 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 176 result_length: 489 lengths[i][j-1]: 175 top_of_stack: 17
+	 C3 i: 341 j: 309 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 175 result_length: 490 lengths[i][j-1]: 174 top_of_stack: 18
+	 C3 i: 340 j: 305 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 174 result_length: 491 lengths[i][j-1]: 174 top_of_stack: 19
+	 Start_i: 338 Start_j: 297 Stop_i: 340 Stop_j: 305 
+	 ALERT: Top-of-stack: 19 and looking to rollback around i: 341 j: 316 and result_pos: 259 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 12 x: 359 y: 316 char: - result_position_adjust: 7
+	 After rollover top-of-stack: 12 end-of-stack: 13 result_pos: 252 
+	 i: 358 j: 315 
+	 C3 i: 356 j: 315 a[i-1]: p b[j-1]: p and ij_considered: 1 lengths[i][j]: 181 result_length: 492 lengths[i][j-1]: 180 top_of_stack: 13
+	 C3 i: 355 j: 314 a[i-1]: u b[j-1]: u and ij_considered: 1 lengths[i][j]: 180 result_length: 493 lengths[i][j-1]: 179 top_of_stack: 14
+	 C3 i: 350 j: 312 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 178 result_length: 494 lengths[i][j-1]: 178 top_of_stack: 15
+	 C3 i: 348 j: 311 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 177 result_length: 495 lengths[i][j-1]: 176 top_of_stack: 16
+	 Start_i: 344 Start_j: 310 Stop_i: 348 Stop_j: 311 
+	 ALERT: Top-of-stack: 16 and looking to rollback around i: 347 j: 317 and result_pos: 256 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 11 x: 361 y: 318 char: - result_position_adjust: 5
+	 After rollover top-of-stack: 11 end-of-stack: 12 result_pos: 251 
+	 i: 360 j: 317 
+	 C3 i: 359 j: 316 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 182 result_length: 496 lengths[i][j-1]: 181 top_of_stack: 12
+	 C3 i: 356 j: 315 a[i-1]: p b[j-1]: p and ij_considered: 1 lengths[i][j]: 181 result_length: 497 lengths[i][j-1]: 180 top_of_stack: 13
+	 C3 i: 355 j: 314 a[i-1]: u b[j-1]: u and ij_considered: 1 lengths[i][j]: 180 result_length: 498 lengths[i][j-1]: 179 top_of_stack: 14
+	 C3 i: 350 j: 312 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 178 result_length: 499 lengths[i][j-1]: 178 top_of_stack: 15
+	 C3 i: 348 j: 311 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 177 result_length: 500 lengths[i][j-1]: 176 top_of_stack: 16
+	 C3 i: 347 j: 308 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 176 result_length: 501 lengths[i][j-1]: 175 top_of_stack: 17
+	 Start_i: 344 Start_j: 305 Stop_i: 347 Stop_j: 308 
+	 ALERT: Top-of-stack: 17 and looking to rollback around i: 346 j: 310 and result_pos: 257 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 16 x: 348 y: 311 char: - result_position_adjust: 1
+	 After rollover top-of-stack: 16 end-of-stack: 17 result_pos: 256 
+	 i: 347 j: 310 
+	 C3 i: 347 j: 308 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 176 result_length: 502 lengths[i][j-1]: 175 top_of_stack: 17
+	 C3 i: 346 j: 303 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 175 result_length: 503 lengths[i][j-1]: 174 top_of_stack: 18
+	 Start_i: 341 Start_j: 300 Stop_i: 346 Stop_j: 303 
+	 ALERT: Top-of-stack: 18 and looking to rollback around i: 342 j: 309 and result_pos: 258 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 16 x: 348 y: 311 char: - result_position_adjust: 2
+	 After rollover top-of-stack: 16 end-of-stack: 17 result_pos: 256 
+	 i: 347 j: 310 
+	 C3 i: 347 j: 308 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 176 result_length: 504 lengths[i][j-1]: 175 top_of_stack: 17
+	 C3 i: 346 j: 303 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 175 result_length: 505 lengths[i][j-1]: 174 top_of_stack: 18
+	 Start_i: 342 Start_j: 298 Stop_i: 346 Stop_j: 303 
+	 ALERT: Top-of-stack: 18 and looking to rollback around i: 344 j: 309 and result_pos: 258 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 16 x: 348 y: 311 char: - result_position_adjust: 2
+	 After rollover top-of-stack: 16 end-of-stack: 17 result_pos: 256 
+	 i: 347 j: 310 
+	 C3 i: 347 j: 308 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 176 result_length: 506 lengths[i][j-1]: 175 top_of_stack: 17
+	 C3 i: 346 j: 303 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 175 result_length: 507 lengths[i][j-1]: 174 top_of_stack: 18
+	 C3 i: 344 j: 298 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 174 result_length: 508 lengths[i][j-1]: 174 top_of_stack: 19
+	 C3 i: 341 j: 296 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 173 result_length: 509 lengths[i][j-1]: 172 top_of_stack: 20
+	 C3 i: 340 j: 295 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 172 result_length: 510 lengths[i][j-1]: 171 top_of_stack: 21
+	 C3 i: 338 j: 294 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 171 result_length: 511 lengths[i][j-1]: 170 top_of_stack: 22
+	 C3 i: 336 j: 293 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 170 result_length: 512 lengths[i][j-1]: 170 top_of_stack: 23
+	 C3 i: 335 j: 292 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 169 result_length: 513 lengths[i][j-1]: 168 top_of_stack: 24
+	 C3 i: 323 j: 291 a[i-1]: c b[j-1]: c and ij_considered: 1 lengths[i][j]: 168 result_length: 514 lengths[i][j-1]: 168 top_of_stack: 25
+	 C3 i: 322 j: 290 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 167 result_length: 515 lengths[i][j-1]: 167 top_of_stack: 26
+	 C3 i: 320 j: 285 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 166 result_length: 516 lengths[i][j-1]: 165 top_of_stack: 27
+	 C3 i: 318 j: 283 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 165 result_length: 517 lengths[i][j-1]: 165 top_of_stack: 28
+	 C3 i: 317 j: 282 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 164 result_length: 518 lengths[i][j-1]: 164 top_of_stack: 29
+	 C3 i: 316 j: 276 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 163 result_length: 519 lengths[i][j-1]: 163 top_of_stack: 30
+	 C3 i: 315 j: 275 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 162 result_length: 520 lengths[i][j-1]: 162 top_of_stack: 31
+	 C3 i: 314 j: 274 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 161 result_length: 521 lengths[i][j-1]: 161 top_of_stack: 32
+	 C3 i: 311 j: 271 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 160 result_length: 522 lengths[i][j-1]: 159 top_of_stack: 33
+	 C3 i: 308 j: 267 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 159 result_length: 523 lengths[i][j-1]: 158 top_of_stack: 34
+	 C3 i: 305 j: 264 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 158 result_length: 524 lengths[i][j-1]: 157 top_of_stack: 35
+	 C3 i: 304 j: 263 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 157 result_length: 525 lengths[i][j-1]: 156 top_of_stack: 36
+	 C3 i: 303 j: 262 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 156 result_length: 526 lengths[i][j-1]: 155 top_of_stack: 37
+	 C3 i: 302 j: 261 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 155 result_length: 527 lengths[i][j-1]: 154 top_of_stack: 38
+	 C3 i: 301 j: 260 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 154 result_length: 528 lengths[i][j-1]: 153 top_of_stack: 39
+	 C3 i: 300 j: 259 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 153 result_length: 529 lengths[i][j-1]: 152 top_of_stack: 0
+	 C3 i: 299 j: 258 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 152 result_length: 530 lengths[i][j-1]: 151 top_of_stack: 1
+	 C3 i: 298 j: 257 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 151 result_length: 531 lengths[i][j-1]: 150 top_of_stack: 2
+	 C3 i: 297 j: 256 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 150 result_length: 532 lengths[i][j-1]: 149 top_of_stack: 3
+	 C3 i: 296 j: 255 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 149 result_length: 533 lengths[i][j-1]: 148 top_of_stack: 4
+	 C3 i: 292 j: 248 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 148 result_length: 534 lengths[i][j-1]: 147 top_of_stack: 5
+	 C3 i: 291 j: 247 a[i-1]: . b[j-1]: . and ij_considered: 1 lengths[i][j]: 147 result_length: 535 lengths[i][j-1]: 146 top_of_stack: 6
+	 Start_i: 289 Start_j: 246 Stop_i: 291 Stop_j: 247 
+	 ALERT: Top-of-stack: 6 and looking to rollback around i: 290 j: 258 and result_pos: 286 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 1 x: 299 y: 258 char: - result_position_adjust: 5
+	 After rollover top-of-stack: 1 end-of-stack: 2 result_pos: 281 
+	 i: 298 j: 257 
+	 C3 i: 298 j: 257 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 151 result_length: 536 lengths[i][j-1]: 150 top_of_stack: 2
+	 C3 i: 297 j: 256 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 150 result_length: 537 lengths[i][j-1]: 149 top_of_stack: 3
+	 C3 i: 296 j: 255 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 149 result_length: 538 lengths[i][j-1]: 148 top_of_stack: 4
+	 C3 i: 292 j: 248 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 148 result_length: 539 lengths[i][j-1]: 147 top_of_stack: 5
+	 C3 i: 291 j: 247 a[i-1]: . b[j-1]: . and ij_considered: 1 lengths[i][j]: 147 result_length: 540 lengths[i][j-1]: 146 top_of_stack: 6
+	 C3 i: 290 j: 244 a[i-1]: d b[j-1]: d and ij_considered: 1 lengths[i][j]: 146 result_length: 541 lengths[i][j-1]: 145 top_of_stack: 7
+	 C3 i: 287 j: 243 a[i-1]: r b[j-1]: r and ij_considered: 1 lengths[i][j]: 145 result_length: 542 lengths[i][j-1]: 144 top_of_stack: 8
+	 C3 i: 286 j: 236 a[i-1]: o b[j-1]: o and ij_considered: 1 lengths[i][j]: 144 result_length: 543 lengths[i][j-1]: 143 top_of_stack: 9
+	 C3 i: 282 j: 235 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 143 result_length: 544 lengths[i][j-1]: 142 top_of_stack: 10
+	 Start_i: 281 Start_j: 230 Stop_i: 282 Stop_j: 235 
+	 ALERT: Top-of-stack: 10 and looking to rollback around i: 285 j: 250 and result_pos: 290 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 4 x: 296 y: 255 char: - result_position_adjust: 6
+	 After rollover top-of-stack: 4 end-of-stack: 5 result_pos: 284 
+	 i: 295 j: 254 
+	 C3 i: 292 j: 248 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 148 result_length: 545 lengths[i][j-1]: 147 top_of_stack: 5
+	 C3 i: 291 j: 247 a[i-1]: . b[j-1]: . and ij_considered: 1 lengths[i][j]: 147 result_length: 546 lengths[i][j-1]: 146 top_of_stack: 6
+	 C3 i: 290 j: 244 a[i-1]: d b[j-1]: d and ij_considered: 1 lengths[i][j]: 146 result_length: 547 lengths[i][j-1]: 145 top_of_stack: 7
+	 C3 i: 288 j: 241 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 145 result_length: 548 lengths[i][j-1]: 144 top_of_stack: 8
+	 Start_i: 287 Start_j: 236 Stop_i: 288 Stop_j: 241 
+	 ALERT: Top-of-stack: 8 and looking to rollback around i: 296 j: 249 and result_pos: 288 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 4 x: 296 y: 255 char: - result_position_adjust: 4
+	 After rollover top-of-stack: 4 end-of-stack: 5 result_pos: 284 
+	 i: 295 j: 254 
+	 Start_i: 292 Start_j: 249 Stop_i: 288 Stop_j: 241 
+	 ALERT: Top-of-stack: 4 and looking to rollback around i: 300 j: 267 and result_pos: 284 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 34 x: 308 y: 267 char: - result_position_adjust: 10
+	 After rollover top-of-stack: 34 end-of-stack: 35 result_pos: 274 
+	 i: 307 j: 266 
+	 Start_i: 304 Start_j: 266 Stop_i: 288 Stop_j: 241 
+	 ALERT: Top-of-stack: 34 and looking to rollback around i: 305 j: 279 and result_pos: 274 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 29 x: 317 y: 282 char: - result_position_adjust: 5
+	 After rollover top-of-stack: 29 end-of-stack: 30 result_pos: 269 
+	 i: 316 j: 281 
+	 C3 i: 316 j: 276 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 163 result_length: 549 lengths[i][j-1]: 163 top_of_stack: 30
+	 C3 i: 315 j: 275 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 162 result_length: 550 lengths[i][j-1]: 162 top_of_stack: 31
+	 C3 i: 314 j: 274 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 161 result_length: 551 lengths[i][j-1]: 161 top_of_stack: 32
+	 C3 i: 311 j: 271 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 160 result_length: 552 lengths[i][j-1]: 159 top_of_stack: 33
+	 C3 i: 308 j: 267 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 159 result_length: 553 lengths[i][j-1]: 157 top_of_stack: 34
+	 C3 i: 305 j: 264 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 157 result_length: 554 lengths[i][j-1]: 156 top_of_stack: 35
+	 C3 i: 304 j: 263 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 156 result_length: 555 lengths[i][j-1]: 155 top_of_stack: 36
+	 C3 i: 303 j: 262 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 155 result_length: 556 lengths[i][j-1]: 154 top_of_stack: 37
+	 C3 i: 302 j: 261 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 154 result_length: 557 lengths[i][j-1]: 153 top_of_stack: 38
+	 C3 i: 301 j: 260 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 153 result_length: 558 lengths[i][j-1]: 152 top_of_stack: 39
+	 C3 i: 300 j: 259 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 152 result_length: 559 lengths[i][j-1]: 151 top_of_stack: 0
+	 C3 i: 299 j: 258 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 151 result_length: 560 lengths[i][j-1]: 150 top_of_stack: 1
+	 C3 i: 298 j: 257 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 150 result_length: 561 lengths[i][j-1]: 149 top_of_stack: 2
+	 C3 i: 297 j: 256 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 149 result_length: 562 lengths[i][j-1]: 148 top_of_stack: 3
+	 C3 i: 296 j: 255 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 148 result_length: 563 lengths[i][j-1]: 147 top_of_stack: 4
+	 Start_i: 291 Start_j: 248 Stop_i: 296 Stop_j: 255 
+	 ALERT: Top-of-stack: 4 and looking to rollback around i: 292 j: 259 and result_pos: 284 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 0 x: 300 y: 259 char: - result_position_adjust: 4
+	 After rollover top-of-stack: 0 end-of-stack: 1 result_pos: 280 
+	 i: 299 j: 258 
+	 C3 i: 299 j: 258 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 151 result_length: 564 lengths[i][j-1]: 150 top_of_stack: 1
+	 C3 i: 298 j: 257 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 150 result_length: 565 lengths[i][j-1]: 149 top_of_stack: 2
+	 C3 i: 297 j: 256 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 149 result_length: 566 lengths[i][j-1]: 148 top_of_stack: 3
+	 C3 i: 296 j: 255 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 148 result_length: 567 lengths[i][j-1]: 147 top_of_stack: 4
+	 C3 i: 292 j: 248 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 147 result_length: 568 lengths[i][j-1]: 146 top_of_stack: 5
+	 C3 i: 291 j: 247 a[i-1]: . b[j-1]: . and ij_considered: 1 lengths[i][j]: 146 result_length: 569 lengths[i][j-1]: 145 top_of_stack: 6
+	 Start_i: 288 Start_j: 246 Stop_i: 291 Stop_j: 247 
+	 ALERT: Top-of-stack: 6 and looking to rollback around i: 290 j: 250 and result_pos: 286 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 4 x: 296 y: 255 char: - result_position_adjust: 2
+	 After rollover top-of-stack: 4 end-of-stack: 5 result_pos: 284 
+	 i: 295 j: 254 
+	 C3 i: 292 j: 248 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 147 result_length: 570 lengths[i][j-1]: 146 top_of_stack: 5
+	 C3 i: 291 j: 247 a[i-1]: . b[j-1]: . and ij_considered: 1 lengths[i][j]: 146 result_length: 571 lengths[i][j-1]: 145 top_of_stack: 6
+	 C3 i: 290 j: 244 a[i-1]: d b[j-1]: d and ij_considered: 1 lengths[i][j]: 145 result_length: 572 lengths[i][j-1]: 144 top_of_stack: 7
+	 C3 i: 287 j: 243 a[i-1]: r b[j-1]: r and ij_considered: 1 lengths[i][j]: 144 result_length: 573 lengths[i][j-1]: 143 top_of_stack: 8
+	 C3 i: 286 j: 236 a[i-1]: o b[j-1]: o and ij_considered: 1 lengths[i][j]: 143 result_length: 574 lengths[i][j-1]: 143 top_of_stack: 9
+	 C3 i: 282 j: 235 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 142 result_length: 575 lengths[i][j-1]: 141 top_of_stack: 10
+	 C3 i: 278 j: 228 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 141 result_length: 576 lengths[i][j-1]: 140 top_of_stack: 11
+	 C3 i: 275 j: 227 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 140 result_length: 577 lengths[i][j-1]: 139 top_of_stack: 12
+	 C3 i: 274 j: 225 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 139 result_length: 578 lengths[i][j-1]: 138 top_of_stack: 13
+	 C3 i: 272 j: 221 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 138 result_length: 579 lengths[i][j-1]: 137 top_of_stack: 14
+	 C3 i: 271 j: 219 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 137 result_length: 580 lengths[i][j-1]: 136 top_of_stack: 15
+	 C3 i: 266 j: 218 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 136 result_length: 581 lengths[i][j-1]: 135 top_of_stack: 16
+	 C3 i: 262 j: 217 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 135 result_length: 582 lengths[i][j-1]: 134 top_of_stack: 17
+	 C3 i: 258 j: 216 a[i-1]: h b[j-1]: h and ij_considered: 1 lengths[i][j]: 134 result_length: 583 lengths[i][j-1]: 133 top_of_stack: 18
+	 C3 i: 252 j: 215 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 133 result_length: 584 lengths[i][j-1]: 132 top_of_stack: 19
+	 C3 i: 249 j: 214 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 132 result_length: 585 lengths[i][j-1]: 131 top_of_stack: 20
+	 C3 i: 248 j: 213 a[i-1]: d b[j-1]: d and ij_considered: 1 lengths[i][j]: 131 result_length: 586 lengths[i][j-1]: 131 top_of_stack: 21
+	 C3 i: 246 j: 210 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 130 result_length: 587 lengths[i][j-1]: 130 top_of_stack: 22
+	 C3 i: 245 j: 202 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 129 result_length: 588 lengths[i][j-1]: 128 top_of_stack: 23
+	 C3 i: 243 j: 200 a[i-1]: A b[j-1]: A and ij_considered: 1 lengths[i][j]: 128 result_length: 589 lengths[i][j-1]: 127 top_of_stack: 24
+	 C3 i: 242 j: 199 a[i-1]: X b[j-1]: X and ij_considered: 1 lengths[i][j]: 127 result_length: 590 lengths[i][j-1]: 126 top_of_stack: 25
+	 C3 i: 241 j: 198 a[i-1]: A b[j-1]: A and ij_considered: 1 lengths[i][j]: 126 result_length: 591 lengths[i][j-1]: 125 top_of_stack: 26
+	 C3 i: 240 j: 197 a[i-1]: J b[j-1]: J and ij_considered: 1 lengths[i][j]: 125 result_length: 592 lengths[i][j-1]: 124 top_of_stack: 27
+	 C3 i: 236 j: 195 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 124 result_length: 593 lengths[i][j-1]: 123 top_of_stack: 28
+	 C3 i: 234 j: 194 a[i-1]: y b[j-1]: y and ij_considered: 1 lengths[i][j]: 123 result_length: 594 lengths[i][j-1]: 122 top_of_stack: 29
+	 C3 i: 233 j: 193 a[i-1]: c b[j-1]: c and ij_considered: 1 lengths[i][j]: 122 result_length: 595 lengths[i][j-1]: 121 top_of_stack: 30
+	 C3 i: 232 j: 192 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 121 result_length: 596 lengths[i][j-1]: 120 top_of_stack: 31
+	 C3 i: 231 j: 191 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 120 result_length: 597 lengths[i][j-1]: 119 top_of_stack: 32
+	 C3 i: 230 j: 190 a[i-1]: g b[j-1]: g and ij_considered: 1 lengths[i][j]: 119 result_length: 598 lengths[i][j-1]: 118 top_of_stack: 33
+	 C3 i: 229 j: 189 a[i-1]: A b[j-1]: A and ij_considered: 1 lengths[i][j]: 118 result_length: 599 lengths[i][j-1]: 117 top_of_stack: 34
+	 C3 i: 228 j: 188 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 117 result_length: 600 lengths[i][j-1]: 116 top_of_stack: 35
+	 C3 i: 227 j: 187 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 116 result_length: 601 lengths[i][j-1]: 115 top_of_stack: 36
+	 C3 i: 226 j: 186 a[i-1]: o b[j-1]: o and ij_considered: 1 lengths[i][j]: 115 result_length: 602 lengths[i][j-1]: 114 top_of_stack: 37
+	 C3 i: 225 j: 185 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 114 result_length: 603 lengths[i][j-1]: 113 top_of_stack: 38
+	 C3 i: 224 j: 184 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 113 result_length: 604 lengths[i][j-1]: 112 top_of_stack: 39
+	 C3 i: 223 j: 183 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 112 result_length: 605 lengths[i][j-1]: 111 top_of_stack: 0
+	 C3 i: 222 j: 182 a[i-1]: r b[j-1]: r and ij_considered: 1 lengths[i][j]: 111 result_length: 606 lengths[i][j-1]: 110 top_of_stack: 1
+	 C3 i: 221 j: 181 a[i-1]: o b[j-1]: o and ij_considered: 1 lengths[i][j]: 110 result_length: 607 lengths[i][j-1]: 109 top_of_stack: 2
+	 C3 i: 220 j: 180 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 109 result_length: 608 lengths[i][j-1]: 108 top_of_stack: 3
+	 C3 i: 219 j: 179 a[i-1]: p b[j-1]: p and ij_considered: 1 lengths[i][j]: 108 result_length: 609 lengths[i][j-1]: 107 top_of_stack: 4
+	 C3 i: 218 j: 178 a[i-1]: x b[j-1]: x and ij_considered: 1 lengths[i][j]: 107 result_length: 610 lengths[i][j-1]: 106 top_of_stack: 5
+	 C3 i: 217 j: 177 a[i-1]: E b[j-1]: E and ij_considered: 1 lengths[i][j]: 106 result_length: 611 lengths[i][j-1]: 105 top_of_stack: 6
+	 C3 i: 216 j: 176 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 105 result_length: 612 lengths[i][j-1]: 104 top_of_stack: 7
+	 C3 i: 215 j: 175 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 104 result_length: 613 lengths[i][j-1]: 103 top_of_stack: 8
+	 C3 i: 214 j: 174 a[i-1]: c b[j-1]: c and ij_considered: 1 lengths[i][j]: 103 result_length: 614 lengths[i][j-1]: 102 top_of_stack: 9
+	 C3 i: 213 j: 173 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 102 result_length: 615 lengths[i][j-1]: 101 top_of_stack: 10
+	 C3 i: 212 j: 172 a[i-1]: p b[j-1]: p and ij_considered: 1 lengths[i][j]: 101 result_length: 616 lengths[i][j-1]: 100 top_of_stack: 11
+	 C3 i: 211 j: 171 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 100 result_length: 617 lengths[i][j-1]: 99 top_of_stack: 12
+	 C3 i: 210 j: 170 a[i-1]: o b[j-1]: o and ij_considered: 1 lengths[i][j]: 99 result_length: 618 lengths[i][j-1]: 98 top_of_stack: 13
+	 C3 i: 209 j: 169 a[i-1]: r b[j-1]: r and ij_considered: 1 lengths[i][j]: 98 result_length: 619 lengths[i][j-1]: 97 top_of_stack: 14
+	 C3 i: 208 j: 168 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 97 result_length: 620 lengths[i][j-1]: 96 top_of_stack: 15
+	 C3 i: 207 j: 167 a[i-1]: A b[j-1]: A and ij_considered: 1 lengths[i][j]: 96 result_length: 621 lengths[i][j-1]: 95 top_of_stack: 16
+	 C3 i: 206 j: 166 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 95 result_length: 622 lengths[i][j-1]: 94 top_of_stack: 17
+	 C3 i: 205 j: 165 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 94 result_length: 623 lengths[i][j-1]: 93 top_of_stack: 18
+	 C3 i: 204 j: 164 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 93 result_length: 624 lengths[i][j-1]: 92 top_of_stack: 19
+	 C3 i: 203 j: 163 a[i-1]: p b[j-1]: p and ij_considered: 1 lengths[i][j]: 92 result_length: 625 lengths[i][j-1]: 91 top_of_stack: 20
+	 C3 i: 202 j: 162 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 91 result_length: 626 lengths[i][j-1]: 90 top_of_stack: 21
+	 C3 i: 201 j: 161 a[i-1]: J b[j-1]: J and ij_considered: 1 lengths[i][j]: 90 result_length: 627 lengths[i][j-1]: 89 top_of_stack: 22
+	 C3 i: 200 j: 160 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 89 result_length: 628 lengths[i][j-1]: 88 top_of_stack: 23
+	 C3 i: 199 j: 159 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 88 result_length: 629 lengths[i][j-1]: 87 top_of_stack: 24
+	 C3 i: 198 j: 158 a[i-1]: h b[j-1]: h and ij_considered: 1 lengths[i][j]: 87 result_length: 630 lengths[i][j-1]: 86 top_of_stack: 25
+	 C3 i: 196 j: 156 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 86 result_length: 631 lengths[i][j-1]: 85 top_of_stack: 26
+	 Start_i: 194 Start_j: 149 Stop_i: 196 Stop_j: 156 
+	 ALERT: Top-of-stack: 26 and looking to rollback around i: 195 j: 159 and result_pos: 346 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 24 x: 199 y: 159 char: - result_position_adjust: 2
+	 After rollover top-of-stack: 24 end-of-stack: 25 result_pos: 344 
+	 i: 198 j: 158 
+	 C3 i: 198 j: 158 a[i-1]: h b[j-1]: h and ij_considered: 1 lengths[i][j]: 87 result_length: 632 lengths[i][j-1]: 86 top_of_stack: 25
+	 C3 i: 196 j: 156 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 86 result_length: 633 lengths[i][j-1]: 85 top_of_stack: 26
+	 C3 i: 195 j: 149 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 85 result_length: 634 lengths[i][j-1]: 84 top_of_stack: 27
+	 C3 i: 193 j: 146 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 84 result_length: 635 lengths[i][j-1]: 83 top_of_stack: 28
+	 C3 i: 191 j: 145 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 83 result_length: 636 lengths[i][j-1]: 82 top_of_stack: 29
+	 C3 i: 188 j: 144 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 82 result_length: 637 lengths[i][j-1]: 81 top_of_stack: 30
+	 C3 i: 184 j: 140 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 81 result_length: 638 lengths[i][j-1]: 80 top_of_stack: 31
+	 C3 i: 180 j: 139 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 80 result_length: 639 lengths[i][j-1]: 79 top_of_stack: 32
+	 C3 i: 176 j: 138 a[i-1]: o b[j-1]: o and ij_considered: 1 lengths[i][j]: 79 result_length: 640 lengths[i][j-1]: 78 top_of_stack: 33
+	 C3 i: 172 j: 136 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 78 result_length: 641 lengths[i][j-1]: 77 top_of_stack: 34
+	 C3 i: 168 j: 135 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 77 result_length: 642 lengths[i][j-1]: 76 top_of_stack: 35
+	 C3 i: 164 j: 133 a[i-1]: o b[j-1]: o and ij_considered: 1 lengths[i][j]: 76 result_length: 643 lengths[i][j-1]: 76 top_of_stack: 36
+	 C3 i: 162 j: 130 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 75 result_length: 644 lengths[i][j-1]: 74 top_of_stack: 37
+	 C3 i: 161 j: 129 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 74 result_length: 645 lengths[i][j-1]: 73 top_of_stack: 38
+	 C3 i: 160 j: 128 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 73 result_length: 646 lengths[i][j-1]: 72 top_of_stack: 39
+	 C3 i: 159 j: 126 a[i-1]: d b[j-1]: d and ij_considered: 1 lengths[i][j]: 72 result_length: 647 lengths[i][j-1]: 71 top_of_stack: 0
+	 C3 i: 156 j: 123 a[i-1]: o b[j-1]: o and ij_considered: 1 lengths[i][j]: 71 result_length: 648 lengths[i][j-1]: 70 top_of_stack: 1
+	 C3 i: 153 j: 120 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 70 result_length: 649 lengths[i][j-1]: 69 top_of_stack: 2
+	 C3 i: 152 j: 119 a[i-1]: d b[j-1]: d and ij_considered: 1 lengths[i][j]: 69 result_length: 650 lengths[i][j-1]: 68 top_of_stack: 3
+	 C3 i: 145 j: 118 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 68 result_length: 651 lengths[i][j-1]: 67 top_of_stack: 4
+	 C3 i: 144 j: 114 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 67 result_length: 652 lengths[i][j-1]: 66 top_of_stack: 5
+	 C3 i: 142 j: 112 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 66 result_length: 653 lengths[i][j-1]: 65 top_of_stack: 6
+	 C3 i: 140 j: 109 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 65 result_length: 654 lengths[i][j-1]: 64 top_of_stack: 7
+	 C3 i: 139 j: 108 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 64 result_length: 655 lengths[i][j-1]: 63 top_of_stack: 8
+	 C3 i: 138 j: 107 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 63 result_length: 656 lengths[i][j-1]: 62 top_of_stack: 9
+	 C3 i: 137 j: 106 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 62 result_length: 657 lengths[i][j-1]: 61 top_of_stack: 10
+	 C3 i: 136 j: 105 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 61 result_length: 658 lengths[i][j-1]: 60 top_of_stack: 11
+	 C3 i: 135 j: 104 a[i-1]: l b[j-1]: l and ij_considered: 1 lengths[i][j]: 60 result_length: 659 lengths[i][j-1]: 59 top_of_stack: 12
+	 C3 i: 134 j: 103 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 59 result_length: 660 lengths[i][j-1]: 58 top_of_stack: 13
+	 C3 i: 133 j: 102 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 58 result_length: 661 lengths[i][j-1]: 57 top_of_stack: 14
+	 C3 i: 132 j: 101 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 57 result_length: 662 lengths[i][j-1]: 56 top_of_stack: 15
+	 C3 i: 131 j: 100 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 56 result_length: 663 lengths[i][j-1]: 55 top_of_stack: 16
+	 C3 i: 130 j: 99 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 55 result_length: 664 lengths[i][j-1]: 54 top_of_stack: 17
+	 C3 i: 124 j: 97 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 54 result_length: 665 lengths[i][j-1]: 53 top_of_stack: 18
+	 C3 i: 123 j: 95 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 53 result_length: 666 lengths[i][j-1]: 52 top_of_stack: 19
+	 C3 i: 122 j: 94 a[i-1]: h b[j-1]: h and ij_considered: 1 lengths[i][j]: 52 result_length: 667 lengths[i][j-1]: 51 top_of_stack: 20
+	 C3 i: 107 j: 93 a[i-1]: c b[j-1]: c and ij_considered: 1 lengths[i][j]: 51 result_length: 668 lengths[i][j-1]: 50 top_of_stack: 21
+	 C3 i: 105 j: 92 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 50 result_length: 669 lengths[i][j-1]: 49 top_of_stack: 22
+	 C3 i: 104 j: 90 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 49 result_length: 670 lengths[i][j-1]: 48 top_of_stack: 23
+	 C3 i: 101 j: 88 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 48 result_length: 671 lengths[i][j-1]: 47 top_of_stack: 24
+	 C3 i: 98 j: 87 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 47 result_length: 672 lengths[i][j-1]: 46 top_of_stack: 25
+	 C3 i: 97 j: 86 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 46 result_length: 673 lengths[i][j-1]: 45 top_of_stack: 26
+	 C3 i: 94 j: 83 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 45 result_length: 674 lengths[i][j-1]: 44 top_of_stack: 27
+	 C3 i: 93 j: 82 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 44 result_length: 675 lengths[i][j-1]: 43 top_of_stack: 28
+	 Start_i: 89 Start_j: 80 Stop_i: 93 Stop_j: 82 
+	 ALERT: Top-of-stack: 28 and looking to rollback around i: 100 j: 98 and result_pos: 388 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 17 x: 130 y: 99 char: - result_position_adjust: 11
+	 After rollover top-of-stack: 17 end-of-stack: 18 result_pos: 377 
+	 i: 129 j: 98 
+	 C3 i: 124 j: 97 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 54 result_length: 676 lengths[i][j-1]: 53 top_of_stack: 18
+	 C3 i: 123 j: 95 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 53 result_length: 677 lengths[i][j-1]: 52 top_of_stack: 19
+	 C3 i: 122 j: 94 a[i-1]: h b[j-1]: h and ij_considered: 1 lengths[i][j]: 52 result_length: 678 lengths[i][j-1]: 51 top_of_stack: 20
+	 Start_i: 108 Start_j: 93 Stop_i: 122 Stop_j: 94 
+	 ALERT: Top-of-stack: 20 and looking to rollback around i: 115 j: 101 and result_pos: 380 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 15 x: 132 y: 101 char: - result_position_adjust: 5
+	 After rollover top-of-stack: 15 end-of-stack: 16 result_pos: 375 
+	 i: 131 j: 100 
+	 C3 i: 131 j: 100 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 56 result_length: 679 lengths[i][j-1]: 55 top_of_stack: 16
+	 C3 i: 130 j: 99 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 55 result_length: 680 lengths[i][j-1]: 54 top_of_stack: 17
+	 C3 i: 124 j: 97 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 54 result_length: 681 lengths[i][j-1]: 53 top_of_stack: 18
+	 C3 i: 123 j: 95 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 53 result_length: 682 lengths[i][j-1]: 52 top_of_stack: 19
+	 C3 i: 122 j: 94 a[i-1]: h b[j-1]: h and ij_considered: 1 lengths[i][j]: 52 result_length: 683 lengths[i][j-1]: 51 top_of_stack: 20
+	 C3 i: 115 j: 88 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 51 result_length: 684 lengths[i][j-1]: 50 top_of_stack: 21
+	 Start_i: 113 Start_j: 87 Stop_i: 115 Stop_j: 88 
+	 ALERT: Top-of-stack: 21 and looking to rollback around i: 131 j: 96 and result_pos: 381 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 16 x: 131 y: 100 char: - result_position_adjust: 5
+	 After rollover top-of-stack: 16 end-of-stack: 17 result_pos: 376 
+	 i: 130 j: 99 
+	 C3 i: 130 j: 99 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 55 result_length: 685 lengths[i][j-1]: 54 top_of_stack: 17
+	 C3 i: 124 j: 97 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 54 result_length: 686 lengths[i][j-1]: 53 top_of_stack: 18
+	 C3 i: 123 j: 95 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 53 result_length: 687 lengths[i][j-1]: 52 top_of_stack: 19
+	 C3 i: 122 j: 94 a[i-1]: h b[j-1]: h and ij_considered: 1 lengths[i][j]: 52 result_length: 688 lengths[i][j-1]: 51 top_of_stack: 20
+	 Start_i: 115 Start_j: 93 Stop_i: 122 Stop_j: 94 
+	 ALERT: Top-of-stack: 20 and looking to rollback around i: 124 j: 96 and result_pos: 380 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 18 x: 124 y: 97 char: - result_position_adjust: 2
+	 After rollover top-of-stack: 18 end-of-stack: 19 result_pos: 378 
+	 i: 123 j: 96 
+	 Start_i: 123 Start_j: 96 Stop_i: 122 Stop_j: 94 
+	 ALERT: Top-of-stack: 18 and looking to rollback around i: 126 j: 98 and result_pos: 378 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 17 x: 130 y: 99 char: - result_position_adjust: 1
+	 After rollover top-of-stack: 17 end-of-stack: 18 result_pos: 377 
+	 i: 129 j: 98 
+	 Start_i: 124 Start_j: 98 Stop_i: 122 Stop_j: 94 
+	 ALERT: Top-of-stack: 17 and looking to rollback around i: 127 j: 100 and result_pos: 377 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 16 x: 131 y: 100 char: - result_position_adjust: 1
+	 After rollover top-of-stack: 16 end-of-stack: 17 result_pos: 376 
+	 i: 130 j: 99 
+	 C3 i: 130 j: 99 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 55 result_length: 689 lengths[i][j-1]: 54 top_of_stack: 17
+	 Start_i: 127 Start_j: 97 Stop_i: 130 Stop_j: 99 
+	 ALERT: Top-of-stack: 17 and looking to rollback around i: 130 j: 99 and result_pos: 377 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 17 x: 130 y: 99 char: - result_position_adjust: 0
+	 After rollover top-of-stack: 17 end-of-stack: 18 result_pos: 377 
+	 i: 129 j: 98 
+	 C3 i: 115 j: 97 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 53 result_length: 690 lengths[i][j-1]: 52 top_of_stack: 18
+	 Start_i: 112 Start_j: 96 Stop_i: 115 Stop_j: 97 
+	 ALERT: Top-of-stack: 18 and looking to rollback around i: 116 j: 100 and result_pos: 378 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 16 x: 131 y: 100 char: - result_position_adjust: 2
+	 After rollover top-of-stack: 16 end-of-stack: 17 result_pos: 376 
+	 i: 130 j: 99 
+	 C3 i: 130 j: 99 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 55 result_length: 691 lengths[i][j-1]: 54 top_of_stack: 17
+	 Start_i: 117 Start_j: 97 Stop_i: 130 Stop_j: 99 
+	 ALERT: Top-of-stack: 17 and looking to rollback around i: 120 j: 99 and result_pos: 377 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 17 x: 130 y: 99 char: - result_position_adjust: 0
+	 After rollover top-of-stack: 17 end-of-stack: 18 result_pos: 377 
+	 i: 129 j: 98 
+	 C3 i: 120 j: 97 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 53 result_length: 692 lengths[i][j-1]: 52 top_of_stack: 18
+	 Start_i: 116 Start_j: 95 Stop_i: 120 Stop_j: 97 
+	 ALERT: Top-of-stack: 18 and looking to rollback around i: 123 j: 98 and result_pos: 378 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 17 x: 130 y: 99 char: - result_position_adjust: 1
+	 After rollover top-of-stack: 17 end-of-stack: 18 result_pos: 377 
+	 i: 129 j: 98 
+	 Start_i: 120 Start_j: 98 Stop_i: 120 Stop_j: 97 
+	 ALERT: Top-of-stack: 17 and looking to rollback around i: 124 j: 101 and result_pos: 377 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 15 x: 132 y: 101 char: - result_position_adjust: 2
+	 After rollover top-of-stack: 15 end-of-stack: 16 result_pos: 375 
+	 i: 131 j: 100 
+	 C3 i: 131 j: 100 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 56 result_length: 693 lengths[i][j-1]: 55 top_of_stack: 16
+	 C3 i: 130 j: 99 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 55 result_length: 694 lengths[i][j-1]: 54 top_of_stack: 17
+	 C3 i: 124 j: 97 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 53 result_length: 695 lengths[i][j-1]: 52 top_of_stack: 18
+	 C3 i: 123 j: 95 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 52 result_length: 696 lengths[i][j-1]: 51 top_of_stack: 19
+	 C3 i: 122 j: 94 a[i-1]: h b[j-1]: h and ij_considered: 1 lengths[i][j]: 51 result_length: 697 lengths[i][j-1]: 50 top_of_stack: 20
+	 C3 i: 107 j: 93 a[i-1]: c b[j-1]: c and ij_considered: 1 lengths[i][j]: 50 result_length: 698 lengths[i][j-1]: 50 top_of_stack: 21
+	 C3 i: 105 j: 92 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 49 result_length: 699 lengths[i][j-1]: 48 top_of_stack: 22
+	 C3 i: 104 j: 90 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 48 result_length: 700 lengths[i][j-1]: 48 top_of_stack: 23
+	 C3 i: 101 j: 88 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 47 result_length: 701 lengths[i][j-1]: 46 top_of_stack: 24
+	 C3 i: 98 j: 87 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 46 result_length: 702 lengths[i][j-1]: 45 top_of_stack: 25
+	 C3 i: 97 j: 86 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 45 result_length: 703 lengths[i][j-1]: 44 top_of_stack: 26
+	 C3 i: 94 j: 83 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 44 result_length: 704 lengths[i][j-1]: 43 top_of_stack: 27
+	 C3 i: 93 j: 82 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 43 result_length: 705 lengths[i][j-1]: 42 top_of_stack: 28
+	 C3 i: 88 j: 79 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 42 result_length: 706 lengths[i][j-1]: 41 top_of_stack: 29
+	 C3 i: 86 j: 77 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 41 result_length: 707 lengths[i][j-1]: 40 top_of_stack: 30
+	 C3 i: 85 j: 76 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 40 result_length: 708 lengths[i][j-1]: 39 top_of_stack: 31
+	 C3 i: 83 j: 75 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 39 result_length: 709 lengths[i][j-1]: 38 top_of_stack: 32
+	 C3 i: 74 j: 74 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 38 result_length: 710 lengths[i][j-1]: 37 top_of_stack: 33
+	 C3 i: 73 j: 73 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 37 result_length: 711 lengths[i][j-1]: 36 top_of_stack: 34
+	 C3 i: 72 j: 72 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 36 result_length: 712 lengths[i][j-1]: 35 top_of_stack: 35
+	 C3 i: 71 j: 71 a[i-1]: r b[j-1]: r and ij_considered: 1 lengths[i][j]: 35 result_length: 713 lengths[i][j-1]: 34 top_of_stack: 36
+	 C3 i: 70 j: 70 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 34 result_length: 714 lengths[i][j-1]: 33 top_of_stack: 37
+	 C3 i: 69 j: 69 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 33 result_length: 715 lengths[i][j-1]: 32 top_of_stack: 38
+	 C3 i: 68 j: 68 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 32 result_length: 716 lengths[i][j-1]: 31 top_of_stack: 39
+	 C3 i: 67 j: 67 a[i-1]: I b[j-1]: I and ij_considered: 1 lengths[i][j]: 31 result_length: 717 lengths[i][j-1]: 30 top_of_stack: 0
+	 C3 i: 66 j: 66 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 30 result_length: 718 lengths[i][j-1]: 29 top_of_stack: 1
+	 C3 i: 64 j: 65 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 29 result_length: 719 lengths[i][j-1]: 28 top_of_stack: 2
+	 Start_i: 56 Start_j: 63 Stop_i: 64 Stop_j: 65 
+	 ALERT: Top-of-stack: 2 and looking to rollback around i: 58 j: 69 and result_pos: 402 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 38 x: 69 y: 69 char: - result_position_adjust: 4
+	 After rollover top-of-stack: 38 end-of-stack: 39 result_pos: 398 
+	 i: 68 j: 68 
+	 C3 i: 68 j: 68 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 32 result_length: 720 lengths[i][j-1]: 31 top_of_stack: 39
+	 C3 i: 67 j: 67 a[i-1]: I b[j-1]: I and ij_considered: 1 lengths[i][j]: 31 result_length: 721 lengths[i][j-1]: 30 top_of_stack: 0
+	 C3 i: 66 j: 66 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 30 result_length: 722 lengths[i][j-1]: 29 top_of_stack: 1
+	 C3 i: 64 j: 65 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 29 result_length: 723 lengths[i][j-1]: 28 top_of_stack: 2
+	 C3 i: 58 j: 62 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 28 result_length: 724 lengths[i][j-1]: 27 top_of_stack: 3
+	 C3 i: 54 j: 61 a[i-1]: o b[j-1]: o and ij_considered: 1 lengths[i][j]: 27 result_length: 725 lengths[i][j-1]: 26 top_of_stack: 4
+	 C3 i: 52 j: 59 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 26 result_length: 726 lengths[i][j-1]: 25 top_of_stack: 5
+	 C3 i: 50 j: 53 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 25 result_length: 727 lengths[i][j-1]: 24 top_of_stack: 6
+	 C3 i: 49 j: 51 a[i-1]: d b[j-1]: d and ij_considered: 1 lengths[i][j]: 24 result_length: 728 lengths[i][j-1]: 23 top_of_stack: 7
+	 C3 i: 48 j: 40 a[i-1]: r b[j-1]: r and ij_considered: 1 lengths[i][j]: 23 result_length: 729 lengths[i][j-1]: 22 top_of_stack: 8
+	 C3 i: 47 j: 37 a[i-1]: u b[j-1]: u and ij_considered: 1 lengths[i][j]: 22 result_length: 730 lengths[i][j-1]: 21 top_of_stack: 9
+	 C3 i: 43 j: 35 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 21 result_length: 731 lengths[i][j-1]: 20 top_of_stack: 10
+	 C3 i: 42 j: 32 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 20 result_length: 732 lengths[i][j-1]: 19 top_of_stack: 11
+	 C3 i: 37 j: 31 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 19 result_length: 733 lengths[i][j-1]: 18 top_of_stack: 12
+	 C3 i: 36 j: 30 a[i-1]: o b[j-1]: o and ij_considered: 1 lengths[i][j]: 18 result_length: 734 lengths[i][j-1]: 17 top_of_stack: 13
+	 C3 i: 35 j: 29 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 17 result_length: 735 lengths[i][j-1]: 17 top_of_stack: 14
+	 C3 i: 32 j: 28 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 16 result_length: 736 lengths[i][j-1]: 15 top_of_stack: 15
+	 Start_i: 31 Start_j: 22 Stop_i: 32 Stop_j: 28 
+	 ALERT: Top-of-stack: 15 and looking to rollback around i: 32 j: 28 and result_pos: 415 
+	 Should rollback to this point *STACK SUGGESTIONS* i: 15 x: 32 y: 28 char: - result_position_adjust: 0
+	 After rollover top-of-stack: 15 end-of-stack: 16 result_pos: 415 
+	 i: 31 j: 27 
+	 C3 i: 21 j: 27 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 14 result_length: 737 lengths[i][j-1]: 13 top_of_stack: 16
+	 C3 i: 20 j: 24 a[i-1]: i b[j-1]: i and ij_considered: 1 lengths[i][j]: 13 result_length: 738 lengths[i][j-1]: 12 top_of_stack: 17
+	 C3 i: 17 j: 21 a[i-1]: e b[j-1]: e and ij_considered: 1 lengths[i][j]: 12 result_length: 739 lengths[i][j-1]: 11 top_of_stack: 18
+	 C3 i: 16 j: 19 a[i-1]: t b[j-1]: t and ij_considered: 1 lengths[i][j]: 11 result_length: 740 lengths[i][j-1]: 10 top_of_stack: 19
+	 C3 i: 13 j: 18 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 10 result_length: 741 lengths[i][j-1]: 10 top_of_stack: 20
+	 C3 i: 11 j: 15 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 9 result_length: 742 lengths[i][j-1]: 9 top_of_stack: 21
+	 C3 i: 10 j: 11 a[i-1]: s b[j-1]: s and ij_considered: 1 lengths[i][j]: 8 result_length: 743 lengths[i][j-1]: 7 top_of_stack: 22
+	 C3 i: 8 j: 8 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 7 result_length: 744 lengths[i][j-1]: 6 top_of_stack: 23
+	 C3 i: 6 j: 6 a[i-1]:   b[j-1]:   and ij_considered: 1 lengths[i][j]: 6 result_length: 745 lengths[i][j-1]: 5 top_of_stack: 24
+	 C3 i: 5 j: 5 a[i-1]: n b[j-1]: n and ij_considered: 1 lengths[i][j]: 5 result_length: 746 lengths[i][j-1]: 4 top_of_stack: 25
+	 C3 i: 4 j: 4 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 4 result_length: 747 lengths[i][j-1]: 3 top_of_stack: 26
+	 C3 i: 3 j: 3 a[i-1]: p b[j-1]: p and ij_considered: 1 lengths[i][j]: 3 result_length: 748 lengths[i][j-1]: 2 top_of_stack: 27
+	 C3 i: 2 j: 2 a[i-1]: a b[j-1]: a and ij_considered: 1 lengths[i][j]: 2 result_length: 749 lengths[i][j-1]: 1 top_of_stack: 28
+	 C3 i: 1 j: 1 a[i-1]: J b[j-1]: J and ij_considered: 1 lengths[i][j]: 1 result_length: 750 lengths[i][j-1]: 0 top_of_stack: 29

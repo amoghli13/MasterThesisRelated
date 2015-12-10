@@ -1,0 +1,36 @@
+41:	 Exception! i: 447 j: 438 a[iprime]: u b[jprime]: h lengths[i-1][j]: 228 lengths[i][j-1]:228 lengths[i][j]:229  and ij_considered: 3 
+269:	 Exception! i: 417 j: 399 a[iprime]: t b[jprime]: a lengths[i-1][j]: 213 lengths[i][j-1]:213 lengths[i][j]:214  and ij_considered: 3 
+380:	 Exception! i: 416 j: 395 a[iprime]: a b[jprime]: s lengths[i-1][j]: 212 lengths[i][j-1]:212 lengths[i][j]:213  and ij_considered: 3 
+466:	 Exception! i: 412 j: 393 a[iprime]: a b[jprime]: e lengths[i-1][j]: 210 lengths[i][j-1]:210 lengths[i][j]:211  and ij_considered: 3 
+618:	 Exception! i: 400 j: 377 a[iprime]: w b[jprime]: s lengths[i-1][j]: 205 lengths[i][j-1]:205 lengths[i][j]:206  and ij_considered: 3 
+827:	 Exception! i: 362 j: 339 a[iprime]: g b[jprime]: I lengths[i-1][j]: 185 lengths[i][j-1]:185 lengths[i][j]:186  and ij_considered: 3 
+1101:	 Exception! i: 331 j: 283 a[iprime]:   b[jprime]: e lengths[i-1][j]: 168 lengths[i][j-1]:168 lengths[i][j]:169  and ij_considered: 3 
+1182:	 Exception! i: 310 j: 273 a[iprime]: l b[jprime]: a lengths[i-1][j]: 160 lengths[i][j-1]:160 lengths[i][j]:161  and ij_considered: 3 
+1450:	 Exception! i: 185 j: 152 a[iprime]: u b[jprime]: o lengths[i-1][j]: 86 lengths[i][j-1]:86 lengths[i][j]:87  and ij_considered: 3 
+1663:	 Exception! i: 176 j: 141 a[iprime]: o b[jprime]: h lengths[i-1][j]: 81 lengths[i][j-1]:81 lengths[i][j]:82  and ij_considered: 3 
+1785:	 Exception! i: 156 j: 121 a[iprime]: o b[jprime]: p lengths[i-1][j]: 71 lengths[i][j-1]:71 lengths[i][j]:72  and ij_considered: 3 
+1900:	 Exception! i: 141 j: 113 a[iprime]: w b[jprime]: t lengths[i-1][j]: 66 lengths[i][j-1]:66 lengths[i][j]:67  and ij_considered: 3 
+1971:	 Exception! i: 129 j: 98 a[iprime]: S b[jprime]: a lengths[i-1][j]: 54 lengths[i][j-1]:54 lengths[i][j]:55  and ij_considered: 3 
+2237:	 Exception! i: 63 j: 57 a[iprime]: v b[jprime]: s lengths[i-1][j]: 28 lengths[i][j-1]:28 lengths[i][j]:29  and ij_considered: 3
+
+318:	 *++* I: 417 J: 445 lengths[i][j]: 223 and x: t y: t
+387:	 *++* I: 416 J: 399 lengths[i][j]: 212 and x: a y: a
+502:	 *++* I: 412 J: 426 lengths[i][j]: 216 and x: a y: a
+663:	 *++* I: 400 J: 419 lengths[i][j]: 212 and x: w y: w
+1106:	 *++* I: 331 J: 285 lengths[i][j]: 168 and x:   y:  
+1220:	 *++* I: 310 J: 308 lengths[i][j]: 163 and x: l y: l
+1532:	 *++* I: 185 J: 231 lengths[i][j]: 92 and x: u y: u
+1695:	 *++* I: 176 J: 170 lengths[i][j]: 85 and x: o y: o
+1790:	 *++* I: 156 J: 123 lengths[i][j]: 71 and x: o y: o
+1905:	 *++* I: 141 J: 115 lengths[i][j]: 66 and x: w y: w
+2115:	 *++* I: 129 J: 239 lengths[i][j]: 75 and x: S y: S
+2307:	 *++* I: 63 J: 124 lengths[i][j]: 40 and x: v y: v
+
+417:	 |++| I: 446 J: 394 lengths[i][j]: 217 and x: s y: s
+677:	 |++| I: 414 J: 376 lengths[i][j]: 208 and x: s y: s
+1121:	 |++| I: 346 J: 282 lengths[i][j]: 170 and x: e y: e
+1557:	 |++| I: 210 J: 151 lengths[i][j]: 88 and x: o y: o
+1717:	 |++| I: 198 J: 140 lengths[i][j]: 84 and x: h y: h
+1837:	 |++| I: 203 J: 120 lengths[i][j]: 74 and x: p y: p
+2118:	 |++| I: 132 J: 97 lengths[i][j]: 54 and x: a y: a
+2320:	 |++| I: 76 J: 56 lengths[i][j]: 30 and x: s y: s 
