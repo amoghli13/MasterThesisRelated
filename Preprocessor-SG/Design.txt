@@ -1,0 +1,35 @@
+
+Design1: Use #pragma for most input parameters that is needed to robustify.
+
+Need pragma for:
+	a. Finite difference equation:
+		Wrap the region where it is located.
+	b. Problem type:
+		eg: -Time dependent -influenced by time source or not.
+		     -Time independent.
+	c. Problem size:
+		-# dimensions
+		-range in each dimension, 
+	d. Kernel size.
+		- in each dimension.
+	
+	Optional:
+	a. Metric- L2 norm ? 
+	b. Alpha- Rate at which changes metric changes.
+	c. Beta- Relaxation factor for alpha.
+	d. 
+
+
+
+ 
+
+Design2: Use #pragma in the region where loops are written and script extracts info on it's own.
+	a. Finite difference equation. 
+		Wrap the region where it is located.
+	b. Problem type
+		eg: Time dependent -influenced by time source or not; time independent.
+	
+	Optional:
+	a. Metric- L2 norm ? 
+	b. Alpha- Rate at which changes metric changes.
+	c. Beta- Relaxation factor for alpha.
