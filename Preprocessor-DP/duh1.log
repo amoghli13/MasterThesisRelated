@@ -1,0 +1,997 @@
+
+	 Source file: lcs_with_pragma.c
+
+
+	 Found pragma with struct_grid in line: 20 :  #pragma dynamic_prog mat dimensions 2 i,j
+
+
+	 ^^^^ Number of dimensions is found  2
+
+	 After that I find: i,j
+
+
+	 Idx-# 0 index: i --
+
+	 Idx-# 1 index: j
+ --
+
+	 Found pragma with struct_grid in line: 21 :  #pragma dynamic_prog mat size 100, 500
+
+
+	 Size of dimensions is found   #pragma dynamic_prog mat size 100, 500
+
+
+	 After that I find: i,j
+
+
+	 Idx-# 0 index:  100
+
+	 Idx-# 1 index:  500
+
+
+	 Found pragma with struct_grid in line: 22 :  #pragma dynamic_prog solve num_conditions 3
+
+
+	 Found solve 22  #pragma dynamic_prog solve num_conditions 3
+
+
+	 ** Found solve num_conditions in line 22 ** 
+
+	 Found number of conditions for solve: 3 num_conditions_found 0 num_conditions 3
+
+	 Found pragma with struct_grid in line: 23 :  #pragma dynamic_prog mat array lengths
+
+
+	 ^^^^ Array is found  lengths
+
+	 Found pragma with struct_grid in line: 30 :  #pragma dynamic_prog inner_loop_solve open
+
+
+	 Found inner loop-open in line 30  #pragma dynamic_prog inner_loop_solve open
+
+
+	 Found pragma with struct_grid in line: 35 :       #pragma dynamic_prog solve cond 1
+
+
+	 Found solve 35       #pragma dynamic_prog solve cond 1
+
+
+	 condn_term_key is cond1
+
+
+	 ** Found the condition number       #pragma dynamic_prog solve cond 1 !! 
+
+	 Did NOT find brace { on line: 36
+
+	 Found brace { on line: 37
+
+	 Did NOT find brace } on line: 38
+
+	 Found brace } on line: 39
+
+	 Did NOT find condition within () on line: 37
+
+	 Found condition within () on line: 36
+
+	 --- CONDN ALERT found a logical-equal operator! if (a[i] == b[j]) term-0: if (a[i]  term-1:  b[j])
+
+	 LHS operands: 
+
+	 # 0 term: a[i
+
+	 # 1 term:  
+
+	 Yo! lhs-term: 0 index--> i
+
+	 NODAPPA len(operands_sqbrace1_split) 2
+
+	 Number-of-groups in curr_term is 2 ,  b[j
+
+	 j: 0  b
+
+	 j: 1 j
+
+	 -- Did not find any operator:  b and curr_operand is  b[j] Current idx is j
+
+	 Number-of-groups in curr_term is 1 , ;
+
+	 j: 0 ;
+
+	 b4: ; now-- ; end
+
+	 semicolon-idx 0  only_semicolon_found: 1
+
+	 semicolon-idx 1  only_semicolon_found: 1
+
+	 Hurray Semicolon detected!! 
+
+
+	 -- NOTICE return_params['res']['rhs_operands'][i] is  b[j] and the indices are
+
+		 index-no: 0 index --> j
+
+	 Venturing to find statements from line 37
+
+	 LHS operands: 
+
+	 # 0 term: lengths[i
+
+	 # 1 term: [j+1
+
+	 # 2 term:  
+
+	 Yo! lhs-term: 0 index--> i
+
+	 Yo! lhs-term: 1 index--> j+1
+
+	 NODAPPA len(operands_sqbrace1_split) 3
+
+	 Number-of-groups in curr_term is 2 ,  lengths[i+1
+
+	 j: 0  lengths
+
+	 j: 1 i+1
+
+	 -- Did not find any operator:  lengths and curr_operand is  lengths[i+1] Current idx is i+1
+
+	 Number-of-groups in curr_term is 2 , [j
+
+	 j: 0 
+
+	 j: 1 j
+
+	 -- Did not find any operator:  and curr_operand is  lengths[i+1][j] Current idx is j
+
+	 Number-of-groups in curr_term is 1 ,  +1 ;
+
+	 j: 0  +1 ;
+
+	 -- FOUND a plus operator:   , 1 ;
+
+	 ++ Current idx: 	 and pass_new_operand is 1 
+
+	 Disassemble the following operator!! 
+
+
+	 K: 0  
+
+	 K: 1 1 ;
+
+	 Yes an operator has been found! pass_new_operand: 1  pass_new_operator +
+
+	 And this is the last term!!!  +1 ;
+
+
+	 -- NOTICE return_params['res']['rhs_operands'][i] is  lengths[i+1][j] and the indices are
+
+		 index-no: 0 index --> i+1
+
+		 index-no: 1 index --> j
+
+	 -- NOTICE return_params['res']['rhs_operands'][i] is 1  and the indices are
+
+		 index-no: 0 index --> 0
+
+	 condn_params[condn_term_key][statement_keywd']['eqn_params'][0] lengths[i][j+1] 
+
+	 Found pragma with struct_grid in line: 40 :       #pragma dynamic_prog solve cond 2            
+
+
+	 Found solve 40       #pragma dynamic_prog solve cond 2            
+
+
+	 condn_term_key is cond2
+
+
+	 ** Found the condition number       #pragma dynamic_prog solve cond 2 !! 
+
+	 Did NOT find brace { on line: 41
+
+	 Found brace { on line: 42
+
+	 Did NOT find brace } on line: 43
+
+	 Found brace } on line: 44
+
+	 Did NOT find condition within () on line: 42
+
+	 Found condition within () on line: 41
+
+	 --- CONDN ALERT found a greater than operator! else if (  lengths[i+1][j] > lengths[i][j+1])  ) term-0: else if (  lengths[i+1][j]  term-1:  lengths[i][j+1])  )
+
+	 Before sending find_condn_great_operator[0]   lengths[i+1][j]  find_condn_great_operator[1]  lengths[i][j+1];
+
+	 LHS operands: 
+
+	 # 0 term:   lengths[i+1
+
+	 # 1 term: [j
+
+	 # 2 term:  
+
+	 Yo! lhs-term: 0 index--> i+1
+
+	 Yo! lhs-term: 1 index--> j
+
+	 NODAPPA len(operands_sqbrace1_split) 3
+
+	 Number-of-groups in curr_term is 2 ,  lengths[i
+
+	 j: 0  lengths
+
+	 j: 1 i
+
+	 -- Did not find any operator:  lengths and curr_operand is  lengths[i] Current idx is i
+
+	 Number-of-groups in curr_term is 2 , [j+1
+
+	 j: 0 
+
+	 j: 1 j+1
+
+	 -- Did not find any operator:  and curr_operand is  lengths[i][j+1] Current idx is j+1
+
+	 Number-of-groups in curr_term is 1 , ;
+
+	 j: 0 ;
+
+	 b4: ; now-- ; end
+
+	 semicolon-idx 0  only_semicolon_found: 1
+
+	 semicolon-idx 1  only_semicolon_found: 1
+
+	 Hurray Semicolon detected!! 
+
+
+	 -- NOTICE return_params['res']['rhs_operands'][i] is  lengths[i][j+1] and the indices are
+
+		 index-no: 0 index --> i
+
+		 index-no: 1 index --> j+1
+
+	 --**&&^^  condn_params[condn_term_key]['condn_unrolled']['eqn_params'][0]   lengths[i+1][j] 
+
+	 Venturing to find statements from line 42
+
+	 LHS operands: 
+
+	 # 0 term: lengths[i+1
+
+	 # 1 term: [j+1
+
+	 # 2 term:  
+
+	 Yo! lhs-term: 0 index--> i+1
+
+	 Yo! lhs-term: 1 index--> j+1
+
+	 NODAPPA len(operands_sqbrace1_split) 4
+
+	 Number-of-groups in curr_term is 2 ,  lengths[i+1
+
+	 j: 0  lengths
+
+	 j: 1 i+1
+
+	 -- Did not find any operator:  lengths and curr_operand is  lengths[i+1] Current idx is i+1
+
+	 Number-of-groups in curr_term is 1 , 
+
+	 j: 0 
+
+	 b4:  now--  end
+
+	 Space found instead of semicolon detected!! 
+
+	 Number-of-groups in curr_term is 2 , [j
+
+	 j: 0 
+
+	 j: 1 j
+
+	 -- Did not find any operator:  and curr_operand is  lengths[i+1]][j] Current idx is j
+
+	 Number-of-groups in curr_term is 1 ,  ;
+
+	 j: 0  ;
+
+	 b4:  ; now--  ; end
+
+	 semicolon-idx 0   only_semicolon_found: 1
+
+	 semicolon-idx 1  only_semicolon_found: 1
+
+	 Hurray Semicolon detected!! 
+
+
+	 -- NOTICE return_params['res']['rhs_operands'][i] is  lengths[i+1]][j] and the indices are
+
+		 index-no: 0 index --> i+1
+
+		 index-no: 1 index --> j
+
+	 condn_params[condn_term_key][statement_keywd']['eqn_params'][0] lengths[i+1][j+1] 
+
+	 Found pragma with struct_grid in line: 45 :       #pragma dynamic_prog solve cond 3   	    
+
+
+	 Found solve 45       #pragma dynamic_prog solve cond 3   	    
+
+
+	 condn_term_key is cond3
+
+
+	 ** Found the condition number       #pragma dynamic_prog solve cond 3 !! 
+
+	 Did NOT find brace { on line: 46
+
+	 Found brace { on line: 47
+
+	 Did NOT find brace } on line: 48
+
+	 Found brace } on line: 49
+
+	 Did NOT find condition within () on line: 47
+
+	 Found 'else' instead of condition             else
+
+
+	 --- CONDN ALERT found an else operator! else
+
+	 Venturing to find statements from line 47
+
+	 LHS operands: 
+
+	 # 0 term: lengths[i+1
+
+	 # 1 term: [j+1
+
+	 # 2 term:  
+
+	 Yo! lhs-term: 0 index--> i+1
+
+	 Yo! lhs-term: 1 index--> j+1
+
+	 NODAPPA len(operands_sqbrace1_split) 3
+
+	 Number-of-groups in curr_term is 2 ,  lengths[i
+
+	 j: 0  lengths
+
+	 j: 1 i
+
+	 -- Did not find any operator:  lengths and curr_operand is  lengths[i] Current idx is i
+
+	 Number-of-groups in curr_term is 2 , [j+1
+
+	 j: 0 
+
+	 j: 1 j+1
+
+	 -- Did not find any operator:  and curr_operand is  lengths[i][j+1] Current idx is j+1
+
+	 Number-of-groups in curr_term is 1 , ;
+
+	 j: 0 ;
+
+	 b4: ; now-- ; end
+
+	 semicolon-idx 0  only_semicolon_found: 1
+
+	 semicolon-idx 1  only_semicolon_found: 1
+
+	 Hurray Semicolon detected!! 
+
+
+	 -- NOTICE return_params['res']['rhs_operands'][i] is  lengths[i][j+1] and the indices are
+
+		 index-no: 0 index --> i
+
+		 index-no: 1 index --> j+1
+
+	 condn_params[condn_term_key][statement_keywd']['eqn_params'][0] lengths[i+1][j+1] 
+
+	 Found pragma with struct_grid in line: 51 :  #pragma dynamic_prog inner_loop_solve close
+
+
+	 Found inner loop-close in line 51  #pragma dynamic_prog inner_loop_solve close
+
+
+	 Found pragma with struct_grid in line: 54 :  #pragma dynamic_prog trace num_conditions 3
+
+
+	 Found pragma with struct_grid in line: 58 :     #pragma dynamic_prog inner_loop_trace open
+
+
+	 Found pragma with struct_grid in line: 61 :        #pragma dynamic_prog trace cond 1 solve cond 1
+
+
+	 Found pragma with struct_grid in line: 66 :         #pragma dynamic_prog trace cond 2 solve cond 1
+
+
+	 Found pragma with struct_grid in line: 71 :          #pragma dynamic_prog trace cond 3 solve cond 1
+
+
+	 Found pragma with struct_grid in line: 74 :         #pragma dynamig prog trace accept choice
+
+
+	 Found pragma with struct_grid in line: 78 : 	#pragma dynamic_prog inner_loop_trace close
+
+
+	 ------------------------------------------------------------------------------------------ 
+
+	 Number of dimensions in the given problem: 2
+
+	 Idx-# 0 index: i size 100
+
+	 Idx-# 1 index: j size 500
+
+	 Inner-loop open: 30 close: 51 
+
+
+	 Summarizing the condtions: 
+ 
+
+	 Number of conditions: 3
+
+	 I am condition number: 0
+
+		 Condn: 36
+
+		 Is else condn: 0
+
+			 LHS: a[i] 
+
+			 RHS-operator 0 -->  b[j] and the indices are
+
+				 index-no: 0 index --> j
+
+	 Condition expression: a[i]  ==   b[j]  
+
+	 Condition :            if (a[i] == b[j])
+
+
+		 statement: lengths[i][j+1] = lengths[i+1][j] +1 ;
+
+			 LHS: lengths[i][j+1] 	 RHS:  lengths[i+1][j] +1 ;
+
+			 RHS-operator 0 -->  lengths[i+1][j] and the indices are
+
+				 index-no: 0 index --> i+1
+
+				 index-no: 1 index --> j
+
+			 RHS-operator 1 --> 1  and the indices are
+
+				 index-no: 0 index --> 0
+
+	 Inserting set_condn_num: 	 test_condn=1 test_condn: 1 i: 0 condn_term_key cond1
+
+	 I am condition number: 1
+
+		 Condn: 41
+
+		 Is else condn: 0
+
+			 LHS:   lengths[i+1][j] 
+
+			 RHS-operator 0 -->  lengths[i][j+1] and the indices are
+
+				 index-no: 0 index --> i
+
+				 index-no: 1 index --> j+1
+
+	 Condition expression:   lengths[i+1][j]  >   lengths[i][j+1]  
+
+	 Condition :            else if (  lengths[i+1][j] > lengths[i][j+1])  )
+
+
+		 statement: lengths[i+1][j+1] = lengths[i+1]][j] ;
+
+			 LHS: lengths[i+1][j+1] 	 RHS:  lengths[i+1]][j] ;
+
+			 RHS-operator 0 -->  lengths[i+1]][j] and the indices are
+
+				 index-no: 0 index --> i+1
+
+				 index-no: 1 index --> j
+
+	 Inserting set_condn_num: 	 test_condn=2 test_condn: 2 i: 1 condn_term_key cond2
+
+	 I am condition number: 2
+
+		 Condn: 46
+
+		 Is else condn: 1
+
+		 statement: lengths[i+1][j+1] = lengths[i][j+1];
+
+			 LHS: lengths[i+1][j+1] 	 RHS:  lengths[i][j+1];
+
+			 RHS-operator 0 -->  lengths[i][j+1] and the indices are
+
+				 index-no: 0 index --> i
+
+				 index-no: 1 index --> j+1
+
+	 Inserting set_condn_num: 	 test_condn=3 test_condn: 3 i: 2 condn_term_key cond3
+
+	 ----------------------------------------------------------------------------------- 
+
+
+	 These are the condition(s) and other statments going to the method int rollback() 
+
+
+	             if (a[i] == b[j])
+
+
+	 {
+
+	 	lengths[i][j+1] = lengths[i+1][j] +1 ;
+
+	 	 test_condn=1
+
+	 }
+
+	             else if (  lengths[i+1][j] > lengths[i][j+1])  )
+
+
+	 {
+
+	 	lengths[i+1][j+1] = lengths[i+1]][j] ;
+
+	 	 test_condn=2
+
+	 }
+
+	 else
+
+	 {
+
+	 	lengths[i+1][j+1] = lengths[i][j+1];
+
+	 	 test_condn=3
+
+	 }
+
+	 NEW CONDN ALERT 
+
+
+	 LHS-index: i
+
+	 LHS-index: j+1
+
+	 The lhs_operand is same as that of 'fill_array' lengths
+
+	 There are 2 number of RHS operands. 
+
+	 %$^& The update equation for the problem is at: 36
+
+	 The rhs_operand is same as that of 'fill_array' lengths
+
+	 Len-+ 2 len- '-' 1
+
+	 CASE-1 
+
+	 idx: i+1 idx_variable: i and rest of the idx: +1
+
+	 Len-+ 1 len- '-' 1
+
+	 CASE-1 
+
+	 idx: i idx_variable: i and rest of the idx: 
+
+	 LHS-idx has 1 terms and RHS-idx i+1 has 2 terms!! 
+
+	 Difference in idx- rhs2lhs: (+1) - () lhs2rhs: () - (+1)
+
+	 Len-+ 1 len- '-' 1
+
+	 CASE-1 
+
+	 idx: j idx_variable: j and rest of the idx: 
+
+	 Len-+ 2 len- '-' 1
+
+	 CASE-1 
+
+	 idx: j+1 idx_variable: j and rest of the idx: +1
+
+	 LHS-idx has 2 terms and RHS-idx j has 1 terms!! 
+
+	 Difference in idx- rhs2lhs: () - (+1) lhs2rhs: (+1) - ()
+
+	 The rhs_operand is NOT same as that of 'fill_array' 1 
+
+	 NEW CONDN ALERT 
+
+
+	 LHS-index: i+1
+
+	 LHS-index: j+1
+
+	 The lhs_operand is same as that of 'fill_array' lengths
+
+	 There are 1 number of RHS operands. 
+
+	 The rhs_operand is same as that of 'fill_array' lengths
+
+	 Len-+ 2 len- '-' 1
+
+	 CASE-1 
+
+	 idx: i+1 idx_variable: i and rest of the idx: +1
+
+	 Len-+ 2 len- '-' 1
+
+	 CASE-1 
+
+	 idx: i+1 idx_variable: i and rest of the idx: +1
+
+	 LHS-idx has 2 terms and RHS-idx i+1 has 2 terms!! 
+
+	 Difference in idx- rhs2lhs: (+1) - (+1) lhs2rhs: (+1) - (+1)
+
+	 Len-+ 1 len- '-' 1
+
+	 CASE-1 
+
+	 idx: j idx_variable: j and rest of the idx: 
+
+	 Len-+ 2 len- '-' 1
+
+	 CASE-1 
+
+	 idx: j+1 idx_variable: j and rest of the idx: +1
+
+	 LHS-idx has 2 terms and RHS-idx j has 1 terms!! 
+
+	 Difference in idx- rhs2lhs: () - (+1) lhs2rhs: (+1) - ()
+
+	 NEW CONDN ALERT 
+
+
+	 LHS-index: i+1
+
+	 LHS-index: j+1
+
+	 The lhs_operand is same as that of 'fill_array' lengths
+
+	 There are 1 number of RHS operands. 
+
+	 The rhs_operand is same as that of 'fill_array' lengths
+
+	 Len-+ 1 len- '-' 1
+
+	 CASE-1 
+
+	 idx: i idx_variable: i and rest of the idx: 
+
+	 Len-+ 2 len- '-' 1
+
+	 CASE-1 
+
+	 idx: i+1 idx_variable: i and rest of the idx: +1
+
+	 LHS-idx has 2 terms and RHS-idx i has 1 terms!! 
+
+	 Difference in idx- rhs2lhs: () - (+1) lhs2rhs: (+1) - ()
+
+	 Len-+ 2 len- '-' 1
+
+	 CASE-1 
+
+	 idx: j+1 idx_variable: j and rest of the idx: +1
+
+	 Len-+ 2 len- '-' 1
+
+	 CASE-1 
+
+	 idx: j+1 idx_variable: j and rest of the idx: +1
+
+	 LHS-idx has 2 terms and RHS-idx j+1 has 2 terms!! 
+
+	 Difference in idx- rhs2lhs: (+1) - (+1) lhs2rhs: (+1) - (+1)
+
+	 [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[ In Module [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[ 
+
+	 Number of dimensions in the given problem: 2
+
+	 Idx-# 0 index: i size 100
+
+	 Idx-# 1 index: j size 500
+
+	 Inner-loop open: 30 close: 51 
+
+
+	 Without bounding, the checkpoint length would be 25
+
+	 With bounding, the checkpoint length would be 25
+
+	 Current condition is the update condition!! Condn:             if (a[i] == b[j])
+
+
+	 Cond: 0 statement: 0 lhs-index-num: 0 lhs-index: i
+
+	 Cond: 0 statement: 0 lhs-index-num: 1 lhs-index: j+1
+
+	 Currently considering the operand-num: 0 and the operand is  lengths[i+1][j] and it has 
+
+	 Cond: 0 statement: 0 operand-num: 0 rhs-index-num: 0 rhs-index: i+1
+
+	 Cond: 0 statement: 0 operand-num: 0 rhs-index-num: 1 rhs-index: j
+
+	 Operand-num 0 is same as 'fill_array' lengths
+
+ CHECKOUT: To update , you'd use this row: +1
+ and index translation rhs2lhs is (+1) - () and lhs2rhs is (+1) - ()
+
+	 highest_dim_idx_translation_lhs2rhs is 1
+
+	 Index-num: 0 term-no: 0 term: i
+
+	 Index-num: 0 term-no: 1 term: 1
+
+	 This-idx: 1--
+
+	 This index term 1 is not dimensional-index-variable but seems to NOT be indexed and is an integer in itself! 
+
+	 Index-num: 1 term-no: 0 term: j
+
+	 Currently considering the operand-num: 1 and the operand is 1  and it has 
+
+	 Cond: 0 statement: 0 operand-num: 1 rhs-index-num: 0 rhs-index: 0
+
+	 Operand-num 1 is NOT same as 'fill_array' 1 
+
+	 Operand:  lengths[i+1][j] is searched for lengths
+
+	 This Operand:  lengths[i+1][j]
+
+	 Operand: 1  is searched for lengths
+
+	 Operator-num: 0 operator: +
+
+	 CASE-1 idx_terms_length: 2 idx_info_operations[0] +
+
+	 rest_of_the_rhs: +1  idx_link_operator +
+
+	 Rest_of_the_rhs: +1 
+
+	 Found a for loop in line no: 32          for (j=0; j < lenb ;y++ ) 
+
+
+	 Start inserting stuff until this line: 32
+
+	 Term-# 0 term -->          for (j=0
+
+	 Term-# 1 term -->  j < lenb 
+
+	 Term-# 2 term --> y++ ) 
+
+
+	 Trying to change bounds of this (/subset of this) term  j < lenb 
+
+	 This is the index of concern: j
+
+	 Term-# 0 term: j
+
+	 Term-# 1 term: <
+
+	 Term-# 2 term: lenb
+
+	 Index match!!
+
+	 --- Printing insert_checkpoint_code['btw_outer_and_inner_loop'] 
+switch( i % 2 )
+	{
+		case 0: 
+			curr_item_checkpoints=array_checkpoints_2;
+			curr_item_1_checkpoints=array_checkpoints_1;
+	 				break;
+		case 1:
+			curr_item_checkpoints=array_checkpoints_1;
+			curr_item_1_checkpoints=array_checkpoints_2;
+				break;
+
+
+    }
+
+
+error_inject_operators<int> curr_checkpoint_limit;
+curr_checkpoint_limit=checkpoint_length;
+int checkpoint_length_plus1=checkpoint_length+1;
+int yet_to_rollback_prev_item=1;
+for( int checkpoint_zone=0; checkpoint_zone < (num_checkpoints) ; checkpoint_zone++ )
+{
+	int j=checkpoint_zone * checkpoint_length;
+	int checkpoint_limit= j + checkpoint_length;
+	if( lenb_minus1< checkpoint_length )
+		checkpoint_length=lenb_minus1;
+curr_checkpoint_limit=curr_item_1_checkpoints[checkpoint_zone]+1;
+
+	error_inject_operators<int> max_in_zone;
+	max_in_zone=0;
+
+
+	 for (;j<checkpoint_limit;j++ )
+
+	 --- Printing insert_checkpoint_code['max_check'] 
+if( max_in_zone < lengths[i][j+1]  ) 
+max_in_zone=if( max_in_zone < lengths[i][j+1]  ) 
+
+	 -- Printing insert_checkpoint_code['checkpoint'] 
+ if( max_in_zone > curr_checkpoint_limit )
+ {
+ 	if( yet_to_rollback_prev_item ==1 )
+ 	{
+ 		yet_to_rollback_prev_item=0;
+ 		checkpoint_zone--;
+ 	}
+ 	else
+ 	{
+ 		yet_to_rollback_prev_item=1;
+ 		checkpoint_zone--;
+ 		i--;
+ 	}
+ }
+
+	 Found pragma with struct_grid in line: 20 :  #pragma dynamic_prog mat dimensions 2 i,j
+
+
+	 Did NOT find inner loop-open in line 20  #pragma dynamic_prog mat dimensions 2 i,j
+
+
+	 Found pragma with struct_grid in line: 21 :  #pragma dynamic_prog mat size 100, 500
+
+
+	 Did NOT find inner loop-open in line 21  #pragma dynamic_prog mat size 100, 500
+
+
+	 Found pragma with struct_grid in line: 22 :  #pragma dynamic_prog solve num_conditions 3
+
+
+	 Did NOT find inner loop-open in line 22  #pragma dynamic_prog solve num_conditions 3
+
+
+	 Found pragma with struct_grid in line: 23 :  #pragma dynamic_prog mat array lengths
+
+
+	 Did NOT find inner loop-open in line 23  #pragma dynamic_prog mat array lengths
+
+
+	 Found pragma with struct_grid in line: 30 :  #pragma dynamic_prog inner_loop_solve open
+
+
+	 Did NOT find inner loop-open in line 30  #pragma dynamic_prog inner_loop_solve open
+
+
+	 Found pragma with struct_grid in line: 35 :       #pragma dynamic_prog solve cond 1
+
+
+	 Did NOT find inner loop-open in line 35       #pragma dynamic_prog solve cond 1
+
+
+	 Found pragma with struct_grid in line: 40 :       #pragma dynamic_prog solve cond 2            
+
+
+	 Did NOT find inner loop-open in line 40       #pragma dynamic_prog solve cond 2            
+
+
+	 Found pragma with struct_grid in line: 45 :       #pragma dynamic_prog solve cond 3   	    
+
+
+	 Did NOT find inner loop-open in line 45       #pragma dynamic_prog solve cond 3   	    
+
+
+	 Found pragma with struct_grid in line: 51 :  #pragma dynamic_prog inner_loop_solve close
+
+
+	 Did NOT find inner loop-open in line 51  #pragma dynamic_prog inner_loop_solve close
+
+
+	 Found pragma with struct_grid in line: 54 :  #pragma dynamic_prog trace num_conditions 3
+
+
+	 Found trace 54  #pragma dynamic_prog trace num_conditions 3
+
+
+	 ** Found trace num_conditions in line 54 ** 
+
+	 Found number of conditions for trace: 3 num_conditions_found 0 num_conditions 3
+
+	 Found pragma with struct_grid in line: 58 :     #pragma dynamic_prog inner_loop_trace open
+
+
+	 Found inner loop-open in line 58     #pragma dynamic_prog inner_loop_trace open
+
+
+	 Found pragma with struct_grid in line: 61 :        #pragma dynamic_prog trace cond 1 solve cond 1
+
+
+	 Found trace 61        #pragma dynamic_prog trace cond 1 solve cond 1
+
+
+	 condn_term_key is cond1
+
+
+	 ** Found the condition number        #pragma dynamic_prog trace cond 1 !! 
+
+	 Did NOT find brace { on line: 62
+
+	 Found brace { on line: 63
+
+	 Did NOT find brace } on line: 64
+
+	 Found brace } on line: 65
+
+	 Did NOT find condition within () on line: 63
+
+	 Found condition within () on line: 62
+
+	 STARTED with detecting associated solve term 
+
+	 Found pragma with struct_grid in line: 66 :         #pragma dynamic_prog trace cond 2 solve cond 1
+
+
+	 Found trace 66         #pragma dynamic_prog trace cond 2 solve cond 1
+
+
+	 condn_term_key is cond2
+
+
+	 ** Found the condition number         #pragma dynamic_prog trace cond 2 !! 
+
+	 Did NOT find brace { on line: 67
+
+	 Found brace { on line: 68
+
+	 Did NOT find brace } on line: 69
+
+	 Found brace } on line: 70
+
+	 Did NOT find condition within () on line: 68
+
+	 Found condition within () on line: 67
+
+	 STARTED with detecting associated solve term 
+
+	 Found pragma with struct_grid in line: 71 :          #pragma dynamic_prog trace cond 3 solve cond 1
+
+
+	 Found trace 71          #pragma dynamic_prog trace cond 3 solve cond 1
+
+
+	 condn_term_key is cond3
+
+
+	 ** Found the condition number          #pragma dynamic_prog trace cond 3 !! 
+
+	 Did NOT find brace { on line: 72
+
+	 Found brace { on line: 73
+
+	 Did NOT find brace } on line: 74
+
+	 Did NOT find brace } on line: 75
+
+	 Did NOT find brace } on line: 76
+
+	 Found brace } on line: 77
+
+	 Did NOT find condition within () on line: 73
+
+	 Found 'else' instead of condition         else
+
+
+	 STARTED with detecting associated solve term 
+
+	 Found pragma with struct_grid in line: 74 :         #pragma dynamig prog trace accept choice
+
+
+	 Found pragma with struct_grid in line: 78 : 	#pragma dynamic_prog inner_loop_trace close
+
+
+	 Found inner loop-close in line 78 	#pragma dynamic_prog inner_loop_trace close
+

@@ -1,0 +1,304 @@
+
+	 Source file: lcs_with_pragma.c
+
+
+	 Found pragma with struct_grid in line: 19 :  #pragma dynamic_prog mat dimensions 2
+
+
+	 ^^^^ Number of dimensions is found  2
+
+	 Found pragma with struct_grid in line: 20 :  #pragma dynamic_prog solve num_conditions 3
+
+
+	 Found solve 20  #pragma dynamic_prog solve num_conditions 3
+
+
+	 ** Found solve num_conditions in line 20 ** 
+
+	 Found number of conditions for solve: 3 num_conditions_found 0 num_conditions 3
+
+	 Found pragma with struct_grid in line: 25 :       #pragma dynamic_prog solve cond 1
+
+
+	 Found solve 25       #pragma dynamic_prog solve cond 1
+
+
+	 condn_term_key is cond1
+
+
+	 ** Found the condition number       #pragma dynamic_prog solve cond 1 !! 
+
+	 Found brace { on line: 26
+
+	 Did NOT find brace } on line: 27
+
+	 Found brace } on line: 28
+
+	 Found condition within () on line: 26
+
+	 Venturing to find statements from line 26
+
+	 Searching for stmt in line                lengths[i+1][j+1] = lengths[i][j] + 1 ;
+
+
+	 ----- Found following items in the statement:                lengths[i+1][j+1]  ,  lengths[i][j] + 1 ; on line 27
+
+	 NODAPPA len(operands_sqbrace1_split) 3
+
+	 Number-of-groups in curr_term is 2 ,  lengths[i
+
+	 j: 0  lengths
+
+	 j: 1 i
+
+	 -- Did not find any operator:  lengths and curr_operand is  lengths[i] Current idx is i
+
+	 Number-of-groups in curr_term is 2 , [j
+
+	 j: 0 
+
+	 j: 1 j
+
+	 -- Did not find any operator:  and curr_operand is  lengths[i][j] Current idx is j
+
+	 Number-of-groups in curr_term is 1 ,  + 1 ;
+
+	 j: 0  + 1 ;
+
+	 -- FOUND a plus operator:   ,  1 ;
+
+	 ++ Current idx: 	 and pass_new_operand is  1 
+
+	 Disassemble the following operator!! 
+
+
+	 K: 0  
+
+	 K: 1  1 ;
+
+	 Yes an operator has been found! 
+
+	 -- NOTICE test_dict['res']['operands_rhs'][i] is  lengths[i][j] and the indices are
+
+		 index-no: 0 index i
+
+		 index-no: 1 index j
+
+	 Found pragma with struct_grid in line: 29 :       #pragma dynamic_prog solve cond 2            
+
+
+	 Found solve 29       #pragma dynamic_prog solve cond 2            
+
+
+	 condn_term_key is cond2
+
+
+	 ** Found the condition number       #pragma dynamic_prog solve cond 2 !! 
+
+	 Did NOT find brace { on line: 30
+
+	 Found brace { on line: 31
+
+	 Did NOT find brace } on line: 32
+
+	 Found brace } on line: 33
+
+	 Did NOT find condition within () on line: 31
+
+	 Found condition within () on line: 30
+
+	 Venturing to find statements from line 31
+
+	 Searching for stmt in line                lengths[i+1][j+1] = lengths[i+1][j] + non_sense[i];
+
+
+	 ----- Found following items in the statement:                lengths[i+1][j+1]  ,  lengths[i+1][j] + non_sense[i]; on line 32
+
+	 NODAPPA len(operands_sqbrace1_split) 4
+
+	 Number-of-groups in curr_term is 2 ,  lengths[i+1
+
+	 j: 0  lengths
+
+	 j: 1 i+1
+
+	 -- Did not find any operator:  lengths and curr_operand is  lengths[i+1] Current idx is i+1
+
+	 Number-of-groups in curr_term is 2 , [j
+
+	 j: 0 
+
+	 j: 1 j
+
+	 -- Did not find any operator:  and curr_operand is  lengths[i+1][j] Current idx is j
+
+	 Number-of-groups in curr_term is 2 ,  + non_sense[i
+
+	 j: 0  + non_sense
+
+	 j: 1 i
+
+	 -- FOUND a plus operator:   ,  non_sense
+
+	 -- Current idx: i	 and pass_new_operand is  non_sense[i]
+
+	 Disassemble the following operator!! 
+
+
+	 K: 0  
+
+	 K: 1  non_sense
+
+	 Yes an operator has been found! 
+
+	 Number-of-groups in curr_term is 1 , ;
+
+	 j: 0 ;
+
+	 Hurray Semicolon detected!! 
+
+
+	 -- NOTICE test_dict['res']['operands_rhs'][i] is  lengths[i+1][j] and the indices are
+
+		 index-no: 0 index i+1
+
+		 index-no: 1 index j
+
+	 -- NOTICE test_dict['res']['operands_rhs'][i] is  non_sense[i] and the indices are
+
+		 index-no: 0 index i
+
+	 Found pragma with struct_grid in line: 34 :       #pragma dynamic_prog solve cond 3   	    
+
+
+	 Found solve 34       #pragma dynamic_prog solve cond 3   	    
+
+
+	 condn_term_key is cond3
+
+
+	 ** Found the condition number       #pragma dynamic_prog solve cond 3 !! 
+
+	 Did NOT find brace { on line: 35
+
+	 Found brace { on line: 36
+
+	 Did NOT find brace } on line: 37
+
+	 Found brace } on line: 38
+
+	 Did NOT find condition within () on line: 36
+
+	 Found 'else' instead of condition             else
+
+
+	 Venturing to find statements from line 36
+
+	 Searching for stmt in line                lengths[i+1][j+1] = lengths[i][j+find_this[i]] + lengths[i- find_this[i]][j];            
+
+
+	 ----- Found following items in the statement:                lengths[i+1][j+1]  ,  lengths[i][j+find_this[i]] + lengths[i- find_this[i]][j];            on line 37
+
+	 NODAPPA len(operands_sqbrace1_split) 7
+
+	 Number-of-groups in curr_term is 2 ,  lengths[i
+
+	 j: 0  lengths
+
+	 j: 1 i
+
+	 -- Did not find any operator:  lengths and curr_operand is  lengths[i] Current idx is i
+
+	 Number-of-groups in curr_term is 3 , [j+find_this[i
+
+	 j: 0 
+
+	 j: 1 j+find_this
+
+	 j: 2 i
+
+	 Index has plus operator!! j+find_this len(idx_split) 2
+
+	 ++ Did not find any operator:  and curr_operand is  lengths[i][j+find_this[i] Current idx is j+find_this[i]
+
+	 Number-of-groups in curr_term is 1 , 
+
+	 j: 0 
+
+	 Space found instead of semicolon detected!! 
+
+	 Number-of-groups in curr_term is 3 ,  + lengths[i- find_this[i
+
+	 j: 0  + lengths
+
+	 j: 1 i- find_this
+
+	 j: 2 i
+
+	 -- FOUND a plus operator:   ,  lengths
+
+	 Index has minus operator!! i- find_this len(idx_split) 2
+
+	 Found an operator-- so currently pass_new_operand i- find_this[
+
+	 ++ Current idx: i- find_this[i]	 and pass_new_operand is  lengths[i- find_this[i]
+
+	 Disassemble the following operator!! 
+
+
+	 K: 0  
+
+	 K: 1  lengths
+
+	 Yes an operator has been found! 
+
+	 Number-of-groups in curr_term is 1 , 
+
+	 j: 0 
+
+	 Space found instead of semicolon detected!! 
+
+	 Number-of-groups in curr_term is 2 , [j
+
+	 j: 0 
+
+	 j: 1 j
+
+	 -- Did not find any operator:  and curr_operand is  lengths[i- find_this[i]][j] Current idx is j
+
+	 Number-of-groups in curr_term is 1 , ;           
+
+	 j: 0 ;           
+
+	 Hurray Semicolon detected!! 
+
+
+	 -- NOTICE test_dict['res']['operands_rhs'][i] is  lengths[i][j+find_this[i]] and the indices are
+
+		 index-no: 0 index i
+
+		 index-no: 1 index j+find_this[i]
+
+		 index-no: 2 index i- find_this[i]
+
+	 -- NOTICE test_dict['res']['operands_rhs'][i] is  lengths[i- find_this[i]][j] and the indices are
+
+		 index-no: 0 index i- find_this[i]
+
+		 index-no: 1 index j
+
+	 Found pragma with struct_grid in line: 41 :    #pragma dynamic_prog solve cond 4
+
+
+	 Found solve 41    #pragma dynamic_prog solve cond 4
+
+
+	 I go nowhere!! since num_conditions_found is 3 and num_conditions is 3 :'( :'( 
+
+	 Found pragma with struct_grid in line: 54 :     #pragma dynamic_prog solve cond 5
+
+
+	 Found solve 54     #pragma dynamic_prog solve cond 5
+
+
+	 I go nowhere!! since num_conditions_found is 3 and num_conditions is 3 :'( :'( 
